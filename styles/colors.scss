@@ -1,0 +1,19 @@
+:root {
+  --raccoon-accent: #250294;
+  --raccoon-accent-hover: #2529bb;
+  --raccoon-accent-disabled: #61548d;
+}
+
+.theme-light {
+  --raccoon-background-primary: #e9e6f4;
+  --raccoon-background-secondary: #fff;
+
+  --raccoon-foreground: #000;
+}
+
+.theme-dark {
+  --raccoon-background-primary: #07001e;
+  --raccoon-background-secondary: #04000f;
+
+  --raccoon-foreground: #fff;
+}

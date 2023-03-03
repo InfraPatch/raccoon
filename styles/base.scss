@@ -1,0 +1,19 @@
+@import './colors';
+@import './fonts';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-primary;
+  @apply text-foreground;
+}
+
+a {
+  @apply text-accent;
+
+  &:hover {
+    @apply text-accent-hover;
+  }
+}
