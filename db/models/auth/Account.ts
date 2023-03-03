@@ -24,14 +24,14 @@ export class Account {
     accessToken: string | null,
     accessTokenExpires: Date | null
   ) {
-    this.compoundId = createHash('sha256').update(`${providerId}:${providerAccountId}`).digest('hex')
-    this.userId = userId
-    this.providerType = providerType
-    this.providerId = providerId
-    this.providerAccountId = providerAccountId
-    this.refreshToken = refreshToken
-    this.accessToken = accessToken
-    this.accessTokenExpires = accessTokenExpires
+    this.compoundId = createHash('sha256').update(`${providerId}:${providerAccountId}`).digest('hex');
+    this.userId = userId;
+    this.providerType = providerType;
+    this.providerId = providerId;
+    this.providerAccountId = providerAccountId;
+    this.refreshToken = refreshToken;
+    this.accessToken = accessToken;
+    this.accessTokenExpires = accessTokenExpires;
   }
 }
 

@@ -6,7 +6,7 @@ const getStorageStrategyIdentifier = (env: string): StorageStrategyIdentifier =>
   }
 
   return 'file';
-}
+};
 
 const config: IConfig = {
   app: {

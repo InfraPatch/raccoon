@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useTheme } from '@/hooks/useTheme';
 
 import { useTranslation } from 'react-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const Home = () => {
   const [ currentTheme, toggleTheme ] = useTheme();

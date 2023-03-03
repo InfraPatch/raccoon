@@ -16,7 +16,7 @@ const useTheme = (): IThemeHook => {
   useEffect(() => {
     const actualTheme = localStorage.getItem('theme');
 
-    if (actualTheme == Theme.LIGHT || actualTheme == Theme.DARK) {
+    if (actualTheme === Theme.LIGHT || actualTheme === Theme.DARK) {
       setCurrentTheme(actualTheme);
     }
   }, []);

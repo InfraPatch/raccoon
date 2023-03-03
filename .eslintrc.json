@@ -30,5 +30,8 @@
     "eqeqeq": [ "error", "always" ],
     "no-redeclare": "error",
     "no-throw-literal": "error"
-  }
+  },
+  "ignorePatterns": [
+    "db/migrations/*"
+  ]
 }
