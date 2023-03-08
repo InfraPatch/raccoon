@@ -1,4 +1,21 @@
 {
   "app-name": "Raccoon",
-  "welcome": "Üdvözöljük!"
+  "welcome": "Üdvözöljük!",
+
+  "home": "Főoldal",
+  "how-it-works": "Hogyan működik?",
+  "tos": "Felhasználási feltételek",
+  "privacy": "Adatvédelmi nyilatkozat",
+  "contact": "Kapcsolat",
+
+  "themes": {
+    "theme-light": "Világos téma",
+    "theme-dark": "Sötét téma"
+  },
+
+  "log-in": "Belépés",
+  "register": "Regisztráció",
+  "log-out": "Kilépés",
+
+  "copyright": "© Copyright NISZ. Minden jog fenntartva."
 }

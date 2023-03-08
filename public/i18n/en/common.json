@@ -1,4 +1,21 @@
 {
   "app-name": "Raccoon",
-  "welcome": "Welcome!"
+  "welcome": "Welcome!",
+
+  "home": "Home",
+  "how-it-works": "How It Works",
+  "tos": "Terms of Service",
+  "privacy": "Privacy Policy",
+  "contact": "Contact Us",
+
+  "themes": {
+    "theme-light": "Light theme",
+    "theme-dark": "Dark theme"
+  },
+
+  "log-in": "Log In",
+  "register": "Register",
+  "log-out": "Log Out",
+
+  "copyright": "&copy; Copyright NISZ. All rights reserved."
 }

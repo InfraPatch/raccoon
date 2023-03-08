@@ -35,6 +35,10 @@ module.exports = {
       },
       transparent: 'transparent',
       white: '#fff'
+    },
+
+    container: {
+      center: true
     }
   }
 };
