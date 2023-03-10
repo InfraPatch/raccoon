@@ -24,7 +24,7 @@ module.exports = {
         hover: 'var(--raccoon-accent-hover)',
         disabled: 'var(--raccoon-accent-disabled)'
       },
-      black: '#000',
+
       foreground: {
         DEFAULT: 'var(--raccoon-foreground)'
       },
@@ -34,7 +34,14 @@ module.exports = {
       secondary: {
         DEFAULT: 'var(--raccoon-background-secondary)'
       },
+
+      danger: 'var(--raccoon-danger)',
+      info: 'var(--raccoon-info)',
+      success: 'var(--raccoon-success)',
+      warning: 'var(--raccoon-warning)',
+
       transparent: 'transparent',
+      black: '#000',
       white: '#fff'
     },
 

@@ -7,6 +7,8 @@ import { appWithTranslation } from 'next-i18next';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 
+import ToastContainer from '@/components/common/toasts/ToastContainer';
+
 const queryClient = new QueryClient();
 
 Router.events.on('routeChangeStart', NProgress.start);
@@ -19,6 +21,7 @@ const App = ({ Component, pageProps }) => {
       <QueryClientProvider client={queryClient}>
         <main className="app">
           <Component {...pageProps} />
+          <ToastContainer />
         </main>
       </QueryClientProvider>
     </AuthProvider>

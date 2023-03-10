@@ -6,8 +6,14 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Illustration from '@/components/common/illustrations/Illustration';
 import Button, { ButtonSize } from '@/components/common/button/Button';
 
+import toaster from '@/lib/toaster';
+
 const Home = () => {
   const { t } = useTranslation('home');
+
+  const handleCTAClick = () => {
+    toaster.create('info', 'Work in progress!');
+  };
 
   return (
     <div>
@@ -28,7 +34,7 @@ const Home = () => {
             </p>
 
             <div className="text-xl">
-              <Button size={ButtonSize.MEDIUM}>{ t('hero-cta') }</Button>
+              <Button size={ButtonSize.MEDIUM} onClick={handleCTAClick}>{ t('hero-cta') }</Button>
             </div>
           </div>
 
