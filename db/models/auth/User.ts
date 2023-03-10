@@ -8,8 +8,9 @@ export class User {
   email?: string;
   image?: string;
   emailVerified?: Date;
+  password?: string;
 
-  constructor(name?: string, email?: string, image?: string, isEmailVerified?: boolean) {
+  constructor(name?: string, email?: string, image?: string, isEmailVerified?: boolean, password?: string) {
     if (name) {
       this.name = name;
     }
@@ -25,10 +26,31 @@ export class User {
     if (isEmailVerified) {
       this.emailVerified = new Date();
     }
+
+    if (password) {
+      this.password = password;
+    }
+  }
+
+  toJSON() {
+    return {
+      id: this.id,
+      createdAt: this.createdAt?.toUTCString(),
+      updatedAt: this.updatedAt?.toUTCString(),
+      name: this.name,
+      email: this.email,
+      image: this.image
+    };
   }
 }
 
 export const UserSchema = {
   ...Adapters.TypeORM.Models.User.schema,
-  target: User
+  target: User,
+  columns: {
+    ...Adapters.TypeORM.Models.User.schema.columns,
+    password: {
+      type: 'varchar'
+    }
+  }
 };

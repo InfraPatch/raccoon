@@ -10,19 +10,29 @@ import { User, UserSchema } from '@/db/models/auth/User';
 import { Account, AccountSchema } from '@/db/models/auth/Account';
 import { VerificationRequest, VerificationRequestSchema } from '@/db/models/auth/VerificationRequest';
 import { Session, SessionSchema } from '@/db/models/auth/Session';
+import { authorizeUser, UserAuthorizationFields } from '@/controllers/users/authorizeUser';
 
 const providers: Array<Provider | ReturnType<DefaultProviders[keyof DefaultProviders]>> = [
-  Providers.Email({
-    server: {
-      host: config.mailgun.host,
-      port: config.mailgun.port,
-      auth: {
-        user: config.mailgun.username,
-        pass: config.mailgun.password
-      }
+  Providers.Credentials({
+    name: 'credentials',
+
+    credentials: {
+      email: { label: 'Email', type: 'email', placeholder: 'john@smith.ex' },
+      password: { label: 'Password', type: 'password' }
     },
 
-    from: config.mailgun.emailFrom
+    async authorize(credentials): Promise<User> {
+      try {
+        const user = await authorizeUser({
+          email: credentials.email,
+          password: credentials.password
+        });
+
+        return user;
+      } catch (err) {
+        return null;
+      }
+    }
   })
 ];
 
@@ -56,13 +66,17 @@ if (config.auth.twitter) {
 export default NextAuth({
   providers,
 
+  session: {
+    jwt: true
+  },
+
   adapter: Adapters.TypeORM.Adapter({
     ...baseConnectionOptions
   }, {
     models: {
       User: {
         model: User,
-        schema: UserSchema
+        schema: (UserSchema as any)
       },
 
       Account: {

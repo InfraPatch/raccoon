@@ -1,4 +1,4 @@
-import { ConnectionOptions, EntitySchema, createConnection, getConnection } from 'typeorm';
+import { ConnectionOptions, EntitySchema, createConnection, getConnection, getManager, getRepository } from 'typeorm';
 import config from '../config';
 import { CamelCaseNamingStrategy } from '../lib/namingStrategies';
 
@@ -57,6 +57,8 @@ const db = {
   },
 
   getConnection,
+  getManager,
+  getRepository
 };
 
 export default db;
