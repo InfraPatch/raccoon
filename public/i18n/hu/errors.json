@@ -1,0 +1,13 @@
+{
+  "pages": {
+    "notfound": {
+      "title": "404 - Az oldal nem található",
+      "content": "Az Ön által meglátogatni kívánt oldal nem található."
+    },
+
+    "server-error": {
+      "title": "500 - Szerverhiba",
+      "content": "Egy hiba történt a szerverünkön. A hibáról értesültünk, így megpróbáljuk a lehető leghamarabb kijavítani azt. Kérjük, próbálja újra később."
+    }
+  }
+}

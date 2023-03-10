@@ -1,18 +1,38 @@
-import HomeHero from '@/assets/images/home-hero.svg';
 import { HTMLAttributes } from 'react';
 
-type IllustrationWrapperProps = { image: string } & HTMLAttributes<HTMLDivElement>;
+import HomeHero from '@/assets/images/home-hero.svg';
 
-const IllustrationWrapper = ({ image, ...props }: IllustrationWrapperProps) => {
+import PrivacyPolicy from '@/assets/images/privacy-policy.svg';
+import Terms from '@/assets/images/terms.svg';
+
+import NotFound from '@/assets/images/not-found.svg';
+import ServerError from '@/assets/images/server-error.svg';
+
+import clsx from 'clsx';
+
+type IllustrationWrapperProps = {
+  image: string;
+  center?: boolean;
+} & HTMLAttributes<HTMLDivElement>;
+
+type P = { center?: boolean } & HTMLAttributes<HTMLDivElement>;
+
+const IllustrationWrapper = ({ image, center, ...props }: IllustrationWrapperProps) => {
   return (
-    <div {...props}>
+    <div className={clsx({ 'text-center': center })} {...props}>
       <img src={image} />
     </div>
   );
 };
 
 const Illustration = {
-  HomeHero: (props: HTMLAttributes<HTMLDivElement> ) => <IllustrationWrapper image={HomeHero} {...props} />
+  HomeHero: (props: P) => <IllustrationWrapper image={HomeHero} {...props} />,
+
+  PrivacyPolicy: (props: P) => <IllustrationWrapper image={PrivacyPolicy} {...props} />,
+  Terms: (props: P) => <IllustrationWrapper image={Terms} {...props} />,
+
+  NotFound: (props: P) => <IllustrationWrapper image={NotFound} {...props} />,
+  ServerError: (props: P) => <IllustrationWrapper image={ServerError} {...props} />
 };
 
 export default Illustration;

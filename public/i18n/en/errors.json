@@ -1,0 +1,13 @@
+{
+  "pages": {
+    "notfound": {
+      "title": "404 - Page Not Found",
+      "content": "The requested page could not be found."
+    },
+
+    "server-error": {
+      "title": "500 - Internal Server Error",
+      "content": "Something went wrong on our server. We have received a notification about it and will try to resolve it as soon as possible. Please, try again later."
+    }
+  }
+}
