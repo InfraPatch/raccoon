@@ -19,22 +19,22 @@ const ContentPageLayout = ({ title, subtitle, narrow, children }: ContentPageLay
   return (
     <div className="bg-secondary">
       <section className="container">
-          <TheHeader />
+        <TheHeader />
 
-          <div className={wrapperClasses}>
-            {title && (
-              <div className="text-center px-4 py-10">
-                <h1 className="text-6xl text-accent">{title}</h1>
-                {subtitle && <h2 className="text-2xl mt-5 font-normal text-accent">{subtitle}</h2>}
-              </div>
-            )}
-
-            <div className="content text-lg">
-              {children}
+        <div className={wrapperClasses}>
+          {title && (
+            <div className="text-center px-4 py-10">
+              <h1 className="text-6xl text-accent">{title}</h1>
+              {subtitle && <h2 className="text-2xl mt-5 font-normal text-accent">{subtitle}</h2>}
             </div>
-          </div>
+          )}
 
-          <TheFooter />
+          <div className="content text-lg">
+            {children}
+          </div>
+        </div>
+
+        <TheFooter />
       </section>
     </div>
   );
