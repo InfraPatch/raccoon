@@ -81,6 +81,22 @@ class Toaster {
     this.handlers.timeouts.push(timeoutRef);
   }
 
+  success(message: string, title: string | null = null, dismissable: boolean = true) {
+    return this.create('success', message, title, dismissable);
+  }
+
+  warning(message: string, title: string | null = null, dismissable: boolean = true) {
+    return this.create('warning', message, title, dismissable);
+  }
+
+  danger(message: string, title: string | null = null, dismissable: boolean = true) {
+    return this.create('danger', message, title, dismissable);
+  }
+
+  info(message: string, title: string | null = null, dismissable: boolean = true) {
+    return this.create('info', message, title, dismissable);
+  }
+
   destroy(id: number) {
     const removed = remove(this.toasts, { id });
 

@@ -15,7 +15,10 @@ export interface ToastProps {
 
 const Toast = ({ idx, level, title, message, dismissable = true, dead, onClick }: ToastProps) => {
   const classNames = clsx('right-0', 'left-0', 'mx-auto', 'py-4', 'px-6', 'flex', 'items-center', 'justify-between', {
-    [`bg-${level}`]: true,
+    'bg-info': level === 'info',
+    'bg-success': level === 'success',
+    'bg-warning': level === 'warning',
+    'bg-danger': level === 'danger',
     'opacity-0': dead
   });
 

@@ -12,7 +12,7 @@ const Home = () => {
   const { t } = useTranslation('home');
 
   const handleCTAClick = () => {
-    toaster.create('info', 'Work in progress!');
+    toaster.info('Work in progress!');
   };
 
   return (
