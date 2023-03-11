@@ -24,7 +24,7 @@ Subject: {{ subject }}
 export const send = async (req: NextApiRequest, res: NextApiResponse) => {
   const { name, email, subject, message }: IContactFormFields = req.body;
 
-  if (!name || name.length < 100) {
+  if (!name || name.length < 2) {
     return res.status(400).json({
       ok: false,
       error: 'NAME_TOO_SHORT',
