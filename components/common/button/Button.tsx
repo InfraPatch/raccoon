@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { forwardRef, HTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, DetailedHTMLProps, forwardRef } from 'react';
 
 export enum ButtonSize {
   SMALL,
@@ -7,7 +7,7 @@ export enum ButtonSize {
   LARGE
 };
 
-export type ButtonProps = HTMLAttributes<HTMLButtonElement> & {
+export interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   size: ButtonSize;
 };
 

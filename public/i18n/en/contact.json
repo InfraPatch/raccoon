@@ -1,0 +1,14 @@
+{
+  "title": "Contact Us",
+  "subtitle": "Drop us a letter if you have a question or inquiry.",
+
+  "form": {
+    "name": "Name:",
+    "email": "Email address:",
+    "subject": "Subject:",
+    "message": "Message:",
+    "submit": "Send Message"
+  },
+
+  "success": "Message sent successfully! We will get back to you shortly."
+}

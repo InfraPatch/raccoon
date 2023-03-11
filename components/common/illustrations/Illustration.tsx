@@ -4,6 +4,7 @@ import HomeHero from '@/assets/images/home-hero.svg';
 
 import PrivacyPolicy from '@/assets/images/privacy-policy.svg';
 import Terms from '@/assets/images/terms.svg';
+import Contact from '@/assets/images/contact.svg';
 
 import NotFound from '@/assets/images/not-found.svg';
 import ServerError from '@/assets/images/server-error.svg';
@@ -30,6 +31,7 @@ const Illustration = {
 
   PrivacyPolicy: (props: P) => <IllustrationWrapper image={PrivacyPolicy} {...props} />,
   Terms: (props: P) => <IllustrationWrapper image={Terms} {...props} />,
+  Contact: (props: P) => <IllustrationWrapper image={Contact} {...props} />,
 
   NotFound: (props: P) => <IllustrationWrapper image={NotFound} {...props} />,
   ServerError: (props: P) => <IllustrationWrapper image={ServerError} {...props} />

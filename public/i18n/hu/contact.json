@@ -1,0 +1,14 @@
+{
+  "title": "Kapcsolat",
+  "subtitle": "Amennyiben bármilyen kérdése van, vegye fel velünk a kapcsolatot.",
+
+  "form": {
+    "name": "Név:",
+    "email": "E-mail cím:",
+    "subject": "Tárgy:",
+    "message": "Üzenet:",
+    "submit": "Üzenet küldése"
+  },
+
+  "success": "Az üzenet sikeresen el lett küldve! Hamarosan válaszolni fogunk rá."
+}

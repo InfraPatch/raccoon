@@ -58,3 +58,43 @@ ul {
     @apply my-5;
   }
 }
+
+form {
+  @apply my-5;
+}
+
+.form-field {
+  @apply my-3;
+}
+
+label {
+  @apply block;
+  @apply font-bold;
+}
+
+input, textarea {
+  @apply block;
+  @apply w-full;
+
+  @apply px-3;
+  @apply py-2;
+  @apply my-2;
+
+  @apply border;
+  @apply border-accent-hover;
+
+  @apply bg-secondary;
+  @apply text-foreground;
+
+  &:focus {
+    @apply border-accent;
+  }
+
+  &:disabled {
+    @apply border-accent-disabled;
+  }
+}
+
+textarea {
+  min-height: 150px;
+}

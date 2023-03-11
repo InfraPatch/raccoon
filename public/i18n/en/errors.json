@@ -9,5 +9,14 @@
       "title": "500 - Internal Server Error",
       "content": "Something went wrong on our server. We have received a notification about it and will try to resolve it as soon as possible. Please, try again later."
     }
+  },
+
+  "INTERNAL_SERVER_ERROR": "Internal server error.",
+
+  "contact": {
+    "NAME_TOO_SHORT": "The name needs to be at least {{ min }} characters long.",
+    "INVALID_EMAIL": "You have provided an invalid email.",
+    "SUBJECT_TOO_SHORT": "The subject needs to be at least {{ min }} characters long.",
+    "MESSAGE_TOO_SHORT": "The message needs to be at least {{ min }} characters long."
   }
 }

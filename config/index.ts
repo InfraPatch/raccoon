@@ -1,4 +1,4 @@
-import { IConfig, StorageStrategyIdentifier } from '@/typings/IConfig';
+import { IConfig, StorageStrategyIdentifier } from '@/config/IConfig';
 
 const getStorageStrategyIdentifier = (env: string): StorageStrategyIdentifier => {
   if ([ 'file', 's3', 'firebase' ].includes(env)) {
@@ -29,12 +29,13 @@ const config: IConfig = {
     strategy: getStorageStrategyIdentifier(process.env.STORAGE_STRATEGY)
   },
 
-  mailgun: {
-    username: process.env.MAILGUN_SMTP_USERNAME,
-    password: process.env.MAILGUN_SMTP_PASSWORD,
-    host: process.env.MAILGUN_SMTP_HOST,
-    port: process.env.MAILGUN_SMTP_PORT && parseInt(process.env.MAILGUN_SMTP_PORT, 10),
-    emailFrom: process.env.MAILGUN_EMAIL_FROM
+  email: {
+    username: process.env.SMTP_USERNAME,
+    password: process.env.SMTP_PASSWORD,
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT && parseInt(process.env.SMTP_PORT, 10),
+    emailFrom: process.env.EMAIL_FROM,
+    contactEmail: process.env.CONTACT_EMAIL
   },
 
   auth: {}

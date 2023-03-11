@@ -40,12 +40,13 @@ export interface StorageConfig {
   s3?: S3StorageConfig;
 };
 
-export interface MailgunConfig {
+export interface EmailConfig {
   username: string;
   password: string;
   host: string;
   port: number;
   emailFrom: string;
+  contactEmail: string;
 };
 
 export interface OAuthProviderConfig {
@@ -69,6 +70,6 @@ export interface IConfig {
   app: AppConfig;
   database: DatabaseConfig;
   storage: StorageConfig;
-  mailgun: MailgunConfig;
+  email: EmailConfig;
   auth: AuthConfig;
 };
