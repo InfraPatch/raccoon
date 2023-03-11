@@ -11,7 +11,8 @@
     "migration:run": "npm run typeorm -- migration:run",
     "migration:rollback": "npm run typeorm -- migration:revert",
     "migration:generate": "npm run typeorm -- migration:generate -n",
-    "migrate": "npm run migration:run"
+    "migrate": "npm run migration:run",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "aws-sdk": "^2.884.0",
@@ -58,7 +59,9 @@
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "eslint": "^7.22.0",
     "next-images": "^1.7.0",
+    "patch-package": "^6.4.7",
     "postcss": "^8.2.8",
+    "postinstall-postinstall": "^2.1.0",
     "reflect-metadata": "^0.1.13",
     "tailwindcss": "^2.1.1",
     "ts-node": "^9.1.1",

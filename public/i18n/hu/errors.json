@@ -18,5 +18,11 @@
     "INVALID_EMAIL": "Az Ön által megadott email cím érvénytelen.",
     "SUBJECT_TOO_SHORT": "A megadott tárgy legalább {{ min }} karakter hosszú kell legyen.",
     "MESSAGE_TOO_SHORT": "A megadott üzenet legalább {{ min }} karakter hosszú kell legyen."
+  },
+
+  "sign-in": {
+    "INVALID_CREDENTIALS": "Érvénytelen e-mail cím/jelszó kombináció.",
+    "AUTH_FAILURE": "Egy váratlan hitelesítési hiba történt.",
+    "ACCESS_DENIED": "Belépés megtagadva."
   }
 }

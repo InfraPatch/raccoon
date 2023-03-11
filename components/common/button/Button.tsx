@@ -36,7 +36,7 @@ const Button = ({ size, ...props }: ButtonProps, ref) => {
   );
 
   return (
-    <button ref={ref} className={buttonClasses} {...props}>
+    <button ref={ref} {...props} className={buttonClasses}>
       { props.children }
     </button>
   );

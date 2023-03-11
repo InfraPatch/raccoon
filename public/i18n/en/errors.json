@@ -18,5 +18,11 @@
     "INVALID_EMAIL": "You have provided an invalid email.",
     "SUBJECT_TOO_SHORT": "The subject needs to be at least {{ min }} characters long.",
     "MESSAGE_TOO_SHORT": "The message needs to be at least {{ min }} characters long."
+  },
+
+  "sign-in": {
+    "INVALID_CREDENTIALS": "You have provided an invalid email/password combination.",
+    "AUTH_FAILURE": "An unexpected authentication error has occurred.",
+    "ACCESS_DENIED": "Access denied."
   }
 }
