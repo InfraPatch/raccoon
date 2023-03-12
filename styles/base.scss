@@ -5,6 +5,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body, #__next, .app {
+  @apply min-h-screen;
+}
+
 body {
   @apply bg-primary;
   @apply text-foreground;

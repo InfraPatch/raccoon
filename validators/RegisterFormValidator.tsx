@@ -28,5 +28,5 @@ export const validate = (t: TFunction): ((fields: CredentialsRegisterAPIRequest)
     }
 
     return errors;
-  }
+  };
 };

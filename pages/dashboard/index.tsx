@@ -1,8 +1,10 @@
+import Button, { ButtonSize } from '@/components/common/button/Button';
+import DashboardLayout from '@/layouts/DashboardLayout';
+
 import { getSession, signOut } from 'next-auth/client';
 import { redirectIfAnonymous } from '@/lib/redirects';
 
 import { User } from '@/db/models/auth/User';
-import Button, { ButtonSize } from '@/components/common/button/Button';
 
 export interface DashboardHomePageProps {
   user: User;
@@ -15,13 +17,13 @@ const DashboardHomePage = ({ user }: DashboardHomePageProps) => {
   };
 
   return (
-    <div>
+    <DashboardLayout user={user}>
       it works! welcome, { user.name }
 
       <Button size={ButtonSize.SMALL} onClick={handleSignoutClick}>
         Log out
       </Button>
-    </div>
+    </DashboardLayout>
   );
 };
 
