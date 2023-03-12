@@ -45,7 +45,20 @@ module.exports = {
 
       transparent: 'transparent',
       black: '#000',
-      white: '#fff'
+      white: '#fff',
+
+      facebook: {
+        DEFAULT: 'var(--facebook)',
+        hover: 'var(--facebook-hover)'
+      },
+      twitter: {
+        DEFAULT: 'var(--twitter)',
+        hover: 'var(--twitter-hover)'
+      },
+      google: {
+        DEFAULT: 'var(--google)',
+        hover: 'var(--google-hover)'
+      }
     },
 
     container: {

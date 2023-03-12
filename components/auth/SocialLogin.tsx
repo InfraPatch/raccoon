@@ -3,6 +3,7 @@ import { Google } from '@/components/icons/Google';
 
 import Button, { ButtonSize } from '../common/button/Button';
 import { useTranslation } from 'react-i18next';
+import { signIn } from 'next-auth/client';
 
 export type AllowedProvider = 'credentials' | 'facebook' | 'twitter' | 'google';
 
@@ -19,20 +20,38 @@ const SocialLogin = ({ providers }: SocialLoginProps) => {
         { t('social-network-prompt') }
       </div>
 
-      <Button size={ButtonSize.MEDIUM} className="mb-4">
-        <Facebook className="inline mr-2" />
-        { t('log-in-via.facebook') }
-      </Button>
+      {providers.includes('facebook') && (
+        <Button
+          size={ButtonSize.MEDIUM}
+          className="mb-4 bg-facebook hover:bg-facebook-hover"
+          onClick={() => signIn('facebook')}
+        >
+          <Facebook className="inline mr-2" />
+          { t('log-in-via.facebook') }
+        </Button>
+      )}
 
-      <Button size={ButtonSize.MEDIUM} className="mb-4">
-        <Twitter className="inline mr-2" />
-        { t('log-in-via.twitter') }
-      </Button>
+      {providers.includes('twitter') && (
+        <Button
+          size={ButtonSize.MEDIUM}
+          className="mb-4 bg-twitter hover:bg-twitter-hover"
+          onClick={() => signIn('twitter')}
+        >
+          <Twitter className="inline mr-2" />
+          { t('log-in-via.twitter') }
+        </Button>
+      )}
 
-      <Button size={ButtonSize.MEDIUM}>
-        <Google className="inline mr-2" />
-        { t('log-in-via.google') }
-      </Button>
+      {providers.includes('google') && (
+        <Button
+          size={ButtonSize.MEDIUM}
+          className="bg-google hover:bg-google-hover"
+          onClick={() => signIn('google')}
+        >
+          <Google className="inline mr-2" />
+          { t('log-in-via.google') }
+        </Button>
+      )}
     </div>
   );
 };
