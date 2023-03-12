@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Contract, IContract } from './Contract';
 
 import omit from 'lodash.omit';
@@ -17,6 +17,8 @@ export enum ContractOptionType {
 
 export interface IContractOption {
   id: number;
+  createdAt: Date;
+  updatedAt: Date;
   contract?: IContract;
   type: ContractOptionType;
   priority: number;
@@ -32,6 +34,12 @@ export interface IContractOption {
 export class ContractOption implements IContractOption {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @ManyToOne(() => Contract, contract => contract.options)
   contract: Contract;
@@ -63,6 +71,8 @@ export class ContractOption implements IContractOption {
   toJSON(): IContractOption {
     return {
       id: this.id,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
       contract: omit(this.contract.toJSON(), 'options'),
       type: this.type,
       priority: this.priority,

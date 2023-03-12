@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { ContractFile, IContractFile } from './ContractFile';
 import { ContractOption, IContractOption } from './ContractOption';
 
@@ -6,6 +6,8 @@ import omit from 'lodash.omit';
 
 export interface IContract {
   id: number;
+  createdAt: Date;
+  updatedAt: Date;
   friendlyName: string;
   description: string;
   files?: IContractFile[];
@@ -16,6 +18,12 @@ export interface IContract {
 export class Contract implements IContract {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @Column()
   friendlyName: string;
@@ -32,6 +40,8 @@ export class Contract implements IContract {
   toJSON(): IContract {
     return {
       id: this.id,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
       friendlyName: this.friendlyName,
       description: this.description,
       files: this.files.map(file => omit(file.toJSON(), 'contract')),

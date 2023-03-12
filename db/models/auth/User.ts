@@ -1,4 +1,4 @@
-import Adapters, { TypeORMUserModel } from 'next-auth/adapters';
+import Adapters from 'next-auth/adapters';
 
 export enum PersonalIdentifierType {
   IDENTITY_CARD,

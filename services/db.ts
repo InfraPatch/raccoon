@@ -10,6 +10,8 @@ import { VerificationRequestSchema } from '../db/models/auth/VerificationRequest
 import { Contract } from '../db/models/contracts/Contract';
 import { ContractFile } from '../db/models/contracts/ContractFile';
 import { ContractOption } from '../db/models/contracts/ContractOption';
+import { FilledContract } from '../db/models/contracts/FilledContract';
+import { FilledContractOption } from '../db/models/contracts/FilledContractOption';
 
 import transform from 'next-auth/dist/adapters/typeorm/lib/transform';
 
@@ -35,14 +37,24 @@ transform(baseConnectionOptions, authModels, {
   namingStrategy: baseConnectionOptions.namingStrategy
 });
 
+const Account = new EntitySchema(authModels.Account.schema);
+const Session = new EntitySchema(authModels.Session.schema);
+const User = new EntitySchema(authModels.User.schema);
+const VerificationRequest = new EntitySchema(authModels.VerificationRequest.schema);
+
 const connectionOptions: ConnectionOptions = {
   ...baseConnectionOptions,
   entities: [
-    ...(Object.keys(authModels).map(model => new EntitySchema(authModels[model].schema))),
+    Account,
+    Session,
+    User,
+    VerificationRequest,
 
     Contract,
     ContractFile,
-    ContractOption
+    ContractOption,
+    FilledContract,
+    FilledContractOption
   ]
 };
 
@@ -73,5 +85,10 @@ export default db;
 
 export {
   baseConnectionOptions,
-  connectionOptions
+  connectionOptions,
+
+  Account,
+  Session,
+  User,
+  VerificationRequest
 };
