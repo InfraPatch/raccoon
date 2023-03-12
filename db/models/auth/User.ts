@@ -1,6 +1,33 @@
 import Adapters, { TypeORMUserModel } from 'next-auth/adapters';
 
-export class User {
+export enum PersonalIdentifierType {
+  IDENTITY_CARD,
+  PASSPORT,
+  DRIVERS_LICENSE
+};
+
+export interface IUserIdentificationDetails {
+  motherName?: string;
+  motherBirthDate?: Date;
+  nationality?: string;
+  personalIdentifierType?: PersonalIdentifierType;
+  personalIdentifier?: string;
+  phoneNumber?: string;
+  birthDate?: Date;
+};
+
+export interface IUser extends IUserIdentificationDetails {
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  name?: string;
+  email?: string;
+  image?: string;
+  emailVerified?: Date;
+  password?: string;
+}
+
+export class User implements IUser {
   id: number;
   createdAt: Date;
   updatedAt: Date;
@@ -10,7 +37,15 @@ export class User {
   emailVerified?: Date;
   password?: string;
 
-  constructor(name?: string, email?: string, image?: string, isEmailVerified?: boolean, password?: string) {
+  motherName?: string;
+  motherBirthDate?: Date;
+  nationality?: string;
+  personalIdentifierType?: PersonalIdentifierType;
+  personalIdentifier?: string;
+  phoneNumber?: string;
+  birthDate?: Date;
+
+  constructor(name?: string, email?: string, image?: string, isEmailVerified?: boolean, password?: string, identificationDetails?: IUserIdentificationDetails) {
     if (name) {
       this.name = name;
     }
@@ -30,6 +65,18 @@ export class User {
     if (password) {
       this.password = password;
     }
+
+    if (identificationDetails) {
+      const { motherName, motherBirthDate, nationality, personalIdentifierType, personalIdentifier, phoneNumber, birthDate } = identificationDetails;
+
+      this.motherName = motherName;
+      this.motherBirthDate = motherBirthDate;
+      this.nationality = nationality;
+      this.personalIdentifierType = personalIdentifierType;
+      this.personalIdentifier = personalIdentifier;
+      this.phoneNumber = phoneNumber;
+      this.birthDate = birthDate;
+    }
   }
 
   toJSON() {
@@ -39,7 +86,14 @@ export class User {
       updatedAt: this.updatedAt?.toUTCString(),
       name: this.name,
       email: this.email,
-      image: this.image
+      image: this.image,
+      motherName: this.motherName,
+      motherBirthDate: this.motherBirthDate ? this.motherBirthDate.toUTCString : null,
+      nationality: this.nationality,
+      personalIdentifierType: this.personalIdentifierType,
+      personalIdentifier: this.personalIdentifier,
+      phoneNumber: this.phoneNumber,
+      birthDate: this.birthDate
     };
   }
 }
@@ -49,8 +103,39 @@ export const UserSchema = {
   target: User,
   columns: {
     ...Adapters.TypeORM.Models.User.schema.columns,
+
     password: {
       type: 'varchar'
+    },
+
+    motherName: {
+      type: 'varchar'
+    },
+
+    motherBirthDate: {
+      type: 'timestamp'
+    },
+
+    nationality: {
+      type: 'varchar'
+    },
+
+    personalIdentifierType: {
+      type: 'enum',
+      enum: PersonalIdentifierType,
+      default: PersonalIdentifierType.IDENTITY_CARD
+    },
+
+    personalIdentifier: {
+      type: 'varchar'
+    },
+
+    phoneNumber: {
+      type: 'varchar'
+    },
+
+    birthDate: {
+      type: 'timestamp'
     }
   }
 };
