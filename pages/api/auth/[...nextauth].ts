@@ -94,5 +94,23 @@ export default NextAuth({
         schema: SessionSchema
       }
     }
-  })
+  }),
+
+  callbacks: {
+    async jwt(token, user, account, profile) {
+      if (profile) {
+        token.isAdmin = profile.isAdmin;
+      }
+
+      return token;
+    },
+
+    async session(session, token) {
+      if ((token as any).isAdmin) {
+        session.user.isAdmin = (token as any).isAdmin;
+      }
+
+      return session as any;
+    }
+  }
 });

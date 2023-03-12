@@ -25,6 +25,7 @@ export interface IUser extends IUserIdentificationDetails {
   image?: string;
   emailVerified?: Date;
   password?: string;
+  isAdmin?: boolean;
 }
 
 export class User implements IUser {
@@ -36,6 +37,7 @@ export class User implements IUser {
   image?: string;
   emailVerified?: Date;
   password?: string;
+  isAdmin?: boolean;
 
   motherName?: string;
   motherBirthDate?: Date;
@@ -45,7 +47,15 @@ export class User implements IUser {
   phoneNumber?: string;
   birthDate?: Date;
 
-  constructor(name?: string, email?: string, image?: string, isEmailVerified?: boolean, password?: string, identificationDetails?: IUserIdentificationDetails) {
+  constructor(
+    name?: string,
+    email?: string,
+    image?: string,
+    isEmailVerified?: boolean,
+    password?: string,
+    isAdmin?: boolean,
+    identificationDetails?: IUserIdentificationDetails
+  ) {
     if (name) {
       this.name = name;
     }
@@ -64,6 +74,10 @@ export class User implements IUser {
 
     if (password) {
       this.password = password;
+    }
+
+    if (isAdmin) {
+      this.isAdmin = isAdmin;
     }
 
     if (identificationDetails) {
@@ -106,6 +120,11 @@ export const UserSchema = {
 
     password: {
       type: 'varchar'
+    },
+
+    isAdmin: {
+      type: 'boolean',
+      default: false
     },
 
     motherName: {
