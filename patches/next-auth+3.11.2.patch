@@ -1,5 +1,5 @@
 diff --git a/node_modules/next-auth/dist/server/routes/callback.js b/node_modules/next-auth/dist/server/routes/callback.js
-index 63c3c23..827cae2 100644
+index 63c3c23..837fc52 100644
 --- a/node_modules/next-auth/dist/server/routes/callback.js
 +++ b/node_modules/next-auth/dist/server/routes/callback.js
 @@ -299,14 +299,26 @@ function _callback() {
@@ -67,7 +67,7 @@ index 63c3c23..827cae2 100644
          account: _account2
        });
 -      return res.redirect(callbackUrl || baseUrl);
-+      return res.json({ ok: true, user: _user2, account: _account2 });
++      return res.json({ ok: true, user: _user2.toJSON(), account: _account2 });
      }
  
      return res.status(500).end("Error: Callback for provider type ".concat(provider.type, " not supported"));
