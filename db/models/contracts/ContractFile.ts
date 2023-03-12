@@ -13,7 +13,7 @@ export interface IContractFile {
 }
 
 @Entity()
-export class ContractFile {
+export class ContractFile implements IContractFile {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,7 +24,7 @@ export class ContractFile {
   updatedAt: Date;
 
   @ManyToOne(() => Contract, contract => contract.files)
-  contract: Contract;
+  contract: Partial<Contract>;
 
   @Column()
   friendlyName: string;

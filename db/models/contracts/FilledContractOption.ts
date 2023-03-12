@@ -25,10 +25,10 @@ export class FilledContractOption implements IFilledContractOption {
   updatedAt: Date;
 
   @ManyToOne(() => FilledContract, filledContract => filledContract.options)
-  filledContract: FilledContract;
+  filledContract: Partial<FilledContract>;
 
   @ManyToOne(() => ContractOption)
-  option: ContractOption;
+  option: Partial<ContractOption>;
 
   @Column()
   value: string;

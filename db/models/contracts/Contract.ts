@@ -5,11 +5,11 @@ import { ContractOption, IContractOption } from './ContractOption';
 import omit from 'lodash.omit';
 
 export interface IContract {
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
-  friendlyName: string;
-  description: string;
+  id?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  friendlyName?: string;
+  description?: string;
   files?: IContractFile[];
   options?: IContractOption[];
 };
@@ -32,10 +32,10 @@ export class Contract implements IContract {
   description: string;
 
   @OneToMany(() => ContractFile, contractFile => contractFile.contract)
-  files: ContractFile[];
+  files: Partial<ContractFile[]>;
 
   @OneToMany(() => ContractOption, contractOption => contractOption.contract)
-  options: ContractOption[];
+  options: Partial<ContractOption[]>;
 
   toJSON(): IContract {
     return {

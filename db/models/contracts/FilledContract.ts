@@ -5,17 +5,17 @@ import { FilledContractOption, IFilledContractOption } from './FilledContractOpt
 import omit from 'lodash.omit';
 
 export interface IFilledContract {
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
-  userId: number;
+  id?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  userId?: number;
   contract?: IContract;
   options?: IFilledContractOption[];
   filledAt?: Date;
 };
 
 @Entity()
-export class FilledContract {
+export class FilledContract implements IFilledContract {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -26,10 +26,10 @@ export class FilledContract {
   updatedAt: Date;
 
   @ManyToOne(() => Contract)
-  contract: Contract;
+  contract: Partial<Contract>;
 
   @OneToMany(() => FilledContractOption, filledContractOption => filledContractOption.filledContract)
-  options: FilledContractOption[];
+  options: Partial<FilledContractOption[]>;
 
   // thanks to next-auth's incompatibility with typeorm entities, I cannot
   // establish a many-to-one relationship here, so it's just the user ID.

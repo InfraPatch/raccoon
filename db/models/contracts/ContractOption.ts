@@ -16,16 +16,16 @@ export enum ContractOptionType {
 };
 
 export interface IContractOption {
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
+  id?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
   contract?: IContract;
-  type: ContractOptionType;
-  priority: number;
-  friendlyName: string;
+  type?: ContractOptionType;
+  priority?: number;
+  friendlyName?: string;
   longDescription?: string;
   hint?: string;
-  replacementString: string;
+  replacementString?: string;
   minimumValue?: number;
   maximumValue?: number;
 }
@@ -42,7 +42,7 @@ export class ContractOption implements IContractOption {
   updatedAt: Date;
 
   @ManyToOne(() => Contract, contract => contract.options)
-  contract: Contract;
+  contract: Partial<Contract>;
 
   @Column('enum', { enum: ContractOptionType, default: ContractOptionType.STRING })
   type: ContractOptionType;
