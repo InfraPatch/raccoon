@@ -4,7 +4,7 @@ import { redirectIfAuthenticated } from '@/lib/redirects';
 import Head from 'next/head';
 import AuthPageLayout from '@/layouts/AuthPageLayout';
 import { AllowedProvider } from '@/components/auth/SocialLogin';
-import LoginForm from '@/components/auth/LoginForm';
+import RegisterForm from '@/components/auth/RegisterForm';
 
 import { getProviders } from 'next-auth/client';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -20,10 +20,10 @@ const LoginPage = ({ providers }: LoginPageProps) => {
   return (
     <AuthPageLayout providers={providers}>
       <Head>
-        <title>{ t('log-in') }</title>
+        <title>{ t('register') }</title>
       </Head>
 
-      <LoginForm />
+      <RegisterForm />
     </AuthPageLayout>
   );
 };

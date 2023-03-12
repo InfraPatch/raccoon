@@ -24,5 +24,13 @@
     "INVALID_CREDENTIALS": "You have provided an invalid email/password combination.",
     "AUTH_FAILURE": "An unexpected authentication error has occurred.",
     "ACCESS_DENIED": "Access denied."
+  },
+
+  "register": {
+    "NAME_TOO_SHORT": "Your name needs to be at least {{ min }} characters long.",
+    "INVALID_EMAIL": "You have provided an invalid email.",
+    "PASSWORD_TOO_WEAK": "The password needs to be at least {{ min }} characters long.",
+    "PASSWORDS_DONT_MATCH": "The provided passwords don't match.",
+    "USER_ALREADY_EXISTS": "There is aleady another user with this email address."
   }
 }

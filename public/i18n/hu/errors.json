@@ -24,5 +24,13 @@
     "INVALID_CREDENTIALS": "Érvénytelen e-mail cím/jelszó kombináció.",
     "AUTH_FAILURE": "Egy váratlan hitelesítési hiba történt.",
     "ACCESS_DENIED": "Belépés megtagadva."
+  },
+
+  "register": {
+    "NAME_TOO_SHORT": "A megadott név legalább {{ min }} karakter hosszú kell legyen.",
+    "INVALID_EMAIL": "Az Ön által megadott email cím érvénytelen.",
+    "PASSWORD_TOO_WEAK": "A megadott jelszó legalább {{ min }} karakter hosszú kell legyen.",
+    "PASSWORDS_DONT_MATCH": "A megadott jelszavak nem egyeznek meg.",
+    "USER_ALREADY_EXISTS": "Már létezik egy felhasználó ezzel az e-mail címmel."
   }
 }

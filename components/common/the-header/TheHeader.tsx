@@ -1,11 +1,25 @@
+import { useSession } from 'next-auth/client';
 import { useTranslation } from 'next-i18next';
 
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 import Button, { ButtonSize } from '../button/Button';
 import HeaderLink from './HeaderLink';
 
 const TheHeader = () => {
   const { t } = useTranslation('common');
+
+  const router = useRouter();
+  const [ session, _ ] = useSession();
+
+  const handleDashboardClick = () => {
+    if (session) {
+      router.push('/dashboard');
+    } else {
+      router.push('/login');
+    }
+  };
 
   return (
     <header className="w-full flex justify-between items-center py-8">
@@ -28,7 +42,9 @@ const TheHeader = () => {
           </Link>
         </div>
 
-        <Button size={ButtonSize.SMALL}>{ t('log-in') }</Button>
+        <Button size={ButtonSize.SMALL} onClick={handleDashboardClick}>
+          { t(session ? 'dashboard' : 'log-in') }
+        </Button>
       </nav>
     </header>
   );
