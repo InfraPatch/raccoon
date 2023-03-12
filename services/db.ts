@@ -7,6 +7,10 @@ import { SessionSchema } from '../db/models/auth/Session';
 import { UserSchema } from '../db/models/auth/User';
 import { VerificationRequestSchema } from '../db/models/auth/VerificationRequest';
 
+import { Contract } from '../db/models/contracts/Contract';
+import { ContractFile } from '../db/models/contracts/ContractFile';
+import { ContractOption } from '../db/models/contracts/ContractOption';
+
 import transform from 'next-auth/dist/adapters/typeorm/lib/transform';
 
 const baseConnectionOptions: ConnectionOptions = {
@@ -34,7 +38,11 @@ transform(baseConnectionOptions, authModels, {
 const connectionOptions: ConnectionOptions = {
   ...baseConnectionOptions,
   entities: [
-    ...(Object.keys(authModels).map(model => new EntitySchema(authModels[model].schema)))
+    ...(Object.keys(authModels).map(model => new EntitySchema(authModels[model].schema))),
+
+    Contract,
+    ContractFile,
+    ContractOption
   ]
 };
 
