@@ -1,7 +1,7 @@
 import { getSession } from 'next-auth/client';
 import { redirectIfAuthenticated } from '@/lib/redirects';
 
-import Head from 'next/head';
+import Meta from '@/components/common/Meta';
 import AuthPageLayout from '@/layouts/AuthPageLayout';
 import { AllowedProvider } from '@/components/auth/SocialLogin';
 import LoginForm from '@/components/auth/LoginForm';
@@ -19,9 +19,10 @@ const LoginPage = ({ providers }: LoginPageProps) => {
 
   return (
     <AuthPageLayout providers={providers}>
-      <Head>
-        <title>{ t('log-in') }</title>
-      </Head>
+      <Meta
+        title={ t('log-in') }
+        url="/login"
+      />
 
       <LoginForm />
     </AuthPageLayout>

@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import Meta from '@/components/common/Meta';
 import PageLayout from '@/layouts/PageLayout';
 
 import { useTranslation } from 'react-i18next';
@@ -16,32 +16,30 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <Head>
-        <title>Raccoon</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <PageLayout>
+      <Meta
+        description={ t('hero-slogan') }
+        url="/"
+      />
 
-      <PageLayout>
-        <div className="text-center py-10">
-          <div className="max-w-xl mx-auto mb-10">
-            <h1 className="text-5xl mb-10 font-bold text-accent">
-              { t('hero-slogan') }
-            </h1>
+      <div className="text-center py-10">
+        <div className="max-w-xl mx-auto mb-10">
+          <h1 className="text-5xl mb-10 font-bold text-accent">
+            { t('hero-slogan') }
+          </h1>
 
-            <p className="text-xl mb-10">
-              { t('hero-description') }
-            </p>
+          <p className="text-xl mb-10">
+            { t('hero-description') }
+          </p>
 
-            <div className="text-xl">
-              <Button size={ButtonSize.MEDIUM} onClick={handleCTAClick}>{ t('hero-cta') }</Button>
-            </div>
+          <div className="text-xl">
+            <Button size={ButtonSize.MEDIUM} onClick={handleCTAClick}>{ t('hero-cta') }</Button>
           </div>
-
-          <Illustration.HomeHero className="max-w-2xl mx-auto" />
         </div>
-      </PageLayout>
-    </div>
+
+        <Illustration.HomeHero className="max-w-2xl mx-auto" />
+      </div>
+    </PageLayout>
   );
 };
 

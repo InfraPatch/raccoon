@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import Meta from '@/components/common/Meta';
 import ContentPageLayout from '@/layouts/ContentPageLayout';
 
 import Illustration from '@/components/common/illustrations/Illustration';
@@ -12,9 +12,11 @@ const ContactPage = () => {
 
   return (
     <ContentPageLayout title={ t('title') } subtitle={ t('subtitle') }>
-      <Head>
-        <title>{ t('title') }</title>
-      </Head>
+      <Meta
+        title={ t('title') }
+        description={ t('description') }
+        url="/contact"
+      />
 
       <Illustration.Contact className="max-w-lg mx-auto mb-10" />
 

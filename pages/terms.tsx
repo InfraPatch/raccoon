@@ -1,7 +1,7 @@
 import ContentPageLayout from '@/layouts/ContentPageLayout';
 import Illustration from '@/components/common/illustrations/Illustration';
 
-import Head from 'next/head';
+import Meta from '@/components/common/Meta';
 
 import { useTranslation } from 'react-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -14,9 +14,11 @@ const TermsPage = ({ locale }: { locale: string }) => {
 
   return (
     <ContentPageLayout title={ t('title') } subtitle={ t('subtitle') } narrow>
-      <Head>
-        <title>{ t('title') }</title>
-      </Head>
+      <Meta
+        title={ t('title') }
+        description={ t('subtitles') }
+        url="/terms"
+      />
 
       <Illustration.Terms className="max-w-lg mx-auto mb-10" />
 
