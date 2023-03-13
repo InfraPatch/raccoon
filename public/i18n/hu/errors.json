@@ -12,6 +12,9 @@
   },
 
   "INTERNAL_SERVER_ERROR": "Szerverhiba történt.",
+  "NOT_AUTHENTICATED": "Ön egy olyan műveletet próbált végrehajtani, melyhez be kell legyen jelentkezve.",
+  "NOT_ANONYMOUS": "Ön egy olyan műveletet próbált végrehajtani, melyhez ki kell legyen jelentkezve.",
+  "NO_ADMIN_PRIVILEGES": "Ön egy olyan műveletet próbált végrehajtani, melyhez adminisztrátori hozzáférés szükséges.",
 
   "contact": {
     "NAME_TOO_SHORT": "A megadott név legalább {{ min }} karakter hosszú kell legyen.",
@@ -32,5 +35,9 @@
     "PASSWORD_TOO_WEAK": "A megadott jelszó legalább {{ min }} karakter hosszú kell legyen.",
     "PASSWORDS_DONT_MATCH": "A megadott jelszavak nem egyeznek meg.",
     "USER_ALREADY_EXISTS": "Már létezik egy felhasználó ezzel az e-mail címmel."
+  },
+
+  "make-admin": {
+    "USER_NOT_FOUND": "Nem létezik ezzel az e-mail címmel rendelkező felhasználó."
   }
 }

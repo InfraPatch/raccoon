@@ -103,4 +103,11 @@ textarea {
   min-height: 150px;
 }
 
+hr {
+  @apply border-none;
+  @apply bg-gray;
+  @apply my-5;
+  height: 1px;
+}
+
 @import './progress';

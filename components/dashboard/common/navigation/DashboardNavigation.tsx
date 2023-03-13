@@ -1,25 +1,21 @@
 import NavigationLink, { NavigationLinkProps } from '@/components/dashboard/common/navigation/NavigationLink';
 
-import { Edit3, Home } from 'react-feather';
+export type NavigationSeparator = number;
 
-const DashboardNavigation = () => {
-  const items: NavigationLinkProps[] = [
-    {
-      href: '/dashboard',
-      icon: <Home />,
-      label: 'Home'
-    },
+export interface DashboardNavigationProps {
+  items: ( NavigationLinkProps | NavigationSeparator )[];
+};
 
-    {
-      href: '/dashboard/contracts',
-      icon: <Edit3 />,
-      label: 'My Contracts'
-    }
-  ];
-
+const DashboardNavigation = ({ items }: DashboardNavigationProps) => {
   return (
     <nav>
-      {items.map((item, idx) => <NavigationLink {...item} key={idx} />)}
+      {items.map((item, idx) => {
+        if (typeof item === 'number') {
+          return <hr key={idx} />;
+        }
+
+        return <NavigationLink {...item} key={idx} />;
+      })}
     </nav>
   );
 };

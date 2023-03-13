@@ -1,0 +1,15 @@
+{
+  "pages": {
+    "home": "Főoldal",
+    "my-contracts": "Szerződéseim",
+    "add-administrator": "Admin hozzáadása"
+  },
+
+  "admin": {
+    "make-admin": {
+      "email-field": "E-mail cím:",
+      "submit": "Admin hozzáadása",
+      "success": "Adminisztrátor sikeresen hozzáadva!"
+    }
+  }
+}

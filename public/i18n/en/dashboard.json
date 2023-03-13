@@ -1,0 +1,15 @@
+{
+  "pages": {
+    "home": "Home",
+    "my-contracts": "My Contracts",
+    "make-admin": "Add Administrator"
+  },
+
+  "admin": {
+    "make-admin": {
+      "email-field": "Email address:",
+      "submit": "Add administrator",
+      "success": "Administrator added successfully!"
+    }
+  }
+}

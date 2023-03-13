@@ -46,6 +46,7 @@ module.exports = {
       transparent: 'transparent',
       black: '#000',
       white: '#fff',
+      gray: 'var(--raccoon-gray)',
 
       facebook: {
         DEFAULT: 'var(--facebook)',
