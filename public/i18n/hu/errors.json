@@ -39,5 +39,11 @@
     "IMAGE_UPLOAD_FAILED": "Nem sikerült feltölteni a profilképet.",
     "INVALID_PERSONAL_IDENTIFIER_TYPE": "Az azonosítási okirat típusa érvénytelen.",
     "PERSONAL_IDENTIFIER_NOT_PROVIDED": "Nincs megadva az azonosító szám."
+  },
+
+  "contracts": {
+    "NAME_TOO_SHORT": "A megadott név legalább {{ min }} karakter hosszú kell legyen.",
+    "DESCRIPTION_TOO_SHORT": "A megadott leírás legalább {{ min }} karakter hosszú kell legyen.",
+    "CONTRACT_ALREADY_EXISTS": "Már létezik egy szerződés ezzel a névvel."
   }
 }
