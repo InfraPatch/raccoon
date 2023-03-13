@@ -7,12 +7,18 @@ import Illustration from '@/components/common/illustrations/Illustration';
 import Button, { ButtonSize } from '@/components/common/button/Button';
 
 import router from 'next/router';
+import { useSession } from 'next-auth/client';
 
 const Home = () => {
   const { t } = useTranslation('home');
+  const [ session, _ ] = useSession();
 
   const handleCTAClick = () => {
-    router.push('/dashboard');
+    if (session) {
+      router.push('/dashboard');
+    } else {
+      router.push('/login');
+    }
   };
 
   return (

@@ -2,7 +2,7 @@ import DashboardLayout from '@/layouts/DashboardLayout';
 import Button, { ButtonSize } from '@/components/common/button/Button';
 
 import { getSession, signOut } from 'next-auth/client';
-import { redirectIfNotAdmin } from '@/lib/redirects';
+import { redirectIfAnonymous } from '@/lib/redirects';
 
 import { User } from '@/db/models/auth/User';
 import Box from '@/components/common/box/Box';
@@ -59,7 +59,7 @@ const DashboardHomePage = ({ user }: DashboardHomePageProps) => {
 export const getServerSideProps = async ({ req, res, locale }) => {
   const session = await getSession({ req });
 
-  if (await redirectIfNotAdmin(res, session)) {
+  if (await redirectIfAnonymous(res, session)) {
     return { props: { user: null } };
   }
 
