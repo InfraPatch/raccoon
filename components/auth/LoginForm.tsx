@@ -50,7 +50,7 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleFormSubmit}>
       <div className="form-field">
-        <label htmlFor="email">{ t('auth:fields.name') }</label>
+        <label htmlFor="email">{ t('auth:fields.email') }</label>
         <input
           type="email"
           name="email"
