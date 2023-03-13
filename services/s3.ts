@@ -68,7 +68,7 @@ class S3 {
     return this.s3.getObject(params).createReadStream();
   }
 
-  read(key: string): Promise<string> {
+  read(key: string): Promise<Buffer> {
     const params = {
       Bucket: S3Config.bucket,
       Key: key
@@ -80,7 +80,8 @@ class S3 {
           return reject(err);
         }
 
-        return resolve(data.Body.toString());
+        // kinda slow
+        return resolve(Buffer.from(data.Body.toString('binary')));
       });
     });
   }

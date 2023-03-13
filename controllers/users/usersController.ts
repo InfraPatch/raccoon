@@ -90,10 +90,10 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         const user = await updateUser(session.user.email, {
           name: firstOf(fields.name),
-          email: firstOf(fields.email),
           image: firstOf(files.image),
           password: firstOf(fields.password),
           password2: firstOf(fields.password2),
+          oldPassword: firstOf(fields.oldPassword),
           motherName: firstOf(fields.motherName),
           motherBirthDate: fields.motherBirthDate && new Date(firstOf(fields.motherBirthDate)),
           nationality: firstOf(fields.nationality),

@@ -9,11 +9,11 @@ class FileStorageStrategy implements IStorageStrategy {
   async create(params) {
     const { key, contents } = params;
     const filePath = path.join(STORAGE_ROOT, key);
-    await fs.writeFile(filePath, contents, { encoding: 'utf8' });
+    await fs.writeFile(filePath, contents);
   }
 
   async get(key) {
-    return fs.readFile(path.join(STORAGE_ROOT, key), { encoding: 'utf8' });
+    return fs.readFile(path.join(STORAGE_ROOT, key));
   }
 
   getStream(key) {

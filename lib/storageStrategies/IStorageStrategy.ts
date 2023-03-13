@@ -1,12 +1,12 @@
 interface ICreateParams {
   key: string;
-  contents: string;
+  contents: Buffer;
   isPublic?: string;
 }
 
 export default interface IStorageStrategy {
   create(params: ICreateParams);
-  get(key: string): Promise<string>;
+  get(key: string): Promise<Buffer>;
   getStream(key: string);
   exists(key: string): Promise<boolean>;
 }

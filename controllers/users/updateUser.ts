@@ -7,7 +7,6 @@ import { v4 as uuid } from 'uuid';
 import * as fs from 'fs';
 import { File } from 'formidable';
 
-import * as EmailValidator from 'email-validator';
 import * as passwords from '@/lib/passwords';
 
 import { getStorageStrategy } from '@/lib/storageStrategies';
@@ -18,13 +17,14 @@ class UserUpdateError extends Error {
 
   constructor(code: string) {
     super();
-    this.name = 'UpdateUserError';
+    this.name = 'UserUpdateError';
     this.code = code;
   }
 }
 
 const uploadImage = async (image: File): Promise<string> => {
   const buffer = fs.readFileSync(image.path);
+  console.log(image.path, buffer);
   const extension = image.name.split('.').pop();
 
   let key: string | null = null;
@@ -33,7 +33,7 @@ const uploadImage = async (image: File): Promise<string> => {
     key = `${uuid()}.${extension}`;
   } while (await storage.exists(`avatars/${key}`));
 
-  await storage.create({ key, buffer });
+  await storage.create({ key: `avatars/${key}`, contents: buffer });
 
   return `/avatars/${key}`;
 };
@@ -55,19 +55,6 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
     user.name = payload.name.trim();
   }
 
-  if (payload.email) {
-    if (!EmailValidator.validate(payload.email)) {
-      throw new UserUpdateError('INVALID_EMAIL');
-    }
-
-    const userCount = await userRepository.count({ where: { email: payload.email } });
-    if (userCount !== 0) {
-      throw new UserUpdateError('USER_ALREADY_EXISTS');
-    }
-
-    user.email = payload.email;
-  }
-
   if (payload.password) {
     if (payload.password.trim().length < 8) {
       throw new UserUpdateError('PASSWORD_TOO_WEAK');
@@ -77,11 +64,11 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
       throw new UserUpdateError('PASSWORDS_DONT_MATCH');
     }
 
-    if (!passwords.verify(payload.oldPassword, user.password)) {
+    if (!payload.oldPassword || !(await passwords.verify(payload.oldPassword, user.password))) {
       throw new UserUpdateError('INVALID_CREDENTIALS');
     }
 
-    user.password = payload.password;
+    user.password = await passwords.hash(payload.password);
   }
 
   if (payload.image) {

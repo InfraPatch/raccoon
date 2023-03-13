@@ -55,7 +55,7 @@ class Firebase {
     });
   }
 
-  upload(key: string, contents: string): Promise<any> {
+  upload(key: string, contents: Buffer): Promise<any> {
     const file = this.storage.file(key);
 
     return new Promise((resolve, reject) => {
@@ -74,12 +74,12 @@ class Firebase {
     return file.createReadStream();
   }
 
-  read(key: string): Promise<string> {
+  read(key: string): Promise<Buffer> {
     const file = this.storage.file(key);
 
     return new Promise((resolve, reject) => {
       file.download()
-        .then(contents => resolve(contents.toString()))
+        .then(contents => resolve(contents[0]))
         .catch(reject);
     });
   }
