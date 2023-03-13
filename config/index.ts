@@ -13,7 +13,8 @@ const config: IConfig = {
     protocol: process.env.PROTOCOL,
     domain: process.env.DOMAIN,
     port: process.env.PORT && parseInt(process.env.PORT, 10),
-    nextauthUrl: process.env.NEXTAUTH_URL
+    nextauthUrl: process.env.NEXTAUTH_URL,
+    maxPayloadSize: process.env.MAX_PAYLOAD_SIZE || '10mb'
   },
 
   database: {

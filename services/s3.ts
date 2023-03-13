@@ -39,9 +39,9 @@ class S3 {
     });
   }
 
-  upload(key: string, contents: string): Promise<any> {
+  upload(key: string, contents: string, isPublic?: boolean): Promise<AWS.S3.PutObjectOutput> {
     const params = {
-      ACL: 'public-read',
+      ACL: isPublic ? 'public-read' : 'authenticated-read',
       Body: contents,
       Bucket: S3Config.bucket,
       ContentType: 'text/plain',

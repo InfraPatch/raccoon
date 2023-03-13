@@ -5,6 +5,7 @@ export interface AppConfig {
   domain: string;
   port: number;
   nextauthUrl: string;
+  maxPayloadSize: string;
 };
 
 export interface DatabaseConfig {

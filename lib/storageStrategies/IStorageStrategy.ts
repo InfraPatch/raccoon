@@ -1,6 +1,7 @@
 interface ICreateParams {
   key: string;
   contents: string;
+  isPublic?: string;
 }
 
 export default interface IStorageStrategy {

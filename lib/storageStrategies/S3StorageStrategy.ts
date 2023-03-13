@@ -3,7 +3,7 @@ import IStorageStrategy from './IStorageStrategy';
 
 class S3StorageStrategy implements IStorageStrategy {
   async create(params) {
-    await new S3().upload(params.key, params.contents);
+    await new S3().upload(params.key, params.contents, params.isPublic);
   }
 
   async get(key) {
