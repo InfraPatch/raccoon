@@ -47,7 +47,7 @@ const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
     navigation.push(SEPARATOR);
 
     navigation.push({
-      title: 'Admin'
+      title: t('pages.admin')
     });
 
     navigation.push(SEPARATOR);
