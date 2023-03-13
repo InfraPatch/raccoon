@@ -2,7 +2,9 @@
   "pages": {
     "home": "Home",
     "my-contracts": "My Contracts",
-    "make-admin": "Add Administrator"
+    "docs": "Documentation",
+    "make-admin": "Add Administrator",
+    "admin-docs": "Admin documentation"
   },
 
   "admin": {

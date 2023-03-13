@@ -15,5 +15,21 @@ module.exports = withImages(withMDX({
     ]
   },
 
-  i18n
+  i18n,
+
+  async redirects() {
+    return [
+      {
+        source: '/docs',
+        destination: '/docs/getting-started',
+        permanent: true
+      },
+
+      {
+        source: '/docs/admin',
+        destination: '/docs/admin/getting-started',
+        permanent: true
+      }
+    ];
+  }
 }));

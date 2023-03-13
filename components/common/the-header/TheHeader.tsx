@@ -33,7 +33,7 @@ const TheHeader = () => {
             <HeaderLink>{ t('home') }</HeaderLink>
           </Link>
 
-          <Link href="/about">
+          <Link href="/docs">
             <HeaderLink>{ t('how-it-works') }</HeaderLink>
           </Link>
 

@@ -2,7 +2,7 @@ import { signOut } from 'next-auth/client';
 
 import { User } from '@/db/models/auth/User';
 
-import { LogOut, Star } from 'react-feather';
+import { Book, LogOut, Star } from 'react-feather';
 
 import UserProfilePicture, { UserProfilePictureSize } from '../common/UserProfilePicture';
 import DashboardNavigation, { NavigationSeparator } from '../common/navigation/DashboardNavigation';
@@ -32,15 +32,30 @@ const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
       href: '/dashboard/contracts',
       icon: <Edit3 />,
       label: t('pages.my-contracts')
+    },
+
+    {
+      href: '/docs',
+      icon: <Book />,
+      label: t('pages.docs'),
+      newtab: true
     }
   ];
 
   if (user.isAdmin) {
     navigation.push(SEPARATOR);
+
     navigation.push({
       href: '/dashboard/admin/make-admin',
       icon: <Star />,
       label: t('pages.make-admin')
+    });
+
+    navigation.push({
+      href: '/docs/admin',
+      icon: <Book />,
+      label: t('pages.admin-docs'),
+      newtab: true
     });
   }
 

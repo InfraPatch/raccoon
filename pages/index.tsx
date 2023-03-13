@@ -6,13 +6,13 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Illustration from '@/components/common/illustrations/Illustration';
 import Button, { ButtonSize } from '@/components/common/button/Button';
 
-import toaster from '@/lib/toaster';
+import router from 'next/router';
 
 const Home = () => {
   const { t } = useTranslation('home');
 
   const handleCTAClick = () => {
-    toaster.info('Work in progress!');
+    router.push('/dashboard');
   };
 
   return (

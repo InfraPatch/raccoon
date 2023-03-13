@@ -2,7 +2,9 @@
   "pages": {
     "home": "Főoldal",
     "my-contracts": "Szerződéseim",
-    "add-administrator": "Admin hozzáadása"
+    "docs": "Dokumentáció",
+    "make-admin": "Admin hozzáadása",
+    "admin-docs": "Admin dokumentáció"
   },
 
   "admin": {
