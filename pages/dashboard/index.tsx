@@ -5,6 +5,7 @@ import { getSession, signOut } from 'next-auth/client';
 import { redirectIfAnonymous } from '@/lib/redirects';
 
 import { User } from '@/db/models/auth/User';
+import Box from '@/components/common/box/Box';
 
 export interface DashboardHomePageProps {
   user: User;
@@ -18,11 +19,17 @@ const DashboardHomePage = ({ user }: DashboardHomePageProps) => {
 
   return (
     <DashboardLayout user={user}>
-      it works! welcome, { user.name }
+      <Box>
+        it works! welcome, { user.name }
 
-      <Button size={ButtonSize.SMALL} onClick={handleSignoutClick}>
-        Log out
-      </Button>
+        <Button size={ButtonSize.SMALL} onClick={handleSignoutClick}>
+          Log out
+        </Button>
+      </Box>
+
+      <Box>
+        another box
+      </Box>
     </DashboardLayout>
   );
 };
