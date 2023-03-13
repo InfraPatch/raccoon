@@ -119,7 +119,8 @@ export const UserSchema = {
     ...Adapters.TypeORM.Models.User.schema.columns,
 
     password: {
-      type: 'varchar'
+      type: 'varchar',
+      nullable: true
     },
 
     isAdmin: {
@@ -128,15 +129,18 @@ export const UserSchema = {
     },
 
     motherName: {
-      type: 'varchar'
+      type: 'varchar',
+      nullable: true
     },
 
     motherBirthDate: {
-      type: 'timestamp'
+      type: 'timestamp',
+      nullable: true
     },
 
     nationality: {
-      type: 'varchar'
+      type: 'varchar',
+      nullable: true
     },
 
     personalIdentifierType: {
@@ -146,15 +150,18 @@ export const UserSchema = {
     },
 
     personalIdentifier: {
-      type: 'varchar'
+      type: 'varchar',
+      nullable: true
     },
 
     phoneNumber: {
-      type: 'varchar'
+      type: 'varchar',
+      nullable: true
     },
 
     birthDate: {
-      type: 'timestamp'
+      type: 'timestamp',
+      nullable: true
     }
   }
 };
