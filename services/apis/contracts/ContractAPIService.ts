@@ -16,20 +16,20 @@ export interface ContractOptionAPIType {
   maximumValue?: number;
 };
 
-export interface CreateNewContractAPIRequest {
+export interface NewContractAPIRequest {
   friendlyName: string;
   description: string;
 };
 
-class ContractAPIService {
-  static NEW_CONTRACT_URL = '/api/users/new-contract';
+class ContractsAPIService {
+  static NEW_CONTRACT_URL = '/api/contracts/new-contract';
 
-  public async newContract(data: CreateNewContractAPIRequest): Promise<Contract> {
-    return axiosService.post(ContractAPIService.NEW_CONTRACT_URL, data)
+  public async newContract(data: NewContractAPIRequest): Promise<Contract> {
+    return axiosService.post(ContractsAPIService.NEW_CONTRACT_URL, data)
       .then(res => res.data);
   }
 }
 
 export {
-  ContractAPIService
+  ContractsAPIService
 };

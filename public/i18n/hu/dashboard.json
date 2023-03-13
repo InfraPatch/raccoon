@@ -40,6 +40,12 @@
       "email-field": "E-mail cím:",
       "submit": "Admin hozzáadása",
       "success": "Adminisztrátor sikeresen hozzáadva!"
+    },
+    "new-contract": {
+      "name-field": "Szerződés neve:",
+      "description-field": "Szerződés leírása:",
+      "submit": "Új szerződés létrehozása",
+      "success": "Szerződés sikeresen létrehozva!"
     }
   }
 }

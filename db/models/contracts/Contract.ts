@@ -44,8 +44,8 @@ export class Contract implements IContract {
       updatedAt: this.updatedAt,
       friendlyName: this.friendlyName,
       description: this.description,
-      files: this.files.map(file => omit(file.toJSON(), 'contract')),
-      options: this.options.map(option => omit(option.toJSON(), 'contract'))
+      files: this.files ? this.files.map(file => omit(file.toJSON(), 'contract')) : [],
+      options: this.options ? this.options.map(option => omit(option.toJSON(), 'contract')) : []
     };
   }
 }

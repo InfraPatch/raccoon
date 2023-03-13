@@ -40,6 +40,12 @@
       "email-field": "Email address:",
       "submit": "Add administrator",
       "success": "Administrator added successfully!"
+    },
+    "new-contract": {
+      "name-field": "Name of contract:",
+      "description-field": "Description of contract:",
+      "submit": "Create new contract",
+      "success": "Contract created successfully!"
     }
   }
 }
