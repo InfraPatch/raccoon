@@ -23,21 +23,21 @@
     "MESSAGE_TOO_SHORT": "A megadott üzenet legalább {{ min }} karakter hosszú kell legyen."
   },
 
-  "sign-in": {
+  "users": {
     "INVALID_CREDENTIALS": "Érvénytelen e-mail cím/jelszó kombináció.",
     "AUTH_FAILURE": "Egy váratlan hitelesítési hiba történt.",
-    "ACCESS_DENIED": "Belépés megtagadva."
-  },
+    "ACCESS_DENIED": "Belépés megtagadva.",
 
-  "register": {
     "NAME_TOO_SHORT": "A megadott név legalább {{ min }} karakter hosszú kell legyen.",
     "INVALID_EMAIL": "Az Ön által megadott email cím érvénytelen.",
     "PASSWORD_TOO_WEAK": "A megadott jelszó legalább {{ min }} karakter hosszú kell legyen.",
     "PASSWORDS_DONT_MATCH": "A megadott jelszavak nem egyeznek meg.",
-    "USER_ALREADY_EXISTS": "Már létezik egy felhasználó ezzel az e-mail címmel."
-  },
+    "USER_ALREADY_EXISTS": "Már létezik egy felhasználó ezzel az e-mail címmel.",
 
-  "make-admin": {
-    "USER_NOT_FOUND": "Nem létezik ezzel az e-mail címmel rendelkező felhasználó."
+    "USER_NOT_FOUND": "Nem létezik ezzel az e-mail címmel rendelkező felhasználó.",
+
+    "IMAGE_UPLOAD_FAILED": "Nem sikerült feltölteni a profilképet.",
+    "INVALID_PERSONAL_IDENTIFIER_TYPE": "Az azonosítási okirat típusa érvénytelen.",
+    "PERSONAL_IDENTIFIER_NOT_PROVIDED": "Nincs megadva az azonosító szám."
   }
 }

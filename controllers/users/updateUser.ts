@@ -89,16 +89,21 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
     user.motherBirthDate = payload.motherBirthDate;
   }
 
-  if (payload.personalIdentifierType) {
+  if (payload.nationality) {
+    user.nationality = payload.nationality;
+  }
+
+  if (typeof payload.personalIdentifierType !== 'undefined') {
     if (!Object.values(PersonalIdentifierType).includes(payload.personalIdentifierType)) {
       throw new UserUpdateError('INVALID_PERSONAL_IDENTIFIER_TYPE');
     }
 
     if (!payload.personalIdentifier || payload.personalIdentifier.trim().length === 0) {
-      throw new UserUpdateError('PERSONAL_IDENTIFIER_TYPE_NOT_PROVIDED');
+      throw new UserUpdateError('PERSONAL_IDENTIFIER_NOT_PROVIDED');
     }
 
     user.personalIdentifierType = payload.personalIdentifierType;
+    user.personalIdentifier = payload.personalIdentifier;
   }
 
   if (payload.phoneNumber) {

@@ -36,7 +36,7 @@ const LoginForm = () => {
       router.push('/dashboard');
     } catch (err) {
       if (err.response?.data?.error) {
-        toaster.danger(t(`errors:sign-in.${err.response.data.error}`));
+        toaster.danger(t(`errors:users.${err.response.data.error}`));
         return;
       }
 

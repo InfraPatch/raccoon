@@ -25,7 +25,7 @@ const RegisterForm = () => {
       const message = err.response?.data?.error;
 
       if (message && message !== 'INTERNAL_SERVER_ERROR') {
-        toaster.danger(t(`errors:register.${message}`, { ...err.response.data.details }));
+        toaster.danger(t(`errors:users.${message}`, { ...err.response.data.details }));
         return;
       }
 

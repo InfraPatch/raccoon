@@ -2,7 +2,7 @@ import { signOut } from 'next-auth/client';
 
 import { User } from '@/db/models/auth/User';
 
-import { Book, LogOut, Star, Layout } from 'react-feather';
+import { Book, LogOut, Star, Layout, User as UserIcon } from 'react-feather';
 
 import UserProfilePicture, { UserProfilePictureSize } from '../common/UserProfilePicture';
 import DashboardNavigation, { NavigationSeparator } from '../common/navigation/DashboardNavigation';
@@ -12,6 +12,8 @@ import { Edit3, Home } from 'react-feather';
 
 import { useTranslation } from 'next-i18next';
 
+import buildUrl from '@/lib/buildUrl';
+
 export interface DashboardSidebarProps {
   user: User;
 };
@@ -19,7 +21,7 @@ export interface DashboardSidebarProps {
 const SEPARATOR: NavigationSeparator = 0;
 
 const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
-  const handleSignoutClick = async () => await signOut();
+  const handleSignoutClick = async () => await signOut({ callbackUrl: buildUrl('/') });
   const { t } = useTranslation('dashboard');
 
   const navigation: ( NavigationLinkProps | NavigationTitleProps | NavigationSeparator )[] = [
@@ -33,6 +35,12 @@ const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
       href: '/dashboard/contracts',
       icon: <Edit3 />,
       label: t('pages.my-contracts')
+    },
+
+    {
+      href: '/dashboard/settings',
+      icon: <UserIcon />,
+      label: t('pages.user-settings')
     },
 
     {

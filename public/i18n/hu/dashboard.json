@@ -2,12 +2,37 @@
   "pages": {
     "home": "Főoldal",
     "my-contracts": "Szerződéseim",
+    "user-settings": "Felhasználói beállítások",
     "docs": "Dokumentáció",
     "admin": "Admin",
     "make-admin": "Admin hozzáadása",
     "admin-docs": "Admin dokumentáció",
     "new-contract": "Új szerződés létrehozása",
     "contracts": "Szerződések"
+  },
+
+  "settings": {
+    "user-settings": "Felhasználói beállítások",
+    "id-settings": "Azonosítási információk",
+    "password": "Jelszó",
+    "success": "Beállítások sikeresen mentve! Egyes beállítások csak a következő bejelentkezéskor lépnek érvénybe."
+  },
+
+  "user-fields": {
+    "name": "Teljes név",
+    "image": "Kép",
+
+    "new-password": "Új jelszó",
+    "new-password2": "Jelszó megerősítése",
+    "old-password": "Előző jelszó",
+
+    "mother-name": "Édesanya neve",
+    "mother-birthdate": "Édesanya születési dátuma",
+    "nationality": "Nemzetiség",
+    "id-doc-type": "Azonosítási okirat típusa",
+    "id-doc-number": "Azonosító szám",
+    "phone-number": "Telefonszám",
+    "birthdate": "Születési dátum"
   },
 
   "admin": {

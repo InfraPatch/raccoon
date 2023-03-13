@@ -19,12 +19,12 @@ const MakeAdminForm = () => {
         const message = err.response.data.error;
 
         if (message?.length) {
-          toaster.danger(t(`errors:make-admin.${message}`));
+          toaster.danger(t(`errors:users.${message}`));
           return;
         }
       }
 
-      toaster.danger('errors:INTERNAL_SERVER_ERROR');
+      toaster.danger(t('errors:INTERNAL_SERVER_ERROR'));
     } finally {
       setSubmitting(false);
     }

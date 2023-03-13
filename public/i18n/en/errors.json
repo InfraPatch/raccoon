@@ -23,21 +23,21 @@
     "MESSAGE_TOO_SHORT": "The message needs to be at least {{ min }} characters long."
   },
 
-  "sign-in": {
+  "users": {
     "INVALID_CREDENTIALS": "You have provided an invalid email/password combination.",
     "AUTH_FAILURE": "An unexpected authentication error has occurred.",
-    "ACCESS_DENIED": "Access denied."
-  },
+    "ACCESS_DENIED": "Access denied.",
 
-  "register": {
     "NAME_TOO_SHORT": "Your name needs to be at least {{ min }} characters long.",
     "INVALID_EMAIL": "You have provided an invalid email.",
     "PASSWORD_TOO_WEAK": "The password needs to be at least {{ min }} characters long.",
     "PASSWORDS_DONT_MATCH": "The provided passwords don't match.",
-    "USER_ALREADY_EXISTS": "There is aleady another user with this email address."
-  },
+    "USER_ALREADY_EXISTS": "There is aleady another user with this email address.",
 
-  "make-admin": {
-    "USER_NOT_FOUND": "No user with this email address could be found."
+    "USER_NOT_FOUND": "No user with this email address could be found.",
+
+    "IMAGE_UPLOAD_FAILED": "Failed to upload the profile picture.",
+    "INVALID_PERSONAL_IDENTIFIER_TYPE": "The personal identifier type is invalid.",
+    "PERSONAL_IDENTIFIER_NOT_PROVIDED": "You have not provided a personal identification number."
   }
 }

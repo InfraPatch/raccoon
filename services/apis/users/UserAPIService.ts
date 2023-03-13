@@ -15,7 +15,6 @@ export interface MakeAdminAPIResponse extends APIResponse {};
 
 export interface UpdateUserProfileAPIRequest {
   name?: string;
-  email?: string;
   image?: File;
 };
 
@@ -62,20 +61,20 @@ class UsersAPIService {
       payload.append('name', data.name);
     }
 
-    if (data.email) {
-      payload.append('email', data.email);
-    }
-
     if (data.image) {
       payload.append('image', data.image);
     }
 
-    if (data.password) {
+    if (data.password && data.password.length) {
       payload.append('password', data.password);
     }
 
-    if (data.password2) {
+    if (data.password2 && data.password2.length) {
       payload.append('password2', data.password2);
+    }
+
+    if (data.oldPassword && data.oldPassword.length) {
+      payload.append('oldPassword', data.oldPassword);
     }
 
     if (data.motherName) {

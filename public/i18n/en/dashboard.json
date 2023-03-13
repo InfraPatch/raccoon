@@ -2,12 +2,37 @@
   "pages": {
     "home": "Home",
     "my-contracts": "My Contracts",
+    "user-settings": "User settings",
     "docs": "Documentation",
     "admin": "Admin",
     "make-admin": "Add Administrator",
     "admin-docs": "Admin documentation",
     "new-contract": "Create new contract",
     "contracts": "Show all contracts"
+  },
+
+  "settings": {
+    "user-settings": "User settings",
+    "id-settings": "Identification information",
+    "password": "Password",
+    "success": "Settings updated successfully! Some settings will only get applied on the next login."
+  },
+
+  "user-fields": {
+    "name": "Name",
+    "image": "Image",
+
+    "new-password": "New password",
+    "new-password2": "Confirm new password",
+    "old-password": "Previous password",
+
+    "mother-name": "Mother's name",
+    "mother-birthdate": "Mother's birthdate",
+    "nationality": "Nationality",
+    "id-doc-type": "Identification document type",
+    "id-doc-number": "Personal identifier number",
+    "phone-number": "Phone number",
+    "birthdate": "Birth date"
   },
 
   "admin": {
