@@ -4,7 +4,9 @@
     "my-contracts": "Szerződéseim",
     "docs": "Dokumentáció",
     "make-admin": "Admin hozzáadása",
-    "admin-docs": "Admin dokumentáció"
+    "admin-docs": "Admin dokumentáció",
+    "new-contract": "Új szerződés létrehozása",
+    "contracts": "Szerződések"
   },
 
   "admin": {

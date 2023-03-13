@@ -2,11 +2,12 @@ import { signOut } from 'next-auth/client';
 
 import { User } from '@/db/models/auth/User';
 
-import { Book, LogOut, Star } from 'react-feather';
+import { Book, LogOut, Star, Layout } from 'react-feather';
 
 import UserProfilePicture, { UserProfilePictureSize } from '../common/UserProfilePicture';
 import DashboardNavigation, { NavigationSeparator } from '../common/navigation/DashboardNavigation';
 import { NavigationLinkProps } from '@/components/dashboard/common/navigation/NavigationLink';
+import { NavigationTitleProps } from '@/components/dashboard/common/navigation/NavigationTitle';
 import { Edit3, Home } from 'react-feather';
 
 import { useTranslation } from 'next-i18next';
@@ -21,7 +22,7 @@ const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
   const handleSignoutClick = async () => await signOut();
   const { t } = useTranslation('dashboard');
 
-  const navigation: ( NavigationLinkProps | NavigationSeparator )[] = [
+  const navigation: ( NavigationLinkProps | NavigationTitleProps | NavigationSeparator )[] = [
     {
       href: '/dashboard',
       icon: <Home />,
@@ -46,6 +47,12 @@ const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
     navigation.push(SEPARATOR);
 
     navigation.push({
+      title: 'Admin'
+    });
+
+    navigation.push(SEPARATOR);
+
+    navigation.push({
       href: '/dashboard/admin/make-admin',
       icon: <Star />,
       label: t('pages.make-admin')
@@ -56,6 +63,20 @@ const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
       icon: <Book />,
       label: t('pages.admin-docs'),
       newtab: true
+    });
+
+    navigation.push(SEPARATOR);
+
+    navigation.push({
+      href: '/dashboard/admin/new-contract',
+      icon: <Star />,
+      label: t('pages.new-contract')
+    });
+
+    navigation.push({
+      href: '/dashboard/admin/contracts',
+      icon: <Layout />,
+      label: t('pages.contracts')
     });
   }
 
