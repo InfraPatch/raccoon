@@ -31,5 +31,14 @@ module.exports = withImages(withMDX({
         permanent: true
       }
     ];
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: '/avatars/:key',
+        destination: '/api/avatars/:key'
+      }
+    ]
   }
 }));

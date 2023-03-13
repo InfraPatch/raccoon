@@ -45,7 +45,7 @@ const UserProfilePicture = ({ user, size }: UserProfilePictureProps) => {
           <img
             src={user.image}
             alt={userMonogram}
-            className="w-full h-full"
+            className="w-full h-full rounded-full"
           />
         </span>
       )}

@@ -102,7 +102,7 @@ export class User implements IUser {
       email: this.email,
       image: this.image,
       motherName: this.motherName,
-      motherBirthDate: this.motherBirthDate ? this.motherBirthDate.toUTCString : null,
+      motherBirthDate: this.motherBirthDate ? this.motherBirthDate.toUTCString() : null,
       nationality: this.nationality,
       personalIdentifierType: this.personalIdentifierType,
       personalIdentifier: this.personalIdentifier,
@@ -134,7 +134,7 @@ export const UserSchema = {
     },
 
     motherBirthDate: {
-      type: 'timestamp',
+      type: 'datetime',
       nullable: true
     },
 
@@ -160,7 +160,7 @@ export const UserSchema = {
     },
 
     birthDate: {
-      type: 'timestamp',
+      type: 'datetime',
       nullable: true
     }
   }
