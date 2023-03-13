@@ -21,7 +21,7 @@ const AuthPageLayout = ({ providers, children }: AuthPageLayoutProps) => {
             {children}
           </div>
 
-          {providers.length > 1 && (
+          {providers && providers.length > 1 && (
             <div className="flex-1 text-center">
               <SocialLogin providers={providers} />
             </div>
