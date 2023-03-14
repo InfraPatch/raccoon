@@ -22,6 +22,10 @@ export interface NewContractAPIRequest {
   file: File;
 };
 
+export interface GetContractAPIRequest {
+  id: number;
+};
+
 class ContractsAPIService {
   static NEW_CONTRACT_URL = '/api/contracts';
 

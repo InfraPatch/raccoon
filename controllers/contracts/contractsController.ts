@@ -5,6 +5,7 @@ import formidable from 'formidable';
 import { firstOf } from '../users/usersController';
 import { createContract } from './createContract';
 import { getContracts } from './getContracts';
+import { getContract } from './getContract';
 
 export const listContracts = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -23,6 +24,33 @@ export const listContracts = async (req: NextApiRequest, res: NextApiResponse) =
     });
   }
 };
+
+export const get = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query;
+
+  try {
+    const contract = await getContract({ id });
+
+    return res.json({
+      ok: true,
+      contracts: contract.toJSON()
+    });
+  } catch (err) {
+    if (err.name === 'GetContractError') {
+      return res.status(400).json({
+        ok: false,
+        error: err.code
+      });
+    }
+
+    console.error(err);
+
+    return res.status(500).json({
+      ok: false,
+      error: 'INTERNAL_SERVER_ERROR'
+    });
+  }
+}
 
 export const newContract = async (req: NextApiRequest, res: NextApiResponse) => {
   const form = new formidable.IncomingForm();
