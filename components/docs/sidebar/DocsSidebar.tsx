@@ -28,7 +28,7 @@ const DocsSidebar = () => {
   }
 
   return (
-    <div className="w-80">
+    <div className="md:w-80">
       <Box>
         <DocsNavigation items={navigation} />
       </Box>

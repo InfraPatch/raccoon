@@ -12,7 +12,7 @@ export interface ContentPageLayoutProps {
 };
 
 const ContentPageLayout = ({ title, subtitle, narrow, children }: ContentPageLayoutProps) => {
-  const wrapperClasses = clsx('w-full', 'mx-auto', {
+  const wrapperClasses = clsx('w-full', 'mx-auto', 'px-4', 'md:px-0', {
     'max-w-6xl': narrow
   });
 

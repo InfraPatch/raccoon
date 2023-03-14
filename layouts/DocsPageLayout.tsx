@@ -18,7 +18,7 @@ const DocsPageLayout = ({ title, description, url, children }: DocsPageLayoutPro
     <PageLayout>
       <Meta title={title} description={description} url={url} />
 
-      <section className="flex gap-6">
+      <section className="block md:flex gap-6 mx-4 md:mx-0">
         <DocsSidebar />
 
         <article className="flex-1">

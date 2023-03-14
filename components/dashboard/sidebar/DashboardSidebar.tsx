@@ -89,12 +89,12 @@ const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
   }
 
   return (
-    <aside className="overflow-y-auto flex flex-col w-64 bg-secondary shadow-lg py-6 px-5">
+    <aside className="overflow-y-auto flex flex-col md:w-64 bg-secondary shadow-lg py-6 px-5 h-full">
       <div className="text-accent text-2xl text-center mb-5">
         Project Raccoon
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 mb-4">
         <DashboardNavigation items={navigation} />
       </div>
 

@@ -7,7 +7,7 @@ export interface ColumnsProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivEl
 };
 
 const Columns = ({ children, ...rest }: ColumnsProps) => {
-  const classNames = clsx('flex', 'gap-6', rest.className);
+  const classNames = clsx('md:flex', 'gap-6', rest.className);
 
   return (
     <section {...rest} className={classNames}>

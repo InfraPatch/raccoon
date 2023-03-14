@@ -16,7 +16,7 @@ const AuthPageLayout = ({ providers, children }: AuthPageLayoutProps) => {
       <section className="container">
         <TheHeader />
 
-        <div className="max-w-4xl bg-secondary rounded shadow-md mx-auto my-8 px-8 py-6 flex items-center">
+        <div className="max-w-4xl bg-secondary rounded shadow-md mx-auto my-8 px-8 py-6 md:flex items-center">
           <div className="flex-1">
             {children}
           </div>

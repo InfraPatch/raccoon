@@ -1,7 +1,12 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+
 import { User } from '@/db/models/auth/User';
 
 import DashboardSidebar from '@/components/dashboard/sidebar/DashboardSidebar';
+import { Menu, X } from 'react-feather';
+
+import clsx from 'clsx';
 
 export interface DashboardLayoutProps {
   user: User;
@@ -9,12 +14,40 @@ export interface DashboardLayoutProps {
 };
 
 const DashboardLayout = ({ user, children }: DashboardLayoutProps) => {
-  return (
-    <section className="flex h-screen">
-      <DashboardSidebar user={user} />
+  const [ sidebarOpen, setSidebarOpen ] = useState(true);
 
-      <div className="flex-1 overflow-y-auto py-10 px-14">
+  const handleHamburgerClick = () => setSidebarOpen(currentState => !currentState);
+
+  const sidebarWrapperClassnames = clsx(
+    'md:block',
+    'md:h-full',
+    'fixed', 'top-0', 'left-0', 'bottom-0', 'md:static',
+    'transition-[left]', 'duration-200', 'ease-linear',
+    {
+      'left-[-100vw]': !sidebarOpen,
+      'left-0': sidebarOpen
+    }
+  );
+
+  const router = useRouter();
+
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [ router.pathname ]);
+
+  return (
+    <section className="md:flex h-screen">
+      <div className={sidebarWrapperClassnames}>
+        <DashboardSidebar user={user} />
+      </div>
+
+      <div className="flex-1 overflow-y-auto py-10 px-4 md:px-14">
         {children}
+      </div>
+
+      <div className="fixed bottom-0 right-0 p-4 bg-secondary md:hidden" onClick={handleHamburgerClick}>
+        {!sidebarOpen && <Menu />}
+        {sidebarOpen && <X />}
       </div>
     </section>
   );

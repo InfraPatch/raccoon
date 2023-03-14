@@ -7,17 +7,25 @@ const TheFooter = () => {
   const { t } = useTranslation('common');
 
   return (
-    <footer className="flex justify-between text-xs py-10 mt-10 border-t-2 border-accent">
-      <div>
+    <footer className="block md:flex justify-between text-xs px-4 md:px-0 py-10 mt-10 border-t-2 border-accent text-center md:text-left">
+      <div className="mb-4 md:mb-0">
         { t('copyright') }
       </div>
 
-      <nav className="flex items-center gap-10">
-        <Link href="/terms"><a>{ t('tos') }</a></Link>
-        <Link href="/privacy"><a>{ t('privacy') }</a></Link>
-        <Link href="/contact"><a>{t('contact')}</a></Link>
+      <nav className="block md:flex items-center gap-10">
+        <Link href="/terms">
+          <a className="block md:inline-block py-2 md:py-0">{ t('tos') }</a>
+        </Link>
+        <Link href="/privacy">
+          <a className="block md:inline-block py-2 md:py-0">{ t('privacy') }</a>
+        </Link>
+        <Link href="/contact">
+          <a className="block md:inline-block py-2 md:py-0">{t('contact')}</a>
+        </Link>
 
-        <ThemeSwitcher />
+        <div className="inline-block mx-auto my-4 md:my-0">
+          <ThemeSwitcher />
+        </div>
       </nav>
     </footer>
   );

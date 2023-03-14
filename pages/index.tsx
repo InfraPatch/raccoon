@@ -28,7 +28,7 @@ const Home = () => {
         url="/"
       />
 
-      <div className="text-center py-10">
+      <div className="text-center py-10 px-4 md:px-0">
         <div className="max-w-xl mx-auto mb-10">
           <h1 className="text-5xl mb-10 font-bold text-accent">
             { t('hero-slogan') }
