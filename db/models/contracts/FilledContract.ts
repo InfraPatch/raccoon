@@ -9,8 +9,9 @@ import omit from 'lodash.omit';
 
 export interface IFilledContract {
   id?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  friendlyName?: string;
   userId?: number;
   user?: IUser;
   buyerId?: number;
@@ -18,8 +19,8 @@ export interface IFilledContract {
   accepted?: boolean;
   contract?: IContract;
   options?: IFilledContractOption[];
-  sellerSignedAt?: Date;
-  buyerSignedAt?: Date;
+  sellerSignedAt?: Date | string;
+  buyerSignedAt?: Date | string;
 };
 
 @Entity()
@@ -32,6 +33,12 @@ export class FilledContract implements IFilledContract {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column()
+  friendlyName: string;
+
+  @Column({ nullable: true })
+  filename?: string;
 
   @ManyToOne(() => Contract)
   contract: Partial<Contract>;
@@ -72,13 +79,14 @@ export class FilledContract implements IFilledContract {
   toJSON(): IFilledContract {
     return {
       id: this.id,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
+      createdAt: this.createdAt && this.createdAt.toJSON(),
+      updatedAt: this.updatedAt && this.updatedAt.toJSON(),
+      friendlyName: this.friendlyName,
       contract: this.contract,
       options: this.options.map(option => omit(option.toJSON(), 'filledContract')),
       userId: this.userId,
-      sellerSignedAt: this.sellerSignedAt,
-      buyerSignedAt: this.buyerSignedAt
+      sellerSignedAt: this.sellerSignedAt && this.sellerSignedAt.toJSON(),
+      buyerSignedAt: this.buyerSignedAt && this.buyerSignedAt.toJSON()
     };
   }
 }

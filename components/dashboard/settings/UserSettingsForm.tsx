@@ -7,6 +7,7 @@ import { User } from '@/db/models/auth/User';
 import apiService from '@/services/apis';
 import toaster from '@/lib/toaster';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 import { UpdateUserProfileAPIRequest } from '@/services/apis/users/UserAPIService';
 
@@ -19,7 +20,9 @@ export interface UserSettingsFormProps {
 const UserSettingsForm = ({ user }: UserSettingsFormProps) => {
   const { t } = useTranslation([ 'common', 'dashboard', 'errors' ]);
 
-  const handleFormSubmit = async ({ name, image }: UpdateUserProfileAPIRequest, { setSubmitting }: FormikHelpers<UpdateUserProfileAPIRequest>) => {
+  const [ image, setImage ] = useState<File | null>(null);
+
+  const handleFormSubmit = async ({ name }: UpdateUserProfileAPIRequest, { setSubmitting }: FormikHelpers<UpdateUserProfileAPIRequest>) => {
     try {
       await apiService.users.updateUser({ name, image });
       toaster.success(t('dashboard:settings.success'));
@@ -55,7 +58,12 @@ const UserSettingsForm = ({ user }: UserSettingsFormProps) => {
 
           <div className="form-field">
             <label htmlFor="image">{ t('dashboard:user-fields.image') }:</label>
-            <Field type="file" name="image" />
+            <input
+              name="image"
+              id="image"
+              type="file"
+              onChange={e => setImage(e.currentTarget.files[0])}
+            />
           </div>
 
           <div className="form-field">
