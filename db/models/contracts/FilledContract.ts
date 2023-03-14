@@ -11,7 +11,8 @@ export interface IFilledContract {
   userId?: number;
   contract?: IContract;
   options?: IFilledContractOption[];
-  filledAt?: Date;
+  sellerSignedAt?: Date;
+  buyerSignedAt?: Date;
 };
 
 @Entity()
@@ -38,7 +39,10 @@ export class FilledContract implements IFilledContract {
   userId: number;
 
   @Column('timestamp', { nullable: true })
-  filledAt?: Date;
+  sellerSignedAt?: Date;
+
+  @Column('timestamp', { nullable: true })
+  buyerSignedAt?: Date;
 
   toJSON(): IFilledContract {
     return {
@@ -48,7 +52,8 @@ export class FilledContract implements IFilledContract {
       contract: this.contract,
       options: this.options.map(option => omit(option.toJSON(), 'filledContract')),
       userId: this.userId,
-      filledAt: this.filledAt
+      sellerSignedAt: this.sellerSignedAt,
+      buyerSignedAt: this.buyerSignedAt
     };
   }
 }

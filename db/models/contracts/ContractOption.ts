@@ -28,6 +28,7 @@ export interface IContractOption {
   replacementString?: string;
   minimumValue?: number;
   maximumValue?: number;
+  isSeller?: boolean;
 }
 
 @Entity()
@@ -68,6 +69,9 @@ export class ContractOption implements IContractOption {
   @Column('integer', { nullable: true })
   maximumValue?: number;
 
+  @Column('boolean', { default: false })
+  isSeller?: boolean;
+
   toJSON(): IContractOption {
     return {
       id: this.id,
@@ -81,7 +85,8 @@ export class ContractOption implements IContractOption {
       hint: this.hint,
       replacementString: this.replacementString,
       minimumValue: this.minimumValue,
-      maximumValue: this.maximumValue
+      maximumValue: this.maximumValue,
+      isSeller: this.isSeller
     };
   }
 }
