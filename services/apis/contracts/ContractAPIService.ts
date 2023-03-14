@@ -2,19 +2,6 @@ import axiosService from '@/services/axios';
 import { APIResponse } from '@/services/axios';
 
 import { Contract } from '@/db/models/contracts/Contract';
-import { ContractFile } from '@/db/models/contracts/ContractFile';
-import { ContractOption, ContractOptionType } from '@/db/models/contracts/ContractOption';
-
-export interface ContractOptionAPIType {
-  type: ContractOptionType;
-  priority: number;
-  friendlyName: string;
-  longDescription?: string;
-  hint?: string;
-  replacementString: string;
-  minimumValue?: number;
-  maximumValue?: number;
-};
 
 export interface NewContractAPIRequest {
   friendlyName: string;
@@ -29,6 +16,7 @@ export interface ContractIdAPIRequest {
 export interface GetContractAPIRequest extends ContractIdAPIRequest {};
 export interface DeleteContractAPIRequest extends ContractIdAPIRequest {};
 export interface UpdateContractAPIRequest extends NewContractAPIRequest, ContractIdAPIRequest {};
+export interface UpdateContractAPIResponse extends APIResponse {};
 export interface DeleteContractAPIResponse extends APIResponse {};
 
 export interface GetContractsAPIResponse extends APIResponse {
@@ -67,7 +55,7 @@ class ContractsAPIService {
       .then(res => res.data);
   }
 
-  public async updateContract(data: UpdateContractAPIRequest): Promise<Contract> {
+  public async updateContract(data: UpdateContractAPIRequest): Promise<UpdateContractAPIResponse> {
     const { id } = data;
     const payload = this.createContractData(data);
 

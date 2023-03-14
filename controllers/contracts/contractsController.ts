@@ -35,7 +35,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.json({
       ok: true,
-      contracts: contract.toJSON()
+      contract: contract.toJSON()
     });
   } catch (err) {
     if (err.name === 'GetContractError') {
