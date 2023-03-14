@@ -6,6 +6,7 @@ import { firstOf } from '../users/usersController';
 import { createContract } from './createContract';
 import { getContracts } from './getContracts';
 import { getContract } from './getContract';
+import { deleteContract } from './deleteContract';
 
 export const listContracts = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -51,6 +52,22 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 }
+
+export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query;
+
+  try {
+    await deleteContract({ id: parseInt(Array.isArray(id) ? id[0] : id) });
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+
+    return res.status(500).json({
+      ok: false,
+      error: 'INTERNAL_SERVER_ERROR'
+    });
+  }
+};
 
 export const newContract = async (req: NextApiRequest, res: NextApiResponse) => {
   const form = new formidable.IncomingForm();
