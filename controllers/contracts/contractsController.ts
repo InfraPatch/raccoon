@@ -22,7 +22,7 @@ export const listContracts = async (req: NextApiRequest, res: NextApiResponse) =
       error: 'INTERNAL_SERVER_ERROR'
     });
   }
-}
+};
 
 export const newContract = async (req: NextApiRequest, res: NextApiResponse) => {
   const form = new formidable.IncomingForm();

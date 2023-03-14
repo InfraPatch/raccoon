@@ -6,8 +6,8 @@ export const getContracts = async (): Promise<Contract[]> => {
   const contractRepository = db.getRepository(Contract);
 
   const contracts = await contractRepository.createQueryBuilder('contract')
-  .select(['contract.id', 'contract.friendlyName', 'contract.description', 'contract.filename', 'contract.updatedAt'])
-  .getMany();
+    .select(['contract.id', 'contract.friendlyName', 'contract.description', 'contract.filename', 'contract.updatedAt'])
+    .getMany();
 
   return contracts;
 };
