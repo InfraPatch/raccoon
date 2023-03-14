@@ -2,7 +2,8 @@ import axiosService from '@/services/axios';
 import { APIResponse } from '@/services/axios';
 
 import { Contract } from '@/db/models/contracts/Contract';
-import { ContractOptionType } from '@/db/models/contracts/ContractOption';
+import { ContractFile } from '@/db/models/contracts/ContractFile';
+import { ContractOption, ContractOptionType } from '@/db/models/contracts/ContractOption';
 
 export interface ContractOptionAPIType {
   type: ContractOptionType;
@@ -22,7 +23,7 @@ export interface NewContractAPIRequest {
 };
 
 class ContractsAPIService {
-  static NEW_CONTRACT_URL = '/api/contracts/new-contract';
+  static NEW_CONTRACT_URL = '/api/contracts';
 
   public async newContract(data: NewContractAPIRequest): Promise<Contract> {
     const payload = new FormData();
@@ -35,13 +36,11 @@ class ContractsAPIService {
       payload.append('description', data.description);
     }
 
-    console.log(data);
-
     if (data.file) {
       payload.append('file', data.file);
     }
 
-    return axiosService.post(ContractsAPIService.NEW_CONTRACT_URL, data)
+    return axiosService.post(ContractsAPIService.NEW_CONTRACT_URL, payload)
       .then(res => res.data);
   }
 }
