@@ -1,6 +1,9 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { User, IUser } from '../auth/User';
 import { Contract, IContract } from './Contract';
 import { FilledContractOption, IFilledContractOption } from './FilledContractOption';
+
+import db from '../../../services/db';
 
 import omit from 'lodash.omit';
 
@@ -9,6 +12,10 @@ export interface IFilledContract {
   createdAt?: Date;
   updatedAt?: Date;
   userId?: number;
+  user?: IUser;
+  buyerId?: number;
+  buyer?: IUser;
+  accepted?: boolean;
   contract?: IContract;
   options?: IFilledContractOption[];
   sellerSignedAt?: Date;
@@ -38,11 +45,29 @@ export class FilledContract implements IFilledContract {
   @Column('integer')
   userId: number;
 
+  @Column('integer')
+  buyerId: number;
+
+  @Column('boolean')
+  accepted: boolean;
+
   @Column('timestamp', { nullable: true })
   sellerSignedAt?: Date;
 
   @Column('timestamp', { nullable: true })
   buyerSignedAt?: Date;
+
+  async getUser(id: number): Promise<IUser | null> {
+    await db.prepare();
+    const userRepository = db.getRepository(User);
+
+    const user = await userRepository.findOne(id);
+    if (!user) {
+      return null;
+    }
+
+    return user;
+  }
 
   toJSON(): IFilledContract {
     return {

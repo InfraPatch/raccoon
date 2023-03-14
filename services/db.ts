@@ -8,7 +8,6 @@ import { UserSchema } from '../db/models/auth/User';
 import { VerificationRequestSchema } from '../db/models/auth/VerificationRequest';
 
 import { Contract } from '../db/models/contracts/Contract';
-import { ContractFile } from '../db/models/contracts/ContractFile';
 import { ContractOption } from '../db/models/contracts/ContractOption';
 import { FilledContract } from '../db/models/contracts/FilledContract';
 import { FilledContractOption } from '../db/models/contracts/FilledContractOption';
@@ -51,7 +50,6 @@ const connectionOptions: ConnectionOptions = {
     VerificationRequest,
 
     Contract,
-    ContractFile,
     ContractOption,
     FilledContract,
     FilledContractOption

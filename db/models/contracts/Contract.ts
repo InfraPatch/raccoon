@@ -1,5 +1,4 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { ContractFile, IContractFile } from './ContractFile';
 import { ContractOption, IContractOption } from './ContractOption';
 
 import omit from 'lodash.omit';
@@ -10,7 +9,7 @@ export interface IContract {
   updatedAt?: Date;
   friendlyName?: string;
   description?: string;
-  files?: IContractFile[];
+  filename?: string;
   options?: IContractOption[];
 };
 
@@ -31,8 +30,8 @@ export class Contract implements IContract {
   @Column()
   description: string;
 
-  @OneToMany(() => ContractFile, contractFile => contractFile.contract)
-  files: Partial<ContractFile[]>;
+  @Column()
+  filename: string;
 
   @OneToMany(() => ContractOption, contractOption => contractOption.contract)
   options: Partial<ContractOption[]>;
@@ -44,7 +43,7 @@ export class Contract implements IContract {
       updatedAt: this.updatedAt,
       friendlyName: this.friendlyName,
       description: this.description,
-      files: this.files ? this.files.map(file => omit(file.toJSON(), 'contract')) : [],
+      filename: this.filename,
       options: this.options ? this.options.map(option => omit(option.toJSON(), 'contract')) : []
     };
   }
