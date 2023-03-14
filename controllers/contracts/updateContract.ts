@@ -53,19 +53,11 @@ export const updateContract = async ({ id, friendlyName, description, file }: Co
     }
   }
 
-  let updateDict : ContractUpdateFields = {};
-
-  if (friendlyName) {
-    updateDict.friendlyName = friendlyName;
-  }
-
-  if (description) {
-    updateDict.description = description;
-  }
-
-  if (filename) {
-    updateDict.filename = filename;
-  }
+  const updateDict : ContractUpdateFields = {
+    ...(friendlyName && { friendlyName }),
+    ...(description && { description }),
+    ...(filename && { filename })
+  };
 
   const updateResult: UpdateResult = await contractRepository.update({ id }, updateDict);
 
