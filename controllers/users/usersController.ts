@@ -8,7 +8,7 @@ import { getUser } from './getUser';
 import { makeAdmin as _makeAdmin } from './makeAdmin';
 import { updateUser } from './updateUser';
 
-const firstOf = <T>(field: T | T[] | undefined): T | undefined => {
+export const firstOf = <T>(field: T | T[] | undefined): T | undefined => {
   if (typeof field === 'undefined') {
     return undefined;
   }

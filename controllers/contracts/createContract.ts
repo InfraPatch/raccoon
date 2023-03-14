@@ -1,9 +1,18 @@
 import db from '@/services/db';
 import { Contract } from '@/db/models/contracts/Contract';
 
+import { v4 as uuid } from 'uuid';
+
+import * as fs from 'fs';
+import { File } from 'formidable';
+
+import { getStorageStrategy } from '@/lib/storageStrategies';
+const storage = getStorageStrategy();
+
 export interface ContractCreatorFields {
   friendlyName?: string;
   description?: string;
+  file?: File;
 };
 
 export class ContractCreationError extends Error {
@@ -16,7 +25,23 @@ export class ContractCreationError extends Error {
   }
 }
 
-export const createContract = async ({ friendlyName, description }: ContractCreatorFields): Promise<Contract> => {
+const uploadFile = async (file: File): Promise<string> => {
+  console.log("file path is " + file.path);
+  const buffer = fs.readFileSync(file.path);
+  const extension = file.name.split('.').pop();
+
+  let key: string | null = null;
+
+  do {
+    key = `${uuid()}.${extension}`;
+  } while (await storage.exists(`templates/${key}`));
+
+  await storage.create({ key: `templates/${key}`, contents: buffer });
+
+  return `/templates/${key}`;
+};
+
+export const createContract = async ({ friendlyName, description, file }: ContractCreatorFields): Promise<Contract> => {
   await db.prepare();
   const contractRepository = db.getRepository(Contract);
 
@@ -36,7 +61,20 @@ export const createContract = async ({ friendlyName, description }: ContractCrea
     throw new ContractCreationError('CONTRACT_ALREADY_EXISTS');
   }
 
-  const contract = contractRepository.create({ friendlyName, description });
+  let filename;
+
+  if (!file) {
+    throw new ContractCreationError('FILE_MISSING');
+  }
+
+  try {
+    filename = await uploadFile(file);
+  } catch (err) {
+    throw new ContractCreationError('FILE_UPLOAD_FAILED');
+  }
+
+  console.log("filename is " + filename);
+  const contract = contractRepository.create({ friendlyName, description, filename });
   await contractRepository.insert(contract);
   return contract;
 };

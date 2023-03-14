@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Field, Form, Formik, FormikHelpers, ErrorMessage } from 'formik';
 import Button, { ButtonSize } from '@/components/common/button/Button';
 
@@ -10,12 +11,18 @@ import apiService from '@/services/apis';
 import toaster from '@/lib/toaster';
 import { useTranslation } from 'react-i18next';
 
+interface NewContractFormRequest {
+  friendlyName: string;
+  description: string;
+}
+
 const NewContractForm = () => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
+  const [ file, setFile ] = useState<File | null>(null);
 
-  const handleFormSubmit = async ({ friendlyName, description }: NewContractAPIRequest, { setSubmitting }: FormikHelpers<NewContractAPIRequest>) => {
+  const handleFormSubmit = async ({ friendlyName, description }: NewContractFormRequest, { setSubmitting }: FormikHelpers<NewContractAPIRequest>) => {
     try {
-      await apiService.contracts.newContract({ friendlyName, description });
+      await apiService.contracts.newContract({ friendlyName, description, file });
       toaster.success(t('dashboard:admin.new-contract.success'));
     } catch (err) {
       if (err.response?.data?.error) {
@@ -51,6 +58,12 @@ const NewContractForm = () => {
             <label htmlFor="description">{ t('dashboard:admin.new-contract.description-field') }</label>
             <Field name="description" type="description" />
             <ErrorMessage name="description" component={CompactDangerMessage} />
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="file">{ t('dashboard:admin.new-contract.file-field') }</label>
+            <input name="file" type="file" id="file" required onChange={e => setFile(e.currentTarget.files[0])} />
+            <ErrorMessage name="file" component={CompactDangerMessage} />
           </div>
 
           <div className="form-field">

@@ -18,12 +18,29 @@ export interface ContractOptionAPIType {
 export interface NewContractAPIRequest {
   friendlyName: string;
   description: string;
+  file: File;
 };
 
 class ContractsAPIService {
   static NEW_CONTRACT_URL = '/api/contracts/new-contract';
 
   public async newContract(data: NewContractAPIRequest): Promise<Contract> {
+    const payload = new FormData();
+
+    if (data.friendlyName) {
+      payload.append('friendlyName', data.friendlyName);
+    }
+
+    if (data.description) {
+      payload.append('description', data.description);
+    }
+
+    console.log(data);
+
+    if (data.file) {
+      payload.append('file', data.file);
+    }
+
     return axiosService.post(ContractsAPIService.NEW_CONTRACT_URL, data)
       .then(res => res.data);
   }

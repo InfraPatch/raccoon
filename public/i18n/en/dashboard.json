@@ -44,6 +44,7 @@
     "new-contract": {
       "name-field": "Name of contract:",
       "description-field": "Description of contract:",
+      "file-field": "Document template of contract:",
       "submit": "Create new contract",
       "success": "Contract created successfully!"
     }

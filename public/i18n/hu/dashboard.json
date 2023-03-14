@@ -44,6 +44,7 @@
     "new-contract": {
       "name-field": "Szerződés neve:",
       "description-field": "Szerződés leírása:",
+      "file-field": "Szerződés sablon dokumentuma:",
       "submit": "Új szerződés létrehozása",
       "success": "Szerződés sikeresen létrehozva!"
     }
