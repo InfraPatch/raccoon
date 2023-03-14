@@ -103,24 +103,29 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
           birthDate: fields.birthDate && new Date(firstOf(fields.birthDate))
         });
 
-        return res.json({
+        res.json({
           ok: true,
           user
         });
+
+        return resolve();
       } catch (err) {
         if (err.name === 'UserUpdateError') {
-          return res.status(400).json({
+          res.status(400).json({
             ok: false,
             error: err.code
           });
+          return resolve();
         }
 
         console.error(err);
 
-        return res.status(500).json({
+        res.status(500).json({
           ok: false,
           error: 'INTERNAL_SERVER_ERROR'
         });
+
+        return resolve();
       }
     });
   });
