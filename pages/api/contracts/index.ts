@@ -11,5 +11,6 @@ export const config = {
 };
 
 export default bar({
-  post: ensureAdministrator(contractsController.newContract)
+  post: ensureAdministrator(contractsController.newContract),
+  get: ensureAdministrator(contractsController.listContracts)
 });

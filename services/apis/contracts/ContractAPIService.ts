@@ -23,7 +23,7 @@ export interface NewContractAPIRequest {
 };
 
 class ContractsAPIService {
-  static NEW_CONTRACT_URL = '/api/contracts/new-contract';
+  static NEW_CONTRACT_URL = '/api/contracts';
 
   public async newContract(data: NewContractAPIRequest): Promise<Contract> {
     const payload = new FormData();
