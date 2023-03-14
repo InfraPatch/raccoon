@@ -124,7 +124,7 @@ export const fillContractOptions = async (userEmail: string, contractId: number,
   }
 
   const filledContract = await filledContractRepository.findOne(contractId);
-  if (!filledContract || filledContract?.buyerId !== user.id) {
+  if (!filledContract || (filledContract.userId !== user.id && filledContract.buyerId !== user.id)) {
     throw new FilledContractUpdateError('FILLED_CONTRACT_NOT_FOUND');
   }
 
