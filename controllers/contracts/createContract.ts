@@ -26,7 +26,6 @@ export class ContractCreationError extends Error {
 }
 
 const uploadFile = async (file: File): Promise<string> => {
-  console.log("file path is " + file.path);
   const buffer = fs.readFileSync(file.path);
   const extension = file.name.split('.').pop();
 
@@ -73,7 +72,6 @@ export const createContract = async ({ friendlyName, description, file }: Contra
     throw new ContractCreationError('FILE_UPLOAD_FAILED');
   }
 
-  console.log("filename is " + filename);
   const contract = contractRepository.create({ friendlyName, description, filename });
   await contractRepository.insert(contract);
   return contract;
