@@ -53,7 +53,7 @@ export const updateContract = async ({ id, friendlyName, description, file }: Co
     }
   }
 
-  const updateDict : ContractUpdateFields = {
+  const updateDict: ContractUpdateFields = {
     ...(friendlyName && { friendlyName }),
     ...(description && { description }),
     ...(filename && { filename })
