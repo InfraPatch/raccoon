@@ -25,7 +25,7 @@ export class ContractCreationError extends Error {
   }
 }
 
-const uploadFile = async (file: File): Promise<string> => {
+export const uploadFile = async (file: File): Promise<string> => {
   const buffer = fs.readFileSync(file.path);
   const extension = file.name.split('.').pop();
 
@@ -60,7 +60,7 @@ export const createContract = async ({ friendlyName, description, file }: Contra
     throw new ContractCreationError('CONTRACT_ALREADY_EXISTS');
   }
 
-  let filename;
+  let filename : string | null = null;
 
   if (!file) {
     throw new ContractCreationError('FILE_MISSING');

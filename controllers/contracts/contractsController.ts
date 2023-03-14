@@ -7,6 +7,7 @@ import { createContract } from './createContract';
 import { getContracts } from './getContracts';
 import { getContract } from './getContract';
 import { deleteContract } from './deleteContract';
+import { updateContract } from './updateContract';
 
 export const listContracts = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -30,7 +31,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
 
   try {
-    const contract = await getContract({ id });
+    const contract = await getContract({ id: parseInt(Array.isArray(id) ? id[0] : id) });
 
     return res.json({
       ok: true,
@@ -51,7 +52,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
       error: 'INTERNAL_SERVER_ERROR'
     });
   }
-}
+};
 
 export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
@@ -67,6 +68,54 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
       error: 'INTERNAL_SERVER_ERROR'
     });
   }
+};
+
+export const update = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query;
+  const form = new formidable.IncomingForm();
+
+  return new Promise<void>(resolve => {
+    form.parse(req, async (err, fields, files) => {
+      if (err) {
+        res.status(500).json({
+          ok: false,
+          error: 'INTERNAL_SERVER_ERROR'
+        });
+
+        return resolve();
+      }
+
+      try {
+        await updateContract({
+          id: parseInt(Array.isArray(id) ? id[0] : id),
+          friendlyName: firstOf(fields.friendlyName),
+          description: firstOf(fields.description),
+          file: firstOf(files.file)
+        });
+
+        res.json({
+          ok: true
+        });
+        return resolve();
+      } catch (err) {
+        if (err.name === 'ContractUpdateError') {
+          res.status(400).json({
+            ok: false,
+            error: err.code
+          });
+          return resolve();
+        }
+
+        console.error(err);
+
+        res.status(500).json({
+          ok: false,
+          error: 'INTERNAL_SERVER_ERROR'
+        });
+        return resolve();
+      }
+    });
+  });
 };
 
 export const newContract = async (req: NextApiRequest, res: NextApiResponse) => {
