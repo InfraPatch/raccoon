@@ -24,7 +24,9 @@ export class FilledContractOption implements IFilledContractOption {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => FilledContract, filledContract => filledContract.options)
+  @ManyToOne(() => FilledContract, filledContract => filledContract.options, {
+    onDelete: 'CASCADE'
+  })
   filledContract: Partial<FilledContract>;
 
   @ManyToOne(() => ContractOption)

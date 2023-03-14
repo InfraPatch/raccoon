@@ -30,7 +30,7 @@ export class Contract implements IContract {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   filename: string;
 
   @OneToMany(() => ContractOption, contractOption => contractOption.contract)
