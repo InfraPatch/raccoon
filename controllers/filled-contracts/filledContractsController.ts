@@ -12,7 +12,7 @@ const acceptOrDecline = async (action: 'accept' | 'decline', req: NextApiRequest
 
   try {
     await acceptOrDeclineFilledContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id), action);
-    return res.json({ ok: true })
+    return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'FilledContractUpdateError') {
       return res.status(400).json({
@@ -128,7 +128,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     await deleteFilledContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
-    return res.json({ ok: true })
+    return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'DeleteContractError') {
       return res.status(400).json({
