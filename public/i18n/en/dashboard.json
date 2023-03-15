@@ -60,6 +60,10 @@
       "decline": "Decline",
       "accept-success": "Request accepted successfully!",
       "decline-success": "Request declined successfully!"
+    },
+    "new": {
+      "choose-contract": "Create new contract",
+      "choose-contract-title": "What kind of contract would you like to create? Please choose from below!"
     }
   },
 

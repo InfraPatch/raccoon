@@ -60,6 +60,10 @@
       "decline": "Visszautasít",
       "accept-success": "Kérelem sikeresen elfogadva!",
       "decline-success": "Kérelem sikeresen visszautasítva!"
+    },
+    "new": {
+      "choose-contract": "Új szerződés kötése",
+      "choose-contract-title": "Milyen fajta szerződést szeretne kötni? Válasszon az alábbiak közül!"
     }
   },
 
