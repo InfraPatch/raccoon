@@ -2,6 +2,9 @@ import { HTMLAttributes } from 'react';
 
 import HomeHero from '@/assets/images/home-hero.svg';
 
+import Contract from '@/assets/images/contract.svg'
+import Agreement from '@/assets/images/agreement.svg';
+
 import PrivacyPolicy from '@/assets/images/privacy-policy.svg';
 import Terms from '@/assets/images/terms.svg';
 import Contact from '@/assets/images/contact.svg';
@@ -28,6 +31,9 @@ const IllustrationWrapper = ({ image, center, ...props }: IllustrationWrapperPro
 
 const Illustration = {
   HomeHero: (props: P) => <IllustrationWrapper image={HomeHero} {...props} />,
+
+  Contract: (props: P) => <IllustrationWrapper image={Contract} {...props} />,
+  Agreement: (props: P) => <IllustrationWrapper image={Agreement} {...props} />,
 
   PrivacyPolicy: (props: P) => <IllustrationWrapper image={PrivacyPolicy} {...props} />,
   Terms: (props: P) => <IllustrationWrapper image={Terms} {...props} />,

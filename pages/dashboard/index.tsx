@@ -10,15 +10,22 @@ import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Illustration from '@/components/common/illustrations/Illustration';
+import { useRouter } from 'next/router';
 
 export interface DashboardHomePageProps {
   user: User;
 }
 
 const DashboardHomePage = ({ user }: DashboardHomePageProps) => {
-  const handleSignoutClick = async (e) => {
-    e.preventDefault();
-    await signOut();
+  const router = useRouter()
+  const handleNewContract = (e) => {
+    e.preventDefault()
+    router.push("/dashboard/contracts/new")
+  };
+  const handleMyContract = (e) => {
+    e.preventDefault()
+    router.push("/dashboard/contracts")
   };
 
   return (
@@ -26,29 +33,31 @@ const DashboardHomePage = ({ user }: DashboardHomePageProps) => {
       <Columns>
         <Column>
           <Box>
-            it works! welcome, { user.name }
-
-            <Button size={ButtonSize.SMALL} onClick={handleSignoutClick}>
-              Log out
-            </Button>
-          </Box>
-
-          <Box>
-            one more box here as well
+            <div className="text-center">
+              <Illustration.Contract className="max-w-1/2 max-h-500 mx-auto mb-10" />
+            
+              <div className="text-lg">
+                Create a new contract<br/><br/>
+              </div>
+              <Button size={ButtonSize.SMALL} onClick={handleNewContract}>
+                New Contract
+              </Button>
+            </div>
           </Box>
         </Column>
 
         <Column>
           <Box>
-            another box
-          </Box>
-
-          <Box>
-            yet another box
-          </Box>
-
-          <Box>
-            one more box
+            <div className="text-center">
+              <Illustration.Agreement className="max-w-1/2 max-h-500 mx-auto mb-10" />
+              
+              <div className="text-lg">
+                Check out your contracts<br/><br/>
+              </div>
+              <Button size={ButtonSize.SMALL} onClick={handleMyContract}>
+                My Contracts
+              </Button>
+            </div>
           </Box>
         </Column>
       </Columns>
