@@ -16,6 +16,7 @@ import apiService from '@/services/apis';
 import { GetContractAPIResponse } from '@/services/apis/contracts/ContractAPIService';
 import { Contract } from '@/db/models/contracts/Contract';
 import EditContractForm from '@/components/dashboard/admin/contracts/EditContractForm';
+import ContractOptionForm from '@/components/dashboard/admin/contracts/ContractOptionForm';
 
 export interface DashboardContractPageProps {
   user: User;
@@ -30,6 +31,11 @@ const DashboardContractPage = ({ user, contract }: DashboardContractPageProps) =
           <EditContractForm contractProp={contract} />
         </Column>
       </Columns>
+      <Columns>
+        <Column>
+          <ContractOptionForm contract={contract} />
+        </Column>
+      </Columns>
     </DashboardLayout>
   );
 };
@@ -42,6 +48,7 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
   }
 
   apiService.contracts.setHeaders(req.headers);
+  apiService.contractOptions.setHeaders(req.headers);
 
   const { id } = query;
   const contractId : number = parseInt(Array.isArray(id) ? id[0] : id);

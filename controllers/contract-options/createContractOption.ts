@@ -52,8 +52,8 @@ export const createContractOption = async (payload: ContractOptionCreatorFields)
   payload.replacementString = payload.replacementString.trim();
   payload.hint = payload.hint ? payload.hint.trim() : '';
   payload.longDescription = payload.longDescription ? payload.longDescription.trim() : '';
-  payload.minimumValue = isNaN(payload.minimumValue) ? null : payload.minimumValue;
-  payload.maximumValue = isNaN(payload.maximumValue) ? null : payload.maximumValue;
+  payload.minimumValue = (isNaN(payload.minimumValue) || payload.minimumValue === -1) ? null : payload.minimumValue;
+  payload.maximumValue = (isNaN(payload.maximumValue) || payload.maximumValue === -1) ? null : payload.maximumValue;
 
   if (payload.minimumValue !== null && payload.maximumValue !== null && payload.minimumValue > payload.maximumValue) {
     throw new ContractOptionCreationError('CONSTRAINTS_INVALID');

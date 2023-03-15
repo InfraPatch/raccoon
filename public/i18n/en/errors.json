@@ -71,5 +71,15 @@
     "FIELD_INVALID_EMAIL": "The email address provided in the \"{{ friendlyName }}\" field is invalid.",
     "FIELD_DATE_INVALID": "The date provided in the \"{{ friendlyName }}\" field is invalid.",
     "FIELD_URL_INVALID": "The URL address provided in the \"{{ friendlyName }}\" field is invalid."
+  },
+
+  "contract-options": {
+    "CONTRACT_NOT_PROVIDED": "You have not yet provided us with a contract.",
+    "INVALID_CONTRACT_OPTION_TYPE": "This field type does not exist in our system!",
+    "NAME_TOO_SHORT": "The name needs to be at least {{ min }} characters long.",
+    "REPLACEMENT_STRING_TOO_SHORT": "The replacement string needs to be at least {{ min }} characters long.",
+    "CONSTRAINTS_INVALID": "The constraints are invalid! The maximum limit is lower than the minimum limit.",
+    "CONTRACT_OPTION_ALREADY_EXISTS": "Another field already exists with this replacement string!",
+    "CONTRACT_NOT_FOUND": "We couldn't find the current contract."
   }
 }

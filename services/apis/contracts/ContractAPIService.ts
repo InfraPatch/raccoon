@@ -78,7 +78,7 @@ class ContractsAPIService {
   }
 
   public async deleteContract({ id }: DeleteContractAPIRequest) : Promise<DeleteContractAPIResponse> {
-    return axiosService.delete(`${ContractsAPIService.CONTRACT_URL}/${id}`)
+    return axiosService.delete(`${ContractsAPIService.CONTRACT_URL}/${id}`, { headers: this.headers })
       .then(res => res.data);
   }
 }

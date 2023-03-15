@@ -90,6 +90,31 @@
       "edit-contract": "Edit contract",
       "default-description": "This contract has no description set.",
       "last-updated": "Last updated"
+    },
+    "new-contract-option": {
+      "title": "Add new contract field",
+      "success": "A new field has been successfully added to this contract!",
+      "submit": "Add new field",
+      "type-field": "Field type",
+      "priority-field": "Field priority (higher priority appears earlier)",
+      "name-field": "Field name",
+      "description-field": "Long description/explanation (optional)",
+      "hint-field": "Hint (optional)",
+      "replacement-field": "Replacement string (in document)",
+      "minimum-value-field": "Minimum length (constraint, optional)",
+      "maximum-value-field": "Maximum length (constraint, optional)",
+      "seller-field": "Field owner",
+      "string-type": "Character string (words, letters)",
+      "number-type": "Number",
+      "identifier-type": "Personal identifier",
+      "state-type": "State",
+      "country-type": "Country",
+      "phone-type": "Phone number",
+      "email-type": "E-mail address",
+      "url-type": "Internet address",
+      "date-type": "Date",
+      "seller-type": "Seller-specific field (filled by seller)",
+      "buyer-type": "Buyer-specific field (filled by buyer)"
     }
   }
 }

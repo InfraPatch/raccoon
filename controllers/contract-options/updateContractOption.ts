@@ -71,11 +71,11 @@ export const updateContractOption = async (payload: ContractOptionUpdateFields) 
   }
 
   if (!isNaN(payload.minimumValue)) {
-    updateDict.minimumValue = isNaN(payload.minimumValue) ? null : payload.minimumValue;
+    updateDict.minimumValue = (isNaN(payload.minimumValue) || payload.minimumValue === -1) ? null : payload.minimumValue;
   }
 
   if (!isNaN(payload.maximumValue)) {
-    updateDict.maximumValue = isNaN(payload.maximumValue) ? null : payload.maximumValue;
+    updateDict.maximumValue = (isNaN(payload.maximumValue) || payload.maximumValue === -1) ? null : payload.maximumValue;
   }
 
   if (!isNaN(payload.minimumValue) || !isNaN(payload.maximumValue)) {

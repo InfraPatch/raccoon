@@ -90,6 +90,31 @@
       "edit-contract": "Szerződés bővítése",
       "default-description": "Ennek a szérződésnek még nincsen leírása.",
       "last-updated": "Utoljára frissítve"
+    },
+    "new-contract-option": {
+      "title": "Új mező létrehozása",
+      "success": "Sikeresen hozzáadtuk az új mezőt a szerződéshez!",
+      "submit": "Létrehozás",
+      "type-field": "Mező típusa",
+      "priority-field": "Mező prioritása (magasabb prioritás hamarabb jelenik meg)",
+      "name-field": "Mező neve",
+      "description-field": "Hosszabb leírás/magyarázat (nem kötelező)",
+      "hint-field": "Sugó szöveg (nem kötelező)",
+      "replacement-field": "Helyettesítő karakterlánc (a dokumentumban)",
+      "minimum-value-field": "Minimális hossz (megkötés, nem kötelező)",
+      "maximum-value-field": "Maximális hossz (megkötés, nem kötelező)",
+      "seller-field": "Mező tulajdonosa",
+      "string-type": "Karakterlánc (szavak, betűk)",
+      "number-type": "Szám",
+      "identifier-type": "Személyazonossági szám",
+      "state-type": "Megye",
+      "country-type": "Ország",
+      "phone-type": "Telefonszám",
+      "email-type": "E-mail cím",
+      "url-type": "Weblap cím",
+      "date-type": "Dátum",
+      "seller-type": "Eladó-specifikus mező (eladó tölti ki)",
+      "buyer-type": "Vevő-specifikus mező (vevő tölti ki)"
     }
   }
 }
