@@ -38,6 +38,10 @@ module.exports = withImages(withMDX({
       {
         source: '/avatars/:key',
         destination: '/api/avatars/:key'
+      },
+      {
+        source: '/templates/:key',
+        destination: '/api/templates/:key'
       }
     ]
   }

@@ -1,3 +1,6 @@
+import { APIResponse } from '@/services/axios';
+import { IFilledContract } from '@/db/models/contracts/FilledContract';
+
 export interface NewFilledContractAPIParams {
   friendlyName: string;
   buyerEmail: string;
@@ -11,4 +14,9 @@ export interface FilledOption {
 
 export interface FillContractOptionAPIParams {
   options: FilledOption[];
+};
+
+export interface ListFillContractsAPIResponse extends APIResponse {
+  own: IFilledContract[];
+  foreign: IFilledContract[];
 };

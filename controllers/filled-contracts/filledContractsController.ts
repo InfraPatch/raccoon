@@ -4,6 +4,7 @@ import { getSession } from 'next-auth/client';
 import { createFilledContract } from './createFilledContract';
 import { deleteFilledContract } from './deleteFilledContract';
 import { getFilledContract, downloadContract } from './getFilledContract';
+import { listFilledContracts } from './listFilledContracts';
 import { signContract } from './signContract';
 import { acceptOrDeclineFilledContract, fillContractOptions } from './updateFilledContract';
 
@@ -30,6 +31,33 @@ const acceptOrDecline = async (action: 'accept' | 'decline', req: NextApiRequest
     });
   }
 };
+
+export const index = async (req: NextApiRequest, res: NextApiResponse) => {
+  const session = await getSession({ req });
+
+  try {
+    const { own, foreign } = await listFilledContracts(session.user.email);
+    return res.json({
+      ok: true,
+      own,
+      foreign
+    });
+  } catch (err) {
+    if (err.name === 'ListFilledContractsError') {
+      return res.status(400).json({
+        ok: false,
+        error: err.code
+      });
+    }
+
+    console.error(err);
+
+    return res.status(500).json({
+      ok: false,
+      error: 'INTERNAL_SERVER_ERROR'
+    });
+  }
+}
 
 export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;

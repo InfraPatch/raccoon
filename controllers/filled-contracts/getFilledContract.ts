@@ -1,7 +1,7 @@
+import db from '@/services/db';
+
 import { User } from '@/db/models/auth/User';
 import { FilledContract, IFilledContract } from '@/db/models/contracts/FilledContract';
-
-import db from '@/services/db';
 
 import { getStorageStrategy } from '@/lib/storageStrategies';
 const storage = getStorageStrategy();
