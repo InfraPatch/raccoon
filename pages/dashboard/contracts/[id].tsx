@@ -21,12 +21,12 @@ import FilledContractFieldsForm from '@/components/dashboard/filled-contract/Fil
 import FilledContractActions from '@/components/dashboard/filled-contract/FilledContractActions';
 import FilledContractOverview from '@/components/dashboard/filled-contract/FilledContractOverview';
 
-export interface DashboardContractPageProps {
+export interface DashboardContractsPageProps {
   user: User;
   id: number;
 };
 
-const DashboardContractPage = ({ user, id }: DashboardContractPageProps) => {
+const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const [ contract, setContract ] = useState<IFilledContract | null>(null);
@@ -121,4 +121,4 @@ export const getServerSideProps = async ({ req, res, query, locale }) => {
   };
 };
 
-export default DashboardContractPage;
+export default DashboardContractsPage;

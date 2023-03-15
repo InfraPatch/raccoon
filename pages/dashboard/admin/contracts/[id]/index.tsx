@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import { useState } from 'react';
 import DashboardLayout from '@/layouts/DashboardLayout';
 
 import { User } from '@/db/models/auth/User';
@@ -20,10 +21,11 @@ import ContractOptionForm from '@/components/dashboard/admin/contracts/ContractO
 
 export interface DashboardContractPageProps {
   user: User;
-  contract: Contract;
+  contractEntry: Contract;
 };
 
-const DashboardContractPage = ({ user, contract }: DashboardContractPageProps) => {
+const DashboardContractPage = ({ user, contractEntry }: DashboardContractPageProps) => {
+  const [ contract, setContract ] = useState<Contract>(contractEntry);
   let rows : ContractOption[][] = [];
 
   for (let i : number = 0; i < contract.options.length; i += 3) {
@@ -45,7 +47,11 @@ const DashboardContractPage = ({ user, contract }: DashboardContractPageProps) =
 
           columns.push(
             <Column key={'contractoption-' + contractOption.id}>
-              <ContractOptionForm contract={contract} contractOption={contractOption} />
+              <ContractOptionForm
+                contract={contract}
+                contractOption={contractOption}
+                setContract={setContract}
+              />
             </Column>
           );
         }
@@ -54,7 +60,9 @@ const DashboardContractPage = ({ user, contract }: DashboardContractPageProps) =
       })}
       <Columns>
         <Column>
-          <ContractOptionForm contract={contract} />
+          <ContractOptionForm
+            contract={contract}
+            setContract={setContract} />
         </Column>
       </Columns>
     </DashboardLayout>
@@ -98,7 +106,7 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
   return {
     props: {
       user: session.user,
-      contract: contract.contract,
+      contractEntry: contract.contract,
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }
   };

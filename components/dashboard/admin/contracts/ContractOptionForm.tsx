@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Contract } from '@/db/models/contracts/Contract';
 import { ContractOption } from '@/db/models/contracts/ContractOption';
 import Box from '@/components/common/box/Box';
+import { GetContractAPIResponse } from '@/services/apis/contracts/ContractAPIService';
 
 export interface NewContractOptionFormRequest {
   type: number;
@@ -29,9 +30,10 @@ export interface NewContractOptionFormRequest {
 interface ContractOptionFormData {
   contract: Contract;
   contractOption?: ContractOption;
+  setContract: (contract: Contract) => void;
 };
 
-const ContractOptionForm = ({ contract, contractOption }: ContractOptionFormData) => {
+const ContractOptionForm = ({ contract, contractOption, setContract }: ContractOptionFormData) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const handleFormSubmit = async (data: NewContractOptionFormRequest, { setSubmitting }: FormikHelpers<NewContractOptionFormRequest>) => {
@@ -53,6 +55,9 @@ const ContractOptionForm = ({ contract, contractOption }: ContractOptionFormData
         await apiService.contractOptions.newContractOption(commonFields);
         toaster.success(t('dashboard:admin.new-contract-option.success'));
       }
+
+      const newContract : GetContractAPIResponse = await apiService.contracts.getContract({ id : contract.id});
+      setContract(newContract.contract);
     } catch (err) {
       if (err.response?.data?.error) {
         const message = err.response.data.error;
