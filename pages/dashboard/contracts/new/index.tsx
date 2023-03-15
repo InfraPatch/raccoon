@@ -1,5 +1,4 @@
 import { GetServerSideProps } from 'next';
-import Router from 'next/router';
 import DashboardLayout from '@/layouts/DashboardLayout';
 
 import { User } from '@/db/models/auth/User';
@@ -71,12 +70,17 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
   }
 
   apiService.contracts.setHeaders(req.headers);
+  let contracts : GetContractsAPIResponse;
 
-  const contracts : GetContractsAPIResponse = await apiService.contracts.getContracts();
-
-  if (!contracts.ok) {
-    Router.push('/dashboard');
-    return;
+  try {
+    contracts = await apiService.contracts.getContracts();
+  } catch (err) {
+    console.log(err);
+    res.writeHead(301, {
+      location: '/dashboard/'
+    });
+    res.end();
+    return { props: { user: null } };
   }
 
   return {

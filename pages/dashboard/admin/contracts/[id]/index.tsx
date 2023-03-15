@@ -1,5 +1,4 @@
 import { GetServerSideProps } from 'next';
-import Router from 'next/router';
 import DashboardLayout from '@/layouts/DashboardLayout';
 
 import { User } from '@/db/models/auth/User';
@@ -54,15 +53,24 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
   const contractId : number = parseInt(Array.isArray(id) ? id[0] : id);
 
   if (isNaN(contractId)) {
-    Router.push('/dashboard/admin/contracts');
-    return;
+    res.writeHead(301, {
+      location: '/dashboard/admin/contracts'
+    });
+    res.end();
+    return { props: { user: null } };
   }
 
-  const contract : GetContractAPIResponse = await apiService.contracts.getContract({ id: contractId });
+  let contract : GetContractAPIResponse;
 
-  if (!contract.ok) {
-    Router.push('/dashboard/admin/contracts');
-    return;
+  try {
+    contract = await apiService.contracts.getContract({ id: contractId });
+  } catch (err) {
+    console.log(err);
+    res.writeHead(301, {
+      location: '/dashboard/admin/contracts'
+    });
+    res.end();
+    return { props: { user: null } };
   }
 
   return {
