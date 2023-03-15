@@ -5,6 +5,6 @@ import { ensureAuthenticated } from '@/middleware/auth';
 
 export default bar({
   get: ensureAuthenticated(contractOptionsController.get),
-  //  patch: ensureAuthenticated(contractOptionsController.update),
+  patch: ensureAuthenticated(contractOptionsController.update),
   delete: ensureAuthenticated(contractOptionsController.destroy)
 });
