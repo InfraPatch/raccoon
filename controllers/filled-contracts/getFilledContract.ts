@@ -27,7 +27,7 @@ export const getFilledContract = async (email: string, contractId: number, inter
     throw new GetFilledContractError('USER_NOT_FOUND');
   }
 
-  const filledContract = await filledContractRepository.findOne(contractId);
+  const filledContract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options' ] });
   if (!filledContract) {
     throw new GetFilledContractError('FILLED_CONTRACT_NOT_FOUND');
   }
@@ -44,11 +44,11 @@ export const getFilledContract = async (email: string, contractId: number, inter
     ...filledContract.toJSON()
   };
 
-  if (filledContract.accepted) {
-    contract.user = filledContract.userId === user.id
-      ? user
-      : await filledContract.getUser(filledContract.userId);
+  contract.user = filledContract.userId === user.id
+    ? user
+    : await filledContract.getUser(filledContract.userId);
 
+  if (filledContract.accepted) {
     contract.buyer = filledContract.buyerId === user.id
       ? user
       : await filledContract.getUser(filledContract.buyerId);

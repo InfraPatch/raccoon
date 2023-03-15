@@ -1,9 +1,12 @@
+import db from '@/services/db';
+
 import { User } from '@/db/models/auth/User';
 import { Contract } from '@/db/models/contracts/Contract';
 import { FilledContract } from '@/db/models/contracts/FilledContract';
 import { NewFilledContractAPIParams } from '@/services/apis/contracts/FilledContractAPIService';
+import { FilledContractOption } from '@/db/models/contracts/FilledContractOption';
 
-import db from '@/services/db';
+import * as utils from './utils';
 
 class CreateFilledContractError extends Error {
   code: string;
@@ -15,17 +18,24 @@ class CreateFilledContractError extends Error {
   }
 }
 
+const fillDefaultOptions = async (seller: User, filledContract: FilledContract) => {
+  const filledContractOptionRepository = db.getRepository(FilledContractOption);
+
+
+};
+
 export const createFilledContract = async (sellerEmail: string, { friendlyName, buyerEmail, contractId }: NewFilledContractAPIParams): Promise<FilledContract> => {
   if (friendlyName.length < 2) {
     throw new CreateFilledContractError('NAME_TOO_SHORT');
   }
 
   await db.prepare();
-  const filledContractRepository = db.getRepository(FilledContract);
+
   const contractRepository = db.getRepository(Contract);
+  const filledContractRepository = db.getRepository(FilledContract);
   const userRepository = db.getRepository(User);
 
-  const contract = await contractRepository.findOne(contractId);
+  const contract = await contractRepository.findOne(contractId, { relations: [ 'options' ] });
   if (!contract) {
     throw new CreateFilledContractError('UNKNOWN_CONTRACT');
   }
@@ -44,6 +54,7 @@ export const createFilledContract = async (sellerEmail: string, { friendlyName, 
   filledContract.userId = seller.id;
 
   await filledContractRepository.insert(filledContract);
+  await utils.fillDefaultOptions(seller, filledContract, true);
 
   // TODO: send email to the buyer
 

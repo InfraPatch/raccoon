@@ -77,7 +77,7 @@ export class ContractOption implements IContractOption {
       id: this.id,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
-      contract: omit(this.contract.toJSON(), 'options'),
+      contract: this.contract ? omit(this.contract.toJSON(), 'options') : undefined,
       type: this.type,
       priority: this.priority,
       friendlyName: this.friendlyName,

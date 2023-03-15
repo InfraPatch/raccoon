@@ -42,8 +42,8 @@ export class FilledContractOption implements IFilledContractOption {
       id: this.id,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
-      filledContract: omit(this.filledContract.toJSON(), 'options'),
-      option: omit(this.option.toJSON(), 'contract'),
+      filledContract: this.filledContract ? omit(this.filledContract.toJSON(), 'options') : undefined,
+      option: this.option ? omit(this.option.toJSON(), 'contract') : undefined,
       value: this.value
     };
   }

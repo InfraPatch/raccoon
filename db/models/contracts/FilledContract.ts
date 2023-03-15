@@ -55,7 +55,7 @@ export class FilledContract implements IFilledContract {
   @Column('integer')
   buyerId: number;
 
-  @Column('boolean')
+  @Column('boolean', { default: false })
   accepted: boolean;
 
   @Column('timestamp', { nullable: true })
@@ -83,7 +83,7 @@ export class FilledContract implements IFilledContract {
       updatedAt: this.updatedAt && this.updatedAt.toJSON(),
       friendlyName: this.friendlyName,
       contract: this.contract,
-      options: this.options.map(option => omit(option.toJSON(), 'filledContract')),
+      options: this.options && this.options.map(option => omit(option.toJSON(), 'filledContract')),
       userId: this.userId,
       sellerSignedAt: this.sellerSignedAt && this.sellerSignedAt.toJSON(),
       buyerSignedAt: this.buyerSignedAt && this.buyerSignedAt.toJSON()

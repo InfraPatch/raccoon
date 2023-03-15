@@ -7,6 +7,7 @@ import db from '@/services/db';
 
 import * as EmailValidator from 'email-validator';
 import isUrl from 'is-url';
+import * as utils from './utils';
 
 class FilledContractUpdateError extends Error {
   code: string;
@@ -109,6 +110,7 @@ export const acceptOrDeclineFilledContract = async (userEmail: string, contractI
 
   contract.accepted = true;
   await filledContractRepository.save(contract);
+  await utils.fillDefaultOptions(user, contract, false);
 };
 
 export const fillContractOptions = async (userEmail: string, contractId: number, options: FilledOption[]) => {

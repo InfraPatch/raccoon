@@ -6,6 +6,8 @@ import { v4 as uuid } from 'uuid';
 import * as fs from 'fs';
 import { File } from 'formidable';
 
+import * as utils from './utils';
+
 import { getStorageStrategy } from '@/lib/storageStrategies';
 const storage = getStorageStrategy();
 
@@ -74,5 +76,8 @@ export const createContract = async ({ friendlyName, description, file }: Contra
 
   const contract = contractRepository.create({ friendlyName, description, filename });
   await contractRepository.insert(contract);
+
+  await utils.createDefaultOptions(contract);
+
   return contract;
 };

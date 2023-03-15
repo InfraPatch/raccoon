@@ -131,7 +131,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
     await deleteFilledContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
     return res.json({ ok: true });
   } catch (err) {
-    if (err.name === 'DeleteContractError') {
+    if (err.name === 'DeleteContractError' || err.name === 'GetFilledContractError') {
       return res.status(400).json({
         ok: false,
         error: err.code
