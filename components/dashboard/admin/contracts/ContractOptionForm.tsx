@@ -35,9 +35,6 @@ const ContractOptionForm = ({ contract, contractOption }: ContractOptionFormData
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const handleFormSubmit = async (data: NewContractOptionFormRequest, { setSubmitting }: FormikHelpers<NewContractOptionFormRequest>) => {
-    console.log("Form data right now is");
-    console.log(data);
-
     const commonFields : NewContractOptionAPIRequest = {
       contractId: contract.id,
       ...data,
@@ -74,9 +71,6 @@ const ContractOptionForm = ({ contract, contractOption }: ContractOptionFormData
 
   let initialValues : NewContractOptionFormRequest;
 
-  console.log("contract option is");
-  console.log(contractOption);
-
   if (contractOption) {
     initialValues = {
       ...contractOption,
@@ -97,9 +91,6 @@ const ContractOptionForm = ({ contract, contractOption }: ContractOptionFormData
       isSeller: '0'
     };
   }
-
-  console.log("initial values:");
-  console.log(initialValues);
 
   const key : string = contractOption ? 'update-contract-option' : 'new-contract-option';
 

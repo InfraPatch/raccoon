@@ -84,7 +84,7 @@ export const updateContractOption = async (payload: ContractOptionUpdateFields) 
     }
   }
 
-  updateDict.isSeller = payload.isSeller || false;
+  updateDict.isSeller = payload.isSeller;
   const optionsRepository = db.getRepository(ContractOption);
 
   if (updateDict.replacementString && updateDict.replacementString !== payload.replacementString) {

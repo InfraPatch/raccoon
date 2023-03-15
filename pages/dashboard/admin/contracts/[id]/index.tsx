@@ -30,7 +30,6 @@ const DashboardContractPage = ({ user, contract }: DashboardContractPageProps) =
     rows.push(contract.options.slice(i, i + 3));
   }
 
-  console.log(contract);
   return (
     <DashboardLayout user={user}>
       <Columns>

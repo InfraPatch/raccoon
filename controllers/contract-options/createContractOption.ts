@@ -83,7 +83,7 @@ export const createContractOption = async (payload: ContractOptionCreatorFields)
     replacementString: payload.replacementString,
     minimumValue: payload.minimumValue,
     maximumValue: payload.maximumValue,
-    isSeller: payload.isSeller || false
+    isSeller: payload.isSeller
   });
   await optionsRepository.insert(contractOption);
   return contractOption;

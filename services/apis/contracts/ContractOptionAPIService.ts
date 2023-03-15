@@ -50,7 +50,6 @@ class ContractOptionsAPIService {
   }
 
   public async newContractOption(data: NewContractOptionAPIRequest): Promise<NewContractOptionAPIResponse> {
-    console.log(data);
     return axiosService.post(ContractOptionsAPIService.CONTRACT_OPTIONS_URL, data, { headers: this.headers })
       .then(res => res.data);
   }

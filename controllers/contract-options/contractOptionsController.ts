@@ -88,7 +88,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
       friendlyName, longDescription, hint, replacementString,
       minimumValue: parseInt(Array.isArray(minimumValue) ? minimumValue[0] : minimumValue),
       maximumValue: parseInt(Array.isArray(maximumValue) ? maximumValue[0] : maximumValue),
-      isSeller: isSeller !== undefined
+      isSeller
     });
 
     return res.json({
@@ -122,7 +122,7 @@ export const newContractOption = async (req: NextApiRequest, res: NextApiRespons
       friendlyName, longDescription, hint, replacementString,
       minimumValue: parseInt(Array.isArray(minimumValue) ? minimumValue[0] : minimumValue),
       maximumValue: parseInt(Array.isArray(maximumValue) ? maximumValue[0] : maximumValue),
-      isSeller: isSeller !== undefined
+      isSeller
     });
 
     return res.json({
