@@ -7,6 +7,7 @@ export const getContracts = async (): Promise<Contract[]> => {
 
   const contracts = await contractRepository.createQueryBuilder('contract')
     .select(['contract.id', 'contract.friendlyName', 'contract.description', 'contract.filename', 'contract.updatedAt'])
+    .orderBy('contract.updatedAt', 'DESC')
     .getMany();
 
   return contracts;

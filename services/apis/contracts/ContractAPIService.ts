@@ -29,6 +29,11 @@ export interface GetContractAPIResponse extends APIResponse {
 
 class ContractsAPIService {
   static CONTRACT_URL = '/api/contracts';
+  headers = null;
+
+  public setHeaders(headers) {
+    this.headers = headers;
+  }
 
   private createContractData(data: NewContractAPIRequest): FormData {
     const payload = new FormData();
@@ -64,7 +69,7 @@ class ContractsAPIService {
   }
 
   public async getContracts() : Promise<GetContractsAPIResponse> {
-    return axiosService.get(ContractsAPIService.CONTRACT_URL)
+    return axiosService.get(ContractsAPIService.CONTRACT_URL, { headers: this.headers })
       .then(res => res.data);
   }
 
