@@ -94,7 +94,7 @@ export const acceptOrDeclineFilledContract = async (userEmail: string, contractI
     throw new FilledContractUpdateError('USER_NOT_FOUND');
   }
 
-  const contract = await filledContractRepository.findOne(contractId);
+  const contract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options' ] });
   if (!contract || contract?.buyerId !== user.id) {
     throw new FilledContractUpdateError('FILLED_CONTRACT_NOT_FOUND');
   }
@@ -125,9 +125,13 @@ export const fillContractOptions = async (userEmail: string, contractId: number,
     throw new FilledContractUpdateError('USER_NOT_FOUND');
   }
 
-  const filledContract = await filledContractRepository.findOne(contractId);
+  const filledContract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option' ] });
   if (!filledContract || (filledContract.userId !== user.id && filledContract.buyerId !== user.id)) {
     throw new FilledContractUpdateError('FILLED_CONTRACT_NOT_FOUND');
+  }
+
+  if (filledContract.buyerSignedAt && filledContract.sellerSignedAt) {
+    throw new FilledContractUpdateError('CONTRACT_ALREADY_SIGNED');
   }
 
   const isSeller = filledContract.userId === user.id;

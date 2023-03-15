@@ -32,35 +32,35 @@ export const fillDefaultOptions = async (user: User, filledContract: FilledContr
         break;
 
       case withPrefix('mother_name', prefix):
-        filledOption.value = user.motherName || '';
+        filledOption.value = user.motherName || null;
         break;
 
       case withPrefix('mother_birthdate', prefix):
-        filledOption.value = user.motherBirthDate?.toISOString() || '';
+        filledOption.value = user.motherBirthDate?.toISOString() || null;
         break;
 
       case withPrefix('nationality', prefix):
-        filledOption.value = user.nationality || '';
+        filledOption.value = user.nationality || null;
         break;
 
       case withPrefix('id_number_type', prefix):
-        filledOption.value = user.personalIdentifierType.toString() || '0';
+        filledOption.value = user.personalIdentifierType.toString() || null;
         break;
 
       case withPrefix('id_number', prefix):
-        filledOption.value = user.personalIdentifier || '';
+        filledOption.value = user.personalIdentifier || null;
         break;
 
       case withPrefix('phone_number', prefix):
-        filledOption.value = user.phoneNumber || '';
+        filledOption.value = user.phoneNumber || null;
         break;
 
       case withPrefix('birth_date', prefix):
-        filledOption.value = user.birthDate?.toUTCString() || '';
+        filledOption.value = user.birthDate?.toUTCString() || null;
         break;
 
       case withPrefix('birth_place', prefix):
-        filledOption.value = user.birthPlace || '';
+        filledOption.value = user.birthPlace || null;
         break;
     }
 

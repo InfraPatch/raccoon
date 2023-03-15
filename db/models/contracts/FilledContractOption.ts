@@ -34,7 +34,7 @@ export class FilledContractOption implements IFilledContractOption {
   })
   option: Partial<ContractOption>;
 
-  @Column()
+  @Column({ nullable: true })
   value: string;
 
   toJSON(): IFilledContractOption {

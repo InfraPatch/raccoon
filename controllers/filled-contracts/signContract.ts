@@ -42,13 +42,20 @@ const verifyOptions = (filledContract: FilledContract) => {
 };
 
 const savePDF = async (filledContract: FilledContract): Promise<string> => {
-  const template: Buffer = await storage.get(`templates/${filledContract.contract.filename}`);
+  const template: Buffer = await storage.get(filledContract.contract.filename.replace('/', ''));
   const zip = new PizZip(template);
 
   const templateDocument = new DOCXTemplater(zip);
 
   const data: { [key: string]: string } = {};
   filledContract.options.forEach(o => data[o.option.replacementString] = o.value);
+
+  const sellerName = filledContract.options.find(o => o.option.replacementString === 'seller_name').value;
+  const buyerName = filledContract.options.find(o => o.option.replacementString === 'buyer_name').value;
+
+  data['signature_date'] = new Date().toISOString();
+  data['seller_signature'] = sellerName.toUpperCase();
+  data['buyer_signature'] = buyerName.toUpperCase();
 
   templateDocument.setData(data);
   templateDocument.render();
@@ -79,7 +86,7 @@ export const signContract = async (userEmail: string, contractId: number) => {
     throw new SignContractError('USER_NOT_FOUND');
   }
 
-  const contract = await filledContractRepository.findOne(contractId);
+  const contract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option' ] });
   if (!contract) {
     throw new SignContractError('FILLED_CONTRACT_NOT_FOUND');
   }
