@@ -19,7 +19,7 @@ import ContractBox from '@/components/dashboard/admin/contracts/ContractBox';
 
 export interface DashboardContractsPageProps {
   user: User;
-  contracts: Contract[]
+  contracts: Contract[];
 };
 
 const DashboardContractsPage = ({ user, contracts }: DashboardContractsPageProps) => {
@@ -44,7 +44,7 @@ const DashboardContractsPage = ({ user, contracts }: DashboardContractsPageProps
           );
         }
 
-        return <Columns key={'column-' + index}>{columns}</Columns>
+        return <Columns key={'column-' + index}>{columns}</Columns>;
       })}
     </DashboardLayout>
   );

@@ -12,6 +12,13 @@
     "contracts": "Szerződések"
   },
 
+  "home": {
+    "create-title": "Hozzon létre egy új szerződést",
+    "create-button": "Új szerződés",
+    "list-title": "Tekintse meg szerződéseit",
+    "list-button": "Szerződéseim"
+  },
+
   "settings": {
     "user-settings": "Felhasználói beállítások",
     "id-settings": "Azonosítási információk",

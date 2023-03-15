@@ -19,7 +19,7 @@ import EditContractForm from '@/components/dashboard/admin/contracts/EditContrac
 
 export interface DashboardContractPageProps {
   user: User;
-  contract: Contract
+  contract: Contract;
 };
 
 const DashboardContractPage = ({ user, contract }: DashboardContractPageProps) => {

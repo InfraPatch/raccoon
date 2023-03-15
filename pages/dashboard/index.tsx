@@ -12,20 +12,24 @@ import Column from '@/components/common/columns/Column';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Illustration from '@/components/common/illustrations/Illustration';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 
 export interface DashboardHomePageProps {
   user: User;
 }
 
 const DashboardHomePage = ({ user }: DashboardHomePageProps) => {
-  const router = useRouter()
+  const router = useRouter();
+  const { t } = useTranslation('dashboard');
+
   const handleNewContract = (e) => {
-    e.preventDefault()
-    router.push("/dashboard/contracts/new")
+    e.preventDefault();
+    router.push("/dashboard/contracts/new");
   };
+
   const handleMyContract = (e) => {
-    e.preventDefault()
-    router.push("/dashboard/contracts")
+    e.preventDefault();
+    router.push("/dashboard/contracts");
   };
 
   return (
@@ -34,13 +38,14 @@ const DashboardHomePage = ({ user }: DashboardHomePageProps) => {
         <Column>
           <Box>
             <div className="text-center">
-              <Illustration.Contract className="max-w-1/2 max-h-500 mx-auto mb-10" />
-            
-              <div className="text-lg">
-                Create a new contract<br/><br/>
+              <Illustration.Contract className="h-72 max-w-full mx-auto" />
+
+              <div className="text-2xl my-4">
+                { t('home.create-title') }
               </div>
-              <Button size={ButtonSize.SMALL} onClick={handleNewContract}>
-                New Contract
+
+              <Button size={ButtonSize.MEDIUM} onClick={handleNewContract}>
+                { t('home.create-button') }
               </Button>
             </div>
           </Box>
@@ -49,13 +54,14 @@ const DashboardHomePage = ({ user }: DashboardHomePageProps) => {
         <Column>
           <Box>
             <div className="text-center">
-              <Illustration.Agreement className="max-w-1/2 max-h-500 mx-auto mb-10" />
-              
-              <div className="text-lg">
-                Check out your contracts<br/><br/>
+              <Illustration.Agreement className="h-72 max-w-full mx-auto" />
+
+              <div className="text-2xl my-4">
+                { t('home.list-title') }
               </div>
-              <Button size={ButtonSize.SMALL} onClick={handleMyContract}>
-                My Contracts
+
+              <Button size={ButtonSize.MEDIUM} onClick={handleMyContract}>
+                { t('home.list-button') }
               </Button>
             </div>
           </Box>

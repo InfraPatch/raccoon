@@ -12,6 +12,13 @@
     "contracts": "Show all contracts"
   },
 
+  "home": {
+    "create-title": "Create a new contract",
+    "create-button": "New Contract",
+    "list-title": "Check out your contracts",
+    "list-button": "My Contracts"
+  },
+
   "settings": {
     "user-settings": "User settings",
     "id-settings": "Identification information",

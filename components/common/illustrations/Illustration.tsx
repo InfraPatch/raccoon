@@ -2,7 +2,7 @@ import { HTMLAttributes } from 'react';
 
 import HomeHero from '@/assets/images/home-hero.svg';
 
-import Contract from '@/assets/images/contract.svg'
+import Contract from '@/assets/images/contract.svg';
 import Agreement from '@/assets/images/agreement.svg';
 
 import PrivacyPolicy from '@/assets/images/privacy-policy.svg';
@@ -26,7 +26,7 @@ type P = { center?: boolean } & HTMLAttributes<HTMLDivElement>;
 const IllustrationWrapper = ({ image, center, ...props }: IllustrationWrapperProps) => {
   return (
     <div className={clsx({ 'text-center': center })} {...props}>
-      <img src={image} />
+      <img src={image} className="mx-auto max-h-full" />
     </div>
   );
 };
