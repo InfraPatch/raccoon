@@ -4,7 +4,7 @@ import Button, { ButtonSize } from '@/components/common/button/Button';
 
 import { CompactDangerMessage } from '@/components/common/message-box/DangerMessage';
 
-import { NewContractOptionAPIResponse } from '@/services/apis/contracts/ContractOptionAPIService';
+import { NewContractOptionAPIRequest, NewContractOptionAPIResponse } from '@/services/apis/contracts/ContractOptionAPIService';
 import * as ContractOptionFormValidator from '@/validators/ContractOptionFormValidator';
 
 import apiService from '@/services/apis';
@@ -35,16 +35,27 @@ const ContractOptionForm = ({ contract, contractOption }: ContractOptionFormData
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const handleFormSubmit = async (data: NewContractOptionFormRequest, { setSubmitting }: FormikHelpers<NewContractOptionFormRequest>) => {
+    console.log("Form data right now is");
     console.log(data);
 
+    const commonFields : NewContractOptionAPIRequest = {
+      contractId: contract.id,
+      ...data,
+      type: parseInt(Array.isArray(data.type) ? data.type[0] : data.type),
+      isSeller: data.isSeller === "1"
+    };
+
     try {
-      await apiService.contractOptions.newContractOption({
-        contractId: contract.id,
-        ...data,
-        type: parseInt(Array.isArray(data.type) ? data.type[0] : data.type),
-        isSeller: data.isSeller === "1"
-      });
-      toaster.success(t('dashboard:admin.new-contract-option.success'));
+      if (contractOption) {
+        await apiService.contractOptions.updateContractOption({
+          id: contractOption.id,
+          ...commonFields
+        });
+        toaster.success(t('dashboard:admin.update-contract-option.success'));
+      } else {
+        await apiService.contractOptions.newContractOption(commonFields);
+        toaster.success(t('dashboard:admin.new-contract-option.success'));
+      }
     } catch (err) {
       if (err.response?.data?.error) {
         const message = err.response.data.error;
@@ -63,12 +74,15 @@ const ContractOptionForm = ({ contract, contractOption }: ContractOptionFormData
 
   let initialValues : NewContractOptionFormRequest;
 
+  console.log("contract option is");
+  console.log(contractOption);
+
   if (contractOption) {
     initialValues = {
+      ...contractOption,
       longDescription: contractOption.longDescription || '',
       hint: contractOption.hint || '',
-      isSeller: contractOption.isSeller || false,
-      ...contractOption
+      isSeller: contractOption.isSeller ? '1' : '0',
     };
   } else {
     initialValues = {
@@ -80,12 +94,17 @@ const ContractOptionForm = ({ contract, contractOption }: ContractOptionFormData
       replacementString: '',
       minimumValue: -1,
       maximumValue: -1,
-      isSeller: false
+      isSeller: '0'
     };
   }
 
+  console.log("initial values:");
+  console.log(initialValues);
+
+  const key : string = contractOption ? 'update-contract-option' : 'new-contract-option';
+
   return (
-    <Box title={ t('dashboard:admin.new-contract-option.title') }>
+    <Box title={ t(`dashboard:admin.${key}.title`) }>
       <Formik
         initialValues={initialValues}
         validate={ContractOptionFormValidator.validate(t)}
@@ -162,7 +181,7 @@ const ContractOptionForm = ({ contract, contractOption }: ContractOptionFormData
 
             <div className="form-field">
               <Button size={ButtonSize.MEDIUM} type="submit" disabled={isSubmitting}>
-                { t('dashboard:admin.new-contract-option.submit') }
+                { t(`dashboard:admin.${key}.submit`) }
               </Button>
             </div>
           </Form>

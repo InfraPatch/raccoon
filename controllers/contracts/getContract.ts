@@ -17,7 +17,7 @@ export const getContract = async ({ id } : GetContractAPIRequest): Promise<Contr
   await db.prepare();
   const contractRepository = db.getRepository(Contract);
 
-  const contract = await contractRepository.findOne({ where: { id } });
+  const contract = await contractRepository.findOne({ id }, { relations: [ 'options' ] });
 
   if (!contract) {
     throw new GetContractError('CONTRACT_NOT_FOUND');

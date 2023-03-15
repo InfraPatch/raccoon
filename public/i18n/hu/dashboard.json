@@ -140,6 +140,11 @@
       "date-type": "Dátum",
       "seller-type": "Eladó-specifikus mező (eladó tölti ki)",
       "buyer-type": "Vevő-specifikus mező (vevő tölti ki)"
+    },
+    "update-contract-option": {
+      "title": "Mező kibővítése",
+      "success": "A szerződés ezen mezője sikeresen kibővítve!",
+      "submit": "Kibővítés"
     }
   }
 }

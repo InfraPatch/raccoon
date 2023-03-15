@@ -140,6 +140,11 @@
       "date-type": "Date",
       "seller-type": "Seller-specific field (filled by seller)",
       "buyer-type": "Buyer-specific field (filled by buyer)"
+    },
+    "update-contract-option": {
+      "title": "Update contract field",
+      "success": "This field of the contract has been successfully updated!",
+      "submit": "Update field"
     }
   }
 }

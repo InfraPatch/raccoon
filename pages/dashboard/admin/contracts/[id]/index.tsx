@@ -14,6 +14,7 @@ import apiService from '@/services/apis';
 
 import { GetContractAPIResponse } from '@/services/apis/contracts/ContractAPIService';
 import { Contract } from '@/db/models/contracts/Contract';
+import { ContractOption } from '@/db/models/contracts/ContractOption';
 import EditContractForm from '@/components/dashboard/admin/contracts/EditContractForm';
 import ContractOptionForm from '@/components/dashboard/admin/contracts/ContractOptionForm';
 
@@ -23,6 +24,13 @@ export interface DashboardContractPageProps {
 };
 
 const DashboardContractPage = ({ user, contract }: DashboardContractPageProps) => {
+  let rows : ContractOption[][] = [];
+
+  for (let i : number = 0; i < contract.options.length; i += 3) {
+    rows.push(contract.options.slice(i, i + 3));
+  }
+
+  console.log(contract);
   return (
     <DashboardLayout user={user}>
       <Columns>
@@ -30,6 +38,21 @@ const DashboardContractPage = ({ user, contract }: DashboardContractPageProps) =
           <EditContractForm contractProp={contract} />
         </Column>
       </Columns>
+      {rows.map((row, index) => {
+        let columns = [];
+
+        for (let i : number = 0; i < row.length; ++i) {
+          let contractOption : ContractOption = row[i];
+
+          columns.push(
+            <Column key={'contractoption-' + contractOption.id}>
+              <ContractOptionForm contract={contract} contractOption={contractOption} />
+            </Column>
+          );
+        }
+
+        return <Columns key={'column-' + index}>{columns}</Columns>;
+      })}
       <Columns>
         <Column>
           <ContractOptionForm contract={contract} />
