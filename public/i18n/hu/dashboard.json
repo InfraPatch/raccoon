@@ -40,7 +40,11 @@
     "id-doc-type": "Azonosítási okirat típusa",
     "id-doc-number": "Azonosító szám",
     "phone-number": "Telefonszám",
-    "birthdate": "Születési dátum"
+    "birthdate": "Születési dátum",
+
+    "id-card": "Személyi igazolvány",
+    "passport": "Útlevél",
+    "drivers-license": "Hajtási engedély"
   },
 
   "contracts": {
@@ -64,6 +68,27 @@
     "new": {
       "choose-contract": "Új szerződés kötése",
       "choose-contract-title": "Milyen fajta szerződést szeretne kötni? Válasszon az alábbiak közül!"
+    },
+    "data": {
+      "overview": "Összegzés",
+      "actions": "Műveletek",
+      "my-details": "Az én adataim",
+      "fill-success": "Adatok sikeresen kitöltve!",
+      "fill-submit": "Adatok kitöltése",
+      "contract-details": "Szerződés részletei",
+      "seller-details": "Eladó részletei",
+      "buyer-details": "Vásárló részletei"
+    },
+    "actions": {
+      "accept-success": "Kérelem sikeresen elfogadva!",
+      "decline-success": "Kérelem sikeresen visszautasítva!",
+      "sign-success": "Szerződés sikeresen aláírva!",
+      "delete-success": "Szerződés sikeresen törölve!",
+      "accept": "Elfogad",
+      "reject": "Visszautasít",
+      "sign": "Aláír",
+      "delete": "Töröl",
+      "download": "Letöltés"
     }
   },
 

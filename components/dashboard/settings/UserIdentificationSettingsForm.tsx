@@ -5,6 +5,7 @@ import { User } from '@/db/models/auth/User';
 
 import apiService from '@/services/apis';
 import toaster from '@/lib/toaster';
+import { transformDate } from '@/lib/transformDate';
 
 import { useTranslation } from 'react-i18next';
 
@@ -12,22 +13,6 @@ import { UpdateUserIdentificationDetailsAPIRequest } from '@/services/apis/users
 
 export interface UserIdentificationSettingsFormProps {
   user: User;
-};
-
-const transformDate = (date?: Date | string): string | undefined => {
-  if (!date) {
-    return undefined;
-  }
-
-  if (typeof date === 'string') {
-    date = new Date(date);
-
-    if (Number.isNaN(date.getTime())) {
-      return undefined;
-    }
-  }
-
-  return date.toJSON().slice(0, 10);
 };
 
 const UserIdentificationSettingsForm = ({ user }: UserIdentificationSettingsFormProps) => {
@@ -104,9 +89,9 @@ const UserIdentificationSettingsForm = ({ user }: UserIdentificationSettingsForm
           <div className="form-field">
             <label htmlFor="personalIdentifierType">{ t('dashboard:user-fields.id-doc-type') }:</label>
             <Field name="personalIdentifierType" as="select">
-              <option value="0">Identity card</option>
-              <option value="1">Passport</option>
-              <option value="2">Driver's license</option>
+              <option value="0">{ t('dashboard:user-fields.id-card') }</option>
+              <option value="1">{ t('dashboard:user-fields.passport') }</option>
+              <option value="2">{ t('dashboard:user-fields.drivers-license') }</option>
             </Field>
           </div>
 

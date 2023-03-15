@@ -40,7 +40,11 @@
     "id-doc-type": "Identification document type",
     "id-doc-number": "Personal identifier number",
     "phone-number": "Phone number",
-    "birthdate": "Birth date"
+    "birthdate": "Birth date",
+
+    "id-card": "ID card",
+    "passport": "Passport",
+    "drivers-license": "Driver's license"
   },
 
   "contracts": {
@@ -64,6 +68,27 @@
     "new": {
       "choose-contract": "Create new contract",
       "choose-contract-title": "What kind of contract would you like to create? Please choose from below!"
+    },
+    "data": {
+      "overview": "Overview",
+      "actions": "Actions",
+      "my-details": "My Details",
+      "fill-success": "Details filled out successfully!",
+      "fill-submit": "Fill details",
+      "contract-details": "Contract Details",
+      "seller-details": "Seller Details",
+      "buyer-details": "Buyer Details"
+    },
+    "actions": {
+      "accept-success": "Request accepted successfully!",
+      "decline-success": "Request declined successfully!",
+      "sign-success": "Contract signed successfully!",
+      "delete-success": "Contract deleted successfully!",
+      "accept": "Accept",
+      "reject": "Reject",
+      "sign": "Sign",
+      "delete": "Delete",
+      "download": "Download"
     }
   },
 

@@ -64,8 +64,13 @@ export class FilledContractAPIService {
       .then(res => res.data);
   }
 
+  public async getFilledContract(id: number): Promise<GetFilledContractAPIResponse> {
+    return axiosService.get(url(FilledContractAPIService.GET_FILLED_CONTRACT_URL, id))
+      .then(res => res.data);
+  }
+
   public async fillFilledContract(id: number, payload: FillContractOptionAPIParams): Promise<GetFilledContractAPIResponse> {
-    return axiosService.put(url(FilledContractAPIService.GET_FILLED_CONTRACT_URL, id), payload)
+    return axiosService.put(url(FilledContractAPIService.FILL_FILLED_CONTRACT_URL, id), payload)
       .then(res => res.data);
   }
 

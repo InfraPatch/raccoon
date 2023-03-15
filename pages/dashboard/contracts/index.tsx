@@ -41,9 +41,6 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
       const res = await apiService.filledContracts.listFilledContracts();
       setOwnContracts(res.own);
       setForeignContracts(res.foreign);
-
-      console.log(ownContracts);
-      console.log(foreignContracts);
     } catch (err) {
       console.error(err);
       setError(t('errors:INTERNAL_SERVER_ERROR'));

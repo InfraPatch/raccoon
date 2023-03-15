@@ -42,6 +42,10 @@ module.exports = withImages(withMDX({
       {
         source: '/templates/:key',
         destination: '/api/templates/:key'
+      },
+      {
+        source: '/documents/:id',
+        destination: '/api/filled-contracts/:id/download'
       }
     ]
   }

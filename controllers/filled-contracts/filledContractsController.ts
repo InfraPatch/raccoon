@@ -100,6 +100,9 @@ export const download = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.setHeader('Content-Disposition', `attachment; filename="contract_${new Date().getTime()}.docx`);
+
     return stream.pipe(res);
   } catch (err) {
     console.error(err);
