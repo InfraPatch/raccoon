@@ -85,13 +85,16 @@ input, textarea, select {
   @apply my-2;
 
   @apply border;
-  @apply border-accent-hover;
+  @apply border-field;
 
-  @apply bg-secondary;
+  @apply bg-field;
   @apply text-foreground;
+
+  @apply rounded-md;
 
   &:focus {
     @apply border-accent;
+    @apply outline-none;
   }
 
   &:disabled {

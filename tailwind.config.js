@@ -47,6 +47,7 @@ module.exports = {
       black: '#000',
       white: '#fff',
       gray: 'var(--raccoon-gray)',
+      field: 'var(--raccoon-field)',
 
       facebook: {
         DEFAULT: 'var(--facebook)',

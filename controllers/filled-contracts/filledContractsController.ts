@@ -57,7 +57,7 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
       error: 'INTERNAL_SERVER_ERROR'
     });
   }
-}
+};
 
 export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
