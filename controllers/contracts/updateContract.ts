@@ -29,7 +29,7 @@ export class ContractUpdateError extends Error {
   }
 }
 
-export const updateContract = async ({ id, friendlyName, description, file }: ContractUpdaterFields) => {
+export const updateContract = async ({ id, friendlyName, description, file }: ContractUpdaterFields) : Promise<Contract> => {
   await db.prepare();
   const contractRepository = db.getRepository(Contract);
 
@@ -64,4 +64,12 @@ export const updateContract = async ({ id, friendlyName, description, file }: Co
   if (updateResult.raw.affectedRows <= 0) {
     throw new ContractUpdateError('CONTRACT_NOT_FOUND');
   }
+
+  const contract : Contract = await contractRepository.findOne({ id });
+
+  if (!contract) {
+    throw new ContractUpdateError('CONTRACT_NOT_FOUND');
+  }
+
+  return contract;
 };

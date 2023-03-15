@@ -48,6 +48,12 @@
       "submit": "Új szerződés létrehozása",
       "success": "Szerződés sikeresen létrehozva!"
     },
+    "edit-contract": {
+      "file-preview-link": "(Sablon megtekintése)",
+      "title": "Szerződés",
+      "submit": "Szerződés frissítése",
+      "success": "Szerződés sikeresen frissítve!"
+    },
     "contracts": {
       "edit-contract": "Szerződés bővítése",
       "default-description": "Ennek a szérződésnek még nincsen leírása.",

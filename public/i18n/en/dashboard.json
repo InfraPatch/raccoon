@@ -48,6 +48,12 @@
       "submit": "Create new contract",
       "success": "Contract created successfully!"
     },
+    "edit-contract": {
+      "file-preview-link": "(Preview template)",
+      "title": "Contract",
+      "submit": "Update contract",
+      "success": "Contract updated successfully!"
+    },
     "contracts": {
       "edit-contract": "Edit contract",
       "default-description": "This contract has no description set.",

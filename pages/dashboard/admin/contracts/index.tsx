@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import Router from 'next/router';
 import DashboardLayout from '@/layouts/DashboardLayout';
 
 import { User } from '@/db/models/auth/User';
@@ -60,7 +61,10 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
 
   const contracts : GetContractsAPIResponse = await apiService.contracts.getContracts();
 
-  // contracts.ok
+  if (!contracts.ok) {
+    Router.push('/dashboard/admin');
+    return;
+  }
 
   return {
     props: {

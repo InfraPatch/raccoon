@@ -46,6 +46,7 @@
     "DESCRIPTION_TOO_SHORT": "The description needs to be at least {{ min }} characters long.",
     "CONTRACT_ALREADY_EXISTS": "There is already another contract with this name.",
     "FILE_MISSING": "You must upload a contract template!",
-    "FILE_UPLOAD_FAILED": "Failed to upload the contract template."
+    "FILE_UPLOAD_FAILED": "Failed to upload the contract template.",
+    "CONTRACT_NOT_FOUND": "We couldn't find the current contract."
   }
 }

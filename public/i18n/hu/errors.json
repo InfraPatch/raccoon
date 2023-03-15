@@ -46,6 +46,7 @@
     "DESCRIPTION_TOO_SHORT": "A megadott leírás legalább {{ min }} karakter hosszú kell legyen.",
     "CONTRACT_ALREADY_EXISTS": "Már létezik egy szerződés ezzel a névvel.",
     "FILE_MISSING": "A szerződés sablonának a feltöltése kötelező!",
-    "FILE_UPLOAD_FAILED": "Nem sikerült feltölteni a szerződés sablonát."
+    "FILE_UPLOAD_FAILED": "Nem sikerült feltölteni a szerződés sablonát.",
+    "CONTRACT_NOT_FOUND": "Nem sikerült megtalálni az eddigi szerződést."
   }
 }

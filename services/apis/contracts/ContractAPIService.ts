@@ -14,17 +14,16 @@ export interface ContractIdAPIRequest {
 }
 
 export interface GetContractAPIRequest extends ContractIdAPIRequest {};
+export interface GetContractAPIResponse extends APIResponse {
+  contract: Contract;
+};
 export interface DeleteContractAPIRequest extends ContractIdAPIRequest {};
 export interface UpdateContractAPIRequest extends NewContractAPIRequest, ContractIdAPIRequest {};
-export interface UpdateContractAPIResponse extends APIResponse {};
+export interface UpdateContractAPIResponse extends APIResponse, GetContractAPIResponse {};
 export interface DeleteContractAPIResponse extends APIResponse {};
 
 export interface GetContractsAPIResponse extends APIResponse {
   contracts: Contract[];
-};
-
-export interface GetContractAPIResponse extends APIResponse {
-  contract: Contract;
 };
 
 class ContractsAPIService {
@@ -64,7 +63,7 @@ class ContractsAPIService {
     const { id } = data;
     const payload = this.createContractData(data);
 
-    return axiosService.patch(`${ContractsAPIService.CONTRACT_URL}/${id}`, payload)
+    return axiosService.patch(`${ContractsAPIService.CONTRACT_URL}/${id}`, payload, { headers: this.headers })
       .then(res => res.data);
   }
 
@@ -74,7 +73,7 @@ class ContractsAPIService {
   }
 
   public async getContract({ id }: GetContractAPIRequest) : Promise<GetContractAPIResponse> {
-    return axiosService.get(`${ContractsAPIService.CONTRACT_URL}/${id}`)
+    return axiosService.get(`${ContractsAPIService.CONTRACT_URL}/${id}`, { headers: this.headers })
       .then(res => res.data);
   }
 

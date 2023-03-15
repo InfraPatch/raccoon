@@ -86,7 +86,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       try {
-        await updateContract({
+        const contract = await updateContract({
           id: parseInt(Array.isArray(id) ? id[0] : id),
           friendlyName: firstOf(fields.friendlyName),
           description: firstOf(fields.description),
@@ -94,7 +94,8 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
         });
 
         res.json({
-          ok: true
+          ok: true,
+          contract: contract
         });
         return resolve();
       } catch (err) {
