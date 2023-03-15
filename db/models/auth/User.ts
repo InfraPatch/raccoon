@@ -14,6 +14,7 @@ export interface IUserIdentificationDetails {
   personalIdentifier?: string;
   phoneNumber?: string;
   birthDate?: Date;
+  birthPlace?: string;
 };
 
 export interface IUser extends IUserIdentificationDetails {
@@ -46,6 +47,7 @@ export class User implements IUser {
   personalIdentifier?: string;
   phoneNumber?: string;
   birthDate?: Date;
+  birthPlace?: string;
 
   constructor(
     name?: string,
@@ -81,7 +83,7 @@ export class User implements IUser {
     }
 
     if (identificationDetails) {
-      const { motherName, motherBirthDate, nationality, personalIdentifierType, personalIdentifier, phoneNumber, birthDate } = identificationDetails;
+      const { motherName, motherBirthDate, nationality, personalIdentifierType, personalIdentifier, phoneNumber, birthDate, birthPlace } = identificationDetails;
 
       this.motherName = motherName;
       this.motherBirthDate = motherBirthDate;
@@ -90,6 +92,7 @@ export class User implements IUser {
       this.personalIdentifier = personalIdentifier;
       this.phoneNumber = phoneNumber;
       this.birthDate = birthDate;
+      this.birthPlace = birthPlace;
     }
   }
 
@@ -107,7 +110,8 @@ export class User implements IUser {
       personalIdentifierType: this.personalIdentifierType,
       personalIdentifier: this.personalIdentifier,
       phoneNumber: this.phoneNumber,
-      birthDate: this.birthDate
+      birthDate: this.birthDate,
+      birthPlace: this.birthPlace
     };
   }
 }
@@ -161,6 +165,11 @@ export const UserSchema = {
 
     birthDate: {
       type: 'datetime',
+      nullable: true
+    },
+
+    birthPlace: {
+      type: 'varchar',
       nullable: true
     }
   }
