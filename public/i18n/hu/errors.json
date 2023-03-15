@@ -47,6 +47,29 @@
     "CONTRACT_ALREADY_EXISTS": "Már létezik egy szerződés ezzel a névvel.",
     "FILE_MISSING": "A szerződés sablonának a feltöltése kötelező!",
     "FILE_UPLOAD_FAILED": "Nem sikerült feltölteni a szerződés sablonát.",
-    "CONTRACT_NOT_FOUND": "Nem sikerült megtalálni az eddigi szerződést."
+    "CONTRACT_NOT_FOUND": "Nem sikerült megtalálni az eddigi szerződést.",
+
+    "USER_NOT_FOUND": "Nem található ezzel az e-mail címmel rendelkező felhasználó.",
+
+    "FILLED_CONTRACT_NOT_FOUND": "Nem létezik a megadott azonosítóval rendelkező szerződés.",
+    "FILLED_CONTRACT_ALREADY_ACCEPTED": "Ön már elfogadta ezt a szerződést.",
+
+    "UNKNOWN_CONTRACT": "Ismeretlen szerződés.",
+
+    "CANNOT_DELETE_SIGNED_CONTRACT": "Ezt a szerződést már lezárták, így nem törölhető.",
+    "ONLY_SELLER_CAN_DELETE": "A szerződést csak az eladó törölheti.",
+
+    "ACCESS_TO_CONTRACT_DENIED": "Önnek nincs hozzáférése ehhez a szerződéshez.",
+
+    "FIELD_IS_REQUIRED": "A(z) \"{{ friendlyName }}\" mező kötelező.",
+    "CONTRACT_ALREADY_SIGNED": "A szerződés már alá lett írva.",
+
+    "FIELD_STRING_TOO_SHORT": "A(z) \"{{ friendlyName }}\" mező legalább \"{{ min }}\" karakter hosszú kell legyen.",
+    "FIELD_STRING_TOO_LONG": "A(z) \"{{ friendlyName }}\" mező legfeljebb \"{{ max }}\" karakter hosszú kell legyen.",
+    "FIELD_NUMBER_TOO_SMALL": "A(z) \"{{ friendlyName }}\" mező legkisebb megengedett értéke: \"{{ min }}\".",
+    "FIELD_NUMBER_TOO_LARGE": "A(z) \"{{ friendlyName }}\" mező legnagyobb megengedett értéke: \"{{ max }}\".",
+    "FIELD_INVALID_EMAIL": "A(z) \"{{ friendlyName }}\" mezőben megadott e-mail cím érvénytelen.",
+    "FIELD_DATE_INVALID": "A(z) \"{{ friendlyName }}\" mezőben megadott dátum érvénytelen.",
+    "FIELD_URL_INVALID": "A(z) \"{{ friendlyName }}\" mezőben megadott URL cím érvénytelen."
   }
 }

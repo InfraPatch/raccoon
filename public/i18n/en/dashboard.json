@@ -1,11 +1,12 @@
 {
   "pages": {
     "home": "Home",
-    "my-contracts": "My Contracts",
+    "new-user-contract": "New contract",
+    "my-contracts": "My contracts",
     "user-settings": "User settings",
     "docs": "Documentation",
     "admin": "Admin",
-    "make-admin": "Add Administrator",
+    "make-admin": "Add administrator",
     "admin-docs": "Admin documentation",
     "new-contract": "Create new contract",
     "contracts": "Show all contracts"
@@ -33,6 +34,26 @@
     "id-doc-number": "Personal identifier number",
     "phone-number": "Phone number",
     "birthdate": "Birth date"
+  },
+
+  "contracts": {
+    "list": {
+      "own": "Seller Contracts",
+      "buyer": "Buyer Contracts",
+
+      "contract-type": "Contract type",
+      "preview": "preview",
+      "buyer-accepted": "Buyer accepted request",
+      "yes": "yes",
+      "no": "no",
+      "seller-signed-at": "Seller signed at",
+      "buyer-signed-at": "Buyer signed at",
+      "not-signed-yet": "not signed yet",
+      "accept": "Accept",
+      "decline": "Decline",
+      "accept-success": "Request accepted successfully!",
+      "decline-success": "Request declined successfully!"
+    }
   },
 
   "admin": {

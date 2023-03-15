@@ -1,6 +1,7 @@
 {
   "pages": {
     "home": "Főoldal",
+    "new-user-contract": "Új szerződés kötése",
     "my-contracts": "Szerződéseim",
     "user-settings": "Felhasználói beállítások",
     "docs": "Dokumentáció",
@@ -33,6 +34,26 @@
     "id-doc-number": "Azonosító szám",
     "phone-number": "Telefonszám",
     "birthdate": "Születési dátum"
+  },
+
+  "contracts": {
+    "list": {
+      "own": "Saját (eladói) szerződések",
+      "buyer": "Vevő szerződések",
+
+      "contract-type": "Szerződés típusa",
+      "preview": "minta",
+      "buyer-accepted": "Vevő elfogadta a kérelmet",
+      "yes": "igen",
+      "no": "nem",
+      "seller-signed-at": "Eladó aláírta",
+      "buyer-signed-at": "Vevő aláírta",
+      "not-signed-yet": "még nincs aláírva",
+      "accept": "Elfogad",
+      "decline": "Visszautasít",
+      "accept-success": "Kérelem sikeresen elfogadva!",
+      "decline-success": "Kérelem sikeresen visszautasítva!"
+    }
   },
 
   "admin": {

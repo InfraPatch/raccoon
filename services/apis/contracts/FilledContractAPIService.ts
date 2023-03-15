@@ -37,24 +37,22 @@ export interface DeclineFilledContractAPIResponse extends APIResponse {};
 
 export interface SignFilledContractAPIResponse extends APIResponse {};
 
+const url = (template: string, id: number) => template.replace(':id', id.toString());
+
 export class FilledContractAPIService {
   static LIST_FILLED_CONTRACTS_URL = '/api/filled-contracts';
   static CREATE_FILLED_CONTRACT_URL = '/api/filled-contracts';
 
-  static GET_FILLED_CONTRACT_URL = '/api/filled-contract/:id';
-  static FILL_FILLED_CONTRACT_URL = '/api/filled-contract/:id';
-  static DELETE_FILLED_CONTRACT_URL = '/api/filled-contract/:id';
+  static GET_FILLED_CONTRACT_URL = '/api/filled-contracts/:id';
+  static FILL_FILLED_CONTRACT_URL = '/api/filled-contracts/:id';
+  static DELETE_FILLED_CONTRACT_URL = '/api/filled-contracts/:id';
 
-  static DOWNLOAD_FILLED_CONTRACT_URL = '/api/filled-contract/:id/download';
+  static DOWNLOAD_FILLED_CONTRACT_URL = '/api/filled-contracts/:id/download';
 
-  static ACCEPT_FILLED_CONTRACT_URL = '/api/filled-contract/:id/accept';
-  static DECLINE_FILLED_CONTRACT_URL = '/api/filled-contract/:id/decline';
+  static ACCEPT_FILLED_CONTRACT_URL = '/api/filled-contracts/:id/accept';
+  static DECLINE_FILLED_CONTRACT_URL = '/api/filled-contracts/:id/decline';
 
-  static SIGN_FILLED_CONTRACT_URL = '/api/filled-contract/:id/sign';
-
-  private url(template: string, id: number) {
-    return template.replace(':id', id.toString());
-  }
+  static SIGN_FILLED_CONTRACT_URL = '/api/filled-contracts/:id/sign';
 
   public async listFilledContracts(): Promise<ListFillContractsAPIResponse> {
     return axiosService.get(FilledContractAPIService.LIST_FILLED_CONTRACTS_URL)
@@ -67,27 +65,27 @@ export class FilledContractAPIService {
   }
 
   public async fillFilledContract(id: number, payload: FillContractOptionAPIParams): Promise<GetFilledContractAPIResponse> {
-    return axiosService.put(this.url(FilledContractAPIService.GET_FILLED_CONTRACT_URL, id), payload)
+    return axiosService.put(url(FilledContractAPIService.GET_FILLED_CONTRACT_URL, id), payload)
       .then(res => res.data);
   }
 
   public async deleteFilledContract(id: number): Promise<DeleteFilledContractAPIResponse> {
-    return axiosService.delete(this.url(FilledContractAPIService.DELETE_FILLED_CONTRACT_URL, id))
+    return axiosService.delete(url(FilledContractAPIService.DELETE_FILLED_CONTRACT_URL, id))
       .then(res => res.data);
   }
 
   public async acceptFilledContract(id: number): Promise<AcceptFilledContractAPIResponse> {
-    return axiosService.patch(this.url(FilledContractAPIService.ACCEPT_FILLED_CONTRACT_URL, id))
+    return axiosService.patch(url(FilledContractAPIService.ACCEPT_FILLED_CONTRACT_URL, id))
       .then(res => res.data);
   }
 
   public async declineFilledContract(id: number): Promise<DeclineFilledContractAPIResponse> {
-    return axiosService.patch(this.url(FilledContractAPIService.DECLINE_FILLED_CONTRACT_URL, id))
+    return axiosService.patch(url(FilledContractAPIService.DECLINE_FILLED_CONTRACT_URL, id))
       .then(res => res.data);
   }
 
   public async signFilledContract(id: number): Promise<SignFilledContractAPIResponse> {
-    return axiosService.patch(this.url(FilledContractAPIService.SIGN_FILLED_CONTRACT_URL, id))
+    return axiosService.patch(url(FilledContractAPIService.SIGN_FILLED_CONTRACT_URL, id))
       .then(res => res.data);
   }
 }

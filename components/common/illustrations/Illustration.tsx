@@ -12,6 +12,8 @@ import Contact from '@/assets/images/contact.svg';
 import NotFound from '@/assets/images/not-found.svg';
 import ServerError from '@/assets/images/server-error.svg';
 
+import ZDS from '@/assets/images/zds.svg';
+
 import clsx from 'clsx';
 
 type IllustrationWrapperProps = {
@@ -40,7 +42,9 @@ const Illustration = {
   Contact: (props: P) => <IllustrationWrapper image={Contact} {...props} />,
 
   NotFound: (props: P) => <IllustrationWrapper image={NotFound} {...props} />,
-  ServerError: (props: P) => <IllustrationWrapper image={ServerError} {...props} />
+  ServerError: (props: P) => <IllustrationWrapper image={ServerError} {...props} />,
+
+  ZDS: (props: P) => <IllustrationWrapper image={ZDS} {...props} />
 };
 
 export default Illustration;

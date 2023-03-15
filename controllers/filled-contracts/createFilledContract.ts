@@ -18,12 +18,6 @@ class CreateFilledContractError extends Error {
   }
 }
 
-const fillDefaultOptions = async (seller: User, filledContract: FilledContract) => {
-  const filledContractOptionRepository = db.getRepository(FilledContractOption);
-
-
-};
-
 export const createFilledContract = async (sellerEmail: string, { friendlyName, buyerEmail, contractId }: NewFilledContractAPIParams): Promise<FilledContract> => {
   if (friendlyName.length < 2) {
     throw new CreateFilledContractError('NAME_TOO_SHORT');

@@ -19,5 +19,7 @@
   "dashboard": "Dashboard",
   "save": "Save",
 
+  "no-data": "There is no data to display here.",
+
   "copyright": "© Copyright NISZ. All rights reserved."
 }

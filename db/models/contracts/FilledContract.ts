@@ -85,6 +85,7 @@ export class FilledContract implements IFilledContract {
       contract: this.contract,
       options: this.options && this.options.map(option => omit(option.toJSON(), 'filledContract')),
       userId: this.userId,
+      accepted: this.accepted,
       sellerSignedAt: this.sellerSignedAt && this.sellerSignedAt.toJSON(),
       buyerSignedAt: this.buyerSignedAt && this.buyerSignedAt.toJSON()
     };

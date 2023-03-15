@@ -32,6 +32,12 @@ const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
     },
 
     {
+      href: '/dashboard/contracts/new',
+      icon: <Star />,
+      label: t('pages.new-user-contract')
+    },
+
+    {
       href: '/dashboard/contracts',
       icon: <Edit3 />,
       label: t('pages.my-contracts')
