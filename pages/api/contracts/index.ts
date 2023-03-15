@@ -1,6 +1,6 @@
 import bar from 'next-bar';
 
-import { ensureAdministrator } from '@/middleware/auth';
+import { ensureAdministrator, ensureAuthenticated } from '@/middleware/auth';
 
 import * as contractsController from '@/controllers/contracts/contractsController';
 
@@ -12,5 +12,5 @@ export const config = {
 
 export default bar({
   post: ensureAdministrator(contractsController.newContract),
-  get: ensureAdministrator(contractsController.listContracts)
+  get: ensureAuthenticated(contractsController.listContracts)
 });
