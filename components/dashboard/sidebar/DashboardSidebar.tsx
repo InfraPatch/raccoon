@@ -8,11 +8,16 @@ import UserProfilePicture, { UserProfilePictureSize } from '../common/UserProfil
 import DashboardNavigation, { NavigationSeparator } from '../common/navigation/DashboardNavigation';
 import { NavigationLinkProps } from '@/components/dashboard/common/navigation/NavigationLink';
 import { NavigationTitleProps } from '@/components/dashboard/common/navigation/NavigationTitle';
+import ThemeSwitcher from '@/components/common/theme-switcher/ThemeSwitcher';
+import LanguageSwitcher from '@/components/common/language-switcher/LanguageSwitcher';
+
 import { Edit3, Home } from 'react-feather';
 
 import { useTranslation } from 'next-i18next';
 
 import buildUrl from '@/lib/buildUrl';
+
+import Link from 'next/link';
 
 export interface DashboardSidebarProps {
   user: User;
@@ -96,25 +101,39 @@ const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
 
   return (
     <aside className="overflow-y-auto flex flex-col md:w-64 bg-secondary shadow-lg py-6 px-5 h-full">
-      <div className="text-accent text-2xl text-center mb-5">
-        Project Raccoon
-      </div>
+      <Link href="/">
+        <a>
+          <div className="text-accent text-2xl text-center mb-5">
+            Project Raccoon
+          </div>
+        </a>
+      </Link>
 
       <div className="flex-1 mb-4">
         <DashboardNavigation items={navigation} />
       </div>
 
-      <div className="flex gap-2 items-center">
-        <UserProfilePicture size={UserProfilePictureSize.SMALL} user={user} />
-
-        <div className="flex-1 truncate" title={user.name}>
-          {user.name}
+      <div>
+        <div className="flex justify-center items-center gap-3 mb-2">
+          <ThemeSwitcher />
+          <LanguageSwitcher />
         </div>
 
-        <div>
-          <LogOut onClick={handleSignoutClick} className="cursor-pointer" />
+        <hr />
+
+        <div className="flex gap-2 items-center">
+          <UserProfilePicture size={UserProfilePictureSize.SMALL} user={user} />
+
+          <div className="flex-1 truncate" title={user.name}>
+            {user.name}
+          </div>
+
+          <div>
+            <LogOut onClick={handleSignoutClick} className="cursor-pointer" />
+          </div>
         </div>
       </div>
+
     </aside>
   );
 };

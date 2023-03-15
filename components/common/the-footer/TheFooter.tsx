@@ -1,6 +1,7 @@
 import { useTranslation } from 'next-i18next';
 
 import Link from 'next/link';
+import LanguageSwitcher from '../language-switcher/LanguageSwitcher';
 import ThemeSwitcher from '../theme-switcher/ThemeSwitcher';
 
 const TheFooter = () => {
@@ -24,7 +25,10 @@ const TheFooter = () => {
         </Link>
 
         <div className="inline-block mx-auto my-4 md:my-0">
-          <ThemeSwitcher />
+          <div className="flex justify-center items-center gap-3">
+            <ThemeSwitcher />
+            <LanguageSwitcher />
+          </div>
         </div>
       </nav>
     </footer>

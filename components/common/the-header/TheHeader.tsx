@@ -37,9 +37,13 @@ const TheHeader = () => {
 
   return (
     <header className="block w-full md:flex justify-between items-center p-3 md:p-0 md:py-8 mb-4 md:mb-0">
-      <div className="text-accent text-2xl mb-3 md:mb-0">
-        Project Raccoon
-      </div>
+      <Link href="/">
+        <a>
+          <div className="text-accent text-2xl mb-3 md:mb-0">
+            Project Raccoon
+          </div>
+        </a>
+      </Link>
 
       <div className={navigationWrapperClasses}>
         <nav className="md:flex items-center gap-1">
