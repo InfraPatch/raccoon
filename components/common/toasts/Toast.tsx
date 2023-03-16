@@ -33,7 +33,7 @@ const Toast = ({ idx, level, title, message, dismissable = true, dead, onClick }
             {level === 'info' && <Info />}
           </div>
 
-          <div>
+          <div className="pr-2">
             {title && <strong>{title}<br /></strong>}
             <span>{message}</span>
           </div>

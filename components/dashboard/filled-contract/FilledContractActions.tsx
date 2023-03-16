@@ -9,6 +9,8 @@ import apiService from '@/services/apis';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
+import Swal from 'sweetalert2';
+
 export interface FilledContractActionsProps {
   filledContract: IFilledContract;
   onChange: () => Promise<void>;
@@ -106,6 +108,48 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
     window.location.href = `/documents/${filledContract.id}`;
   };
 
+  const handleAcceptOrDeclineClick = async (action: 'accept' | 'decline') => {
+    const result = await Swal.fire({
+      title: t('dashboard:contracts.actions.confirm-action'),
+      text: t(`dashboard:contracts.actions.${action}-confirmation`),
+      showCancelButton: true,
+      confirmButtonText: t('dashboard:contracts.actions.yes'),
+      cancelButtonText: t('dashboard:contracts.actions.no')
+    });
+
+    if (result.isConfirmed) {
+      await acceptOrDecline(action);
+    }
+  };
+
+  const handleSignClick = async () => {
+    const result = await Swal.fire({
+      title: t('dashboard:contracts.actions.confirm-action'),
+      text: t('dashboard:contracts.actions.sign-confirmation'),
+      showCancelButton: true,
+      confirmButtonText: t('dashboard:contracts.actions.yes'),
+      cancelButtonText: t('dashboard:contracts.actions.no')
+    });
+
+    if (result.isConfirmed) {
+      await signContract();
+    }
+  };
+
+  const handleDeleteClick = async () => {
+    const result = await Swal.fire({
+      title: t('dashboard:contracts.actions.confirm-action'),
+      text: t('dashboard:contracts.actions.delete-confirmation'),
+      showCancelButton: true,
+      confirmButtonText: t('dashboard:contracts.actions.yes'),
+      cancelButtonText: t('dashboard:contracts.actions.no')
+    });
+
+    if (result.isConfirmed) {
+      await deleteContract();
+    }
+  };
+
   return (
     <div className="flex flex-wrap gap-4 my-4">
       {isBuyer && !filledContract.accepted && (
@@ -113,13 +157,13 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
           <Button
             size={ButtonSize.SMALL}
             disabled={saving}
-            onClick={() => acceptOrDecline('accept')}
+            onClick={() => handleAcceptOrDeclineClick('accept')}
           >{ t('dashboard:contracts.actions.accept') }</Button>
 
           <Button
             size={ButtonSize.SMALL}
             disabled={saving}
-            onClick={() => acceptOrDecline('decline')}
+            onClick={() => handleAcceptOrDeclineClick('decline')}
           >{ t('dashboard:contracts.actions.reject') }</Button>
         </>
       )}
@@ -128,7 +172,7 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
         <Button
           size={ButtonSize.SMALL}
           disabled={saving}
-          onClick={signContract}
+          onClick={handleSignClick}
         >{ t('dashboard:contracts.actions.sign') }</Button>
       )}
 
@@ -137,13 +181,13 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
           <Button
             size={ButtonSize.SMALL}
             disabled={saving}
-            onClick={signContract}
+            onClick={handleSignClick}
           >{ t('dashboard:contracts.actions.sign') }</Button>
 
           <Button
             size={ButtonSize.SMALL}
             disabled={saving}
-            onClick={deleteContract}
+            onClick={handleDeleteClick}
           >{ t('dashboard:contracts.actions.delete')}</Button>
         </>
       )}

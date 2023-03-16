@@ -89,7 +89,14 @@
       "reject": "Visszautasít",
       "sign": "Aláír",
       "delete": "Töröl",
-      "download": "Letöltés"
+      "download": "Letöltés",
+      "confirm-action": "Művelet megerősítése",
+      "yes": "Igen",
+      "no": "Nem",
+      "accept-confirmation": "Biztosan el szeretné fogadni ezt a szerződés kitöltési kérelmet?",
+      "decline-confirmation": "Biztosan vissza szeretné utasítani ezt a szerződés kitöltési kérelmet?",
+      "sign-confirmation": "Biztosan aláírja ezt a szerződést?",
+      "delete-confirmation": "Biztosan törölni szeretné ezt a szerződést? Ez a művelet nem vonható vissza!"
     }
   },
 

@@ -89,7 +89,14 @@
       "reject": "Reject",
       "sign": "Sign",
       "delete": "Delete",
-      "download": "Download"
+      "download": "Download",
+      "confirm-action": "Confirm action",
+      "yes": "Yes",
+      "no": "No",
+      "accept-confirmation": "Are you sure you want to accept this contract request?",
+      "decline-confirmation": "Are you sure you want to decline this contract request?",
+      "sign-confirmation": "Are you sure you want to sign this contract?",
+      "delete-confirmation": "Are you sure you want to delete this contract? This action is irreversible!"
     }
   },
 
