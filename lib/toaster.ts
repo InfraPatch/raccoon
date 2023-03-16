@@ -23,7 +23,7 @@ interface IToastHandlers {
 };
 
 class Toaster {
-  static DEFAULT_TIMEOUT: number = 5000;
+  static DEFAULT_TIMEOUT: number = 10000;
 
   private idx: number = 0;
   private toasts: IToast[] = [];

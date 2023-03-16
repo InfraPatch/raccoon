@@ -22,15 +22,9 @@ const Toast = ({ idx, level, title, message, dismissable = true, dead, onClick }
     'opacity-0': dead
   });
 
-  const styles = {
-    left: 0,
-    right: 0,
-    bottom: `${idx * 80}px`
-  };
-
   return (
-    <div className="fixed text-white pb-5 z-50" role="alert" style={styles}>
-      <div className={classNames} style={{ maxWidth: '400px' }}>
+    <div className="text-white z-50 mb-3" role="alert">
+      <div className={classNames}>
         <div className="flex justify-between items-start">
           <div className="mr-2">
             {level === 'success' && <CheckCircle />}
