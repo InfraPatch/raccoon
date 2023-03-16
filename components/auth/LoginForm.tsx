@@ -2,7 +2,9 @@ import { FormEvent, useState } from 'react';
 
 import { csrfToken } from 'next-auth/client';
 import toaster from '@/lib/toaster';
+
 import Button, { ButtonSize } from '../common/button/Button';
+import Link from 'next/link';
 
 import apiService from '@/services/apis';
 
@@ -75,6 +77,10 @@ const LoginForm = () => {
           type="submit"
           disabled={sending}
         >{ t('common:log-in') }</Button>
+      </div>
+
+      <div className="my-5 text-center">
+        { t('auth:not-registered-yet') } <Link href="/register">{ t('auth:register-now') }</Link>
       </div>
     </form>
   );

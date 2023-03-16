@@ -17,7 +17,7 @@ const Home = () => {
     if (session) {
       router.push('/dashboard');
     } else {
-      router.push('/login');
+      router.push('/register');
     }
   };
 
