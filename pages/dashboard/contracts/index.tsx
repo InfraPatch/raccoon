@@ -55,7 +55,7 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
   return (
     <DashboardLayout user={user}>
       <Meta
-        title={ t('dashboard:pages.contracts') }
+        title={ t('dashboard:pages.my-contracts') }
         url="/dashboard/contracts"
       />
       {!error && (
