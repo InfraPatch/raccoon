@@ -38,7 +38,9 @@
 
     "IMAGE_UPLOAD_FAILED": "Nem sikerült feltölteni a profilképet.",
     "INVALID_PERSONAL_IDENTIFIER_TYPE": "Az azonosítási okirat típusa érvénytelen.",
-    "PERSONAL_IDENTIFIER_NOT_PROVIDED": "Nincs megadva az azonosító szám."
+    "PERSONAL_IDENTIFIER_NOT_PROVIDED": "Nincs megadva az azonosító szám.",
+
+    "INVALID_MIMETYPE": "Csak PNG, JPEG és GIF fájlok engedélyezettek."
   },
 
   "contracts": {
@@ -50,6 +52,8 @@
     "CONTRACT_NOT_FOUND": "Nem sikerült megtalálni az eddigi szerződést.",
 
     "USER_NOT_FOUND": "Nem található ezzel az e-mail címmel rendelkező felhasználó.",
+
+    "INVALID_MIMETYPE": "Csak DOCX fájlok engedélyezettek.",
 
     "FILLED_CONTRACT_NOT_FOUND": "Nem létezik a megadott azonosítóval rendelkező szerződés.",
     "FILLED_CONTRACT_ALREADY_ACCEPTED": "Ön már elfogadta ezt a szerződést.",

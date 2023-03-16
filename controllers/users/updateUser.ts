@@ -72,7 +72,16 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
   }
 
   if (payload.image) {
-    // TODO: (maybe) check for valid image
+    const allowedMimetypes = [
+      'image/png',
+      'image/jpeg',
+      'image/gif'
+    ];
+
+    if (!allowedMimetypes.includes(payload.image.type)) {
+      throw new UserUpdateError('INVALID_MIMETYPE');
+    }
+
     try {
       user.image = await uploadImage(payload.image);
     } catch (err) {

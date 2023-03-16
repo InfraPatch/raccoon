@@ -68,6 +68,12 @@ export const createContract = async ({ friendlyName, description, file }: Contra
     throw new ContractCreationError('FILE_MISSING');
   }
 
+  const allowedMimetypes = [ 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ];
+
+  if (!allowedMimetypes.includes(file.type)) {
+    throw new ContractCreationError('INVALID_MIMETYPE');
+  }
+
   try {
     filename = await uploadFile(file);
   } catch (err) {

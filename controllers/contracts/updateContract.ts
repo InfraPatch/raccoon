@@ -46,6 +46,12 @@ export const updateContract = async ({ id, friendlyName, description, file }: Co
   let filename: string | null = null;
 
   if (file) {
+    const allowedMimetypes = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+
+    if (!allowedMimetypes.includes(file.type)) {
+      throw new ContractUpdateError('INVALID_MIMETYPE');
+    }
+
     try {
       filename = await uploadFile(file);
     } catch (err) {
