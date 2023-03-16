@@ -11,6 +11,7 @@ import MakeAdminForm from '@/components/dashboard/admin/make-admin/MakeAdminForm
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
+import Meta from '@/components/common/Meta';
 
 export interface DashboardMakeAdminPageProps {
   user: User;
@@ -21,6 +22,10 @@ const DashboardMakeAdminPage = ({ user }: DashboardMakeAdminPageProps) => {
 
   return (
     <DashboardLayout user={user}>
+      <Meta
+        title={ t('dashboard:pages.make-admin') }
+        url="/dashboard/admin/make-admin"
+      />
       <Columns>
         <Column>
           <Box title={t('pages.make-admin')}>

@@ -9,7 +9,8 @@
     "make-admin": "Admin hozzáadása",
     "admin-docs": "Admin dokumentáció",
     "new-contract": "Új szerződés létrehozása",
-    "contracts": "Szerződések"
+    "contracts": "Szerződések",
+    "contract": "Szerződés"
   },
 
   "home": {

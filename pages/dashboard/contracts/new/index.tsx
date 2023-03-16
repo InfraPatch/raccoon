@@ -17,6 +17,7 @@ import { Contract } from '@/db/models/contracts/Contract';
 import NewContractBox from '@/components/dashboard/contracts/NewContractBox';
 import Box from '@/components/common/box/Box';
 import { useTranslation } from 'react-i18next';
+import Meta from '@/components/common/Meta';
 
 export interface DashboardNewContractPageProps {
   user: User;
@@ -34,6 +35,10 @@ const DashboardContractsPage = ({ user, contracts }: DashboardNewContractPagePro
 
   return (
     <DashboardLayout user={user}>
+      <Meta
+        title={ t('dashboard:pages.new-contract') }
+        url="/dashboard/contracts/new"
+      />
       <Columns>
         <Column>
           <Box>

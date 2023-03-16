@@ -18,6 +18,8 @@ import { Contract } from '@/db/models/contracts/Contract';
 import { ContractOption } from '@/db/models/contracts/ContractOption';
 import EditContractForm from '@/components/dashboard/admin/contracts/EditContractForm';
 import ContractOptionForm from '@/components/dashboard/admin/contracts/ContractOptionForm';
+import Meta from '@/components/common/Meta';
+import { useTranslation } from 'react-i18next';
 
 export interface DashboardContractPageProps {
   user: User;
@@ -25,6 +27,7 @@ export interface DashboardContractPageProps {
 };
 
 const DashboardContractPage = ({ user, contractEntry }: DashboardContractPageProps) => {
+  const { t } = useTranslation([ 'dashboard' ]);
   const [ contract, setContract ] = useState<Contract>(contractEntry);
   let rows : ContractOption[][] = [];
 
@@ -34,6 +37,10 @@ const DashboardContractPage = ({ user, contractEntry }: DashboardContractPagePro
 
   return (
     <DashboardLayout user={user}>
+      <Meta
+        title={`${t('dashboard:pages.contract')}: ${contract.friendlyName}`}
+        url={`/dashboard/admin/contracts/${contract.id}`}
+      />
       <Columns>
         <Column key={'contract-' + contract.id}>
           <EditContractForm contractProp={contract} />

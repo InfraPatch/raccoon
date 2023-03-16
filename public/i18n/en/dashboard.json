@@ -9,7 +9,8 @@
     "make-admin": "Add administrator",
     "admin-docs": "Admin documentation",
     "new-contract": "Create new contract",
-    "contracts": "Show all contracts"
+    "contracts": "Show all contracts",
+    "contract": "Contract"
   },
 
   "home": {

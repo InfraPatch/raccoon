@@ -50,7 +50,7 @@ const EditContractForm = ({ contractProp } : EditContractFormProps) => {
   };
 
   return (
-    <Box title={t('dashboard:admin.edit-contract:title') + ': ' + contract.friendlyName}>
+    <Box title={`${t('dashboard:admin.edit-contract:title')}: ${contract.friendlyName}`}>
       <Formik
         initialValues={{ friendlyName: contract.friendlyName, description: contract.description }}
         validate={NewContractFormValidator.validate(t)}

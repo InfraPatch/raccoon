@@ -13,6 +13,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Illustration from '@/components/common/illustrations/Illustration';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
+import Meta from '@/components/common/Meta';
 
 export interface DashboardHomePageProps {
   user: User;
@@ -34,6 +35,10 @@ const DashboardHomePage = ({ user }: DashboardHomePageProps) => {
 
   return (
     <DashboardLayout user={user}>
+      <Meta
+        title={ t('dashboard:pages.home') }
+        url="/dashboard"
+      />
       <Columns>
         <Column>
           <Box>

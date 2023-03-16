@@ -20,6 +20,7 @@ import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 import FilledContractFieldsForm from '@/components/dashboard/filled-contract/FilledContractFieldsForm';
 import FilledContractActions from '@/components/dashboard/filled-contract/FilledContractActions';
 import FilledContractOverview from '@/components/dashboard/filled-contract/FilledContractOverview';
+import Meta from '@/components/common/Meta';
 
 export interface DashboardContractsPageProps {
   user: User;
@@ -59,6 +60,10 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
 
   return (
     <DashboardLayout user={user}>
+      <Meta
+        title={`${t('dashboard:pages.contract')}: ${contract.friendlyName}`}
+        url={`/dashboard/contracts/${contract.id}`}
+      />
       {!error && contract !== null && (
         <Columns>
           <Column>

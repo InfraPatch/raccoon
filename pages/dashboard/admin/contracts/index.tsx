@@ -15,6 +15,8 @@ import apiService from '@/services/apis';
 import { GetContractsAPIResponse } from '@/services/apis/contracts/ContractAPIService';
 import { Contract } from '@/db/models/contracts/Contract';
 import ContractBox from '@/components/dashboard/admin/contracts/ContractBox';
+import Meta from '@/components/common/Meta';
+import { useTranslation } from 'react-i18next';
 
 export interface DashboardContractsPageProps {
   user: User;
@@ -22,6 +24,7 @@ export interface DashboardContractsPageProps {
 };
 
 const DashboardContractsPage = ({ user, contracts }: DashboardContractsPageProps) => {
+  const { t } = useTranslation([ 'dashboard' ]);
   let rows : Contract[][] = [];
 
   for (let i : number = 0; i < contracts.length; i += 2) {
@@ -30,6 +33,10 @@ const DashboardContractsPage = ({ user, contracts }: DashboardContractsPageProps
 
   return (
     <DashboardLayout user={user}>
+      <Meta
+        title={ t('dashboard:pages.contracts') }
+        url="/dashboard/admin/contracts"
+      />
       {rows.map((row, index) => {
         let columns = [];
 

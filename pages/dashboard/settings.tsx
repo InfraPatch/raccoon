@@ -21,6 +21,7 @@ import UserPasswordSettingsForm from '@/components/dashboard/settings/UserPasswo
 import UserIdentificationSettingsForm from '@/components/dashboard/settings/UserIdentificationSettingsForm';
 
 import { useTranslation } from 'react-i18next';
+import Meta from '@/components/common/Meta';
 
 export interface DashboardSettingsPageProps {
   user: User;
@@ -50,6 +51,10 @@ const DashboardSettingsPage = ({ user }: DashboardSettingsPageProps) => {
 
   return (
     <DashboardLayout user={user}>
+      <Meta
+        title={ t('dashboard:pages.user-settings') }
+        url="/dashboard/settings"
+      />
       {userWithDetails && (
         <Columns>
           <Column>

@@ -11,6 +11,7 @@ import NewContractForm from '@/components/dashboard/admin/contracts/NewContractF
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
+import Meta from '@/components/common/Meta';
 
 export interface DashboardNewContractPageProps {
   user: User;
@@ -21,6 +22,10 @@ const DashboardNewContractPage = ({ user }: DashboardNewContractPageProps) => {
 
   return (
     <DashboardLayout user={user}>
+      <Meta
+        title={ t('dashboard:pages.new-contract') }
+        url="/dashboard/admin/new-contract"
+      />
       <Columns>
         <Column>
           <Box title={t('pages.new-contract')}>

@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 import apiService from '@/services/apis';
 import FilledContractList from '@/components/dashboard/filled-contract-list/FilledContractList';
 import ZeroDataState from '@/components/common/zero-data-state/ZeroDataState';
+import Meta from '@/components/common/Meta';
 
 export interface DashboardContractListPageProps {
   user: User;
@@ -53,6 +54,10 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
 
   return (
     <DashboardLayout user={user}>
+      <Meta
+        title={ t('dashboard:pages.contracts') }
+        url="/dashboard/contracts"
+      />
       {!error && (
         <Columns>
           <Column>
