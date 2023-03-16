@@ -1,5 +1,25 @@
 {
   "hero-slogan": "Your one-stop sell contract manager.",
   "hero-description": "Creating, signing, and managing sell contracts has never been this easy! Our intuitive interface will cover the complicated legal side of your deals.",
-  "hero-cta": "Try it out!"
+  "hero-cta": "Try it out!",
+
+  "hero-steps": "As easy as 1-2-3!",
+  "step": "Step {{ step }}",
+
+  "steps": {
+    "create": {
+      "title": "Create a contract",
+      "description": "Create a new contract from our templates and invite a buyer to fill it out and sign it."
+    },
+
+    "fill": {
+      "title": "Fill out the contract form",
+      "description": "Collect all the information necessary for your contract that our system will use to generate it."
+    },
+
+    "download": {
+      "title": "Download your contract",
+      "description": "Once both parties sign the contract, you will be able to download it. You will always be able to access your contracts."
+    }
+  }
 }

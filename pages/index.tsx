@@ -8,6 +8,8 @@ import Button, { ButtonSize } from '@/components/common/button/Button';
 
 import router from 'next/router';
 import { useSession } from 'next-auth/client';
+import Box from '@/components/common/box/Box';
+import HomeBox from '@/components/home/HomeBox';
 
 const Home = () => {
   const { t } = useTranslation('home');
@@ -28,7 +30,7 @@ const Home = () => {
         url="/"
       />
 
-      <div className="text-center py-10 px-4 md:px-0">
+      <section className="text-center py-10 px-4 md:px-0">
         <div className="max-w-xl mx-auto mb-10">
           <h1 className="text-5xl mb-10 font-bold text-accent">
             { t('hero-slogan') }
@@ -44,6 +46,38 @@ const Home = () => {
         </div>
 
         <Illustration.HomeHero className="max-w-2xl mx-auto" />
+      </section>
+
+      <div className="text-5xl text-center p-3 my-6 font-bold">
+        { t('hero-steps') }
+      </div>
+
+      <div className="max-w-7xl mx-auto">
+        <HomeBox
+          illustration={<Illustration.OnlineCollaboration />}
+          step={1}
+          title={ t('steps.create.title') }
+          description={ t('steps.create.description') }
+        />
+
+        <HomeBox
+          illustration={<Illustration.Forms />}
+          step={2}
+          reverse
+          title={ t('steps.fill.title') }
+          description={ t('steps.fill.description') }
+        />
+
+        <HomeBox
+          illustration={<Illustration.Download />}
+          step={3}
+          title={ t('steps.download.title') }
+          description={ t('steps.download.description') }
+        />
+      </div>
+
+      <div className="my-6 p-3 text-center">
+        <Button size={ButtonSize.MEDIUM} onClick={handleCTAClick}>{ t('hero-cta') }</Button>
       </div>
     </PageLayout>
   );

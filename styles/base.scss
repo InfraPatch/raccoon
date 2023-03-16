@@ -113,4 +113,57 @@ hr {
   height: 1px;
 }
 
+code {
+  @apply inline-block;
+  @apply bg-gray;
+  @apply text-foreground;
+  @apply rounded-sm;
+
+  padding: 2px 3px;
+}
+
+table {
+  @apply border;
+  @apply border-gray;
+
+  thead {
+    @apply bg-gray;
+    @apply text-foreground;
+  }
+
+  tr, td, th {
+    @apply border;
+    @apply border-gray;
+  }
+
+  td, th {
+    @apply px-2;
+    @apply py-1;
+
+    @apply border-t-0;
+    @apply border-l-0;
+    @apply border-b-0;
+
+    &:last-child {
+      @apply border-r-0;
+    }
+  }
+
+  tr {
+    @apply border-t-0;
+    @apply border-l-0;
+    @apply border-r-0;
+
+    &:last-child {
+      @apply border-b-0;
+    }
+  }
+}
+
+.docs {
+  img {
+    @apply mx-auto;
+  }
+}
+
 @import './progress';

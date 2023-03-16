@@ -1,5 +1,25 @@
 {
   "hero-slogan": "Adásvételi szerződések könnyen.",
   "hero-description": "Sosem volt ilyen könnyű létrehozni, aláírni és kezelni adásvételi szerződéseket! Intuitív felületünk elintézi Ön helyett az üzletelés bonyolult jogi oldalát.",
-  "hero-cta": "Próbálja ki most!"
+  "hero-cta": "Próbálja ki most!",
+
+  "hero-steps": "Csupán 3 lépés az egész!",
+  "step": "{{ step }}. lépés",
+
+  "steps": {
+    "create": {
+      "title": "Szerződés létrehozása",
+      "description": "Válogasson sablonjaink közül és hozzon létre egy szerződést, melyhez meghívhat egy vevőt."
+    },
+
+    "fill": {
+      "title": "Adatok kitöltése",
+      "description": "Gyűjtse össze a szerződéséhez szükséges adatokat, melyet rendszerünk felhasznál arra, hogy generálja a szerződését."
+    },
+
+    "download": {
+      "title": "Szerződés letöltése",
+      "description": "Amint mindkét fél aláírja a szerződést, letöltheti azt. Szerződéseit rendszerünkben mindig megtalálhatja."
+    }
+  }
 }

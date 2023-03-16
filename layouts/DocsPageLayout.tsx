@@ -23,7 +23,7 @@ const DocsPageLayout = ({ title, description, url, children }: DocsPageLayoutPro
 
         <article className="flex-1">
           <Box>
-            <div className="content">
+            <div className="content docs">
               {children}
             </div>
           </Box>

@@ -4,20 +4,22 @@ description: További információ a szerződéssablonok létrehozásáról.
 url: /hu/docs/admin/templates
 ---
 
-A szerződések mezőparaméterekkel töltik ki a szükséges információkat.  
+A szerződések mezőparaméterekkel töltik ki a szükséges információkat.
 
-Minden szerződéssablonnak legalább egy eladó és egy vevő mezővel kell rendelkeznie.  
-Ugyanakkor a következöket is igénylik:  
-`{signature_date}`, `{seller_signature}`, és `{buyer_signature}`.  
+Minden szerződéssablonnak legalább egy eladó és egy vevő mezővel kell
+rendelkeznie. Ugyanakkor a következöket is igénylik: `{signature_date}`,
+`{seller_signature}`, és `{buyer_signature}`.
 
-Kétféle mező létezik:  
-* **Alapértelmezett**  
-Az alapértelmezett mezők alapértelmezett adataikat a felhasználói beállításokból veszik.  
-* **Egyedi**  
+Kétféle mező létezik:
 
-Mindkettő szerkeszthető, miközben mindkét fél kitölti a szerződést.  
+* **Alapértelmezett** (alapértelmezett adataikat a felhasználói beállításokból
+veszik)
+* **Egyedi**
 
-##### Alapértelmezett mezők  
+Mindkettő szerkeszthető, miközben mindkét fél kitölti a szerződést.
+
+### Alapértelmezett mezők
+
 | Eladó                   | Vevő                   |
 |-------------------------|------------------------|
 | {seller_name}           | {buyer_name}           |
@@ -30,14 +32,18 @@ Mindkettő szerkeszthető, miközben mindkét fél kitölti a szerződést.
 | {seller_phone_number}   | {buyer_phone_number}   |
 | {seller_email}          | {buyer_email}          |
 
-A `{signature_date}` egy speciális mező, amely tartalmazza azt a dátumot, amikor a szerződést mindkét fél aláírta.  
-A `{seller_signature}` és a `{buyer_signature}` helyére mind az eladó, mind a vevő neve nagybetűvel kerül.  
+A `{signature_date}` egy speciális mező, amely tartalmazza azt a dátumot, amikor
+a szerződést mindkét fél aláírta.
 
-##### Egyéni mezők  
-Példa egyéni mezőkre:  
-`{item_name}`, `{item_description}`  
+A `{seller_signature}` és a `{buyer_signature}` helyére mind az eladó, mind a
+vevő neve nagybetűvel kerül.
 
-### Példa adásvételi szerződésre  
-![exampleContract](/images/hu/admin/exampleContract.png)  
+### Egyéni mezők
 
-[Példány letöltése](/examples/Pelda_erteku_adasveteli_szerzodes.docx)  
+Példa egyéni mezőkre: `{item_name}`, `{item_description}`
+
+## Példa adásvételi szerződésre
+
+![exampleContract](/images/hu/admin/exampleContract.png)
+
+[Példány letöltése](/examples/Pelda_erteku_adasveteli_szerzodes.docx)

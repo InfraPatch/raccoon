@@ -1,6 +1,9 @@
 import { HTMLAttributes } from 'react';
 
 import HomeHero from '@/assets/images/home-hero.svg';
+import Forms from '@/assets/images/forms.svg';
+import Download from '@/assets/images/download.svg';
+import OnlineCollaboration from '@/assets/images/online-collaboration.svg';
 
 import Contract from '@/assets/images/contract.svg';
 import Agreement from '@/assets/images/agreement.svg';
@@ -33,6 +36,9 @@ const IllustrationWrapper = ({ image, center, ...props }: IllustrationWrapperPro
 
 const Illustration = {
   HomeHero: (props: P) => <IllustrationWrapper image={HomeHero} {...props} />,
+  Forms: (props: P) => <IllustrationWrapper image={Forms} {...props} />,
+  Download: (props: P) => <IllustrationWrapper image={Download} {...props} />,
+  OnlineCollaboration: (props: P) => <IllustrationWrapper image={OnlineCollaboration} {...props} />,
 
   Contract: (props: P) => <IllustrationWrapper image={Contract} {...props} />,
   Agreement: (props: P) => <IllustrationWrapper image={Agreement} {...props} />,
