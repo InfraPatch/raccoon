@@ -19,7 +19,7 @@ const RegisterForm = () => {
   const handleFormSubmit = async ({ name, email, password, password2 }: CredentialsRegisterAPIRequest, { setSubmitting }: FormikHelpers<CredentialsRegisterAPIRequest>) => {
     try {
       await apiService.credentialsAuth.register({ name, email, password, password2 });
-      toaster.success(t('auth:signup-success'));
+      toaster.success(t('auth:signin-success', { name }));
       router.push('/login');
     } catch (err) {
       const message = err.response?.data?.error;

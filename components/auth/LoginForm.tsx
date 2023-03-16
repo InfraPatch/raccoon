@@ -34,7 +34,7 @@ const LoginForm = () => {
         password
       });
 
-      toaster.success(t('auth:signin-success', response?.user?.name));
+      toaster.success(t('auth:signin-success', { name: response?.user?.name }));
       router.push('/dashboard');
     } catch (err) {
       if (err.response?.data?.error) {
