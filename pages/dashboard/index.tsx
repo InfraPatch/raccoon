@@ -43,7 +43,7 @@ const DashboardHomePage = ({ user }: DashboardHomePageProps) => {
         <Column>
           <Box>
             <div className="text-center">
-              <Illustration.Contract className="h-72 max-w-full mx-auto" />
+              <Illustration.Contract className="md:h-72 max-w-full mx-auto" />
 
               <div className="text-2xl my-4">
                 { t('home.create-title') }

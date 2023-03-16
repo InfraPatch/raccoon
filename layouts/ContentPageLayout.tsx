@@ -24,8 +24,8 @@ const ContentPageLayout = ({ title, subtitle, narrow, children }: ContentPageLay
         <div className={wrapperClasses}>
           {title && (
             <div className="text-center px-4 py-10">
-              <h1 className="text-6xl text-accent">{title}</h1>
-              {subtitle && <h2 className="text-2xl mt-5 font-normal text-accent">{subtitle}</h2>}
+              <h1 className="text-4xl md:text-6xl text-accent">{title}</h1>
+              {subtitle && <h2 className="text-xl md:text-2xl mt-5 font-normal text-accent">{subtitle}</h2>}
             </div>
           )}
 
