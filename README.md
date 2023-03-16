@@ -56,6 +56,13 @@ yarn migrate
 yarn dev
 ```
 
+**7. Build and start the production server**
+
+```
+yarn build
+yarn start
+```
+
 ## Useful Commands
 
 ### Linting
