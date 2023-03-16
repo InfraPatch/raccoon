@@ -1,6 +1,8 @@
 import Button, { ButtonSize } from '@/components/common/button/Button';
 import { IFilledContract } from '@/db/models/contracts/FilledContract';
 
+import { formatDate } from '@/lib/formatDate';
+
 import toaster from '@/lib/toaster';
 import apiService from '@/services/apis';
 
@@ -64,13 +66,13 @@ const FilledContractListItem = ({ contract, onChange, isBuyer }: FilledContractL
       <div>
         <strong>{ t('dashboard:contracts.list.seller-signed-at') }: </strong>
         {!contract.sellerSignedAt && <span className="text-danger">{ t('dashboard:contracts.list.not-signed-yet') }</span>}
-        {contract.sellerSignedAt && <span>{contract.sellerSignedAt}</span>}
+        {contract.sellerSignedAt && <span>{formatDate(contract.sellerSignedAt, false)}</span>}
       </div>
 
       <div>
         <strong>{ t('dashboard:contracts.list.buyer-signed-at') }: </strong>
         {!contract.buyerSignedAt && <span className="text-danger">{ t('dashboard:contracts.list.not-signed-yet') }</span>}
-        {contract.buyerSignedAt && <span>{contract.buyerSignedAt}</span>}
+        {contract.buyerSignedAt && <span>{formatDate(contract.buyerSignedAt, false)}</span>}
       </div>
 
       {isBuyer && !contract.accepted && (

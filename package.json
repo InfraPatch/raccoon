@@ -20,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "camelcase": "^6.2.0",
     "clsx": "^1.1.1",
+    "date-fns": "^2.21.1",
     "docxtemplater": "^3.21.1",
     "email-validator": "^2.0.4",
     "firebase-admin": "^9.6.0",

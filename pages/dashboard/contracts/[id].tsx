@@ -31,6 +31,7 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const [ contract, setContract ] = useState<IFilledContract | null>(null);
+  const [ title, setTitle ] = useState('...');
   const [ error, setError ] = useState('');
 
   const loadContract = async () => {
@@ -40,6 +41,7 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
     try {
       const res = await apiService.filledContracts.getFilledContract(id);
       setContract(res.filledContract);
+      setTitle(res.filledContract.friendlyName);
     } catch (err) {
       if (err.response?.data?.error) {
         const message = err.response.data.error;
@@ -61,8 +63,8 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
   return (
     <DashboardLayout user={user}>
       <Meta
-        title={`${t('dashboard:pages.contract')}: ${contract.friendlyName}`}
-        url={`/dashboard/contracts/${contract.id}`}
+        title={`${t('dashboard:pages.contract')}: ${title}`}
+        url={`/dashboard/contracts/${id}`}
       />
       {!error && contract !== null && (
         <Columns>
