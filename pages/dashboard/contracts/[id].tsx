@@ -72,7 +72,7 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
             <Box title={ t('dashboard:contracts.data.overview') }>
               <FilledContractOverview
                 contract={contract}
-                isBuyer={contract.buyerId === user.id}
+                isBuyer={contract.buyer?.email === user.email}
               />
             </Box>
 
@@ -80,18 +80,18 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
               <FilledContractActions
                 filledContract={contract}
                 onChange={loadContract}
-                isBuyer={contract.buyerId === user.id}
+                isBuyer={contract.buyer?.email === user.email}
               />
             </Box>
           </Column>
 
           <Column>
-            {(contract.buyerId !== user.id || (contract.buyerId === user.id && contract.accepted)) && (
+            {(contract.buyer?.email !== user.email || (contract?.buyer.email === user.email && contract.accepted)) && (
               <Box title={ t('dashboard:contracts.data.my-details') }>
                 <FilledContractFieldsForm
                   filledContract={contract}
                   onChange={loadContract}
-                  isBuyer={contract.buyerId === user.id}
+                  isBuyer={contract.buyer?.email === user.email}
                 />
               </Box>
             )}
