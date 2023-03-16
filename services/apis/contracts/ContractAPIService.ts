@@ -21,6 +21,7 @@ export interface DeleteContractAPIRequest extends ContractIdAPIRequest {};
 export interface UpdateContractAPIRequest extends NewContractAPIRequest, ContractIdAPIRequest {};
 export interface UpdateContractAPIResponse extends APIResponse, GetContractAPIResponse {};
 export interface DeleteContractAPIResponse extends APIResponse {};
+export interface NewContractAPIResponse extends APIResponse, GetContractAPIResponse {};
 
 export interface GetContractsAPIResponse extends APIResponse {
   contracts: Contract[];
@@ -52,7 +53,7 @@ class ContractsAPIService {
     return payload;
   }
 
-  public async newContract(data: NewContractAPIRequest): Promise<Contract> {
+  public async newContract(data: NewContractAPIRequest): Promise<NewContractAPIResponse> {
     const payload = this.createContractData(data);
 
     return axiosService.post(ContractsAPIService.CONTRACT_URL, payload)

@@ -4,12 +4,13 @@ import Button, { ButtonSize } from '@/components/common/button/Button';
 
 import { CompactDangerMessage } from '@/components/common/message-box/DangerMessage';
 
-import { NewContractAPIRequest } from '@/services/apis/contracts/ContractAPIService';
+import { NewContractAPIRequest, NewContractAPIResponse } from '@/services/apis/contracts/ContractAPIService';
 import * as NewContractFormValidator from '@/validators/NewContractFormValidator';
 
 import apiService from '@/services/apis';
 import toaster from '@/lib/toaster';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 interface NewContractFormRequest {
   friendlyName: string;
@@ -19,11 +20,13 @@ interface NewContractFormRequest {
 const NewContractForm = () => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
   const [ file, setFile ] = useState<File | null>(null);
+  const router = useRouter();
 
   const handleFormSubmit = async ({ friendlyName, description }: NewContractFormRequest, { setSubmitting }: FormikHelpers<NewContractFormRequest>) => {
     try {
-      await apiService.contracts.newContract({ friendlyName, description, file });
+      const response : NewContractAPIResponse = await apiService.contracts.newContract({ friendlyName, description, file });
       toaster.success(t('dashboard:admin.new-contract.success'));
+      router.push(`/dashboard/admin/contracts/${response.contract.id}`);
     } catch (err) {
       if (err.response?.data?.error) {
         const message = err.response.data.error;
