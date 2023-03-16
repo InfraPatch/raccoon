@@ -6,7 +6,7 @@ import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
 
 import { getSession } from 'next-auth/client';
-import { redirectIfNotAdmin } from '@/lib/redirects';
+import { redirectIfAnonymous } from '@/lib/redirects';
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
@@ -70,7 +70,7 @@ const DashboardContractsPage = ({ user, contracts }: DashboardNewContractPagePro
 export const getServerSideProps : GetServerSideProps = async ({ req, res, locale }) => {
   const session = await getSession({ req });
 
-  if (await redirectIfNotAdmin(res, session)) {
+  if (await redirectIfAnonymous(res, session)) {
     return { props: { user: null } };
   }
 

@@ -109,6 +109,7 @@ export const acceptOrDeclineFilledContract = async (userEmail: string, contractI
   }
 
   contract.accepted = true;
+  (contract as any).buyer = user;
   await filledContractRepository.save(contract);
   await utils.fillDefaultOptions(user, contract, false);
 };

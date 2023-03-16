@@ -9,6 +9,9 @@ import DOCXTemplater from 'docxtemplater';
 import { v4 as uuid } from 'uuid';
 
 import { getStorageStrategy } from '@/lib/storageStrategies';
+import { formatDate } from '@/lib/formatDate';
+import { ContractOptionType } from '@/db/models/contracts/ContractOption';
+import { getPersonalIdentifierTypeString } from '@/lib/getPersonalIdentifierTypeString';
 const storage = getStorageStrategy();
 
 class SignContractError extends Error {
@@ -48,12 +51,24 @@ const savePDF = async (filledContract: FilledContract): Promise<string> => {
   const templateDocument = new DOCXTemplater(zip);
 
   const data: { [key: string]: string } = {};
-  filledContract.options.forEach(o => data[o.option.replacementString] = o.value);
+  filledContract.options.forEach(o => {
+    if (o.option.type === ContractOptionType.DATE) {
+      data[o.option.replacementString] = formatDate(o.value);
+      return;
+    }
+
+    if (o.option.type === ContractOptionType.PERSONAL_IDENTIFIER) {
+      data[o.option.replacementString] = getPersonalIdentifierTypeString(parseInt(o.value));
+      return;
+    }
+
+    data[o.option.replacementString] = o.value
+  });
 
   const sellerName = filledContract.options.find(o => o.option.replacementString === 'seller_name').value;
   const buyerName = filledContract.options.find(o => o.option.replacementString === 'buyer_name').value;
 
-  data['signature_date'] = new Date().toISOString();
+  data['signature_date'] = formatDate(new Date(), false);
   data['seller_signature'] = sellerName.toUpperCase();
   data['buyer_signature'] = buyerName.toUpperCase();
 

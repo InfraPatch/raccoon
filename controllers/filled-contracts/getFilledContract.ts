@@ -40,8 +40,18 @@ export const getFilledContract = async (email: string, contractId: number, inter
     return filledContract;
   }
 
+  const buyer = filledContract.buyerId === user.id
+    ? user
+    : await filledContract.getUser(filledContract.buyerId);
+
   const contract: IFilledContract = {
-    ...filledContract.toJSON()
+    ...filledContract.toJSON(),
+    buyer: {
+      id: buyer.id,
+      createdAt: buyer.createdAt,
+      updatedAt: buyer.updatedAt,
+      email: buyer.email
+    }
   };
 
   contract.user = filledContract.userId === user.id
@@ -49,9 +59,7 @@ export const getFilledContract = async (email: string, contractId: number, inter
     : await filledContract.getUser(filledContract.userId);
 
   if (filledContract.accepted) {
-    contract.buyer = filledContract.buyerId === user.id
-      ? user
-      : await filledContract.getUser(filledContract.buyerId);
+    contract.buyer = buyer;
   }
 
   return contract;

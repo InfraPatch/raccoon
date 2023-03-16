@@ -34,11 +34,13 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
       setSaving(false);
       await onChange();
     } catch (err) {
+      setSaving(false);
+
       if (err.response?.data?.error) {
         const message = err.response.data.error;
 
         if (message?.length) {
-          toaster.danger(t(`errors:contracts.${message}`));
+          toaster.danger(t(`errors:contracts.${message}`, err.response.data.details));
           return;
         }
       }
@@ -46,7 +48,6 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
       console.error(err);
 
       toaster.danger(t('errors:INTERNAL_SERVER_ERROR'));
-      setSaving(false);
     }
   };
 
@@ -59,11 +60,13 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
       await onChange();
       setSaving(false);
     } catch (err) {
+      setSaving(false);
+
       if (err.response?.data?.error) {
         const message = err.response.data.error;
 
         if (message?.length) {
-          toaster.danger(t(`errors:contracts.${message}`));
+          toaster.danger(t(`errors:contracts.${message}`, err.response.data.details));
           return;
         }
       }
@@ -71,7 +74,6 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
       console.error(err);
 
       toaster.danger(t('errors:INTERNAL_SERVER_ERROR'));
-      setSaving(false);
     }
   };
 
@@ -83,11 +85,13 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
       toaster.success(t('dashboard:contracts.actions.delete-success'));
       router.push('/dashboard/contracts');
     } catch (err) {
+      setSaving(false);
+
       if (err.response?.data?.error) {
         const message = err.response.data.error;
 
         if (message?.length) {
-          toaster.danger(t(`errors:contracts.${message}`));
+          toaster.danger(t(`errors:contracts.${message}`, err.response.data.details));
           return;
         }
       }
@@ -95,7 +99,6 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
       console.error(err);
 
       toaster.danger(t('errors:INTERNAL_SERVER_ERROR'));
-      setSaving(false);
     }
   };
 

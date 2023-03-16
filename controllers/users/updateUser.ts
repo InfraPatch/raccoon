@@ -24,7 +24,6 @@ class UserUpdateError extends Error {
 
 const uploadImage = async (image: File): Promise<string> => {
   const buffer = fs.readFileSync(image.path);
-  console.log(image.path, buffer);
   const extension = image.name.split('.').pop();
 
   let key: string | null = null;

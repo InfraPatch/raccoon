@@ -7,8 +7,6 @@ export const formatDate = (date: string | Date, compact: boolean = true): string
     return `${date}`;
   }
 
-  console.log(parsedDate);
-
   if (compact) {
     return format(parsedDate, 'Y/MM/dd');
   }

@@ -59,7 +59,7 @@ const ToastContainer = () => {
   }, []);
 
   return (
-    <div id="toast-container" className="fixed bottom-0 left-1/2 max-w-[400px]" style={{ transform: 'translateX(-50%)' }}>
+    <div id="toast-container" className="fixed bottom-0 left-1/2 w-full md:w-[400px]" style={{ transform: 'translateX(-50%)' }}>
       {toasts.map(toast => (
         <Toast
           key={toast.id}
