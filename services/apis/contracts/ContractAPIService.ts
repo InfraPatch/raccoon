@@ -29,11 +29,6 @@ export interface GetContractsAPIResponse extends APIResponse {
 
 class ContractsAPIService {
   static CONTRACT_URL = '/api/contracts';
-  headers = null;
-
-  public setHeaders(headers) {
-    this.headers = headers;
-  }
 
   private createContractData(data: NewContractAPIRequest): FormData {
     const payload = new FormData();
@@ -64,22 +59,22 @@ class ContractsAPIService {
     const { id } = data;
     const payload = this.createContractData(data);
 
-    return axiosService.patch(`${ContractsAPIService.CONTRACT_URL}/${id}`, payload, { headers: this.headers })
+    return axiosService.patch(`${ContractsAPIService.CONTRACT_URL}/${id}`, payload)
       .then(res => res.data);
   }
 
   public async getContracts() : Promise<GetContractsAPIResponse> {
-    return axiosService.get(ContractsAPIService.CONTRACT_URL, { headers: this.headers })
+    return axiosService.get(ContractsAPIService.CONTRACT_URL)
       .then(res => res.data);
   }
 
   public async getContract({ id }: GetContractAPIRequest) : Promise<GetContractAPIResponse> {
-    return axiosService.get(`${ContractsAPIService.CONTRACT_URL}/${id}`, { headers: this.headers })
+    return axiosService.get(`${ContractsAPIService.CONTRACT_URL}/${id}`)
       .then(res => res.data);
   }
 
   public async deleteContract({ id }: DeleteContractAPIRequest) : Promise<DeleteContractAPIResponse> {
-    return axiosService.delete(`${ContractsAPIService.CONTRACT_URL}/${id}`, { headers: this.headers })
+    return axiosService.delete(`${ContractsAPIService.CONTRACT_URL}/${id}`)
       .then(res => res.data);
   }
 }

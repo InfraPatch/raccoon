@@ -62,7 +62,7 @@ const savePDF = async (filledContract: FilledContract): Promise<string> => {
       return;
     }
 
-    data[o.option.replacementString] = o.value
+    data[o.option.replacementString] = o.value;
   });
 
   const sellerName = filledContract.options.find(o => o.option.replacementString === 'seller_name').value;

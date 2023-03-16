@@ -43,36 +43,31 @@ export interface DeleteContractOptionAPIResponse extends APIResponse {};
 
 class ContractOptionsAPIService {
   static CONTRACT_OPTIONS_URL = '/api/contract-options';
-  headers = null;
-
-  public setHeaders(headers) {
-    this.headers = headers;
-  }
 
   public async newContractOption(data: NewContractOptionAPIRequest): Promise<NewContractOptionAPIResponse> {
-    return axiosService.post(ContractOptionsAPIService.CONTRACT_OPTIONS_URL, data, { headers: this.headers })
+    return axiosService.post(ContractOptionsAPIService.CONTRACT_OPTIONS_URL, data)
       .then(res => res.data);
   }
 
   public async updateContractOption(data: UpdateContractOptionAPIRequest): Promise<UpdateContractOptionAPIResponse> {
     const { id } = data;
 
-    return axiosService.patch(`${ContractOptionsAPIService.CONTRACT_OPTIONS_URL}/${id}`, data, { headers: this.headers })
+    return axiosService.patch(`${ContractOptionsAPIService.CONTRACT_OPTIONS_URL}/${id}`, data)
       .then(res => res.data);
   }
 
   public async getContractOptions(data: GetContractOptionsAPIRequest) : Promise<GetContractOptionsAPIResponse> {
-    return axiosService.get(ContractOptionsAPIService.CONTRACT_OPTIONS_URL, { headers: this.headers })
+    return axiosService.get(ContractOptionsAPIService.CONTRACT_OPTIONS_URL)
       .then(res => res.data);
   }
 
   public async getContractOption({ id }: GetContractOptionAPIRequest) : Promise<GetContractOptionAPIResponse> {
-    return axiosService.get(`${ContractOptionsAPIService.CONTRACT_OPTIONS_URL}/${id}`, { headers: this.headers })
+    return axiosService.get(`${ContractOptionsAPIService.CONTRACT_OPTIONS_URL}/${id}`)
       .then(res => res.data);
   }
 
   public async deleteContractOption({ id }: DeleteContractOptionAPIRequest) : Promise<DeleteContractOptionAPIResponse> {
-    return axiosService.delete(`${ContractOptionsAPIService.CONTRACT_OPTIONS_URL}/${id}`, { headers: this.headers })
+    return axiosService.delete(`${ContractOptionsAPIService.CONTRACT_OPTIONS_URL}/${id}`)
       .then(res => res.data);
   }
 }

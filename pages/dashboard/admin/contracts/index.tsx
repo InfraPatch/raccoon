@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { GetServerSideProps } from 'next';
 import DashboardLayout from '@/layouts/DashboardLayout';
 
@@ -12,24 +14,47 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import apiService from '@/services/apis';
 
-import { GetContractsAPIResponse } from '@/services/apis/contracts/ContractAPIService';
 import { Contract } from '@/db/models/contracts/Contract';
 import ContractBox from '@/components/dashboard/admin/contracts/ContractBox';
 import Meta from '@/components/common/Meta';
 import { useTranslation } from 'react-i18next';
+import { DangerMessage } from '@/components/common/message-box/DangerMessage';
+import Loading from '@/components/common/Loading';
 
 export interface DashboardContractsPageProps {
   user: User;
-  contracts: Contract[];
 };
 
-const DashboardContractsPage = ({ user, contracts }: DashboardContractsPageProps) => {
-  const { t } = useTranslation([ 'dashboard' ]);
-  let rows : Contract[][] = [];
+const DashboardContractsPage = ({ user }: DashboardContractsPageProps) => {
+  const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
-  for (let i : number = 0; i < contracts.length; i += 2) {
-    rows.push(contracts.slice(i, i + 2));
-  }
+  const [ rows, setRows ] = useState<Contract[][] | null>(null);
+  const [ error, setError ] = useState('');
+
+  const loadContracts = async () => {
+    setRows(null);
+    setError('');
+
+    try {
+      const res = await apiService.contracts.getContracts();
+      const contracts = res.contracts;
+
+      const rows: Contract[][] = [];
+
+      for (let i : number = 0; i < contracts.length; i += 2) {
+        rows.push(contracts.slice(i, i + 2));
+      }
+
+      setRows(rows);
+    } catch (err) {
+      console.error(err);
+      setError(t('errors:INTERNAL_SERVER_ERROR'));
+    }
+  };
+
+  useEffect(() => {
+    loadContracts();
+  }, []);
 
   return (
     <DashboardLayout user={user}>
@@ -37,7 +62,8 @@ const DashboardContractsPage = ({ user, contracts }: DashboardContractsPageProps
         title={ t('dashboard:pages.contracts') }
         url="/dashboard/admin/contracts"
       />
-      {rows.map((row, index) => {
+
+      {rows && rows.map((row, index) => {
         let columns = [];
 
         for (let i : number = 0; i < row.length; ++i) {
@@ -52,6 +78,10 @@ const DashboardContractsPage = ({ user, contracts }: DashboardContractsPageProps
 
         return <Columns key={'column-' + index}>{columns}</Columns>;
       })}
+
+      {!rows && !error && <Loading />}
+
+      {error && error.length && <DangerMessage>{error}</DangerMessage>}
     </DashboardLayout>
   );
 };
@@ -63,25 +93,9 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
     return { props: { user: null } };
   }
 
-  apiService.contracts.setHeaders(req.headers);
-
-  let contracts : GetContractsAPIResponse;
-
-  try {
-    contracts = await apiService.contracts.getContracts();
-  } catch (err) {
-    console.log(err);
-    res.writeHead(301, {
-      location: '/dashboard/admin'
-    });
-    res.end();
-    return { props: { user: null } };
-  }
-
   return {
     props: {
       user: session.user,
-      contracts: contracts.contracts,
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }
   };
