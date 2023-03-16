@@ -20,6 +20,7 @@ const Button = ({ size, ...props }: ButtonProps, ref) => {
     'font-bold',
     'cursor-pointer',
     'rounded-3xl',
+    'outline-none',
 
     {
       'px-6 py-2': size === ButtonSize.SMALL,

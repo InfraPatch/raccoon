@@ -149,7 +149,7 @@
       "seller-field": "Mező tulajdonosa",
       "string-type": "Karakterlánc (szavak, betűk)",
       "number-type": "Szám",
-      "identifier-type": "Személyazonossági szám",
+      "identifier-type": "Személyazonossági szám típusa",
       "state-type": "Megye",
       "country-type": "Ország",
       "phone-type": "Telefonszám",

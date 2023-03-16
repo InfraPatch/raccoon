@@ -28,7 +28,9 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
           id: option.id,
           name: option.friendlyName,
           type: option.type,
-          value: filledContract.options.find(a => a.option.id === option.id)?.value || ''
+          value: filledContract.options.find(a => a.option.id === option.id)?.value || '',
+          longDescription: option.longDescription,
+          hint: option.hint
         };
       })
   );
@@ -74,14 +76,17 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
   return (
     <form onSubmit={handleFormSubmit}>
       {fields.map(field => (
-        <div className="form-field" key={field.id}>
+        <div className="form-field mb-5" key={field.id}>
           <label htmlFor={`field_${field.id}`}>{field.name}</label>
+
+          {field.longDescription && <p>{field.longDescription}</p>}
 
           {field.type === ContractOptionType.STRING && (
             <input
               id={`field_${field.id}`}
               onChange={e => updateFields(field.id, e.currentTarget.value)}
               defaultValue={field.value}
+              placeholder={field.hint}
             />
           )}
 
@@ -91,6 +96,7 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
               id={`field_${field.id}`}
               onChange={e => updateFields(field.id, e.currentTarget.value)}
               defaultValue={field.value}
+              placeholder={field.hint}
             />
           )}
 
@@ -100,6 +106,7 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
               id={`field_${field.id}`}
               onChange={e => updateFields(field.id, e.currentTarget.value)}
               defaultValue={field.value}
+              placeholder={field.hint}
             />
           )}
 

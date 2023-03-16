@@ -149,7 +149,7 @@
       "seller-field": "Field owner",
       "string-type": "Character string (words, letters)",
       "number-type": "Number",
-      "identifier-type": "Personal identifier",
+      "identifier-type": "Personal identifier type",
       "state-type": "State",
       "country-type": "Country",
       "phone-type": "Phone number",
