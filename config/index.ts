@@ -14,7 +14,8 @@ const config: IConfig = {
     domain: process.env.DOMAIN,
     port: process.env.PORT && parseInt(process.env.PORT, 10),
     nextauthUrl: process.env.NEXTAUTH_URL,
-    maxPayloadSize: process.env.MAX_PAYLOAD_SIZE || '10mb'
+    maxPayloadSize: process.env.MAX_PAYLOAD_SIZE || '10mb',
+    serverSideProxy: process.env.SERVER_SIDE_PROXY
   },
 
   database: {
