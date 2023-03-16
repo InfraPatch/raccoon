@@ -93,6 +93,15 @@
     }
   },
 
+  "new-contract": {
+    "fields": {
+      "friendlyName": "Szerződés rövid neve",
+      "buyerEmail": "Vevő e-mail címe"
+    },
+    "submit": "Létrehozás",
+    "title": "Új szerződés kötése"
+  },
+
   "admin": {
     "make-admin": {
       "email-field": "E-mail cím:",

@@ -93,6 +93,15 @@
     }
   },
 
+  "new-contract": {
+    "fields": {
+      "friendlyName": "Contract name",
+      "buyerEmail": "Buyer's e-mail address"
+    },
+    "submit": "Create",
+    "title": "Create new contract"
+  },
+
   "admin": {
     "make-admin": {
       "email-field": "Email address:",
