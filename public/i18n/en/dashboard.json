@@ -99,7 +99,8 @@
       "buyerEmail": "Buyer's e-mail address"
     },
     "submit": "Create",
-    "title": "Create new contract"
+    "title": "Create new contract",
+    "success": "New contract has been successfully created!"
   },
 
   "admin": {

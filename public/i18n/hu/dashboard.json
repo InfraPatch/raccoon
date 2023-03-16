@@ -99,7 +99,8 @@
       "buyerEmail": "Vevő e-mail címe"
     },
     "submit": "Létrehozás",
-    "title": "Új szerződés kötése"
+    "title": "Új szerződés kötése",
+    "success": "Sikeresen létrehoztuk az új szerződést!"
   },
 
   "admin": {
