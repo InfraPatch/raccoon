@@ -20,7 +20,9 @@
     "NAME_TOO_SHORT": "A megadott név legalább {{ min }} karakter hosszú kell legyen.",
     "INVALID_EMAIL": "Az Ön által megadott email cím érvénytelen.",
     "SUBJECT_TOO_SHORT": "A megadott tárgy legalább {{ min }} karakter hosszú kell legyen.",
-    "MESSAGE_TOO_SHORT": "A megadott üzenet legalább {{ min }} karakter hosszú kell legyen."
+    "MESSAGE_TOO_SHORT": "A megadott üzenet legalább {{ min }} karakter hosszú kell legyen.",
+    "FIREWALLED_INSTANCE": "A webhely, amelyen ez a weboldal fut, tűzfalazva van a külső internettől. Képtelenek vagyunk e-maileket küldeni.",
+    "EMAIL_SEND_FAILURE": "Sajnos nem sikerült kézbesíteni ezt az e-mailt most, kérjük próbálja újra később!"
   },
 
   "users": {

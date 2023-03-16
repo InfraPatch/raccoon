@@ -22,6 +22,13 @@ Subject: {{ subject }}
 `;
 
 export const send = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (process.env.FIREWALLED_INSTANCE) {
+    return res.status(400).json({
+      ok: false,
+      error: 'FIREWALLED_INSTANCE'
+    });
+  }
+
   const { name, email, subject, message }: IContactFormFields = req.body;
 
   if (!name || name.length < 2) {
@@ -66,6 +73,13 @@ export const send = async (req: NextApiRequest, res: NextApiResponse) => {
     .replace('{{ email }}', email)
     .replace('{{ subject }}', subject)
     .replace('{{ message }}', message);
+
+  if (!config.email.contactEmail) {
+    return res.status(400).json({
+      ok: false,
+      error: 'EMAIL_SEND_FAILURE'
+    });
+  }
 
   try {
     await mail.sendMessage({
