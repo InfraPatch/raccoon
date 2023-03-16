@@ -20,7 +20,9 @@
     "NAME_TOO_SHORT": "The name needs to be at least {{ min }} characters long.",
     "INVALID_EMAIL": "You have provided an invalid email.",
     "SUBJECT_TOO_SHORT": "The subject needs to be at least {{ min }} characters long.",
-    "MESSAGE_TOO_SHORT": "The message needs to be at least {{ min }} characters long."
+    "MESSAGE_TOO_SHORT": "The message needs to be at least {{ min }} characters long.",
+    "FIREWALLED_INSTANCE": "The server this website is running on is firewalled from the external internet. Cannot send e-mail addresses.",
+    "EMAIL_SEND_FAILURE": "Unfortunately, we couldn't forward this e-mail at the moment, please try again later!"
   },
 
   "users": {
