@@ -9,13 +9,13 @@ const LanguageSwitcher = () => {
 
   return (
     <div className="flex gap-1">
-      {router.locale !== 'hu' && (<Link href={router.pathname} locale="hu">
+      {router.locale !== 'hu' && (<Link  href={{ pathname: router.pathname, query: router.query }} locale="hu">
         <a>
           <img className="h-3" src={hu} alt="Magyar" title="Magyar" />
         </a>
       </Link>)}
 
-      {router.locale !== 'en' && (<Link href={router.pathname} locale="en">
+      {router.locale !== 'en' && (<Link href={{ pathname: router.pathname, query: router.query }} locale="en">
         <a>
           <img className="h-3" src={en} alt="English" title="English" />
         </a>
