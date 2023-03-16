@@ -1,5 +1,6 @@
 import buildUrl from '@/lib/buildUrl';
 import Head from 'next/head';
+import favicon from '@/assets/icons/favicon.ico';
 
 export interface IMetaProps {
   title?: string;
@@ -31,7 +32,7 @@ const Meta = ({ title, description, url, noAppendSiteName }: IMetaProps) => {
 
       <meta property="og:url" content={url} />
 
-      <link rel="icon" href="/images/favicon.png" />
+      <link rel="icon" href={favicon} />
     </Head>
   );
 };
