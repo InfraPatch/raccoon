@@ -2,6 +2,7 @@
   "getting-started": "Getting Started",
 
   "admin": {
-    "getting-started": "Admin: Getting Started"
+    "getting-started": "Admin: Getting Started",
+    "templates": "Admin: Creating templates"
   }
 }

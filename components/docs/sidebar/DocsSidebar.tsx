@@ -25,6 +25,11 @@ const DocsSidebar = () => {
       href: '/docs/admin/getting-started',
       label: t('admin.getting-started')
     });
+
+    navigation.push({
+      href: '/docs/admin/templates',
+      label: t('admin.templates')
+    });
   }
 
   return (

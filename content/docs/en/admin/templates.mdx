@@ -1,0 +1,41 @@
+---
+title: How to create contract Templates
+description: Learn how to create contract templates.
+url: /en/docs/admin/templates
+---
+
+Contracts use field parameters to fill in the required information.  
+
+Each contract template should have at least one seller field, and one buyer field.  
+At the same time they also require:  
+`{signature_date}`, `{seller_signature}`, and `{buyer_signature}`.  
+
+There are two types of fields:  
+* **Default**  
+Default fields take their default data from user settings.  
+* **Custom**  
+
+Both can be edited while filling out the contract by each party.  
+
+##### Default fields  
+| Seller                  | Buyer                  |
+|-------------------------|------------------------|
+| {seller_name}           | {buyer_name}           |
+| {seller_birth_place}    | {buyer_birth_place}    |
+| {seller_birth_date}     | {buyer_birth_date}     |
+| {seller_mother_name}    | {buyer_mother_name}    |
+| {seller_nationality}    | {buyer_nationality}    |
+| {seller_id_number_type} | {buyer_id_number_type} |
+| {seller_id_number}      | {buyer_id_number}      |
+| {seller_phone_number}   | {buyer_phone_number}   |
+| {seller_email}          | {buyer_email}          |
+
+`{signature_date}` is a special field which contains the date on which the contract was signed by both parties.  
+`{seller_signature}` and `{buyer_signature}` both get replaced by the seller and buyer names both uppercased.  
+
+##### Custom fields  
+Example custom fields:  
+`{item_name}`, `{item_description}`  
+
+### Sales contract example  
+![exampleContract](/images/en/admin/exampleContract.png)  
