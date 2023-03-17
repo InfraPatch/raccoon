@@ -73,9 +73,6 @@ You can log into your MySQL server and run the following command to do so:
 UPDATE raccoon.users SET isAdmin=1 WHERE id=1;
 ```
 
-Miután a felhasználó adminisztrátori jogot kapott, az alkalmazás ügyfélkapujában
-kinevezhet új adminisztrátorokat.
-
 After the user has received administrator permissions, they will be able to add
 new administrators in the app's dashboard.
 
