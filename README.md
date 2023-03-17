@@ -23,6 +23,9 @@ npm i -g yarn
 yarn
 ```
 
+*Note: if `yarn` is not available and/or cannot be installed, use `npm run`
+instead of `yarn` in all of the following commands.*
+
 **3. Create a user and a database**
 
 ```
@@ -62,6 +65,19 @@ yarn dev
 yarn build
 yarn start
 ```
+
+After registering your first user, you might want to make it an administrator.
+You can log into your MySQL server and run the following command to do so:
+
+```sql
+UPDATE raccoon.users SET isAdmin=1 WHERE id=1;
+```
+
+Miután a felhasználó adminisztrátori jogot kapott, az alkalmazás ügyfélkapujában
+kinevezhet új adminisztrátorokat.
+
+After the user has received administrator permissions, they will be able to add
+new administrators in the app's dashboard.
 
 ## Useful Commands
 
