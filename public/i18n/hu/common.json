@@ -21,5 +21,11 @@
 
   "no-data": "Nincsenek megjeleníthető adatok.",
 
+  "cookie-consent": {
+    "text": "Weboldalunk sütiket (cookies) használ a legjobb felhasználói élmény nyújtásához. Az alkalmazás használatával Ön beleegyezik a sütik elfogadásába.",
+    "privacy-policy-link": "Kattintson ide az adatvédelmi nyilatkozatunk elolvasásához",
+    "ok": "Rendben"
+  },
+
   "copyright": "© Copyright NISZ. Minden jog fenntartva."
 }

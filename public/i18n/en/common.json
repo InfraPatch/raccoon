@@ -21,5 +21,11 @@
 
   "no-data": "There is no data to display here.",
 
+  "cookie-consent": {
+    "text": "Our website uses cookies to deliver the best user experience. By using the app you agree to accept our cookies.",
+    "privacy-policy-link": "Click here to read our Privacy Policy",
+    "ok": "OK"
+  },
+
   "copyright": "© Copyright NISZ. All rights reserved."
 }

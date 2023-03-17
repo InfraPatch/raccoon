@@ -8,6 +8,7 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 
 import ToastContainer from '@/components/common/toasts/ToastContainer';
+import CookieConsent from '@/components/common/cookie-consent/CookieConsent';
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = ({ Component, pageProps }) => {
         <main className="app">
           <Component {...pageProps} />
           <ToastContainer />
+          <CookieConsent />
         </main>
       </QueryClientProvider>
     </AuthProvider>
