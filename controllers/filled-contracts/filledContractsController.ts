@@ -8,6 +8,25 @@ import { listFilledContracts } from './listFilledContracts';
 import { signContract } from './signContract';
 import { acceptOrDeclineFilledContract, fillContractOptions } from './updateFilledContract';
 
+const objectToXml = (object) => Object.keys(object).reduce((reqStr, key) => {
+  const value = object[key] || '';
+  const isObject = typeof value === 'object';
+  const isArray = Array.isArray(value);
+  if (isArray) {
+    return reqStr + value.reduce((accumulator, currentValue) =>
+      accumulator + `<${key}>${typeof currentValue === 'object' ? objectToXml(currentValue) : (currentValue || '')}</${key}>`
+      , '');
+  }
+  if (isObject) {
+    return reqStr + `<${key}>${objectToXml(value)}</${key}>`;
+  }
+  return reqStr + `<${key}>${value}</${key}>`;
+}, '');
+
+const jsonToXml = (object) => {
+  return "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" + objectToXml(object);
+};
+
 const acceptOrDecline = async (action: 'accept' | 'decline', req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const session = await getSession({ req });
@@ -60,29 +79,38 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const get = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.query;
+  const { id, xml } = req.query;
   const session = await getSession({ req });
+  let response = null;
 
   try {
     const filledContract = await getFilledContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
-    return res.json({
+    response = {
       ok: true,
       filledContract
-    });
+    };
   } catch (err) {
     if (err.name === 'GetFilledContractError') {
-      return res.status(400).json({
+      response = {
         ok: false,
         error: err.code
-      });
+      };
+      res.status(400);
+    } else {
+      console.error(err);
+      response = {
+        ok: false,
+        error: 'INTERNAL_SERVER_ERROR'
+      };
+      res.status(500);
     }
+  }
 
-    console.error(err);
-
-    return res.status(500).json({
-      ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
-    });
+  if (xml) {
+    res.setHeader('Content-Type', 'text/xml');
+    res.send(jsonToXml({ root: response }));
+  } else {
+    res.json(response);
   }
 };
 
