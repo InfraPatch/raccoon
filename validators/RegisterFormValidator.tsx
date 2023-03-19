@@ -24,7 +24,7 @@ export const validate = (t: TFunction): ((fields: CredentialsRegisterAPIRequest)
     }
 
     if (fields.password !== fields.password2) {
-      errors.password2 = t('errors:users.PASSWORD_DONT_MATCH');
+      errors.password2 = t('errors:users.PASSWORDS_DONT_MATCH');
     }
 
     return errors;
