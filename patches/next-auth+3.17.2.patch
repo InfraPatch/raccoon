@@ -1,8 +1,8 @@
 diff --git a/node_modules/next-auth/dist/server/routes/callback.js b/node_modules/next-auth/dist/server/routes/callback.js
-index 63c3c23..837fc52 100644
+index 85b50a7..bb7edc4 100644
 --- a/node_modules/next-auth/dist/server/routes/callback.js
 +++ b/node_modules/next-auth/dist/server/routes/callback.js
-@@ -299,14 +299,26 @@ function _callback() {
+@@ -301,14 +301,26 @@ function _callback() {
          userObjectReturnedFromAuthorizeHandler = yield provider.authorize(credentials);
  
          if (!userObjectReturnedFromAuthorizeHandler) {
@@ -32,7 +32,7 @@ index 63c3c23..837fc52 100644
        }
  
        var _user2 = userObjectReturnedFromAuthorizeHandler;
-@@ -319,14 +331,26 @@ function _callback() {
+@@ -321,14 +333,26 @@ function _callback() {
          var _signInCallbackResponse2 = yield callbacks.signIn(_user2, _account2, credentials);
  
          if (_signInCallbackResponse2 === false) {
@@ -62,7 +62,7 @@ index 63c3c23..837fc52 100644
        }
  
        var _defaultJwtPayload2 = {
-@@ -352,7 +376,7 @@ function _callback() {
+@@ -355,7 +379,7 @@ function _callback() {
          user: _user2,
          account: _account2
        });
