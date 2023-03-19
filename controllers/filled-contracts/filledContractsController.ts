@@ -15,7 +15,7 @@ const objectToXml = (object) => Object.keys(object).reduce((reqStr, key) => {
   if (isArray) {
     return reqStr + value.reduce((accumulator, currentValue) =>
       accumulator + `<${key}>${typeof currentValue === 'object' ? objectToXml(currentValue) : (currentValue || '')}</${key}>`
-      , '');
+    , '');
   }
   if (isObject) {
     return reqStr + `<${key}>${objectToXml(value)}</${key}>`;
