@@ -24,7 +24,10 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "typeRoots": [
+      "typings"
+    ]
   },
   "exclude": [
     "node_modules"

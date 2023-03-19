@@ -1,4 +1,4 @@
-import { User } from 'next-auth';
+import { User } from '@/db/models/auth/User';
 
 import clsx from 'clsx';
 

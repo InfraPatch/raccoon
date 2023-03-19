@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth';
-import Providers, { DefaultProviders, Provider } from 'next-auth/providers';
+import Providers, { Provider } from 'next-auth/providers';
 import Adapters from 'next-auth/adapters';
 
 import config from '@/config';
@@ -12,7 +12,7 @@ import { VerificationRequest, VerificationRequestSchema } from '@/db/models/auth
 import { Session, SessionSchema } from '@/db/models/auth/Session';
 import { authorizeUser, UserAuthorizationFields } from '@/controllers/users/authorizeUser';
 
-const providers: Array<Provider | ReturnType<DefaultProviders[keyof DefaultProviders]>> = [
+const providers: Array<Provider> = [
   Providers.Credentials({
     name: 'credentials',
 
@@ -21,11 +21,11 @@ const providers: Array<Provider | ReturnType<DefaultProviders[keyof DefaultProvi
       password: { label: 'Password', type: 'password' }
     },
 
-    async authorize(credentials): Promise<User> {
+    async authorize(credentials): Promise<any> {
       try {
         const user = await authorizeUser({
-          email: credentials.email,
-          password: credentials.password
+          email: credentials['email'],
+          password: credentials['password']
         });
 
         return user;

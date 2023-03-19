@@ -38,7 +38,7 @@ transform(baseConnectionOptions, authModels, {
 
 const Account = new EntitySchema(authModels.Account.schema);
 const Session = new EntitySchema(authModels.Session.schema);
-const User = new EntitySchema(authModels.User.schema);
+const User = new EntitySchema(authModels.User.schema as any); // idk
 const VerificationRequest = new EntitySchema(authModels.VerificationRequest.schema);
 
 const connectionOptions: ConnectionOptions = {
