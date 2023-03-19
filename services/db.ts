@@ -12,7 +12,7 @@ import { ContractOption } from '../db/models/contracts/ContractOption';
 import { FilledContract } from '../db/models/contracts/FilledContract';
 import { FilledContractOption } from '../db/models/contracts/FilledContractOption';
 
-import transform from 'next-auth/dist/adapters/typeorm/lib/transform';
+import transform from '../node_modules/next-auth/dist/adapters/typeorm/lib/transform';
 
 const baseConnectionOptions: ConnectionOptions = {
   type: config.database.dialect as any,
