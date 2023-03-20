@@ -81,7 +81,13 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
 
           {field.longDescription && <p>{field.longDescription}</p>}
 
-          {field.type === ContractOptionType.STRING && (
+          {![
+            ContractOptionType.NUMBER,
+            ContractOptionType.PERSONAL_IDENTIFIER,
+            ContractOptionType.EMAIL,
+            ContractOptionType.URL,
+            ContractOptionType.DATE
+          ].includes(field.type) && (
             <input
               id={`field_${field.id}`}
               onChange={e => updateFields(field.id, e.currentTarget.value)}
@@ -116,6 +122,15 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
               id={`field_${field.id}`}
               onChange={e => updateFields(field.id, e.currentTarget.value)}
               defaultValue={transformDate(field.value)}
+            />
+          )}
+
+          {field.type === ContractOptionType.NUMBER && (
+            <input
+              type="number"
+              id={`field_${field.id}`}
+              onChange={e => updateFields(field.id, e.currentTarget.value)}
+              defaultValue={field.value}
             />
           )}
 
