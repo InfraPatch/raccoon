@@ -8,7 +8,7 @@ const withPrefix = (name: string, prefix: string) => `${prefix.toLowerCase()}_${
 export const createDefaultOptions = async (contract: Contract) => {
   const contractOptionRepository = db.getRepository(ContractOption);
 
-  for (const prefix of [ 'Seller', 'Buyer' ]) {
+  for (const prefix of [ 'Eladó', 'Vevő' ]) {
     let idx = 0;
 
     const option = (type: ContractOptionType, friendlyName: string, replacementString: string, min?: number, max?: number): IContractOption => {
@@ -17,24 +17,24 @@ export const createDefaultOptions = async (contract: Contract) => {
         type,
         friendlyName,
         priority: idx++,
-        replacementString: withPrefix(replacementString, prefix),
+        replacementString: withPrefix(replacementString, prefix === 'Eladó' ? 'seller' : 'buyer'),
         minimumValue: min,
         maximumValue: max,
-        isSeller: prefix === 'Seller'
+        isSeller: prefix === 'Eladó'
       };
     };
 
     await contractOptionRepository.insert([
-      option(ContractOptionType.STRING, `${prefix} full name`, 'name', 2),
-      option(ContractOptionType.EMAIL, `${prefix} email`, 'email'),
-      option(ContractOptionType.STRING, `${prefix} mother's name`, 'mother_name', 2),
-      option(ContractOptionType.DATE, `${prefix} mother's birth date`, 'mother_birthdate'),
-      option(ContractOptionType.STRING, `${prefix} nationality`, 'nationality', 2),
-      option(ContractOptionType.PERSONAL_IDENTIFIER, `${prefix} personal identifier type`, 'id_number_type'),
-      option(ContractOptionType.STRING, `${prefix} personal identifier number`, 'id_number'),
-      option(ContractOptionType.STRING, `${prefix} phone number`, 'phone_number', 10),
-      option(ContractOptionType.DATE, `${prefix} birth date`, 'birth_date'),
-      option(ContractOptionType.STRING, `${prefix} birth place`, 'birth_place')
+      option(ContractOptionType.STRING, `${prefix} teljes neve`, 'name', 2),
+      option(ContractOptionType.EMAIL, `${prefix} e-mail címe`, 'email'),
+      option(ContractOptionType.STRING, `${prefix} édesanyjának neve`, 'mother_name', 2),
+      option(ContractOptionType.DATE, `${prefix} édesanyjának születési dátuma`, 'mother_birthdate'),
+      option(ContractOptionType.STRING, `${prefix} nemzetisége`, 'nationality', 2),
+      option(ContractOptionType.PERSONAL_IDENTIFIER, `${prefix} személyazonossági okiratának típusa`, 'id_number_type'),
+      option(ContractOptionType.STRING, `${prefix} személyazonossági okiratának száma`, 'id_number'),
+      option(ContractOptionType.STRING, `${prefix} telefonszáma`, 'phone_number', 10),
+      option(ContractOptionType.DATE, `${prefix} születési dátuma`, 'birth_date'),
+      option(ContractOptionType.STRING, `${prefix} születési helye`, 'birth_place')
     ]);
   }
 };
