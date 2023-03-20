@@ -7,20 +7,20 @@ class S3 {
   private s3: AWS.S3;
 
   constructor() {
-    const endpoint = new AWS.Endpoint(S3Config.endpoint);
+    const endpoint = new AWS.Endpoint(S3Config?.endpoint);
 
     this.s3 = new AWS.S3({
       endpoint,
       credentials: {
-        accessKeyId: S3Config.key,
-        secretAccessKey: S3Config.secret
+        accessKeyId: S3Config?.key,
+        secretAccessKey: S3Config?.secret
       }
     });
   }
 
   exists(key: string): Promise<boolean> {
     const params = {
-      Bucket: S3Config.bucket,
+      Bucket: S3Config?.bucket,
       Key: key
     };
 
@@ -43,7 +43,7 @@ class S3 {
     const params = {
       ACL: isPublic ? 'public-read' : 'authenticated-read',
       Body: contents,
-      Bucket: S3Config.bucket,
+      Bucket: S3Config?.bucket,
       ContentType: 'text/plain',
       Key: key
     };
@@ -61,7 +61,7 @@ class S3 {
 
   getStream(key: string) {
     const params = {
-      Bucket: S3Config.bucket,
+      Bucket: S3Config?.bucket,
       Key: key
     };
 
@@ -70,7 +70,7 @@ class S3 {
 
   read(key: string): Promise<Buffer> {
     const params = {
-      Bucket: S3Config.bucket,
+      Bucket: S3Config?.bucket,
       Key: key
     };
 

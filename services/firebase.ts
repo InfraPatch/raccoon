@@ -18,7 +18,7 @@ const getCredentials = () => {
     return JSON.parse(serviceAccountFile);
   }
 
-  const serviceAccountEnv = FirebaseConfig.serviceAccount;
+  const serviceAccountEnv = FirebaseConfig?.serviceAccount;
 
   if (serviceAccountEnv) {
     return JSON.parse(serviceAccountEnv);
@@ -36,7 +36,7 @@ const initFirebaseStorage = () => {
     });
   }
 
-  const bucket = FirebaseConfig.bucket?.replace('.appspot.com', '');
+  const bucket = FirebaseConfig?.bucket?.replace('.appspot.com', '');
   return firebase.app().storage().bucket(`${bucket}.appspot.com`);
 };
 

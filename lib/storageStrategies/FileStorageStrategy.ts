@@ -3,7 +3,7 @@ import * as path from 'path';
 import config from '@/config';
 import IStorageStrategy from './IStorageStrategy';
 
-const STORAGE_ROOT = path.join(process.cwd(), config.storage.file.location || 'storage');
+const STORAGE_ROOT = path.join(process.cwd(), config.storage.file?.location || 'storage');
 
 class FileStorageStrategy implements IStorageStrategy {
   async create(params) {
