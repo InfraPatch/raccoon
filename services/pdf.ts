@@ -3,7 +3,6 @@ import { spawn } from 'child_process';
 import * as fs from 'fs';
 import tempy from 'tempy';
 import path from 'path';
-import { SimpleConsoleLogger } from 'typeorm';
 
 // TODO: remove libreoffice dependency
 const SOFFICE_ARGS = [ '--headless', '--convert-to', 'pdf' ];
