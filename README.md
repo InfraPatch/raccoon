@@ -7,7 +7,7 @@ contracts online.
 
 - Node.js v12 or newer
 - MySQL
-- [unoconv](https://github.com/unoconv/unoconv) for converting Word documents to
+- [LibreOffice](https://libreoffice.org/download/download) for converting Word documents to
 PDF files.
 
 ## Getting Started

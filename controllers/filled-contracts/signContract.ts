@@ -84,7 +84,7 @@ const savePDF = async (filledContract: FilledContract): Promise<string> => {
   let key: string | null = null;
 
   do {
-    key = `${uuid()}.${pdf}`;
+    key = `${uuid()}.pdf`;
   } while (await storage.exists(`documents/${key}`));
 
   await storage.create({ key: `documents/${key}`, contents: pdf });

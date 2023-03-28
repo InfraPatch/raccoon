@@ -7,7 +7,7 @@ aláírására és kezelésére.
 
 - Node.js v12 vagy annál újabb
 - MySQL
-- [unoconv](https://github.com/unoconv/unoconv) a Word dokumentumok PDF
+- [LibreOffice](https://libreoffice.org/download/download) a Word dokumentumok PDF
 formátumba való konvertálásához.
 
 ## Első lépések
