@@ -1,11 +1,14 @@
 # Project Raccoon
 
-Project Raccoon is a one-stop solution for creating, managing, and signing sale contracts online.
+Project Raccoon is a one-stop solution for creating, managing, and signing sale
+contracts online.
 
 ## Requirements
 
 - Node.js v12 or newer
 - MySQL
+- [unoconv](https://github.com/unoconv/unoconv) for converting Word documents to
+PDF files.
 
 ## Getting Started
 

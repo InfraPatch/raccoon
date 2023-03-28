@@ -1,11 +1,14 @@
 # Project Raccoon
 
-A Project Raccoon egy egyszerű alkalmazás adásvételi szerződések létrehozására, aláírására és kezelésére.
+A Project Raccoon egy egyszerű alkalmazás adásvételi szerződések létrehozására,
+aláírására és kezelésére.
 
 ## Szükséges szoftverek
 
 - Node.js v12 vagy annál újabb
 - MySQL
+- [unoconv](https://github.com/unoconv/unoconv) a Word dokumentumok PDF
+formátumba való konvertálásához.
 
 ## Első lépések
 

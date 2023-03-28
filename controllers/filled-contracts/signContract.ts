@@ -1,7 +1,9 @@
 import { User } from '@/db/models/auth/User';
 import { FilledContract } from '@/db/models/contracts/FilledContract';
 import { FilledContractOption } from '@/db/models/contracts/FilledContractOption';
+
 import db from '@/services/db';
+import pdfService from '@/services/pdf';
 
 import PizZip from 'pizzip';
 import DOCXTemplater from 'docxtemplater';
@@ -12,6 +14,7 @@ import { getStorageStrategy } from '@/lib/storageStrategies';
 import { formatDate } from '@/lib/formatDate';
 import { ContractOptionType } from '@/db/models/contracts/ContractOption';
 import { getPersonalIdentifierTypeString } from '@/lib/getPersonalIdentifierTypeString';
+
 const storage = getStorageStrategy();
 
 class SignContractError extends Error {
@@ -75,17 +78,16 @@ const savePDF = async (filledContract: FilledContract): Promise<string> => {
   templateDocument.setData(data);
   templateDocument.render();
 
-  // TODO: find a library that can convert docx to pdf
-
   const document: Buffer = templateDocument.getZip().generate({ type: 'nodebuffer' });
+  const pdf = await pdfService.create(document);
 
   let key: string | null = null;
 
   do {
-    key = `${uuid()}.docx`;
+    key = `${uuid()}.${pdf}`;
   } while (await storage.exists(`documents/${key}`));
 
-  await storage.create({ key: `documents/${key}`, contents: document });
+  await storage.create({ key: `documents/${key}`, contents: pdf });
 
   return key;
 };

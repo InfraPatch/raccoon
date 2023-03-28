@@ -119,7 +119,11 @@ export const download = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    const stream = await downloadContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+    const {
+      stream,
+      extension,
+      contentType
+    } = await downloadContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
 
     if (!stream) {
       return res.status(400).json({
@@ -128,8 +132,8 @@ export const download = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-    res.setHeader('Content-Disposition', `attachment; filename="contract_${new Date().getTime()}.docx`);
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Content-Disposition', `attachment; filename="contract_${new Date().getTime()}.${extension}`);
 
     return stream.pipe(res);
   } catch (err) {

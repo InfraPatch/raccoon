@@ -6,6 +6,12 @@ import { FilledContract, IFilledContract } from '@/db/models/contracts/FilledCon
 import { getStorageStrategy } from '@/lib/storageStrategies';
 const storage = getStorageStrategy();
 
+export interface IDownloadPDFResponse {
+  stream: any;
+  extension: string;
+  contentType: string;
+};
+
 class GetFilledContractError extends Error {
   code: string;
 
@@ -65,7 +71,7 @@ export const getFilledContract = async (email: string, contractId: number, inter
   return contract;
 };
 
-export const downloadContract = async (email: string, contractId: number): Promise<any> => {
+export const downloadContract = async (email: string, contractId: number): Promise<IDownloadPDFResponse> => {
   const contract = await getFilledContract(email, contractId, true) as FilledContract;
 
   if (!contract.filename) {
@@ -76,6 +82,18 @@ export const downloadContract = async (email: string, contractId: number): Promi
     return null;
   }
 
+  const extension = contract.filename.split('.').pop()?.toLowerCase();
+  const contentType = extension === 'pdf'
+    ? 'application/pdf'
+    : extension === 'docx'
+      ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      : 'application/octet-stream';
+
   const stream = await storage.getStream(`documents/${contract.filename}`);
-  return stream;
+
+  return {
+    stream,
+    extension,
+    contentType
+  };
 };
