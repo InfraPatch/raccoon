@@ -22,6 +22,10 @@ export const createFilledContract = async (sellerEmail: string, { friendlyName, 
   if (friendlyName.length < 2) {
     throw new CreateFilledContractError('NAME_TOO_SHORT');
   }
+  
+  if (buyerEmail.trim() === sellerEmail) {
+    throw new CreateFilledContractError('CANT_BE_BOTH_SELLER_AND_BUYER');
+  }
 
   await db.prepare();
 

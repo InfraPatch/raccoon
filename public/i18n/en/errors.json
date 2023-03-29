@@ -54,6 +54,7 @@
     "CONTRACT_NOT_FOUND": "We couldn't find the current contract.",
 
     "USER_NOT_FOUND": "No user with this email address could be found.",
+    "CANT_BE_BOTH_SELLER_AND_BUYER": "You cannot be both the seller and the buyer.",
 
     "INVALID_MIMETYPE": "Only DOCX files are allowed.",
 

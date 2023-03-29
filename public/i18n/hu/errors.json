@@ -54,6 +54,7 @@
     "CONTRACT_NOT_FOUND": "Nem sikerült megtalálni az eddigi szerződést.",
 
     "USER_NOT_FOUND": "Nem található ezzel az e-mail címmel rendelkező felhasználó.",
+    "CANT_BE_BOTH_SELLER_AND_BUYER": "Nem lehetsz egyszere eladó és vevő.",
 
     "INVALID_MIMETYPE": "Csak DOCX fájlok engedélyezettek.",
 
