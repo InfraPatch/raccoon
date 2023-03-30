@@ -96,6 +96,7 @@
       "confirm-action": "Művelet megerősítése",
       "yes": "Igen",
       "no": "Nem",
+      "no-actions": "Jelenleg nincsenek elérhető műveletek.",
       "accept-confirmation": "Biztosan el szeretné fogadni ezt a szerződés kitöltési kérelmet?",
       "decline-confirmation": "Biztosan vissza szeretné utasítani ezt a szerződés kitöltési kérelmet?",
       "sign-confirmation": "Biztosan aláírja ezt a szerződést?",

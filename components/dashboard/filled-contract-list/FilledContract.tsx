@@ -118,7 +118,7 @@ const FilledContractListItem = ({ contract, onChange, isBuyer }: FilledContractL
       </div>
 
       {isBuyer && !contract.accepted && (
-        <div className="flex gap-2 my-3">
+        <div className="flex gap-2 pb-3 px-4">
           <Button size={ButtonSize.SMALL} onClick={() => acceptOrDecline('accept')}>
             { t('dashboard:contracts.list.accept') }
           </Button>

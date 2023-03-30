@@ -96,6 +96,7 @@
       "confirm-action": "Confirm action",
       "yes": "Yes",
       "no": "No",
+      "no-actions": "No actions are currently available.",
       "accept-confirmation": "Are you sure you want to accept this contract request?",
       "decline-confirmation": "Are you sure you want to decline this contract request?",
       "sign-confirmation": "Are you sure you want to sign this contract?",

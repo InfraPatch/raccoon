@@ -168,7 +168,7 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
         </>
       )}
 
-      {isBuyer && filledContract.accepted && (
+      {isBuyer && filledContract.accepted && !filledContract.buyerSignedAt && (
         <Button
           size={ButtonSize.SMALL}
           disabled={saving}
@@ -178,17 +178,21 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
 
       {!isBuyer && (
         <>
-          <Button
-            size={ButtonSize.SMALL}
-            disabled={saving}
-            onClick={handleSignClick}
-          >{ t('dashboard:contracts.actions.sign') }</Button>
+          {!filledContract.sellerSignedAt && (
+            <Button
+              size={ButtonSize.SMALL}
+              disabled={saving}
+              onClick={handleSignClick}
+            >{ t('dashboard:contracts.actions.sign') }</Button>
+          )}
 
-          <Button
-            size={ButtonSize.SMALL}
-            disabled={saving}
-            onClick={handleDeleteClick}
-          >{ t('dashboard:contracts.actions.delete')}</Button>
+          {!filledContract.buyerSignedAt && !filledContract.sellerSignedAt && (
+            <Button
+              size={ButtonSize.SMALL}
+              disabled={saving}
+              onClick={handleDeleteClick}
+            >{ t('dashboard:contracts.actions.delete') }</Button>
+          )}
         </>
       )}
 
@@ -197,7 +201,13 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
           size={ButtonSize.SMALL}
           disabled={saving}
           onClick={downloadContract}
-        >{ t('dashboard:contracts.actions.download')}</Button>
+        >{ t('dashboard:contracts.actions.download') }</Button>
+      )}
+
+      {isBuyer && filledContract.buyerSignedAt && !filledContract.sellerSignedAt && (
+        <div className="text-center text-sm flex-1">
+          { t('dashboard:contracts.actions.no-actions') }
+        </div>
       )}
     </div>
   );
