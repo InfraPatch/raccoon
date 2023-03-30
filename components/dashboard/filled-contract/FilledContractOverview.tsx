@@ -4,6 +4,8 @@ import { IFilledContractOption } from '@/db/models/contracts/FilledContractOptio
 import { formatDate } from '@/lib/formatDate';
 import { getPersonalIdentifierTypeString } from '@/lib/getPersonalIdentifierTypeString';
 
+import { FileText, PenTool, User, UserCheck } from 'react-feather';
+
 import { useTranslation } from 'react-i18next';
 
 export interface FilledContractOverviewProps {
@@ -28,42 +30,74 @@ const FilledContractOverview = ({ contract, isBuyer }: FilledContractOverviewPro
     }
   };
 
-  return (
-    <div className="my-4">
-      <div className="mb-6">
-        <h2 className="font-normal text-xl">{ t('contracts.data.contract-details') }</h2>
+  const dataContainerClassNames = 'mb-6 bg-field shadow rounded-md';
+  const dataRowClassNames = 'flex items-center gap-2 my-1';
+  const dataContainerTitleClassNames = 'text-xl px-4 py-3 bg-accent text-secondary rounded-md rounded-b-none';
 
-        <div className="my-2">
-          <div>
-            <strong>{t('dashboard:contracts.list.contract-type')}:</strong> {contract.contract.friendlyName} (<a
-              href={`/templates/${contract.contract.filename.replace('/templates/', '')}`}
-            >{t('dashboard:contracts.list.preview')}</a>)
+  return (
+    <article className="my-4">
+      <div className={dataContainerClassNames}>
+        <h2 className={dataContainerTitleClassNames}>{ t('contracts.data.contract-details') }</h2>
+
+        <div className="px-4 py-3 text-sm">
+          <div className={dataRowClassNames}>
+            <User />
+
+            {isBuyer && (<div>
+              <strong>{ t('dashboard:contracts.list.seller-field') }: </strong> <a href={`mailto:${contract.user.email}`}>{contract.user.name}</a>
+            </div>)}
+
+            {!isBuyer && (<div>
+              <strong>{ t('dashboard:contracts.list.buyer-field') }: </strong> <a href={`mailto:${contract.buyer.email}`}>{contract.buyer.name}</a>
+            </div>)}
           </div>
 
-          {!isBuyer && (<div>
-            <strong>{t('dashboard:contracts.list.buyer-accepted')}: </strong>
-            {contract.accepted && <span className="text-success">{t('dashboard:contracts.list.yes')}</span>}
-            {!contract.accepted && <span className="text-danger">{t('dashboard:contracts.list.no')}</span>}
+          <div className={dataRowClassNames}>
+            <FileText />
+
+            <div>
+              <strong>{t('dashboard:contracts.list.contract-type')}:</strong> {contract.contract.friendlyName} (<a
+                href={`/templates/${contract.contract.filename.replace('/templates/', '')}`}
+              >{t('dashboard:contracts.list.preview')}</a>)
+            </div>
+          </div>
+
+          {!isBuyer && (<div className={dataRowClassNames}>
+            <UserCheck />
+
+            <div>
+              <strong>{t('dashboard:contracts.list.buyer-accepted')}: </strong>
+              {contract.accepted && <span className="text-success">{t('dashboard:contracts.list.yes')}</span>}
+              {!contract.accepted && <span className="text-danger">{t('dashboard:contracts.list.no')}</span>}
+            </div>
           </div>)}
 
-          <div>
-            <strong>{t('dashboard:contracts.list.seller-signed-at')}: </strong>
-            {!contract.sellerSignedAt && <span className="text-danger">{t('dashboard:contracts.list.not-signed-yet')}</span>}
-            {contract.sellerSignedAt && <span>{formatDate(contract.sellerSignedAt, false)}</span>}
+          <div className={dataRowClassNames}>
+            <PenTool />
+
+            <div>
+              <strong>{t('dashboard:contracts.list.seller-signed-at')}: </strong>
+              {!contract.sellerSignedAt && <span className="text-danger">{t('dashboard:contracts.list.not-signed-yet')}</span>}
+              {contract.sellerSignedAt && <span>{formatDate(contract.sellerSignedAt, false)}</span>}
+            </div>
           </div>
 
-          <div>
-            <strong>{t('dashboard:contracts.list.buyer-signed-at')}: </strong>
-            {!contract.buyerSignedAt && <span className="text-danger">{t('dashboard:contracts.list.not-signed-yet')}</span>}
-            {contract.buyerSignedAt && <span>{formatDate(contract.buyerSignedAt, false)}</span>}
+          <div className={dataRowClassNames}>
+            <PenTool />
+
+            <div>
+              <strong>{t('dashboard:contracts.list.buyer-signed-at')}: </strong>
+              {!contract.buyerSignedAt && <span className="text-danger">{t('dashboard:contracts.list.not-signed-yet')}</span>}
+              {contract.buyerSignedAt && <span>{formatDate(contract.buyerSignedAt, false)}</span>}
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="mb-6">
-        <h2 className="font-normal text-xl">{ t('contracts.data.seller-details') }</h2>
+      <div className={dataContainerClassNames}>
+        <h2 className={dataContainerTitleClassNames}>{ t('contracts.data.seller-details') }</h2>
 
-        <div className="my-2">
+        <div className="px-4 py-3">
           {sellerDetails.map(detail => (
             <div key={detail.id}>
               <strong>
@@ -79,10 +113,10 @@ const FilledContractOverview = ({ contract, isBuyer }: FilledContractOverviewPro
       </div>
 
       {contract.accepted && (
-        <div>
-          <h2 className="font-normal text-xl">{ t('contracts.data.buyer-details') }</h2>
+        <div className={dataContainerClassNames}>
+          <h2 className={dataContainerTitleClassNames}>{ t('contracts.data.buyer-details') }</h2>
 
-          <div className="my-2">
+          <div className="px-4 py-3">
             {buyerDetails.map(detail => (
               <div key={detail.id}>
                 <strong>
@@ -97,7 +131,7 @@ const FilledContractOverview = ({ contract, isBuyer }: FilledContractOverviewPro
           </div>
         </div>
       )}
-    </div>
+    </article>
   );
 };
 

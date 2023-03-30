@@ -7,6 +7,8 @@ import toaster from '@/lib/toaster';
 import apiService from '@/services/apis';
 
 import Link from 'next/link';
+import { FileText, PenTool, User, UserCheck } from 'react-feather';
+
 import { useTranslation } from 'react-i18next';
 
 export interface FilledContractListItemProps {
@@ -43,48 +45,76 @@ const FilledContractListItem = ({ contract, onChange, isBuyer }: FilledContractL
     }
   };
 
+  const dataRowClassNames = 'flex items-center gap-2 my-1';
+
   return (
-    <article className="px-4 py-3 mb-4 bg-field shadow rounded-md">
+    <article className="my-4 bg-field shadow rounded-md">
       <Link href={`/dashboard/contracts/${contract.id}`}>
         <a>
-          <h2 className="text-xl inline-block mb-2">{contract.friendlyName}</h2>
+          <h2 className="text-xl block px-4 py-3 bg-accent text-secondary rounded-md rounded-b-none">{contract.friendlyName}</h2>
         </a>
       </Link>
 
-      {isBuyer && contract.user?.email && (
-        <div>
-          <strong>{ t('dashboard:contracts.list.seller-field') }: </strong> <a href={`mailto:${contract.user.email}`}>{contract.user.name}</a>
+      <div className="px-4 py-3 text-sm">
+        {isBuyer && contract.user?.email && (
+          <div className={dataRowClassNames}>
+            <User />
+
+            <div>
+              <strong>{ t('dashboard:contracts.list.seller-field') }: </strong> <a href={`mailto:${contract.user.email}`}>{contract.user.name}</a>
+            </div>
+          </div>
+        )}
+
+        {!isBuyer && contract.buyer?.email && (
+          <div className={dataRowClassNames}>
+            <User />
+
+            <div>
+              <strong>{ t('dashboard:contracts.list.buyer-field') }: </strong> <a href={`mailto:${contract.buyer.email}`}>{contract.buyer.name}</a>
+            </div>
+          </div>
+        )}
+
+        <div className={dataRowClassNames}>
+          <FileText />
+
+          <div>
+            <strong>{ t('dashboard:contracts.list.contract-type') }:</strong> {contract.contract.friendlyName} (<a
+              href={`/templates/${contract.contract.filename.replace('/templates/', '')}`}
+            >{ t('dashboard:contracts.list.preview') }</a>)
+          </div>
         </div>
-      )}
 
-      {!isBuyer && contract.buyer?.email && (
-        <div>
-          <strong>{ t('dashboard:contracts.list.buyer-field') }: </strong> <a href={`mailto:${contract.buyer.email}`}>{contract.buyer.name}</a>
+        {!isBuyer && (<div className={dataRowClassNames}>
+          <UserCheck />
+
+          <div>
+            <strong>{ t('dashboard:contracts.list.buyer-accepted') }: </strong>
+            {contract.accepted && <span className="text-success">{ t('dashboard:contracts.list.yes') }</span>}
+            {!contract.accepted && <span className="text-danger">{ t('dashboard:contracts.list.no') }</span>}
+          </div>
+        </div>)}
+
+        <div className={dataRowClassNames}>
+          <PenTool />
+
+          <div>
+            <strong>{ t('dashboard:contracts.list.seller-signed-at') }: </strong>
+            {!contract.sellerSignedAt && <span className="text-danger">{ t('dashboard:contracts.list.not-signed-yet') }</span>}
+            {contract.sellerSignedAt && <span>{formatDate(contract.sellerSignedAt, false)}</span>}
+          </div>
         </div>
-      )}
 
-      <div>
-        <strong>{ t('dashboard:contracts.list.contract-type') }:</strong> {contract.contract.friendlyName} (<a
-          href={`/templates/${contract.contract.filename.replace('/templates/', '')}`}
-        >{ t('dashboard:contracts.list.preview') }</a>)
-      </div>
+        <div className={dataRowClassNames}>
+          <PenTool />
 
-      {!isBuyer && (<div>
-        <strong>{ t('dashboard:contracts.list.buyer-accepted') }: </strong>
-        {contract.accepted && <span className="text-success">{ t('dashboard:contracts.list.yes') }</span>}
-        {!contract.accepted && <span className="text-danger">{ t('dashboard:contracts.list.no') }</span>}
-      </div>)}
-
-      <div>
-        <strong>{ t('dashboard:contracts.list.seller-signed-at') }: </strong>
-        {!contract.sellerSignedAt && <span className="text-danger">{ t('dashboard:contracts.list.not-signed-yet') }</span>}
-        {contract.sellerSignedAt && <span>{formatDate(contract.sellerSignedAt, false)}</span>}
-      </div>
-
-      <div>
-        <strong>{ t('dashboard:contracts.list.buyer-signed-at') }: </strong>
-        {!contract.buyerSignedAt && <span className="text-danger">{ t('dashboard:contracts.list.not-signed-yet') }</span>}
-        {contract.buyerSignedAt && <span>{formatDate(contract.buyerSignedAt, false)}</span>}
+          <div>
+            <strong>{ t('dashboard:contracts.list.buyer-signed-at') }: </strong>
+            {!contract.buyerSignedAt && <span className="text-danger">{ t('dashboard:contracts.list.not-signed-yet') }</span>}
+            {contract.buyerSignedAt && <span>{formatDate(contract.buyerSignedAt, false)}</span>}
+          </div>
+        </div>
       </div>
 
       {isBuyer && !contract.accepted && (
