@@ -31,6 +31,7 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const [ contract, setContract ] = useState<IFilledContract | null>(null);
+  const [ isBuyer, setIsBuyer ] = useState(false);
   const [ title, setTitle ] = useState('...');
   const [ error, setError ] = useState('');
 
@@ -42,6 +43,7 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
       const res = await apiService.filledContracts.getFilledContract(id);
       setContract(res.filledContract);
       setTitle(res.filledContract.friendlyName);
+      setIsBuyer(res.filledContract.buyer?.email === user.email);
     } catch (err) {
       if (err.response?.data?.error) {
         const message = err.response.data.error;
@@ -72,7 +74,7 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
             <Box title={ t('dashboard:contracts.data.overview') }>
               <FilledContractOverview
                 contract={contract}
-                isBuyer={contract.buyer?.email === user.email}
+                isBuyer={isBuyer}
               />
             </Box>
 
@@ -80,18 +82,18 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
               <FilledContractActions
                 filledContract={contract}
                 onChange={loadContract}
-                isBuyer={contract.buyer?.email === user.email}
+                isBuyer={isBuyer}
               />
             </Box>
           </Column>
 
           <Column>
-            {(contract.buyer?.email !== user.email || (contract?.buyer.email === user.email && contract.accepted)) && (
+            {((!isBuyer && !contract.sellerSignedAt) || (isBuyer && contract.accepted && !contract.buyerSignedAt)) && (
               <Box title={ t('dashboard:contracts.data.my-details') }>
                 <FilledContractFieldsForm
                   filledContract={contract}
                   onChange={loadContract}
-                  isBuyer={contract.buyer?.email === user.email}
+                  isBuyer={isBuyer}
                 />
               </Box>
             )}
