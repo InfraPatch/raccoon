@@ -51,6 +51,18 @@ const FilledContractListItem = ({ contract, onChange, isBuyer }: FilledContractL
         </a>
       </Link>
 
+      {isBuyer && contract.user?.email && (
+        <div>
+          <strong>{ t('dashboard:contracts.list.seller-field') }: </strong> <a href={`mailto:${contract.user.email}`}>{contract.user.name}</a>
+        </div>
+      )}
+
+      {!isBuyer && contract.buyer?.email && (
+        <div>
+          <strong>{ t('dashboard:contracts.list.buyer-field') }: </strong> <a href={`mailto:${contract.buyer.email}`}>{contract.buyer.name}</a>
+        </div>
+      )}
+
       <div>
         <strong>{ t('dashboard:contracts.list.contract-type') }:</strong> {contract.contract.friendlyName} (<a
           href={`/templates/${contract.contract.filename.replace('/templates/', '')}`}

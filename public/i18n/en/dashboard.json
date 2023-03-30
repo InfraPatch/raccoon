@@ -53,6 +53,9 @@
       "own": "Seller Contracts",
       "buyer": "Buyer Contracts",
 
+      "seller-field": "Seller",
+      "buyer-field": "Buyer",
+
       "contract-type": "Contract type",
       "preview": "preview",
       "buyer-accepted": "Buyer accepted request",

@@ -53,6 +53,9 @@
       "own": "Saját (eladói) szerződések",
       "buyer": "Vevő szerződések",
 
+      "seller-field": "Eladó",
+      "buyer-field": "Vevő",
+
       "contract-type": "Szerződés típusa",
       "preview": "minta",
       "buyer-accepted": "Vevő elfogadta a kérelmet",

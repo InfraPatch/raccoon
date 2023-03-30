@@ -18,9 +18,9 @@ export interface IUserIdentificationDetails {
 };
 
 export interface IUser extends IUserIdentificationDetails {
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
+  id?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
   name?: string;
   email?: string;
   image?: string;

@@ -31,8 +31,30 @@ export const listFilledContracts = async (email: string): Promise<Omit<ListFillC
     { buyerId: user.id }
   ], relations: [ 'contract' ] });
 
+  const detailedFilledContracts = await Promise.all(filledContracts.map(async contract => {
+    const filledContract = contract.toJSON();
+
+    if (contract.userId !== user.id) {
+      const seller = await contract.getUser(contract.userId);
+      filledContract.user = {
+        name: seller.name,
+        email: seller.email
+      };
+    }
+
+    if (contract.buyerId !== user.id) {
+      const buyer = await contract.getUser(contract.buyerId);
+      filledContract.buyer = {
+        name: buyer.name,
+        email: buyer.email
+      };
+    }
+
+    return filledContract;
+  }));
+
   return {
-    own: filledContracts.filter(c => c.userId === user.id).map(fc => fc.toJSON()),
-    foreign: filledContracts.filter(c => c.buyerId === user.id).map(fc => fc.toJSON())
+    own: detailedFilledContracts.filter(c => c.userId === user.id),
+    foreign: detailedFilledContracts.filter(c => c.buyerId === user.id)
   };
 };
