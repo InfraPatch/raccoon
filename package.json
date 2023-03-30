@@ -39,6 +39,7 @@
     "next-mdx-remote": "^2.1.4",
     "nodemailer": "^6.5.0",
     "nprogress": "^0.2.0",
+    "pdf-lib": "^1.16.0",
     "pizzip": "^3.0.6",
     "react": "17.0.2",
     "react-dom": "17.0.2",

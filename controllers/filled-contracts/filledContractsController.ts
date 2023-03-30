@@ -7,25 +7,7 @@ import { getFilledContract, downloadContract } from './getFilledContract';
 import { listFilledContracts } from './listFilledContracts';
 import { signContract } from './signContract';
 import { acceptOrDeclineFilledContract, fillContractOptions } from './updateFilledContract';
-
-const objectToXml = (object) => Object.keys(object).reduce((reqStr, key) => {
-  const value = object[key] || '';
-  const isObject = typeof value === 'object';
-  const isArray = Array.isArray(value);
-  if (isArray) {
-    return reqStr + value.reduce((accumulator, currentValue) =>
-      accumulator + `<${key}>${typeof currentValue === 'object' ? objectToXml(currentValue) : (currentValue || '')}</${key}>`
-    , '');
-  }
-  if (isObject) {
-    return reqStr + `<${key}>${objectToXml(value)}</${key}>`;
-  }
-  return reqStr + `<${key}>${value}</${key}>`;
-}, '');
-
-const jsonToXml = (object) => {
-  return "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" + objectToXml(object);
-};
+import { jsonToXml } from '@/lib/objectToXml';
 
 const acceptOrDecline = async (action: 'accept' | 'decline', req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;

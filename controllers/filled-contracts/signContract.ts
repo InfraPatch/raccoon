@@ -3,7 +3,7 @@ import { FilledContract } from '@/db/models/contracts/FilledContract';
 import { FilledContractOption } from '@/db/models/contracts/FilledContractOption';
 
 import db from '@/services/db';
-import pdfService from '@/services/pdf';
+import { pdfService, IAVDHAttestation } from '@/services/pdf';
 
 import PizZip from 'pizzip';
 import DOCXTemplater from 'docxtemplater';
@@ -70,6 +70,24 @@ const savePDF = async (filledContract: FilledContract): Promise<string> => {
 
   const sellerName = filledContract.options.find(o => o.option.replacementString === 'seller_name').value;
   const buyerName = filledContract.options.find(o => o.option.replacementString === 'buyer_name').value;
+  const attestations: IAVDHAttestation[] = [
+    {
+      date: filledContract.sellerSignedAt,
+      fullName: sellerName,
+      birthName: sellerName,
+      birthPlace: filledContract.options.find(o => o.option.replacementString === 'seller_birth_place').value,
+      birthDate: filledContract.options.find(o => o.option.replacementString === 'seller_birth_date').value,
+      motherName: filledContract.options.find(o => o.option.replacementString === 'seller_mother_name').value
+    },
+    {
+      date: filledContract.buyerSignedAt,
+      fullName: buyerName,
+      birthName: buyerName,
+      birthPlace: filledContract.options.find(o => o.option.replacementString === 'buyer_birth_place').value,
+      birthDate: filledContract.options.find(o => o.option.replacementString === 'buyer_birth_date').value,
+      motherName: filledContract.options.find(o => o.option.replacementString === 'buyer_mother_name').value
+    }
+  ];
 
   data['signature_date'] = formatDate(new Date(), false);
   data['seller_signature'] = sellerName.toUpperCase();
@@ -79,7 +97,7 @@ const savePDF = async (filledContract: FilledContract): Promise<string> => {
   templateDocument.render();
 
   const document: Buffer = templateDocument.getZip().generate({ type: 'nodebuffer' });
-  const pdf = await pdfService.create(document);
+  const pdf = await pdfService.create(document, attestations);
 
   let key: string | null = null;
 
