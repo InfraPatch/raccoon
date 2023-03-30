@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 
 import { User } from '@/db/models/auth/User';
 
@@ -15,6 +16,7 @@ export interface DashboardLayoutProps {
 
 const DashboardLayout = ({ user, children }: DashboardLayoutProps) => {
   const [ sidebarOpen, setSidebarOpen ] = useState(true);
+  const { t } = useTranslation('common');
 
   const handleHamburgerClick = () => setSidebarOpen(currentState => !currentState);
 
@@ -37,11 +39,15 @@ const DashboardLayout = ({ user, children }: DashboardLayoutProps) => {
 
   return (
     <section className="md:flex h-screen">
+      <a href="#content" className="skip-to-content">
+        { t('skip-to-content') }
+      </a>
+
       <div className={sidebarWrapperClassnames}>
         <DashboardSidebar user={user} />
       </div>
 
-      <div className="flex-1 overflow-y-auto py-10 px-4 md:px-14">
+      <div className="flex-1 overflow-y-auto py-10 px-4 md:px-14" id="content">
         {children}
       </div>
 

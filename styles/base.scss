@@ -166,5 +166,27 @@ table {
   }
 }
 
+.skip-to-content {
+  @apply fixed;
+  @apply z-50;
+  @apply left-0;
+  @apply inline-block;
+  @apply px-6;
+  @apply py-5;
+  @apply font-bold;
+  @apply bg-accent;
+  @apply text-secondary;
+
+  &:hover {
+    @apply text-secondary;
+  }
+
+  top: -9999px;
+
+  &:focus {
+    @apply top-0;
+  }
+}
+
 @import './progress';
 @import 'sweetalert2/src/sweetalert2.scss';

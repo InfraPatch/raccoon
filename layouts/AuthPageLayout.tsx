@@ -5,15 +5,23 @@ import TheFooter from '@/components/common/the-footer/TheFooter';
 
 import SocialLogin, { AllowedProvider } from '@/components/auth/SocialLogin';
 
+import { useTranslation } from 'react-i18next';
+
 export interface AuthPageLayoutProps {
   providers: AllowedProvider[];
   children: ReactNode;
 };
 
 const AuthPageLayout = ({ providers, children }: AuthPageLayoutProps) => {
+  const { t } = useTranslation('common');
+
   return (
     <div className="bg-primary">
-      <section className="container">
+      <a href="#content" className="skip-to-content">
+        { t('skip-to-content') }
+      </a>
+
+      <section className="container" id="content">
         <TheHeader />
 
         <div className="max-w-4xl bg-secondary rounded shadow-md mx-auto my-8 px-8 py-6 md:flex items-center">

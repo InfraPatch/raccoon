@@ -4,6 +4,8 @@ import TheHeader from '@/components/common/the-header/TheHeader';
 import TheFooter from '@/components/common/the-footer/TheFooter';
 import clsx from 'clsx';
 
+import { useTranslation } from 'react-i18next';
+
 export interface ContentPageLayoutProps {
   title?: string;
   subtitle?: string;
@@ -16,9 +18,15 @@ const ContentPageLayout = ({ title, subtitle, narrow, children }: ContentPageLay
     'max-w-6xl': narrow
   });
 
+  const { t } = useTranslation('common');
+
   return (
     <div className="bg-secondary">
-      <section className="container">
+      <a href="#content" className="skip-to-content">
+        { t('skip-to-content') }
+      </a>
+
+      <section className="container" id="content">
         <TheHeader />
 
         <div className={wrapperClasses}>
