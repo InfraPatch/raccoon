@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 import Button, { ButtonSize } from '@/components/common/button/Button';
 import { IFilledContract } from '@/db/models/contracts/FilledContract';
@@ -16,11 +16,23 @@ export interface FilledContractFieldsFormProps {
   isBuyer?: boolean;
 };
 
+export interface FilledContractField {
+  id: number;
+  name: string;
+  type: ContractOptionType;
+  value: string;
+  longDescription?: string;
+  hint?: string;
+};
+
 const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledContractFieldsFormProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
-  const [ fields, setFields ] = useState(
-    filledContract.contract.options
+  const [ fields, setFields ] = useState<FilledContractField[]>([]);
+  const [ saving, setSaving ] = useState(false);
+
+  useEffect(() => {
+    const newFields = filledContract.contract.options
       .filter(option => option.isSeller === !isBuyer)
       .sort((a, b) => a.priority - b.priority)
       .map(option => {
@@ -32,10 +44,10 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
           longDescription: option.longDescription,
           hint: option.hint
         };
-      })
-  );
+      });
 
-  const [ saving, setSaving ] = useState(false);
+    setFields(newFields);
+  }, [ isBuyer ])
 
   const updateFields = (id: number, value: string) => {
     setFields(current => {
