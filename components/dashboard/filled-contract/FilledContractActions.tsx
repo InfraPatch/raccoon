@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 
 import Swal from 'sweetalert2';
 import buildUrl from '@/lib/buildUrl';
+import React from 'react';
 
 export interface FilledContractActionsProps {
   filledContract: IFilledContract;
@@ -206,17 +207,19 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
       )}
 
       {filledContract.sellerSignedAt && filledContract.buyerSignedAt && (
-        <Button
-          size={ButtonSize.SMALL}
-          disabled={saving}
-          onClick={downloadContract}
-        >{ t('dashboard:contracts.actions.download') }</Button>
-      ) && (
-        <Button
-          size={ButtonSize.SMALL}
-          disabled={saving}
-          onClick={forwardContract}
-        >{ t('dashboard:contracts.actions.forward')}</Button>
+        <React.Fragment>
+          <Button
+            size={ButtonSize.SMALL}
+            disabled={saving}
+            onClick={downloadContract}
+          >{ t('dashboard:contracts.actions.download') }</Button>
+
+          <Button
+            size={ButtonSize.SMALL}
+            disabled={saving}
+            onClick={forwardContract}
+          >{ t('dashboard:contracts.actions.forward')}</Button>
+        </React.Fragment>
       )}
 
       {isBuyer && filledContract.buyerSignedAt && !filledContract.sellerSignedAt && (
