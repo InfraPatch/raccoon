@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGenerate
 import { User, IUser } from '../auth/User';
 import { Contract, IContract } from './Contract';
 import { FilledContractOption, IFilledContractOption } from './FilledContractOption';
+import { IWitnessSignature, WitnessSignature } from './WitnessSignature';
 
 import db from '../../../services/db';
 
@@ -19,6 +20,7 @@ export interface IFilledContract {
   accepted?: boolean;
   contract?: IContract;
   options?: IFilledContractOption[];
+  witnessSignatures?: IWitnessSignature[];
   sellerSignedAt?: Date | string;
   buyerSignedAt?: Date | string;
 };
@@ -45,6 +47,9 @@ export class FilledContract implements IFilledContract {
 
   @OneToMany(() => FilledContractOption, filledContractOption => filledContractOption.filledContract)
   options: Partial<FilledContractOption[]>;
+
+  @OneToMany(() => WitnessSignature, witnessSignature => witnessSignature.filledContract)
+  witnessSignatures: Partial<WitnessSignature[]>;
 
   // thanks to next-auth's incompatibility with typeorm entities, I cannot
   // establish a many-to-one relationship here, so it's just the user ID.

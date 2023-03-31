@@ -17,6 +17,8 @@ import { ItemOption } from '../db/models/items/ItemOption';
 import { FilledItem } from '../db/models/items/FilledItem';
 import { FilledItemOption } from '../db/models/items/FilledItemOption';
 
+import { WitnessSignature } from '../db/models/contracts/WitnessSignature';
+
 import transform from '../node_modules/next-auth/dist/adapters/typeorm/lib/transform';
 
 const baseConnectionOptions: ConnectionOptions = {
@@ -62,7 +64,9 @@ const connectionOptions: ConnectionOptions = {
     Item,
     ItemOption,
     FilledItem,
-    FilledItemOption
+    FilledItemOption,
+
+    WitnessSignature
   ]
 };
 
