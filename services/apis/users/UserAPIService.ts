@@ -38,6 +38,7 @@ export interface UpdateUserIdentificationDetailsAPIRequest {
   personalIdentifier?: string;
   phoneNumber?: string;
   birthDate?: Date;
+  birthPlace?: string;
 }
 
 export type UpdateUserAPIRequest =
@@ -115,6 +116,10 @@ class UsersAPIService {
 
     if (data.birthDate) {
       payload.append('birthDate', data.birthDate.toISOString());
+    }
+
+    if (data.birthPlace) {
+      payload.append('birthPlace', data.birthPlace);
     }
 
     return axiosService.patch(UsersAPIService.UPDATE_USER_URL, payload)

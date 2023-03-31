@@ -44,6 +44,7 @@
     "id-doc-number": "Personal identifier number",
     "phone-number": "Phone number",
     "birthdate": "Birth date",
+    "birthplace": "Birth place",
 
     "id-card": "ID card",
     "passport": "Passport",

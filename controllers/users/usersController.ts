@@ -117,7 +117,8 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
           personalIdentifierType: fields.personalIdentifierType && parseInt(firstOf(fields.personalIdentifierType)),
           personalIdentifier: firstOf(fields.personalIdentifier),
           phoneNumber: firstOf(fields.phoneNumber),
-          birthDate: fields.birthDate && new Date(firstOf(fields.birthDate))
+          birthDate: fields.birthDate && new Date(firstOf(fields.birthDate)),
+          birthPlace: firstOf(fields.birthPlace)
         });
 
         res.json({

@@ -25,7 +25,8 @@ const UserIdentificationSettingsForm = ({ user }: UserIdentificationSettingsForm
     personalIdentifierType,
     personalIdentifier,
     phoneNumber,
-    birthDate
+    birthDate,
+    birthPlace
   }: UpdateUserIdentificationDetailsAPIRequest, { setSubmitting }: FormikHelpers<UpdateUserIdentificationDetailsAPIRequest>) => {
     try {
       await apiService.users.updateUser({
@@ -35,7 +36,8 @@ const UserIdentificationSettingsForm = ({ user }: UserIdentificationSettingsForm
         personalIdentifierType,
         personalIdentifier,
         phoneNumber,
-        birthDate: birthDate && new Date(birthDate)
+        birthDate: birthDate && new Date(birthDate),
+        birthPlace
       });
       toaster.success(t('dashboard:settings.success'));
     } catch (err) {
@@ -65,7 +67,8 @@ const UserIdentificationSettingsForm = ({ user }: UserIdentificationSettingsForm
         personalIdentifierType: user.personalIdentifierType,
         personalIdentifier: user.personalIdentifier,
         phoneNumber: user.phoneNumber,
-        birthDate: transformDate(user.birthDate) as any
+        birthDate: transformDate(user.birthDate) as any,
+        birthPlace: user.birthPlace
       }}
       onSubmit={handleFormSubmit}
     >
@@ -108,6 +111,11 @@ const UserIdentificationSettingsForm = ({ user }: UserIdentificationSettingsForm
           <div className="form-field">
             <label htmlFor="birthDate">{ t('dashboard:user-fields.birthdate') }:</label>
             <Field name="birthDate" type="date" />
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="birthPlace">{ t('dashboard:user-fields.birthplace') }:</label>
+            <Field name="birthPlace" />
           </div>
 
           <div className="form-field">

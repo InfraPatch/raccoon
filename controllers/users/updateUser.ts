@@ -122,5 +122,9 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
     user.birthDate = payload.birthDate;
   }
 
+  if (payload.birthPlace) {
+    user.birthPlace = payload.birthPlace;
+  }
+
   return userRepository.save(user);
 };
