@@ -77,7 +77,12 @@
     "FIELD_NUMBER_TOO_LARGE": "A(z) \"{{ friendlyName }}\" mező legnagyobb megengedett értéke: \"{{ max }}\".",
     "FIELD_INVALID_EMAIL": "A(z) \"{{ friendlyName }}\" mezőben megadott e-mail cím érvénytelen.",
     "FIELD_DATE_INVALID": "A(z) \"{{ friendlyName }}\" mezőben megadott dátum érvénytelen.",
-    "FIELD_URL_INVALID": "A(z) \"{{ friendlyName }}\" mezőben megadott URL cím érvénytelen."
+    "FIELD_URL_INVALID": "A(z) \"{{ friendlyName }}\" mezőben megadott URL cím érvénytelen.",
+
+    "PART_OF_CONTRACT": "Ez a felhasználó már része a szerződésnek!",
+    "WITNESS_NOT_READY": "Ezt a tanút még nem tudjuk a szerződéshez kötni! Még ki kell tölteniük a személyes adataikat.",
+    "SIGNATURE_ALREADY_EXISTS": "Ez a felhasználó már tanúja ennek a szerződésnek, nem kérheti őt kétszer!",
+    "ACCESS_TO_WITNESS_SIGNATURE_DENIED": "Nincs hozzáférése a tanú aláírásának módosításához!"
   },
 
   "contract-options": {

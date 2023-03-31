@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 import buildUrl from '@/lib/buildUrl';
 import React from 'react';
+import { CreateWitnessSignatureAPIResponse } from '@/services/apis/contracts/WitnessSignatureAPIService';
 
 export interface FilledContractActionsProps {
   filledContract: IFilledContract;
@@ -61,6 +62,38 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
     try {
       await apiService.filledContracts.signFilledContract(filledContract.id);
       toaster.success(t('dashboard:contracts.actions.sign-success'));
+      await onChange();
+      setSaving(false);
+    } catch (err) {
+      setSaving(false);
+
+      if (err.response?.data?.error) {
+        const message = err.response.data.error;
+
+        if (message?.length) {
+          toaster.danger(t(`errors:contracts.${message}`, err.response.data.details));
+          return;
+        }
+      }
+
+      console.error(err);
+
+      toaster.danger(t('errors:INTERNAL_SERVER_ERROR'));
+    }
+  };
+
+  const requestWitness = async (witnessEmail: string) => {
+    setSaving(true);
+
+    try {
+      const response : CreateWitnessSignatureAPIResponse = await apiService.witnessSignatures.createWitnessSignature({ witnessEmail, filledContractId: filledContract.id });
+
+      if (response.witnessSignature.isLawyer) {
+        toaster.success(t('dashboard:contracts.actions.lawyer-request-success'));
+      } else {
+        toaster.success(t('dashboard:contracts.actions.witness-request-success'));
+      }
+
       await onChange();
       setSaving(false);
     } catch (err) {
@@ -160,6 +193,22 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
     }
   };
 
+  const handleRequestWitnessClick = async () => {
+    const result = await Swal.fire({
+      title: t('dashboard:contracts.actions.witness.request-witness'),
+      text: t('dashboard:contracts.actions.witness.witness-confirmation'),
+      input: 'text',
+      showCancelButton: true,
+      confirmButtonText: t('dashboard:contracts.actions.witness.request'),
+      cancelButtonText: t('dashboard:contracts.actions.cancel'),
+      inputPlaceholder: t('dashboard:contracts.actions.witness.witness-email')
+    });
+
+    if (result.value) {
+      await requestWitness(result.value);
+    }
+  };
+
   return (
     <div className="flex flex-wrap gap-4 my-4">
       {isBuyer && !filledContract.accepted && (
@@ -206,7 +255,7 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
         </>
       )}
 
-      {filledContract.sellerSignedAt && filledContract.buyerSignedAt && (
+      {(filledContract.sellerSignedAt && filledContract.buyerSignedAt) ? (
         <>
           <Button
             size={ButtonSize.SMALL}
@@ -220,6 +269,12 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
             onClick={forwardContract}
           >{ t('dashboard:contracts.actions.forward.button')}</Button>
         </>
+      ) : (
+        <Button
+          size={ButtonSize.SMALL}
+          disabled={saving}
+          onClick={handleRequestWitnessClick}
+        >{ t('dashboard:contracts.actions.witness.request-witness') }</Button>
       )}
 
       {isBuyer && filledContract.buyerSignedAt && !filledContract.sellerSignedAt && (

@@ -91,6 +91,8 @@
       "decline-success": "Request declined successfully!",
       "sign-success": "Contract signed successfully!",
       "delete-success": "Contract deleted successfully!",
+      "witness-request-success": "Witness has been successfully requested! You must wait until they sign the contract as well.",
+      "lawyer-request-success": "Lawyer has been successfully requested! You must wait until they sign the contract as well.",
       "accept": "Accept",
       "reject": "Reject",
       "sign": "Sign",
@@ -105,11 +107,18 @@
       "confirm-action": "Confirm action",
       "yes": "Yes",
       "no": "No",
+      "cancel": "Cancel",
       "no-actions": "No actions are currently available.",
       "accept-confirmation": "Are you sure you want to accept this contract request?",
       "decline-confirmation": "Are you sure you want to decline this contract request?",
       "sign-confirmation": "Are you sure you want to sign this contract?",
-      "delete-confirmation": "Are you sure you want to delete this contract? This action is irreversible!"
+      "delete-confirmation": "Are you sure you want to delete this contract? This action is irreversible!",
+      "witness": {
+        "request-witness": "Request witness",
+        "witness-email": "Witness e-mail address",
+        "witness-confirmation": "What is the e-mail address of the witness you'd like to request? They will have to sign the contract before it can be finalized!",
+        "request": "Request"
+      }
     }
   },
 

@@ -38,10 +38,6 @@ export const createWitnessSignature = async (email: string, { witnessEmail, fill
     throw new CreateWitnessSignatureError('USER_NOT_FOUND');
   }
 
-  if (!witness.name || !witness.birthPlace || !witness.birthDate) {
-    throw new CreateWitnessSignatureError('WITNESS_NOT_READY');
-  }
-
   const filledContractRepository = db.getRepository(FilledContract);
   const filledContract = await filledContractRepository.findOne(filledContractId);
 
@@ -49,8 +45,12 @@ export const createWitnessSignature = async (email: string, { witnessEmail, fill
     throw new CreateWitnessSignatureError('PART_OF_CONTRACT');
   }
 
+  if (!witness.name || !witness.birthPlace || !witness.birthDate || !witness.motherName) {
+    throw new CreateWitnessSignatureError('WITNESS_NOT_READY');
+  }
+
   const witnessSignatureRepository = db.getRepository(WitnessSignature);
-  const existingSignature = witnessSignatureRepository.findOne({ witnessId: witness.id, filledContract });
+  const existingSignature = await witnessSignatureRepository.findOne({ witnessId: witness.id, filledContract });
 
   if (existingSignature) {
     throw new CreateWitnessSignatureError('SIGNATURE_ALREADY_EXISTS');
@@ -62,6 +62,7 @@ export const createWitnessSignature = async (email: string, { witnessEmail, fill
   witnessSignature.witnessName = witness.name;
   witnessSignature.witnessBirthPlace = witness.birthPlace;
   witnessSignature.witnessBirthDate = witness.birthDate;
+  witnessSignature.witnessMotherName = witness.motherName;
   witnessSignature.isLawyer = witness.isLawyer;
   witnessSignature.isSeller = user.id === filledContract.userId;
 

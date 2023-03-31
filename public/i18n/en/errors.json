@@ -77,7 +77,12 @@
     "FIELD_NUMBER_TOO_LARGE": "The field \"{{ friendlyName }}\" needs to be no more than \"{{ max }}\".",
     "FIELD_INVALID_EMAIL": "The email address provided in the \"{{ friendlyName }}\" field is invalid.",
     "FIELD_DATE_INVALID": "The date provided in the \"{{ friendlyName }}\" field is invalid.",
-    "FIELD_URL_INVALID": "The URL address provided in the \"{{ friendlyName }}\" field is invalid."
+    "FIELD_URL_INVALID": "The URL address provided in the \"{{ friendlyName }}\" field is invalid.",
+
+    "PART_OF_CONTRACT": "This user is already part of this contract!",
+    "WITNESS_NOT_READY": "Could not request this witness! They are yet to fill out their personal details.",
+    "SIGNATURE_ALREADY_EXISTS": "This user is already a witness of this contract, you cannot request them twice!",
+    "ACCESS_TO_WITNESS_SIGNATURE_DENIED": "You do not have access to modify this witness signature!"
   },
 
   "contract-options": {

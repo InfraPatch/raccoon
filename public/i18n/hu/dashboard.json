@@ -91,6 +91,8 @@
       "decline-success": "Kérelem sikeresen visszautasítva!",
       "sign-success": "Szerződés sikeresen aláírva!",
       "delete-success": "Szerződés sikeresen törölve!",
+      "witness-request-success": "A tanút sikeresen hozzárendeltük a szerződéshez! Meg kell várni, amíg ők is aláírják a szerződést.",
+      "lawyer-request-success": "Az ügyvédet sikeresen hozzárendeltük a szerződéshez! Meg kell várni, amíg ők is aláírják a szerződést.",
       "accept": "Elfogad",
       "reject": "Visszautasít",
       "sign": "Aláír",
@@ -105,11 +107,18 @@
       "confirm-action": "Művelet megerősítése",
       "yes": "Igen",
       "no": "Nem",
+      "cancel": "Visszamond",
       "no-actions": "Jelenleg nincsenek elérhető műveletek.",
       "accept-confirmation": "Biztosan el szeretné fogadni ezt a szerződés kitöltési kérelmet?",
       "decline-confirmation": "Biztosan vissza szeretné utasítani ezt a szerződés kitöltési kérelmet?",
       "sign-confirmation": "Biztosan aláírja ezt a szerződést?",
-      "delete-confirmation": "Biztosan törölni szeretné ezt a szerződést? Ez a művelet nem vonható vissza!"
+      "delete-confirmation": "Biztosan törölni szeretné ezt a szerződést? Ez a művelet nem vonható vissza!",
+      "witness": {
+        "request-witness": "Tanúkérés",
+        "witness-email": "Tanú e-mail címe",
+        "witness-confirmation": "Mi az e-mail címe annak a tanúnak, akit kérni szeretne? A véglegesítés előtt alá kell írnia a tanúnak is a szerződést!",
+        "request": "Kérés"
+      }
     }
   },
 
