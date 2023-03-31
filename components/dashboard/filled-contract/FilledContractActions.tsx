@@ -110,9 +110,9 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
   };
 
   const forwardContract = async () => {
-    const subject = `"${filledContract.friendlyName}" ` + t('dashboard:contracts.actions.forwardSubject');
+    const subject = t('dashboard:contracts.actions.forward.subject', { friendlyName: filledContract.friendlyName });
     const fullUrl = buildUrl(`/documents/${filledContract.id}`);
-    const body = t('dashboard:contracts.actions.forwardBody') + `${fullUrl}`;
+    const body = `${t('dashboard:contracts.actions.forward.hello')} ${t('dashboard:contracts.actions.forward.prompt')} ${fullUrl}`;
 
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
@@ -206,17 +206,19 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
       )}
 
       {filledContract.sellerSignedAt && filledContract.buyerSignedAt && (
-        <Button
-          size={ButtonSize.SMALL}
-          disabled={saving}
-          onClick={downloadContract}
-        >{ t('dashboard:contracts.actions.download') }</Button>
-      ) && (
-        <Button
-          size={ButtonSize.SMALL}
-          disabled={saving}
-          onClick={forwardContract}
-        >{ t('dashboard:contracts.actions.forward')}</Button>
+        <>
+          <Button
+            size={ButtonSize.SMALL}
+            disabled={saving}
+            onClick={downloadContract}
+          >{ t('dashboard:contracts.actions.download') }</Button>
+
+          <Button
+            size={ButtonSize.SMALL}
+            disabled={saving}
+            onClick={forwardContract}
+          >{ t('dashboard:contracts.actions.forward.button')}</Button>
+        </>
       )}
 
       {isBuyer && filledContract.buyerSignedAt && !filledContract.sellerSignedAt && (

@@ -95,9 +95,12 @@
       "sign": "Aláír",
       "delete": "Töröl",
       "download": "Letöltés",
-      "forward": "Szerződés továbbitása",
-      "forwardSubject": "szerződés letöltése",
-      "forwardBody": "Üdvözöljük!\n\nKérjünk kattintson az alábbi linkre az adásvételi szerződés letöltéséhez:\n",
+      "forward": {
+        "button": "Továbbítás e-mailben",
+        "subject": "\"{{ friendlyName }}\" nevű szerződés letöltése",
+        "hello": "Üdvözlöm!",
+        "prompt": "Kérem, kattinson az alábbi linkre az adásvételi szerződés letöltéséhez:"
+      },
       "confirm-action": "Művelet megerősítése",
       "yes": "Igen",
       "no": "Nem",
