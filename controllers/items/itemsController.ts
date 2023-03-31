@@ -113,7 +113,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     await deleteItem({ id: parseInt(firstOf(id)) });
-    return res.json({ ok: true })
+    return res.json({ ok: true });
   } catch (err) {
     console.error(err);
 
