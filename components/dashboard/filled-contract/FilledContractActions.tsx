@@ -213,10 +213,10 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
         >{ t('dashboard:contracts.actions.download') }</Button>
       ) && (
         <Button
-        size={ButtonSize.SMALL}
-        disabled={saving}
-        onClick={forwardContract}
-      >{ t('dashboard:contracts.actions.forward')}</Button>
+          size={ButtonSize.SMALL}
+          disabled={saving}
+          onClick={forwardContract}
+        >{ t('dashboard:contracts.actions.forward')}</Button>
       )}
 
       {isBuyer && filledContract.buyerSignedAt && !filledContract.sellerSignedAt && (
