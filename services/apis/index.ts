@@ -4,6 +4,7 @@ import { UsersAPIService } from './users/UserAPIService';
 import { ContractsAPIService } from './contracts/ContractAPIService';
 import { ContractOptionsAPIService } from './contracts/ContractOptionAPIService';
 import { FilledContractAPIService } from './contracts/FilledContractAPIService';
+import { WitnessSignatureAPIService } from './contracts/WitnessSignatureAPIService';
 import { ItemAPIService } from './items/ItemAPIService';
 
 class APIService {
@@ -15,6 +16,7 @@ class APIService {
   public contracts = new ContractsAPIService();
   public contractOptions = new ContractOptionsAPIService();
   public filledContracts = new FilledContractAPIService();
+  public witnessSignatures = new WitnessSignatureAPIService();
 
   public items = new ItemAPIService();
 };
