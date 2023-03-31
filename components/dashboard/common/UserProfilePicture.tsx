@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { User } from '@/db/models/auth/User';
 
 import clsx from 'clsx';
@@ -15,6 +16,7 @@ export interface UserProfilePictureProps {
 
 const UserProfilePicture = ({ user, size }: UserProfilePictureProps) => {
   const finalSize = size ?? UserProfilePictureSize.MEDIUM;
+  const [ imageAvailable, setImageAvailable ] = useState<boolean>(true);
 
   const userMonogram = user.name.split(' ')
     .filter(component => component.length > 2)
@@ -36,18 +38,17 @@ const UserProfilePicture = ({ user, size }: UserProfilePictureProps) => {
 
   return (
     <div className={classNames}>
-      {!user.image && (
-        <span>{userMonogram}</span>
-      )}
-
-      {user.image && (
+      {imageAvailable && user.image && (
         <span>
           <img
             src={user.image}
             alt={userMonogram}
             className="w-full h-full rounded-full"
+            onError={() => setImageAvailable(false)}
           />
         </span>
+      ) || (
+        <span>{userMonogram}</span>
       )}
     </div>
   );
