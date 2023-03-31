@@ -50,6 +50,12 @@ export const createWitnessSignature = async (email: string, { witnessEmail, fill
   }
 
   const witnessSignatureRepository = db.getRepository(WitnessSignature);
+  const existingSignature = witnessSignatureRepository.findOne({ witnessId: witness.id, filledContract });
+
+  if (existingSignature) {
+    throw new CreateWitnessSignatureError('SIGNATURE_ALREADY_EXISTS');
+  }
+
   const witnessSignature = witnessSignatureRepository.create();
   witnessSignature.filledContract = filledContract;
   witnessSignature.witnessId = witness.id;
