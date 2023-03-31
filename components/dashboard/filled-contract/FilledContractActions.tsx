@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
 import Swal from 'sweetalert2';
+import buildUrl from '@/lib/buildUrl';
 
 export interface FilledContractActionsProps {
   filledContract: IFilledContract;
@@ -108,6 +109,14 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
     window.location.href = `/documents/${filledContract.id}`;
   };
 
+  const forwardContract = async () => {
+    const subject = `"${filledContract.friendlyName}" ` + t('dashboard:contracts.actions.forwardSubject');
+    const fullUrl = buildUrl(`/documents/${filledContract.id}`);
+    const body = t('dashboard:contracts.actions.forwardBody') + `${fullUrl}`;
+
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  }
+
   const handleAcceptOrDeclineClick = async (action: 'accept' | 'decline') => {
     const result = await Swal.fire({
       title: t('dashboard:contracts.actions.confirm-action'),
@@ -202,6 +211,12 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
           disabled={saving}
           onClick={downloadContract}
         >{ t('dashboard:contracts.actions.download') }</Button>
+      ) && (
+        <Button
+        size={ButtonSize.SMALL}
+        disabled={saving}
+        onClick={forwardContract}
+      >{ t('dashboard:contracts.actions.forward')}</Button>
       )}
 
       {isBuyer && filledContract.buyerSignedAt && !filledContract.sellerSignedAt && (
