@@ -40,6 +40,11 @@ const config: IConfig = {
     contactEmail: process.env.CONTACT_EMAIL
   },
 
+  avdh: {
+    key: process.env.AVDH_KEY_BASE64,
+    password: process.env.AVDH_KEY_PASSWORD
+  },
+
   auth: {}
 };
 

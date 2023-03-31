@@ -1,36 +1,13 @@
-import { formatDate } from '@/lib/formatDate';
 import { spawn } from 'child_process';
 
 import * as fs from 'fs';
 import tempy from 'tempy';
 import path from 'path';
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import { v4 as uuid } from 'uuid';
-import { jsonToXml } from '@/lib/objectToXml';
+
+import { IAVDHAttestation, avdhService } from '@/services/avdh.ts';
 
 // TODO: remove libreoffice dependency
 const SOFFICE_ARGS = [ '--headless', '--convert-to', 'pdf' ];
-
-// The color that all attestation fields are set to, currently dark red.
-const ATTESTATION_COLOR = rgb(0.75, 0, 0);
-
-// The font size that all attestation fields are set to.
-const ATTESTATION_FONT_SIZE = 11;
-
-export interface IAVDHAttestation {
-  date: Date;
-  fullName: string;
-  birthName: string;
-  birthPlace: string;
-  birthDate: string;
-  motherName: string;
-}
-
-interface IAttestationField {
-  text: string;
-  x: number;
-  y: number;
-}
 
 class PDFService {
   private prepare(buffer: Buffer): string {
@@ -121,95 +98,26 @@ class PDFService {
     });
   }
 
-  async createAVDHAttachment(attestation: IAVDHAttestation): Promise<Buffer> {
-    return new Promise(async (resolve, _) => {
-      const formBytes = fs.readFileSync('assets/avdh/avdh_form.pdf');
-      const pdfDoc = await PDFDocument.load(formBytes);
-
-      const pages = pdfDoc.getPages();
-      const page = pages[0];
-
-      const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-
-      const fields : IAttestationField[] = [
-        {
-          text: attestation.fullName,
-          x: 123, y: 261
-        },
-        {
-          text: formatDate(attestation.date, false),
-          x: 185, y: 232
-        },
-        {
-          text: attestation.birthName,
-          x: 160, y: 189
-        },
-        {
-          text: attestation.birthPlace,
-          x: 160, y: 174
-        },
-        {
-          text: attestation.birthDate,
-          x: 160, y: 159
-        },
-        {
-          text: attestation.motherName,
-          x: 160, y: 144
-        }
-      ];
-
-      for (const field of fields) {
-        page.drawText(field.text, {
-          x: field.x,
-          y: field.y,
-          font: helveticaFont,
-          size: ATTESTATION_FONT_SIZE,
-          color: ATTESTATION_COLOR
-        });
-      }
-
-      const pdfBytes = await pdfDoc.save();
-      return resolve(pdfBytes);
-    });
-  }
-
-  async addAVDHAttachments(pdfBytes: Buffer, attestations: IAVDHAttestation[]) : Promise<Buffer> {
-    return new Promise(async (resolve, _) => {
-      const pdfDoc = await PDFDocument.load(pdfBytes);
-
-      for (const attestation of attestations) {
-        const avdhBytes : Buffer = await this.createAVDHAttachment(attestation);
-        const avdhXml : Buffer = Buffer.from(jsonToXml({ ...attestation, date: formatDate(attestation.date, false) }));
-        const avdhUuid : string = uuid();
-
-        await pdfDoc.attach(avdhBytes, `avdh-${avdhUuid}.pdf`, {
-          mimeType: 'application/pdf',
-          description: `AVDH Attestation of ${attestation.fullName}`,
-          creationDate: attestation.date,
-          modificationDate: attestation.date
-        });
-
-        await pdfDoc.attach(avdhXml, `avdh-${avdhUuid}.xml`, {
-          mimeType: 'application/xml',
-          description: `AVDH Attestation XML of ${attestation.fullName}`,
-          creationDate: attestation.date,
-          modificationDate: attestation.date
-        });
-      }
-
-      const outputPdfBytes = await pdfDoc.save();
-      return resolve(outputPdfBytes);
-    });
-  }
-
   async create(docx: Buffer, attestations: IAVDHAttestation[]): Promise<Buffer> {
     const filepath = this.prepare(docx);
 
     try {
       const pdf = await this.convertDocxToPdf(filepath);
-      const attestedPdf = await this.addAVDHAttachments(pdf, attestations);
+      const attestedPdf = await avdhService.addAVDHAttachments(pdf, attestations);
 
-      return attestedPdf;
+      if (attestations.length === 0) {
+        // No attestations are available, so we won't be signing this document.
+        return attestedPdf;
+      }
+
+      // We're going to sign the PDF itself on behalf of the seller.
+      try {
+        const signedPdf = await avdhService.addSignature(attestedPdf, attestations[0]);
+        return signedPdf;
+      } catch (err) {
+        console.log(err);
+        return attestedPdf;
+      }
     } catch (err) {
       throw err;
     } finally {

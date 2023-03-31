@@ -80,6 +80,28 @@ UPDATE raccoon.users SET isAdmin=1 WHERE id=1;
 Miután a felhasználó adminisztrátori jogot kapott, az alkalmazás ügyfélkapujában
 kinevezhet új adminisztrátorokat.
 
+## Az AVDH engedélyezése
+
+Az AVDH (Azonosításra visszavezetett dokumentumhitelesítés) elérhető a Project Raccoon-on keresztül. A Project Raccoon weboldala jelképezi az AVDH rendszerben az ügyfélkaput, mely a személyazonosság igazolását végzi.
+
+Használhat önállóan aláírt tanúsítványokat tesztelésre, vagy akár megfelelő tanúsítványt, amelyet egy tanúsító hatóság ellenőriz, például a [DigiCert](https://www.digicert.com).
+
+Az AVDH öönállóan aláírt tanúsítvánnyal történő beállításához hozzon létre egy 2048 bites RSA PKCS#12 tanúsítványt az [Adobe Acrobat](https://www.adobepress.com/articles/article.asp?p=1708161&seqNum=4) használatával. 
+
+Miután megszerezte a tanúsítványt .p12 formátumban, nevezze át a tanúsítványt "key.p12" névre, és másolja át az ".avdh" mappába. 
+
+Meg kell adnia a tanúsítvány visszafejtéséhez használt jelszót a "pass.txt" fájlban az ".avdh" mappában. 
+
+## Az AVDH engedélyezése .env fájl használatával 
+
+Alternatív megoldásként az AVDH közvetlenül az `.env` fájlban is beállítható. 
+
+Először konvertálja a tanúsítványfájlt [Base64 formátumba](https://opinionatedgeek.com/Codecs/Base64Encoder).
+
+Nyissa meg az `.env` fájlt, és állítsa az `AVDH_KEY_BASE64` értékát a tanúsítványa Base64 változatára.
+
+Végül állítsa az `AVDH_KEY_PASSWORD` értéket a tanúsítvány visszafejtéséhez használható jelszóra. 
+
 ## Hasznos parancsok
 
 ### Lintelés

@@ -3,7 +3,8 @@ import { FilledContract } from '@/db/models/contracts/FilledContract';
 import { FilledContractOption } from '@/db/models/contracts/FilledContractOption';
 
 import db from '@/services/db';
-import { pdfService, IAVDHAttestation } from '@/services/pdf';
+import { pdfService } from '@/services/pdf';
+import { IAVDHAttestation } from '@/services/avdh';
 
 import PizZip from 'pizzip';
 import DOCXTemplater from 'docxtemplater';
@@ -77,7 +78,8 @@ const savePDF = async (filledContract: FilledContract): Promise<string> => {
       birthName: sellerName,
       birthPlace: filledContract.options.find(o => o.option.replacementString === 'seller_birth_place').value,
       birthDate: filledContract.options.find(o => o.option.replacementString === 'seller_birth_date').value,
-      motherName: filledContract.options.find(o => o.option.replacementString === 'seller_mother_name').value
+      motherName: filledContract.options.find(o => o.option.replacementString === 'seller_mother_name').value,
+      email: filledContract.options.find(o => o.option.replacementString === 'seller_email').value
     },
     {
       date: filledContract.buyerSignedAt,
@@ -85,7 +87,8 @@ const savePDF = async (filledContract: FilledContract): Promise<string> => {
       birthName: buyerName,
       birthPlace: filledContract.options.find(o => o.option.replacementString === 'buyer_birth_place').value,
       birthDate: filledContract.options.find(o => o.option.replacementString === 'buyer_birth_date').value,
-      motherName: filledContract.options.find(o => o.option.replacementString === 'buyer_mother_name').value
+      motherName: filledContract.options.find(o => o.option.replacementString === 'buyer_mother_name').value,
+      email: filledContract.options.find(o => o.option.replacementString === 'buyer_email').value
     }
   ];
 

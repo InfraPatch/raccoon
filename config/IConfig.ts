@@ -68,10 +68,16 @@ export interface AuthConfig {
   twitter?: TwitterOAuthProviderConfig;
 };
 
+export interface AvdhConfig {
+  key?: string;
+  password?: string;
+}
+
 export interface IConfig {
   app: AppConfig;
   database: DatabaseConfig;
   storage: StorageConfig;
   email: EmailConfig;
+  avdh: AvdhConfig;
   auth: AuthConfig;
 };
