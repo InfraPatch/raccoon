@@ -115,7 +115,7 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
     const body = t('dashboard:contracts.actions.forwardBody') + `${fullUrl}`;
 
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
-  }
+  };
 
   const handleAcceptOrDeclineClick = async (action: 'accept' | 'decline') => {
     const result = await Swal.fire({
