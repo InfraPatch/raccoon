@@ -87,13 +87,9 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
 
     try {
       const response : CreateWitnessSignatureAPIResponse = await apiService.witnessSignatures.createWitnessSignature({ witnessEmail, filledContractId: filledContract.id });
+      const type : string = (response.witnessSignature.isLawyer) ? 'lawyer' : 'witness';
 
-      if (response.witnessSignature.isLawyer) {
-        toaster.success(t('dashboard:contracts.actions.lawyer-request-success'));
-      } else {
-        toaster.success(t('dashboard:contracts.actions.witness-request-success'));
-      }
-
+      toaster.success(t(`dashboard:contracts.actions.witness.request-${type}-success`));
       await onChange();
       setSaving(false);
     } catch (err) {

@@ -20,6 +20,10 @@ export const deleteWitnessSignature = async (email: string, signatureId: number)
     throw new DeleteWitnessSignatureError('ACCESS_TO_WITNESS_SIGNATURE_DENIED');
   }
 
+  if (signature.signedAt) {
+    throw new DeleteWitnessSignatureError('WITNESS_ALREADY_SIGNED');
+  }
+
   if (filledContract.sellerSignedAt && filledContract.buyerSignedAt) {
     throw new DeleteWitnessSignatureError('CONTRACT_ALREADY_SIGNED');
   }

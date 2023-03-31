@@ -7,6 +7,7 @@
     "docs": "Documentation",
     "admin": "Admin",
     "lawyer": "Lawyer",
+    "witness": "Witness",
     "make-admin": "Add administrator",
     "make-lawyer": "Add lawyer",
     "admin-docs": "Admin documentation",
@@ -64,6 +65,7 @@
       "buyer-accepted": "Buyer accepted request",
       "yes": "yes",
       "no": "no",
+      "signed-at": "signed at",
       "seller-signed-at": "Seller signed at",
       "buyer-signed-at": "Buyer signed at",
       "not-signed-yet": "not signed yet",
@@ -79,6 +81,9 @@
     "data": {
       "overview": "Overview",
       "actions": "Actions",
+      "witnesses": "Witnesses and lawyers",
+      "seller-witnesses": "Seller's witnesses",
+      "buyer-witnesses": "Buyer's witnesses",
       "my-details": "My Details",
       "fill-success": "Details filled out successfully!",
       "fill-submit": "Fill details",
@@ -91,8 +96,6 @@
       "decline-success": "Request declined successfully!",
       "sign-success": "Contract signed successfully!",
       "delete-success": "Contract deleted successfully!",
-      "witness-request-success": "Witness has been successfully requested! You must wait until they sign the contract as well.",
-      "lawyer-request-success": "Lawyer has been successfully requested! You must wait until they sign the contract as well.",
       "accept": "Accept",
       "reject": "Reject",
       "sign": "Sign",
@@ -117,7 +120,14 @@
         "request-witness": "Request witness",
         "witness-email": "Witness e-mail address",
         "witness-confirmation": "What is the e-mail address of the witness you'd like to request? They will have to sign the contract before it can be finalized!",
-        "request": "Request"
+        "request": "Request",
+        "remove-from-contract": "Remove from contract",
+        "delete-witness-confirmation": "Are you sure you want to remove this witness from the contract? They might want to sign the contract later!",
+        "delete-witness-success": "Witness has been successfully removed from the contract! You may reinvite them if you wish.",
+        "delete-lawyer-confirmation": "Are you sure you want to remove this lawyer from the contract? They might want to sign the contract later!",
+        "delete-lawyer-success": "Lawyer has been successfully removed from the contract! You may reinvite them if you wish.",
+        "request-witness-success": "Witness has been successfully requested! You must wait until they sign the contract as well.",
+        "request-lawyer-success": "Lawyer has been successfully requested! You must wait until they sign the contract as well."
       }
     }
   },

@@ -70,6 +70,7 @@
 
     "FIELD_IS_REQUIRED": "The field \"{{ friendlyName }}\" is required.",
     "CONTRACT_ALREADY_SIGNED": "Contract already signed.",
+    "WITNESS_ALREADY_SIGNED": "The witness has already signed this contract.",
 
     "FIELD_STRING_TOO_SHORT": "The field \"{{ friendlyName }}\" needs to be at least \"{{ min }}\" characters long.",
     "FIELD_STRING_TOO_LONG": "The field \"{{ friendlyName }}\" needs to be up to \"{{ max }}\" characters long.",

@@ -70,6 +70,7 @@
 
     "FIELD_IS_REQUIRED": "A(z) \"{{ friendlyName }}\" mező kötelező.",
     "CONTRACT_ALREADY_SIGNED": "A szerződés már alá lett írva.",
+    "WITNESS_ALREADY_SIGNED": "A szerződést már aláírta ez a tanú.",
 
     "FIELD_STRING_TOO_SHORT": "A(z) \"{{ friendlyName }}\" mező legalább \"{{ min }}\" karakter hosszú kell legyen.",
     "FIELD_STRING_TOO_LONG": "A(z) \"{{ friendlyName }}\" mező legfeljebb \"{{ max }}\" karakter hosszú kell legyen.",

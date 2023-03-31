@@ -7,6 +7,7 @@
     "docs": "Dokumentáció",
     "admin": "Admin",
     "lawyer": "Ügyvéd",
+    "witness": "Tanú",
     "make-admin": "Admin hozzáadása",
     "make-lawyer": "Ügyvéd hozzáadása",
     "admin-docs": "Admin dokumentáció",
@@ -64,6 +65,7 @@
       "buyer-accepted": "Vevő elfogadta a kérelmet",
       "yes": "igen",
       "no": "nem",
+      "signed-at": "aláírta",
       "seller-signed-at": "Eladó aláírta",
       "buyer-signed-at": "Vevő aláírta",
       "not-signed-yet": "még nincs aláírva",
@@ -79,6 +81,9 @@
     "data": {
       "overview": "Összegzés",
       "actions": "Műveletek",
+      "witnesses": "Tanúk és ügyvédek",
+      "seller-witnesses": "Eladó tanúi",
+      "buyer-witnesses": "Vevő tanúi",
       "my-details": "Az én adataim",
       "fill-success": "Adatok sikeresen kitöltve!",
       "fill-submit": "Adatok kitöltése",
@@ -91,8 +96,6 @@
       "decline-success": "Kérelem sikeresen visszautasítva!",
       "sign-success": "Szerződés sikeresen aláírva!",
       "delete-success": "Szerződés sikeresen törölve!",
-      "witness-request-success": "A tanút sikeresen hozzárendeltük a szerződéshez! Meg kell várni, amíg ők is aláírják a szerződést.",
-      "lawyer-request-success": "Az ügyvédet sikeresen hozzárendeltük a szerződéshez! Meg kell várni, amíg ők is aláírják a szerződést.",
       "accept": "Elfogad",
       "reject": "Visszautasít",
       "sign": "Aláír",
@@ -117,7 +120,14 @@
         "request-witness": "Tanúkérés",
         "witness-email": "Tanú e-mail címe",
         "witness-confirmation": "Mi az e-mail címe annak a tanúnak, akit kérni szeretne? A véglegesítés előtt alá kell írnia a tanúnak is a szerződést!",
-        "request": "Kérés"
+        "request": "Kérés",
+        "remove-from-contract": "Eltávolítás a szerződésből",
+        "delete-witness-confirmation": "Biztosan eltávolítja ezt a tanút a szerződésből? Lehetséges, hogy később alá szeretné írni a szerződést!",
+        "delete-witness-success": "A tanút sikeresen eltávolítottuk a szerződésből! Ha szeretné, később újra meghívhatja őket.",
+        "delete-lawyer-confirmation": "Biztosan eltávolítja ezt az ügyvédet a szerződésből? Lehetséges, hogy később alá szeretné írni a szerződést!",
+        "delete-lawyer-success": "Az ügyvédet sikeresen eltávolítottuk a szerződésből! Ha szeretné, később újra meghívhatja.",
+        "request-witness-success": "A tanút sikeresen hozzárendeltük a szerződéshez! Meg kell várni, amíg ők is aláírják a szerződést.",
+        "request-lawyer-success": "Az ügyvédet sikeresen hozzárendeltük a szerződéshez! Meg kell várni, amíg ők is aláírják a szerződést."
       }
     }
   },

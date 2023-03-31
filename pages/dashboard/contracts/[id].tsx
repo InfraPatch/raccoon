@@ -20,6 +20,7 @@ import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 import FilledContractFieldsForm from '@/components/dashboard/filled-contract/FilledContractFieldsForm';
 import FilledContractActions from '@/components/dashboard/filled-contract/FilledContractActions';
 import FilledContractOverview from '@/components/dashboard/filled-contract/FilledContractOverview';
+import FilledContractWitnesses from '@/components/dashboard/filled-contract/FilledContractWitnesses';
 import Meta from '@/components/common/Meta';
 
 export interface DashboardContractsPageProps {
@@ -41,6 +42,7 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
 
     try {
       const res = await apiService.filledContracts.getFilledContract(id);
+
       setContract(res.filledContract);
       setTitle(res.filledContract.friendlyName);
       setIsBuyer(res.filledContract.buyer?.email === user.email);
@@ -77,6 +79,16 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
                 isBuyer={isBuyer}
               />
             </Box>
+
+            {contract.witnessSignatures.length !== 0 && (
+              <Box title={ t('dashboard:contracts.data.witnesses') }>
+                <FilledContractWitnesses
+                  contract={contract}
+                  onChange={loadContract}
+                  isBuyer={isBuyer}
+                />
+              </Box>
+            )}
 
             <Box title={ t('dashboard:contracts.data.actions') }>
               <FilledContractActions
