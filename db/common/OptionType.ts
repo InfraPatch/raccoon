@@ -1,0 +1,11 @@
+export enum OptionType {
+  STRING,
+  NUMBER,
+  PERSONAL_IDENTIFIER,
+  STATE,
+  COUNTRY,
+  PHONE_NUMBER,
+  EMAIL,
+  URL,
+  DATE
+};

@@ -12,6 +12,11 @@ import { ContractOption } from '../db/models/contracts/ContractOption';
 import { FilledContract } from '../db/models/contracts/FilledContract';
 import { FilledContractOption } from '../db/models/contracts/FilledContractOption';
 
+import { Item } from '../db/models/items/Item';
+import { ItemOption } from '../db/models/items/ItemOption';
+import { FilledItem } from '../db/models/items/FilledItem';
+import { FilledItemOption } from '../db/models/items/FilledItemOption';
+
 import transform from '../node_modules/next-auth/dist/adapters/typeorm/lib/transform';
 
 const baseConnectionOptions: ConnectionOptions = {
@@ -52,7 +57,12 @@ const connectionOptions: ConnectionOptions = {
     Contract,
     ContractOption,
     FilledContract,
-    FilledContractOption
+    FilledContractOption,
+
+    Item,
+    ItemOption,
+    FilledItem,
+    FilledItemOption
   ]
 };
 
