@@ -7,12 +7,13 @@ export interface IWitnessSignature {
   id: number;
   createdAt: Date;
   updatedAt: Date;
-  filledContract: IFilledContract;
+  filledContract?: IFilledContract;
   witnessId: number;
   witnessName: string;
   witnessBirthPlace: string;
   witnessBirthDate: Date;
   witnessMotherName: string;
+  isSeller: boolean;
   isLawyer: boolean;
   signedAt?: Date;
 };
@@ -49,6 +50,9 @@ export class WitnessSignature implements IWitnessSignature {
   witnessMotherName: string;
 
   @Column('boolean')
+  isSeller: boolean;
+
+  @Column('boolean')
   isLawyer: boolean;
 
   @Column('timestamp', { nullable: true })
@@ -65,6 +69,7 @@ export class WitnessSignature implements IWitnessSignature {
       witnessBirthPlace: this.witnessBirthPlace,
       witnessBirthDate: this.witnessBirthDate,
       witnessMotherName: this.witnessMotherName,
+      isSeller: this.isSeller,
       isLawyer: this.isLawyer,
       signedAt: this.signedAt
     };
