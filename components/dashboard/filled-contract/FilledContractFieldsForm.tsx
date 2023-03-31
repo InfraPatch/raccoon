@@ -47,7 +47,7 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
       });
 
     setFields(newFields);
-  }, [ isBuyer ])
+  }, [ isBuyer ]);
 
   const updateFields = (id: number, value: string) => {
     setFields(current => {

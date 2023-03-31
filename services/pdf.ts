@@ -28,8 +28,8 @@ export interface IAVDHAttestation {
 
 interface IAttestationField {
   text: string;
-  x: number,
-  y: number
+  x: number;
+  y: number;
 }
 
 class PDFService {
