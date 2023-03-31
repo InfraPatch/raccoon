@@ -1,10 +1,11 @@
 import db from '@/services/db';
 import { UpdateResult } from 'typeorm';
-import { ContractOption, ContractOptionType } from '@/db/models/contracts/ContractOption';
+import { ContractOption } from '@/db/models/contracts/ContractOption';
+import { OptionType } from '@/db/common/OptionType';
 
 export interface ContractOptionUpdateFields {
   id?: number;
-  type?: ContractOptionType;
+  type?: OptionType;
   priority?: number;
   friendlyName?: string;
   longDescription?: string;
@@ -35,7 +36,7 @@ export const updateContractOption = async (payload: ContractOptionUpdateFields) 
   let updateDict : ContractOptionUpdateFields = {};
 
   if (!isNaN(payload.type)) {
-    if (!Object.values(ContractOptionType).includes(payload.type)) {
+    if (!Object.values(OptionType).includes(payload.type)) {
       throw new ContractOptionUpdateError('INVALID_CONTRACT_OPTION_TYPE');
     }
 

@@ -1,10 +1,11 @@
 import axiosService from '@/services/axios';
 import { APIResponse } from '@/services/axios';
 
-import { ContractOption, ContractOptionType } from '@/db/models/contracts/ContractOption';
+import { ContractOption } from '@/db/models/contracts/ContractOption';
+import { OptionType } from '@/db/common/OptionType';
 
 export interface ContractOptionAPIType {
-  type: ContractOptionType;
+  type: OptionType;
   priority: number;
   friendlyName: string;
   longDescription?: string;

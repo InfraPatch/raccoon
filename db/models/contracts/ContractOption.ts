@@ -1,11 +1,8 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { Option, IOption } from '../../common/Option';
-import { OptionType } from '../../common/OptionType';
 import { Contract, IContract } from './Contract';
 
 import omit from 'lodash.omit';
-
-export type ContractOptionType = OptionType;
 
 export interface IContractOption extends IOption {
   contract?: IContract;

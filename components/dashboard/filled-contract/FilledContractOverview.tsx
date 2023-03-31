@@ -1,4 +1,4 @@
-import { ContractOptionType } from '@/db/models/contracts/ContractOption';
+import { OptionType } from '@/db/common/OptionType';
 import { IFilledContract } from '@/db/models/contracts/FilledContract';
 import { IFilledContractOption } from '@/db/models/contracts/FilledContractOption';
 import { formatDate } from '@/lib/formatDate';
@@ -21,9 +21,9 @@ const FilledContractOverview = ({ contract, isBuyer }: FilledContractOverviewPro
 
   const getValueString = (filledOption: IFilledContractOption): string => {
     switch (filledOption.option.type) {
-      case ContractOptionType.DATE:
+      case OptionType.DATE:
         return formatDate(filledOption.value);
-      case ContractOptionType.PERSONAL_IDENTIFIER:
+      case OptionType.PERSONAL_IDENTIFIER:
         return getPersonalIdentifierTypeString(parseInt(filledOption.value), t);
       default:
         return filledOption.value;

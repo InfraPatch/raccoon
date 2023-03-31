@@ -1,10 +1,11 @@
 import db from '@/services/db';
-import { ContractOption, ContractOptionType } from '@/db/models/contracts/ContractOption';
+import { ContractOption } from '@/db/models/contracts/ContractOption';
+import { OptionType } from '@/db/common/OptionType';
 import { Contract } from '@/db/models/contracts/Contract';
 
 export interface ContractOptionCreatorFields {
   contractId?: number;
-  type?: ContractOptionType;
+  type?: OptionType;
   priority?: number;
   friendlyName?: string;
   longDescription?: string;
@@ -36,7 +37,7 @@ export const createContractOption = async (payload: ContractOptionCreatorFields)
     throw new ContractOptionCreationError('CONTRACT_OPTION_TYPE_NOT_PROVIDED');
   }
 
-  if (!Object.values(ContractOptionType).includes(payload.type)) {
+  if (!Object.values(OptionType).includes(payload.type)) {
     throw new ContractOptionCreationError('INVALID_CONTRACT_OPTION_TYPE');
   }
 

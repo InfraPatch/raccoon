@@ -12,7 +12,7 @@ import { v4 as uuid } from 'uuid';
 
 import { getStorageStrategy } from '@/lib/storageStrategies';
 import { formatDate } from '@/lib/formatDate';
-import { ContractOptionType } from '@/db/models/contracts/ContractOption';
+import { OptionType } from '@/db/common/OptionType';
 import { getPersonalIdentifierTypeString } from '@/lib/getPersonalIdentifierTypeString';
 
 const storage = getStorageStrategy();
@@ -55,12 +55,12 @@ const savePDF = async (filledContract: FilledContract): Promise<string> => {
 
   const data: { [key: string]: string } = {};
   filledContract.options.forEach(o => {
-    if (o.option.type === ContractOptionType.DATE) {
+    if (o.option.type === OptionType.DATE) {
       data[o.option.replacementString] = formatDate(o.value);
       return;
     }
 
-    if (o.option.type === ContractOptionType.PERSONAL_IDENTIFIER) {
+    if (o.option.type === OptionType.PERSONAL_IDENTIFIER) {
       data[o.option.replacementString] = getPersonalIdentifierTypeString(parseInt(o.value));
       return;
     }

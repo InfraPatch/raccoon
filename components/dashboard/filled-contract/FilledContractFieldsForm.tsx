@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 
 import Button, { ButtonSize } from '@/components/common/button/Button';
 import { IFilledContract } from '@/db/models/contracts/FilledContract';
-import { ContractOptionType } from '@/db/models/contracts/ContractOption';
+import { OptionType } from '@/db/common/OptionType';
 
 import toaster from '@/lib/toaster';
 import apiService from '@/services/apis';
@@ -19,7 +19,7 @@ export interface FilledContractFieldsFormProps {
 export interface FilledContractField {
   id: number;
   name: string;
-  type: ContractOptionType;
+  type: OptionType;
   value: string;
   longDescription?: string;
   hint?: string;
@@ -94,11 +94,11 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
           {field.longDescription && <p>{field.longDescription}</p>}
 
           {![
-            ContractOptionType.NUMBER,
-            ContractOptionType.PERSONAL_IDENTIFIER,
-            ContractOptionType.EMAIL,
-            ContractOptionType.URL,
-            ContractOptionType.DATE
+            OptionType.NUMBER,
+            OptionType.PERSONAL_IDENTIFIER,
+            OptionType.EMAIL,
+            OptionType.URL,
+            OptionType.DATE
           ].includes(field.type) && (
             <input
               id={`field_${field.id}`}
@@ -108,7 +108,7 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
             />
           )}
 
-          {field.type === ContractOptionType.EMAIL && (
+          {field.type === OptionType.EMAIL && (
             <input
               type="email"
               id={`field_${field.id}`}
@@ -118,7 +118,7 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
             />
           )}
 
-          {field.type === ContractOptionType.URL && (
+          {field.type === OptionType.URL && (
             <input
               type="url"
               id={`field_${field.id}`}
@@ -128,7 +128,7 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
             />
           )}
 
-          {field.type === ContractOptionType.DATE && (
+          {field.type === OptionType.DATE && (
             <input
               type="date"
               id={`field_${field.id}`}
@@ -137,7 +137,7 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
             />
           )}
 
-          {field.type === ContractOptionType.NUMBER && (
+          {field.type === OptionType.NUMBER && (
             <input
               type="number"
               id={`field_${field.id}`}
@@ -146,7 +146,7 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
             />
           )}
 
-          {field.type === ContractOptionType.PERSONAL_IDENTIFIER && (
+          {field.type === OptionType.PERSONAL_IDENTIFIER && (
             <select id={`field_${field.id}`} onChange={e => updateFields(field.id, e.currentTarget.value)} defaultValue={field.value}>
               <option value="0">{ t('dashboard:user-fields.id-card') }</option>
               <option value="1">{ t('dashboard:user-fields.passport') }</option>

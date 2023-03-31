@@ -1,8 +1,9 @@
 import { User } from '@/db/models/auth/User';
-import { ContractOption, ContractOptionType } from '@/db/models/contracts/ContractOption';
+import { ContractOption } from '@/db/models/contracts/ContractOption';
 import { FilledContract } from '@/db/models/contracts/FilledContract';
 import { FilledContractOption } from '@/db/models/contracts/FilledContractOption';
 import { FilledOption } from '@/services/apis/contracts/FilledContractAPIService';
+import { OptionType } from '@/db/common/OptionType';
 import db from '@/services/db';
 
 import * as EmailValidator from 'email-validator';
@@ -26,14 +27,14 @@ class FilledContractUpdateError extends Error {
 
 const validateOption = (option: ContractOption, value: string) => {
   if (option.minimumValue !== undefined && option.minimumValue !== null) {
-    if (option.type === ContractOptionType.STRING && value.length < option.minimumValue) {
+    if (option.type === OptionType.STRING && value.length < option.minimumValue) {
       throw new FilledContractUpdateError('FIELD_STRING_TOO_SHORT', {
         friendlyName: option.friendlyName,
         min: option.minimumValue
       });
     }
 
-    if (option.type === ContractOptionType.NUMBER && parseInt(value) < option.minimumValue) {
+    if (option.type === OptionType.NUMBER && parseInt(value) < option.minimumValue) {
       throw new FilledContractUpdateError('FIELD_NUMBER_TOO_SMALL', {
         friendlyName: option.friendlyName,
         min: option.minimumValue
@@ -42,14 +43,14 @@ const validateOption = (option: ContractOption, value: string) => {
   }
 
   if (option.maximumValue !== undefined && option.maximumValue !== null) {
-    if (option.type === ContractOptionType.STRING && value.length > option.maximumValue) {
+    if (option.type === OptionType.STRING && value.length > option.maximumValue) {
       throw new FilledContractUpdateError('FIELD_STRING_TOO_LONG', {
         friendlyName: option.friendlyName,
         max: option.maximumValue
       });
     }
 
-    if (option.type === ContractOptionType.NUMBER && parseInt(value) > option.maximumValue) {
+    if (option.type === OptionType.NUMBER && parseInt(value) > option.maximumValue) {
       throw new FilledContractUpdateError('FIELD_NUMBER_TOO_LARGE', {
         friendlyName: option.friendlyName,
         max: option.maximumValue
@@ -57,7 +58,7 @@ const validateOption = (option: ContractOption, value: string) => {
     }
   }
 
-  if (option.type === ContractOptionType.EMAIL) {
+  if (option.type === OptionType.EMAIL) {
     if (!EmailValidator.validate(value)) {
       throw new FilledContractUpdateError('FIELD_INVALID_EMAIL', {
         friendlyName: option.friendlyName
@@ -65,7 +66,7 @@ const validateOption = (option: ContractOption, value: string) => {
     }
   }
 
-  if (option.type === ContractOptionType.DATE) {
+  if (option.type === OptionType.DATE) {
     const date = new Date(value);
 
     if (!(date instanceof Date) || !isFinite(date.getTime())) {
@@ -75,7 +76,7 @@ const validateOption = (option: ContractOption, value: string) => {
     }
   }
 
-  if (option.type === ContractOptionType.URL) {
+  if (option.type === OptionType.URL) {
     if (!isUrl(value)) {
       throw new FilledContractUpdateError('FIELD_URL_INVALID', {
         friendlyName: option.friendlyName
