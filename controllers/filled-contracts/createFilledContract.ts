@@ -4,7 +4,6 @@ import { User } from '@/db/models/auth/User';
 import { Contract } from '@/db/models/contracts/Contract';
 import { FilledContract } from '@/db/models/contracts/FilledContract';
 import { NewFilledContractAPIParams } from '@/services/apis/contracts/FilledContractAPIService';
-import { FilledContractOption } from '@/db/models/contracts/FilledContractOption';
 
 import * as utils from './utils';
 
@@ -22,7 +21,7 @@ export const createFilledContract = async (sellerEmail: string, { friendlyName, 
   if (friendlyName.length < 2) {
     throw new CreateFilledContractError('NAME_TOO_SHORT');
   }
-  
+
   if (buyerEmail.trim() === sellerEmail) {
     throw new CreateFilledContractError('CANT_BE_BOTH_SELLER_AND_BUYER');
   }

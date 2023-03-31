@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import tempy from 'tempy';
 import path from 'path';
 
-import { IAVDHAttestation, avdhService } from '@/services/avdh.ts';
+import { IAVDHAttestation, avdhService } from '@/services/avdh';
 
 // TODO: remove libreoffice dependency
 const SOFFICE_ARGS = [ '--headless', '--convert-to', 'pdf' ];
