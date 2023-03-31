@@ -1,7 +1,7 @@
 import bar from 'next-bar';
 
 import * as contractsController from '@/controllers/contracts/contractsController';
-import { ensureAuthenticated } from '@/middleware/auth';
+import { ensureAuthenticated, ensureAdministrator } from '@/middleware/auth';
 
 export const config = {
   api: {
@@ -11,6 +11,6 @@ export const config = {
 
 export default bar({
   get: ensureAuthenticated(contractsController.get),
-  patch: ensureAuthenticated(contractsController.update),
-  delete: ensureAuthenticated(contractsController.destroy)
+  patch: ensureAdministrator(contractsController.update),
+  delete: ensureAdministrator(contractsController.destroy)
 });

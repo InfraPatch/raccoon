@@ -4,14 +4,19 @@ import { UsersAPIService } from './users/UserAPIService';
 import { ContractsAPIService } from './contracts/ContractAPIService';
 import { ContractOptionsAPIService } from './contracts/ContractOptionAPIService';
 import { FilledContractAPIService } from './contracts/FilledContractAPIService';
+import { ItemAPIService } from './items/ItemAPIService';
 
 class APIService {
   public contact = new ContactAPIService();
+
   public credentialsAuth = new CredentialsAuthAPIService();
   public users = new UsersAPIService();
+
   public contracts = new ContractsAPIService();
   public contractOptions = new ContractOptionsAPIService();
   public filledContracts = new FilledContractAPIService();
+
+  public items = new ItemAPIService();
 };
 
 const apiService = new APIService();
