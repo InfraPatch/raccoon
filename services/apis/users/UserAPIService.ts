@@ -13,6 +13,12 @@ export interface MakeAdminAPIRequest {
 
 export interface MakeAdminAPIResponse extends APIResponse {};
 
+export interface MakeLawyerAPIRequest {
+  email: string;
+};
+
+export interface MakeLawyerAPIResponse extends APIResponse {};
+
 export interface UpdateUserProfileAPIRequest {
   name?: string;
   image?: File;
@@ -43,6 +49,7 @@ class UsersAPIService {
   static GET_LOGGED_IN_USER_URL = '/api/users/me';
   static UPDATE_USER_URL = '/api/users/me';
   static MAKE_ADMIN_URL = '/api/users/make-admin';
+  static MAKE_LAWYER_URL = '/api/users/make-lawyer';
 
   public async getLoggedInUser(): Promise<GetLoggedInUserAPIResponse> {
     return axiosService.get(UsersAPIService.GET_LOGGED_IN_USER_URL)
@@ -51,6 +58,11 @@ class UsersAPIService {
 
   public async makeAdmin({ email }: MakeAdminAPIRequest): Promise<MakeAdminAPIResponse> {
     return axiosService.post(UsersAPIService.MAKE_ADMIN_URL, { email })
+      .then(res => res.data);
+  }
+
+  public async makeLawyer({ email }: MakeLawyerAPIRequest): Promise<MakeLawyerAPIResponse> {
+    return axiosService.post(UsersAPIService.MAKE_LAWYER_URL, { email })
       .then(res => res.data);
   }
 

@@ -6,7 +6,9 @@
     "user-settings": "User settings",
     "docs": "Documentation",
     "admin": "Admin",
+    "lawyer": "Lawyer",
     "make-admin": "Add administrator",
+    "make-lawyer": "Add lawyer",
     "admin-docs": "Admin documentation",
     "new-contract": "Create new contract",
     "contracts": "Show all contracts",
@@ -119,6 +121,11 @@
       "email-field": "Email address:",
       "submit": "Add administrator",
       "success": "Administrator added successfully!"
+    },
+    "make-lawyer": {
+      "email-field": "Email address:",
+      "submit": "Add lawyer",
+      "success": "Lawyer added successfully! The lawyer will be able to legally represent their clients."
     },
     "new-contract": {
       "name-field": "Name of contract:",

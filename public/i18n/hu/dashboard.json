@@ -6,7 +6,9 @@
     "user-settings": "Felhasználói beállítások",
     "docs": "Dokumentáció",
     "admin": "Admin",
+    "lawyer": "Ügyvéd",
     "make-admin": "Admin hozzáadása",
+    "make-lawyer": "Ügyvéd hozzáadása",
     "admin-docs": "Admin dokumentáció",
     "new-contract": "Új szerződés létrehozása",
     "contracts": "Szerződések",
@@ -119,6 +121,11 @@
       "email-field": "E-mail cím:",
       "submit": "Admin hozzáadása",
       "success": "Adminisztrátor sikeresen hozzáadva!"
+    },
+    "make-lawyer": {
+      "email-field": "E-mail cím:",
+      "submit": "Ügyvéd hozzáadása",
+      "success": "Ügyvéd sikeresen hozzáadva! Az ügyvéd legálisan képviselheti az ügyfeleit."
     },
     "new-contract": {
       "name-field": "Szerződés neve:",

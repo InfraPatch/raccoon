@@ -2,7 +2,7 @@ import { signOut } from 'next-auth/client';
 
 import { User } from '@/db/models/auth/User';
 
-import { Book, LogOut, Star, Layout, User as UserIcon } from 'react-feather';
+import { Book, LogOut, Star, Layout, Edit3, Home, UserCheck, User as UserIcon } from 'react-feather';
 
 import UserProfilePicture, { UserProfilePictureSize } from '../common/UserProfilePicture';
 import DashboardNavigation, { NavigationSeparator } from '../common/navigation/DashboardNavigation';
@@ -10,8 +10,6 @@ import { NavigationLinkProps } from '@/components/dashboard/common/navigation/Na
 import { NavigationTitleProps } from '@/components/dashboard/common/navigation/NavigationTitle';
 import ThemeSwitcher from '@/components/common/theme-switcher/ThemeSwitcher';
 import LanguageSwitcher from '@/components/common/language-switcher/LanguageSwitcher';
-
-import { Edit3, Home } from 'react-feather';
 
 import { useTranslation } from 'next-i18next';
 
@@ -87,6 +85,14 @@ const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
     navigation.push(SEPARATOR);
 
     navigation.push({
+      href: '/dashboard/admin/make-lawyer',
+      icon: <UserCheck />,
+      label: t('pages.make-lawyer')
+    });
+
+    navigation.push(SEPARATOR);
+
+    navigation.push({
       href: '/dashboard/admin/new-contract',
       icon: <Star />,
       label: t('pages.new-contract')
@@ -125,9 +131,18 @@ const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
           <UserProfilePicture size={UserProfilePictureSize.SMALL} user={user} />
 
           <div className="flex-1 truncate" title={user.name}>
-            {user.name}
-          </div>
+            <span>{user.name}</span>
 
+            {(user.isAdmin && user.isLawyer &&
+              <div>
+                <span className="text-sm text-danger">{t('pages.admin')}</span>
+                <span> | </span>
+                <span className="text-sm text-info">{t('pages.lawyer')}</span>
+              </div>)
+              || (user.isAdmin && <p className="text-sm text-danger">{t('pages.admin')}</p>)
+              || (user.isLawyer && <p className="text-sm text-info">{t('pages.lawyer')}</p>)
+            }
+          </div>
           <div>
             <LogOut onClick={handleSignoutClick} className="cursor-pointer" />
           </div>

@@ -27,6 +27,7 @@ export interface IUser extends IUserIdentificationDetails {
   emailVerified?: Date;
   password?: string;
   isAdmin?: boolean;
+  isLawyer?: boolean;
 }
 
 export class User implements IUser {
@@ -39,6 +40,7 @@ export class User implements IUser {
   emailVerified?: Date;
   password?: string;
   isAdmin?: boolean;
+  isLawyer?: boolean;
 
   motherName?: string;
   motherBirthDate?: Date;
@@ -56,6 +58,7 @@ export class User implements IUser {
     isEmailVerified?: boolean,
     password?: string,
     isAdmin?: boolean,
+    isLawyer?: boolean,
     identificationDetails?: IUserIdentificationDetails
   ) {
     if (name) {
@@ -80,6 +83,10 @@ export class User implements IUser {
 
     if (isAdmin) {
       this.isAdmin = isAdmin;
+    }
+
+    if (isLawyer) {
+      this.isLawyer = isLawyer;
     }
 
     if (identificationDetails) {
@@ -128,6 +135,11 @@ export const UserSchema = {
     },
 
     isAdmin: {
+      type: 'boolean',
+      default: false
+    },
+
+    isLawyer: {
       type: 'boolean',
       default: false
     },

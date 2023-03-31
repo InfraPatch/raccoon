@@ -100,6 +100,7 @@ export default NextAuth({
     async jwt(token, user, account, profile) {
       if (profile) {
         token.isAdmin = profile.isAdmin;
+        token.isLawyer = profile.isLawyer;
       }
 
       return token;
@@ -108,6 +109,9 @@ export default NextAuth({
     async session(session, token) {
       if ((token as any).isAdmin) {
         session.user.isAdmin = (token as any).isAdmin;
+      }
+      if ((token as any).isLawyer) {
+        session.user.isLawyer = (token as any).isLawyer;
       }
 
       return session as any;
