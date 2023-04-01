@@ -1,5 +1,5 @@
 import { OptionType } from '@/db/common/OptionType';
-import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
 import { IFilledContractOption } from '@/db/models/contracts/FilledContractOption';
 import { formatDate } from '@/lib/formatDate';
 import { getPersonalIdentifierTypeString } from '@/lib/getPersonalIdentifierTypeString';
@@ -10,10 +10,10 @@ import { useTranslation } from 'react-i18next';
 
 export interface FilledContractOverviewProps {
   contract: IFilledContract;
-  isBuyer?: boolean;
+  partyType?: PartyType;
 };
 
-const FilledContractOverview = ({ contract, isBuyer }: FilledContractOverviewProps) => {
+const FilledContractOverview = ({ contract, partyType }: FilledContractOverviewProps) => {
   const { t } = useTranslation('dashboard');
 
   const sellerDetails = contract.options.filter(o => o.option.isSeller);
@@ -34,6 +34,9 @@ const FilledContractOverview = ({ contract, isBuyer }: FilledContractOverviewPro
   const dataRowClassNames = 'flex items-center gap-2 my-1';
   const dataContainerTitleClassNames = 'text-xl px-4 py-3 bg-accent text-secondary rounded-md rounded-b-none';
 
+  const isBuyer = (partyType === PartyType.BUYER);
+  const isSeller = (partyType === PartyType.SELLER);
+
   return (
     <article className="my-4">
       <div className={dataContainerClassNames}>
@@ -47,7 +50,7 @@ const FilledContractOverview = ({ contract, isBuyer }: FilledContractOverviewPro
               <strong>{ t('dashboard:contracts.list.seller-field') }: </strong> <a href={`mailto:${contract.user.email}`}>{contract.user.name}</a>
             </div>)}
 
-            {!isBuyer && (<div>
+            {isSeller && (<div>
               <strong>{ t('dashboard:contracts.list.buyer-field') }: </strong> <a href={`mailto:${contract.buyer.email}`}>{contract.buyer.name}</a>
             </div>)}
           </div>
@@ -62,7 +65,7 @@ const FilledContractOverview = ({ contract, isBuyer }: FilledContractOverviewPro
             </div>
           </div>
 
-          {!isBuyer && (<div className={dataRowClassNames}>
+          {isSeller && (<div className={dataRowClassNames}>
             <UserCheck />
 
             <div>

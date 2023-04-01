@@ -1,7 +1,7 @@
 import DashboardLayout from '@/layouts/DashboardLayout';
 
 import { User } from '@/db/models/auth/User';
-import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
 
 import Box from '@/components/common/box/Box';
 import Columns from '@/components/common/columns/Columns';
@@ -52,6 +52,9 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
     loadContracts();
   }, []);
 
+  const seller = PartyType.SELLER;
+  const buyer = PartyType.BUYER;
+
   return (
     <DashboardLayout user={user}>
       <Meta
@@ -75,7 +78,7 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
               )}
 
               {ownContracts && ownContracts.length > 0 && (
-                <FilledContractList contracts={ownContracts} onChange={loadContracts} />
+                <FilledContractList contracts={ownContracts} onChange={loadContracts} partyType={seller} />
               )}
             </Box>
           </Column>
@@ -95,7 +98,7 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
               )}
 
               {foreignContracts && foreignContracts.length > 0 && (
-                <FilledContractList contracts={foreignContracts} onChange={loadContracts} isBuyer />
+                <FilledContractList contracts={foreignContracts} onChange={loadContracts} partyType={buyer} />
               )}
             </Box>
           </Column>

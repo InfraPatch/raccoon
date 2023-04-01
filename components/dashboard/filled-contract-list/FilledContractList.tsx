@@ -1,15 +1,14 @@
-import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
 
-import Link from 'next/link';
 import FilledContractListItem from './FilledContract';
 
 export interface FilledContractListProps {
   contracts: IFilledContract[];
   onChange: () => Promise<void>;
-  isBuyer?: boolean;
+  partyType?: PartyType;
 };
 
-const FilledContractList = ({ contracts, onChange, isBuyer }: FilledContractListProps) => {
+const FilledContractList = ({ contracts, onChange, partyType }: FilledContractListProps) => {
   const sortedContracts = contracts
     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
 
@@ -19,7 +18,7 @@ const FilledContractList = ({ contracts, onChange, isBuyer }: FilledContractList
         <FilledContractListItem
           key={contract.id}
           contract={contract}
-          isBuyer={isBuyer}
+          partyType={partyType}
           onChange={onChange}
         />
       ))}

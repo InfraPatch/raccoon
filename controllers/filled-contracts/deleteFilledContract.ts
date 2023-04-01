@@ -1,4 +1,4 @@
-import { FilledContract, IFilledContract } from '@/db/models/contracts/FilledContract';
+import { FilledContract, IFilledContract, allPartiesSigned } from '@/db/models/contracts/FilledContract';
 import db from '@/services/db';
 import { getFilledContract } from './getFilledContract';
 
@@ -15,7 +15,7 @@ class DeleteContractError extends Error {
 export const deleteFilledContract = async (email: string, contractId: number): Promise<void> => {
   const filledContract = await getFilledContract(email, contractId) as IFilledContract;
 
-  if (filledContract.sellerSignedAt && filledContract.buyerSignedAt) {
+  if (allPartiesSigned(filledContract)) {
     throw new DeleteContractError('CANNOT_DELETE_SIGNED_CONTRACT');
   }
 

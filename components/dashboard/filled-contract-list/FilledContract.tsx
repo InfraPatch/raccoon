@@ -1,5 +1,5 @@
 import Button, { ButtonSize } from '@/components/common/button/Button';
-import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
 
 import { formatDate } from '@/lib/formatDate';
 
@@ -14,10 +14,10 @@ import { useTranslation } from 'react-i18next';
 export interface FilledContractListItemProps {
   contract: IFilledContract;
   onChange: () => Promise<void>;
-  isBuyer?: boolean;
+  partyType?: PartyType;
 };
 
-const FilledContractListItem = ({ contract, onChange, isBuyer }: FilledContractListItemProps) => {
+const FilledContractListItem = ({ contract, onChange, partyType }: FilledContractListItemProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const acceptOrDecline = async (action: 'accept' | 'decline') => {
@@ -46,6 +46,8 @@ const FilledContractListItem = ({ contract, onChange, isBuyer }: FilledContractL
   };
 
   const dataRowClassNames = 'flex items-center gap-2 my-1';
+  const isBuyer = (partyType === PartyType.BUYER);
+  const isSeller = (partyType === PartyType.SELLER);
 
   return (
     <article className="my-4 bg-field shadow rounded-md">
@@ -66,7 +68,7 @@ const FilledContractListItem = ({ contract, onChange, isBuyer }: FilledContractL
           </div>
         )}
 
-        {!isBuyer && contract.buyer?.email && (
+        {isSeller && contract.buyer?.email && (
           <div className={dataRowClassNames}>
             <User />
 
@@ -86,7 +88,7 @@ const FilledContractListItem = ({ contract, onChange, isBuyer }: FilledContractL
           </div>
         </div>
 
-        {!isBuyer && (<div className={dataRowClassNames}>
+        {isSeller && (<div className={dataRowClassNames}>
           <UserCheck />
 
           <div>

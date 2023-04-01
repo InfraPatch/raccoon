@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import Button, { ButtonSize } from '@/components/common/button/Button';
-import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
 
 import toaster from '@/lib/toaster';
 import apiService from '@/services/apis';
@@ -17,10 +17,10 @@ import { CreateWitnessSignatureAPIResponse } from '@/services/apis/contracts/Wit
 export interface FilledContractActionsProps {
   filledContract: IFilledContract;
   onChange: () => Promise<void>;
-  isBuyer?: boolean;
+  partyType?: PartyType;
 };
 
-const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledContractActionsProps) => {
+const FilledContractActions = ({ filledContract, onChange, partyType }: FilledContractActionsProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
   const router = useRouter();
 
@@ -205,6 +205,9 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
     }
   };
 
+  const isBuyer = (partyType === PartyType.BUYER);
+  const isSeller = (partyType === PartyType.SELLER);
+
   return (
     <div className="flex flex-wrap gap-4 my-4">
       {isBuyer && !filledContract.accepted && (
@@ -231,7 +234,7 @@ const FilledContractActions = ({ filledContract, onChange, isBuyer }: FilledCont
         >{ t('dashboard:contracts.actions.sign') }</Button>
       )}
 
-      {!isBuyer && (
+      {isSeller && (
         <>
           {!filledContract.sellerSignedAt && (
             <Button

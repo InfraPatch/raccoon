@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
 import { IWitnessSignature } from '@/db/models/contracts/WitnessSignature';
 
 import toaster from '@/lib/toaster';
@@ -11,14 +11,16 @@ import { Eye, UserCheck } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 
 import Swal from 'sweetalert2';
+import { User } from '@/db/models/auth/User';
 
 export interface FilledContractWitnessesProps {
   contract: IFilledContract;
   onChange: () => Promise<void>;
-  isBuyer: boolean;
+  partyType?: PartyType;
+  user: User;
 };
 
-const FilledContractWitnesses = ({ contract, onChange, isBuyer }: FilledContractWitnessesProps) => {
+const FilledContractWitnesses = ({ contract, onChange, partyType, user }: FilledContractWitnessesProps) => {
   const { t } = useTranslation('dashboard');
 
   const [ saving, setSaving ] = useState(false);
@@ -83,6 +85,9 @@ const FilledContractWitnesses = ({ contract, onChange, isBuyer }: FilledContract
       return <></>;
     }
 
+    const isWitness = (partyType === PartyType.WITNESS);
+    const isSeller = (partyType === PartyType.SELLER);
+
     return (
       <div className={dataContainerClassNames}>
         <h2 className={dataContainerTitleClassNames}>{ t(title) }</h2>
@@ -103,11 +108,11 @@ const FilledContractWitnesses = ({ contract, onChange, isBuyer }: FilledContract
                   <strong>{ witness.witnessName }</strong> { t('dashboard:contracts.list.signed-at') }:</span>
 
                 {witness.signedAt
-                  ? <span>{formatDate(witness.signedAt)}</span>
+                  ? <span>{formatDate(witness.signedAt, false)}</span>
                   : <span className="text-danger">{ t('dashboard:contracts.list.not-signed-yet') }</span>
                 }
 
-                {!witness.signedAt && (!witness.isSeller === isBuyer) && <strong>
+                {!witness.signedAt && ((isWitness && witness.id === user.id) || (!isWitness && witness.isSeller === isSeller)) && <strong>
                   <a
                     className="text-danger"
                     href="#"

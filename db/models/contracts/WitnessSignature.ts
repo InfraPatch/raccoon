@@ -75,3 +75,23 @@ export class WitnessSignature implements IWitnessSignature {
     };
   }
 }
+
+export const isWitnessOf = (userId: number, contract: IFilledContract) : boolean => {
+  for (const signature of contract.witnessSignatures) {
+    if (signature.witnessId === userId) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+export const hasWitnessSigned = (userId: number, contract: IFilledContract) : boolean => {
+  for (const signature of contract.witnessSignatures) {
+    if (signature.witnessId === userId) {
+      return !!signature.signedAt;
+    }
+  }
+
+  return false;
+};

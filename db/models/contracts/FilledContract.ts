@@ -25,6 +25,12 @@ export interface IFilledContract {
   buyerSignedAt?: Date | string;
 };
 
+export enum PartyType {
+  BUYER,
+  SELLER,
+  WITNESS
+};
+
 @Entity()
 export class FilledContract implements IFilledContract {
   @PrimaryGeneratedColumn()
@@ -98,3 +104,27 @@ export class FilledContract implements IFilledContract {
     };
   }
 }
+
+export const allWitnessesSigned = (contract: IFilledContract) : boolean => {
+  for (const signature of contract.witnessSignatures) {
+    if (!signature.signedAt) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+export const allPartiesSigned = (contract: IFilledContract) : boolean => {
+  return contract.sellerSignedAt && contract.buyerSignedAt && allWitnessesSigned(contract);
+};
+
+export const getPartyType = (userId: number, contract: IFilledContract) : PartyType => {
+  if (contract.buyer?.id === userId) {
+    return PartyType.BUYER;
+  } else if (contract.user?.id === userId) {
+    return PartyType.SELLER;
+  } else {
+    return PartyType.WITNESS;
+  }
+};

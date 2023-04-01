@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from 'react';
 
 import Button, { ButtonSize } from '@/components/common/button/Button';
-import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
 import { OptionType } from '@/db/common/OptionType';
 
 import toaster from '@/lib/toaster';
@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 export interface FilledContractFieldsFormProps {
   filledContract: IFilledContract;
   onChange: () => Promise<void>;
-  isBuyer?: boolean;
+  partyType?: PartyType;
 };
 
 export interface FilledContractField {
@@ -25,15 +25,17 @@ export interface FilledContractField {
   hint?: string;
 };
 
-const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledContractFieldsFormProps) => {
+const FilledContractFieldsForm = ({ filledContract, onChange, partyType }: FilledContractFieldsFormProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const [ fields, setFields ] = useState<FilledContractField[]>([]);
   const [ saving, setSaving ] = useState(false);
 
   useEffect(() => {
+    const isSeller = (partyType === PartyType.SELLER);
+
     const newFields = filledContract.contract.options
-      .filter(option => option.isSeller === !isBuyer)
+      .filter(option => option.isSeller === isSeller)
       .sort((a, b) => a.priority - b.priority)
       .map(option => {
         return {
@@ -47,7 +49,7 @@ const FilledContractFieldsForm = ({ filledContract, onChange, isBuyer }: FilledC
       });
 
     setFields(newFields);
-  }, [ isBuyer ]);
+  }, [ partyType ]);
 
   const updateFields = (id: number, value: string) => {
     setFields(current => {

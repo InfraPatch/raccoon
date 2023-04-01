@@ -6,7 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 
 import { User } from '@/db/models/auth/User';
-import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { getPartyType, IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
 
 import apiService from '@/services/apis';
 
@@ -22,17 +22,19 @@ import FilledContractActions from '@/components/dashboard/filled-contract/Filled
 import FilledContractOverview from '@/components/dashboard/filled-contract/FilledContractOverview';
 import FilledContractWitnesses from '@/components/dashboard/filled-contract/FilledContractWitnesses';
 import Meta from '@/components/common/Meta';
+import { hasWitnessSigned } from '@/db/models/contracts/WitnessSignature';
 
 export interface DashboardContractsPageProps {
   user: User;
   id: number;
 };
 
+
 const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const [ contract, setContract ] = useState<IFilledContract | null>(null);
-  const [ isBuyer, setIsBuyer ] = useState(false);
+  const [ partyType, setPartyType ] = useState(PartyType.BUYER);
   const [ title, setTitle ] = useState('...');
   const [ error, setError ] = useState('');
 
@@ -42,10 +44,11 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
 
     try {
       const res = await apiService.filledContracts.getFilledContract(id);
+      const contract = res.filledContract;
 
-      setContract(res.filledContract);
-      setTitle(res.filledContract.friendlyName);
-      setIsBuyer(res.filledContract.buyer?.email === user.email);
+      setContract(contract);
+      setTitle(contract.friendlyName);
+      setPartyType(getPartyType(user.id, contract));
     } catch (err) {
       if (err.response?.data?.error) {
         const message = err.response.data.error;
@@ -64,6 +67,9 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
     loadContract();
   }, []);
 
+  const isSeller = (partyType === PartyType.SELLER);
+  const isBuyer = (partyType === PartyType.BUYER);
+
   return (
     <DashboardLayout user={user}>
       <Meta
@@ -76,7 +82,7 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
             <Box title={ t('dashboard:contracts.data.overview') }>
               <FilledContractOverview
                 contract={contract}
-                isBuyer={isBuyer}
+                partyType={partyType}
               />
             </Box>
 
@@ -85,7 +91,8 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
                 <FilledContractWitnesses
                   contract={contract}
                   onChange={loadContract}
-                  isBuyer={isBuyer}
+                  partyType={partyType}
+                  user={user}
                 />
               </Box>
             )}
@@ -94,18 +101,18 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
               <FilledContractActions
                 filledContract={contract}
                 onChange={loadContract}
-                isBuyer={isBuyer}
+                partyType={partyType}
               />
             </Box>
           </Column>
 
           <Column>
-            {((!isBuyer && !contract.sellerSignedAt) || (isBuyer && contract.accepted && !contract.buyerSignedAt)) && (
+            {((isSeller && !contract.sellerSignedAt) || (isBuyer && contract.accepted && !contract.buyerSignedAt)) && (
               <Box title={ t('dashboard:contracts.data.my-details') }>
                 <FilledContractFieldsForm
                   filledContract={contract}
                   onChange={loadContract}
-                  isBuyer={isBuyer}
+                  partyType={partyType}
                 />
               </Box>
             )}
