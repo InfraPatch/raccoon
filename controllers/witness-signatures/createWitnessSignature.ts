@@ -40,6 +40,10 @@ export const createWitnessSignature = async (email: string, { witnessEmail, fill
     throw new CreateWitnessSignatureError('ACCESS_TO_CONTRACT_DENIED');
   }
 
+  if (user.id === filledContract.buyerId && !filledContract.accepted) {
+    throw new CreateWitnessSignatureError('ACCESS_TO_CONTRACT_DENIED');
+  }
+
   const witness = await userRepository.findOne({ where: { email: witnessEmail } });
 
   if (!witness) {

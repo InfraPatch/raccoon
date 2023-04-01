@@ -261,7 +261,7 @@ const FilledContractActions = ({ filledContract, onChange, partyType, user }: Fi
             onClick={forwardContract}
           >{ t('dashboard:contracts.actions.forward.button')}</Button>
         </>
-      ) : (!isWitness &&
+      ) : (!isWitness && (!isBuyer || filledContract.accepted) &&
         <Button
           size={ButtonSize.SMALL}
           disabled={saving}
