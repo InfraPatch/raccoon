@@ -59,7 +59,7 @@ const FilledContractListItem = ({ contract, onChange, partyType }: FilledContrac
       </Link>
 
       <div className="px-4 py-3 text-sm">
-        {isBuyer && contract.user?.email && (
+        {!isSeller && contract.user?.email && (
           <div className={dataRowClassNames}>
             <User />
 
@@ -69,7 +69,7 @@ const FilledContractListItem = ({ contract, onChange, partyType }: FilledContrac
           </div>
         )}
 
-        {isSeller && contract.buyer?.email && (
+        {!isBuyer && contract.buyer?.email && (
           <div className={dataRowClassNames}>
             <User />
 

@@ -59,6 +59,7 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
 
   const seller = PartyType.SELLER;
   const buyer = PartyType.BUYER;
+  const witness = PartyType.WITNESS;
 
   return (
     <DashboardLayout user={user}>
@@ -84,6 +85,23 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
 
               {ownContracts && ownContracts.length > 0 && (
                 <FilledContractList contracts={ownContracts} onChange={loadContracts} partyType={seller} />
+              )}
+            </Box>
+            <Box title={t('dashboard:contracts.list.witness')}>
+              {witnessContracts === null && (
+                <div className="text-center">
+                  <Loading />
+                </div>
+              )}
+
+              {witnessContracts && witnessContracts.length === 0 && (
+                <div className="text-center">
+                  <ZeroDataState />
+                </div>
+              )}
+
+              {witnessContracts && witnessContracts.length > 0 && (
+                <FilledContractList contracts={witnessContracts} onChange={loadContracts} partyType={witness} />
               )}
             </Box>
           </Column>
