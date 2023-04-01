@@ -1,5 +1,8 @@
+import { FilledContract } from '@/db/models/contracts/FilledContract';
 import { WitnessSignature } from '@/db/models/contracts/WitnessSignature';
 import db from '@/services/db';
+import { savePDF } from '../filled-contracts/signContract';
+import { allPartiesSigned } from '../filled-contracts/signUtils';
 import { getWitnessSignature, WitnessSignatureResponse } from './getWitnessSignature';
 
 class DeleteWitnessSignatureError extends Error {
@@ -24,10 +27,22 @@ export const deleteWitnessSignature = async (email: string, signatureId: number)
     throw new DeleteWitnessSignatureError('WITNESS_ALREADY_SIGNED');
   }
 
-  if (filledContract.sellerSignedAt && filledContract.buyerSignedAt) {
-    throw new DeleteWitnessSignatureError('CONTRACT_ALREADY_SIGNED');
-  }
-
   const witnessSignatureRepository = db.getRepository(WitnessSignature);
   await witnessSignatureRepository.delete(signature.id);
+
+  // Edge case: both buyer and seller have accepted the contract,
+  // but a witness is removed from the contract.
+  // We'll still need to generate the PDF!
+  const filledContractRepository = db.getRepository(FilledContract);
+  const fullContract = await filledContractRepository.findOne(signature.filledContractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures' ] });
+
+  if (!fullContract) {
+    throw new DeleteWitnessSignatureError('FILLED_CONTRACT_NOT_FOUND');
+  }
+
+  if (allPartiesSigned(fullContract)) {
+    const filename = await savePDF(fullContract);
+    fullContract.filename = filename;
+    await filledContractRepository.update(fullContract.id, { filename });
+  }
 };

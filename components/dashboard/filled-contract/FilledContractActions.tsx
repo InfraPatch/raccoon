@@ -231,7 +231,7 @@ const FilledContractActions = ({ filledContract, onChange, partyType, user }: Fi
         </>
       )}
 
-      {((isSeller && !filledContract.sellerSignedAt) || (isBuyer && filledContract.accepted && !filledContract.buyerSignedAt) || (isWitness && !hasWitnessSigned(user.id, filledContract))) && (
+      {filledContract.accepted && ((isSeller && !filledContract.sellerSignedAt) || (isBuyer && !filledContract.buyerSignedAt) || (isWitness && !hasWitnessSigned(user.id, filledContract))) && (
         <Button
           size={ButtonSize.SMALL}
           disabled={saving}
@@ -269,7 +269,7 @@ const FilledContractActions = ({ filledContract, onChange, partyType, user }: Fi
         >{ t('dashboard:contracts.actions.witness.request-witness') }</Button>
       )}
 
-      {isBuyer && filledContract.buyerSignedAt && !filledContract.sellerSignedAt && (
+      {isWitness && (!filledContract.accepted || (hasWitnessSigned(user.id, filledContract) && !allPartiesSigned(filledContract))) && (
         <div className="text-center text-sm flex-1">
           { t('dashboard:contracts.actions.no-actions') }
         </div>

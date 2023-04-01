@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, RelationId } from 'typeorm';
 import { FilledContract, IFilledContract } from './FilledContract';
 
 import omit from 'lodash.omit';
@@ -33,6 +33,9 @@ export class WitnessSignature implements IWitnessSignature {
     onDelete: 'CASCADE'
   })
   filledContract: Partial<FilledContract>;
+
+  @RelationId((signature: WitnessSignature) => signature.filledContract)
+  filledContractId: number;
 
   @Column('integer')
   witnessId: number;

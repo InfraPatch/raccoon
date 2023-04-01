@@ -15,6 +15,8 @@ import { getStorageStrategy } from '@/lib/storageStrategies';
 import { formatDate } from '@/lib/formatDate';
 import { OptionType } from '@/db/common/OptionType';
 import { getPersonalIdentifierTypeString } from '@/lib/getPersonalIdentifierTypeString';
+import { allPartiesSigned, hasWitnessSigned, isWitnessOf } from './signUtils';
+import { WitnessSignature } from '@/db/models/contracts/WitnessSignature';
 
 const storage = getStorageStrategy();
 
@@ -48,7 +50,7 @@ const verifyOptions = (filledContract: FilledContract) => {
   }
 };
 
-const savePDF = async (filledContract: FilledContract): Promise<string> => {
+export const savePDF = async (filledContract: FilledContract): Promise<string> => {
   const template: Buffer = await storage.get(filledContract.contract.filename.replace('/', ''));
   const zip = new PizZip(template);
 
@@ -124,16 +126,18 @@ export const signContract = async (userEmail: string, contractId: number) => {
     throw new SignContractError('USER_NOT_FOUND');
   }
 
-  const contract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option' ] });
+  const contract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures' ] });
   if (!contract) {
     throw new SignContractError('FILLED_CONTRACT_NOT_FOUND');
   }
 
-  if (![ contract.userId, contract.buyerId ].includes(user.id)) {
+  const isWitness = isWitnessOf(user.id, contract);
+
+  if (!isWitness && ![ contract.userId, contract.buyerId ].includes(user.id)) {
     throw new SignContractError('ACCESS_TO_CONTRACT_DENIED');
   }
 
-  if ((contract.userId === user.id && contract.sellerSignedAt) || (contract.buyerId === user.id && contract.buyerSignedAt)) {
+  if ((contract.userId === user.id && contract.sellerSignedAt) || (contract.buyerId === user.id && contract.buyerSignedAt) || (isWitness && hasWitnessSigned(user.id, contract))) {
     throw new SignContractError('CONTRACT_ALREADY_SIGNED');
   }
 
@@ -141,7 +145,19 @@ export const signContract = async (userEmail: string, contractId: number) => {
 
   let changed: boolean = false;
 
-  if (contract.userId === user.id) {
+  if (isWitness) {
+    const witnessSignatureRepository = db.getRepository(WitnessSignature);
+
+    for (const signature of contract.witnessSignatures) {
+      if (signature.witnessId === user.id) {
+        signature.signedAt = new Date();
+        await witnessSignatureRepository.update({ id: signature.id }, { signedAt: signature.signedAt });
+        break;
+      }
+    }
+
+    changed = true;
+  } else if (contract.userId === user.id) {
     contract.sellerSignedAt = new Date();
     changed = true;
   } else if (contract.buyerId === user.id) {
@@ -149,7 +165,7 @@ export const signContract = async (userEmail: string, contractId: number) => {
     changed = true;
   }
 
-  if (contract.sellerSignedAt && contract.buyerSignedAt) {
+  if (allPartiesSigned(contract)) {
     const filename = await savePDF(contract);
     contract.filename = filename;
     changed = true;
