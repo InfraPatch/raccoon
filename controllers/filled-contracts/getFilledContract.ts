@@ -56,7 +56,8 @@ export const getFilledContract = async (email: string, contractId: number, inter
       id: buyer.id,
       createdAt: buyer.createdAt,
       updatedAt: buyer.updatedAt,
-      email: buyer.email
+      email: buyer.email,
+      name: buyer.name
     }
   };
 
