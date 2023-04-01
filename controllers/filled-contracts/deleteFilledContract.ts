@@ -1,6 +1,7 @@
-import { FilledContract, IFilledContract, allPartiesSigned } from '@/db/models/contracts/FilledContract';
+import { FilledContract, IFilledContract } from '@/db/models/contracts/FilledContract';
 import db from '@/services/db';
 import { getFilledContract } from './getFilledContract';
+import { allPartiesSigned } from './signUtils';
 
 class DeleteContractError extends Error {
   code: string;

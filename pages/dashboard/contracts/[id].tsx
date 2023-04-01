@@ -23,7 +23,6 @@ import FilledContractActions from '@/components/dashboard/filled-contract/Filled
 import FilledContractOverview from '@/components/dashboard/filled-contract/FilledContractOverview';
 import FilledContractWitnesses from '@/components/dashboard/filled-contract/FilledContractWitnesses';
 import Meta from '@/components/common/Meta';
-import { hasWitnessSigned } from '@/db/models/contracts/WitnessSignature';
 
 export interface DashboardContractsPageProps {
   user: User;
@@ -103,6 +102,7 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
                 filledContract={contract}
                 onChange={loadContract}
                 partyType={partyType}
+                user={user}
               />
             </Box>
           </Column>

@@ -4,7 +4,8 @@ import { User } from '@/db/models/auth/User';
 import { FilledContract, IFilledContract } from '@/db/models/contracts/FilledContract';
 
 import { getStorageStrategy } from '@/lib/storageStrategies';
-import { isWitnessOf } from '@/db/models/contracts/WitnessSignature';
+import { isWitnessOf } from './signUtils';
+
 const storage = getStorageStrategy();
 
 export interface IDownloadPDFResponse {

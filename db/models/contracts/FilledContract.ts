@@ -98,17 +98,3 @@ export class FilledContract implements IFilledContract {
     };
   }
 }
-
-export const allWitnessesSigned = (contract: IFilledContract) : boolean => {
-  for (const signature of contract.witnessSignatures) {
-    if (!signature.signedAt) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
-export const allPartiesSigned = (contract: IFilledContract) : boolean => {
-  return contract.sellerSignedAt && contract.buyerSignedAt && allWitnessesSigned(contract);
-};

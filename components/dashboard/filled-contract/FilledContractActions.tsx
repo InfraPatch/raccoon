@@ -14,14 +14,17 @@ import Swal from 'sweetalert2';
 import buildUrl from '@/lib/buildUrl';
 import React from 'react';
 import { CreateWitnessSignatureAPIResponse } from '@/services/apis/contracts/WitnessSignatureAPIService';
+import { allPartiesSigned, hasWitnessSigned } from '@/controllers/filled-contracts/signUtils';
+import { User } from '@/db/models/auth/User';
 
 export interface FilledContractActionsProps {
   filledContract: IFilledContract;
   onChange: () => Promise<void>;
   partyType?: PartyType;
+  user: User;
 };
 
-const FilledContractActions = ({ filledContract, onChange, partyType }: FilledContractActionsProps) => {
+const FilledContractActions = ({ filledContract, onChange, partyType, user }: FilledContractActionsProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
   const router = useRouter();
 
@@ -208,6 +211,7 @@ const FilledContractActions = ({ filledContract, onChange, partyType }: FilledCo
 
   const isBuyer = (partyType === PartyType.BUYER);
   const isSeller = (partyType === PartyType.SELLER);
+  const isWitness = (partyType === PartyType.WITNESS);
 
   return (
     <div className="flex flex-wrap gap-4 my-4">
@@ -227,7 +231,7 @@ const FilledContractActions = ({ filledContract, onChange, partyType }: FilledCo
         </>
       )}
 
-      {isBuyer && filledContract.accepted && !filledContract.buyerSignedAt && (
+      {((isSeller && !filledContract.sellerSignedAt) || (isBuyer && filledContract.accepted && !filledContract.buyerSignedAt) || (isWitness && !hasWitnessSigned(user.id, filledContract))) && (
         <Button
           size={ButtonSize.SMALL}
           disabled={saving}
@@ -235,27 +239,15 @@ const FilledContractActions = ({ filledContract, onChange, partyType }: FilledCo
         >{ t('dashboard:contracts.actions.sign') }</Button>
       )}
 
-      {isSeller && (
-        <>
-          {!filledContract.sellerSignedAt && (
-            <Button
-              size={ButtonSize.SMALL}
-              disabled={saving}
-              onClick={handleSignClick}
-            >{ t('dashboard:contracts.actions.sign') }</Button>
-          )}
-
-          {!filledContract.buyerSignedAt && !filledContract.sellerSignedAt && (
-            <Button
-              size={ButtonSize.SMALL}
-              disabled={saving}
-              onClick={handleDeleteClick}
-            >{ t('dashboard:contracts.actions.delete') }</Button>
-          )}
-        </>
+      {isSeller && !allPartiesSigned(filledContract) && (
+        <Button
+          size={ButtonSize.SMALL}
+          disabled={saving}
+          onClick={handleDeleteClick}
+        >{ t('dashboard:contracts.actions.delete') }</Button>
       )}
 
-      {(filledContract.sellerSignedAt && filledContract.buyerSignedAt) ? (
+      {allPartiesSigned(filledContract) ? (
         <>
           <Button
             size={ButtonSize.SMALL}
@@ -269,7 +261,7 @@ const FilledContractActions = ({ filledContract, onChange, partyType }: FilledCo
             onClick={forwardContract}
           >{ t('dashboard:contracts.actions.forward.button')}</Button>
         </>
-      ) : (
+      ) : (!isWitness &&
         <Button
           size={ButtonSize.SMALL}
           disabled={saving}
