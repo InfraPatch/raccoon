@@ -1,4 +1,5 @@
-import { IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
+import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { PartyType } from '@/db/models/contracts/PartyType';
 
 import FilledContractListItem from './FilledContract';
 

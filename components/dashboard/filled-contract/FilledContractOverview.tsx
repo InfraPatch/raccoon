@@ -1,5 +1,6 @@
 import { OptionType } from '@/db/common/OptionType';
-import { IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
+import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { PartyType } from '@/db/models/contracts/PartyType';
 import { IFilledContractOption } from '@/db/models/contracts/FilledContractOption';
 import { formatDate } from '@/lib/formatDate';
 import { getPersonalIdentifierTypeString } from '@/lib/getPersonalIdentifierTypeString';

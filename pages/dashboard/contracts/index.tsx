@@ -1,7 +1,8 @@
 import DashboardLayout from '@/layouts/DashboardLayout';
 
 import { User } from '@/db/models/auth/User';
-import { IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
+import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { PartyType } from '@/db/models/contracts/PartyType';
 
 import Box from '@/components/common/box/Box';
 import Columns from '@/components/common/columns/Columns';

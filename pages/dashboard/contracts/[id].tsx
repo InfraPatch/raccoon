@@ -6,7 +6,8 @@ import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 
 import { User } from '@/db/models/auth/User';
-import { getPartyType, IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
+import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { PartyType, getPartyType } from '@/db/models/contracts/PartyType';
 
 import apiService from '@/services/apis';
 

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-import { IFilledContract, PartyType } from '@/db/models/contracts/FilledContract';
+import { IFilledContract } from '@/db/models/contracts/FilledContract';
 import { IWitnessSignature } from '@/db/models/contracts/WitnessSignature';
+import { PartyType } from '@/db/models/contracts/PartyType';
 
 import toaster from '@/lib/toaster';
 import apiService from '@/services/apis';
