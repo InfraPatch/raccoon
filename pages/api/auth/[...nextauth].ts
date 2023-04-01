@@ -101,6 +101,7 @@ export default NextAuth({
       if (profile) {
         token.isAdmin = profile.isAdmin;
         token.isLawyer = profile.isLawyer;
+        token.id = profile.id;
       }
 
       return token;
@@ -112,6 +113,9 @@ export default NextAuth({
       }
       if ((token as any).isLawyer) {
         session.user.isLawyer = (token as any).isLawyer;
+      }
+      if ((token as any).id) {
+        session.user.id = (token as any).id;
       }
 
       return session as any;
