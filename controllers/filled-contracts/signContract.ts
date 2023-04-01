@@ -73,7 +73,9 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
 
   const sellerName = filledContract.options.find(o => o.option.replacementString === 'seller_name').value;
   const buyerName = filledContract.options.find(o => o.option.replacementString === 'buyer_name').value;
-  const attestations: IAVDHAttestation[] = [
+
+  // Add attestations for seller and buyer
+  let attestations: IAVDHAttestation[] = [
     {
       date: filledContract.sellerSignedAt,
       fullName: sellerName,
@@ -93,6 +95,18 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
       email: filledContract.options.find(o => o.option.replacementString === 'buyer_email').value
     }
   ];
+
+  // Add attestations for witnesses as well
+  for (const signature of filledContract.witnessSignatures) {
+    attestations.push({
+      date: signature.signedAt,
+      fullName: signature.witnessName,
+      birthName: signature.witnessName,
+      birthPlace: signature.witnessBirthPlace,
+      birthDate: formatDate(signature.witnessBirthDate, false),
+      motherName: signature.witnessMotherName
+    });
+  }
 
   data['signature_date'] = formatDate(new Date(), false);
   data['seller_signature'] = sellerName.toUpperCase();

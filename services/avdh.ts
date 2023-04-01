@@ -62,7 +62,7 @@ export interface IAVDHAttestation {
   birthPlace: string;
   birthDate: string;
   motherName: string;
-  email: string;
+  email?: string;
 }
 
 interface IAttestationField {
