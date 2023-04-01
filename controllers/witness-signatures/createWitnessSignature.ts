@@ -32,16 +32,21 @@ export const createWitnessSignature = async (email: string, { witnessEmail, fill
     throw new CreateWitnessSignatureError('USER_NOT_FOUND');
   }
 
+  const filledContractRepository = db.getRepository(FilledContract);
+  const filledContract = await filledContractRepository.findOne(filledContractId);
+  const contractUsers = [ filledContract.buyerId, filledContract.userId ];
+
+  if (!contractUsers.includes(user.id)) {
+    throw new CreateWitnessSignatureError('ACCESS_TO_CONTRACT_DENIED');
+  }
+
   const witness = await userRepository.findOne({ where: { email: witnessEmail } });
 
   if (!witness) {
     throw new CreateWitnessSignatureError('USER_NOT_FOUND');
   }
 
-  const filledContractRepository = db.getRepository(FilledContract);
-  const filledContract = await filledContractRepository.findOne(filledContractId);
-
-  if ([ filledContract.buyerId, filledContract.userId ].includes(witness.id)) {
+  if (contractUsers.includes(witness.id)) {
     throw new CreateWitnessSignatureError('PART_OF_CONTRACT');
   }
 
