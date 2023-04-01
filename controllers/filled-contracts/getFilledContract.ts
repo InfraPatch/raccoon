@@ -4,6 +4,7 @@ import { User } from '@/db/models/auth/User';
 import { FilledContract, IFilledContract } from '@/db/models/contracts/FilledContract';
 
 import { getStorageStrategy } from '@/lib/storageStrategies';
+import { isWitnessOf } from '@/db/models/contracts/WitnessSignature';
 const storage = getStorageStrategy();
 
 export interface IDownloadPDFResponse {
@@ -38,7 +39,7 @@ export const getFilledContract = async (email: string, contractId: number, inter
     throw new GetFilledContractError('FILLED_CONTRACT_NOT_FOUND');
   }
 
-  if (![ filledContract.userId, filledContract.buyerId ].includes(user.id)) {
+  if (![ filledContract.userId, filledContract.buyerId ].includes(user.id) && !isWitnessOf(user.id, filledContract)) {
     throw new GetFilledContractError('ACCESS_TO_CONTRACT_DENIED');
   }
 
