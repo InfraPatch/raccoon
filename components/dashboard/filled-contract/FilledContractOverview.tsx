@@ -37,6 +37,7 @@ const FilledContractOverview = ({ contract, partyType }: FilledContractOverviewP
 
   const isBuyer = (partyType === PartyType.BUYER);
   const isSeller = (partyType === PartyType.SELLER);
+  const isWitness = (partyType === PartyType.WITNESS);
 
   return (
     <article className="my-4">
@@ -44,17 +45,25 @@ const FilledContractOverview = ({ contract, partyType }: FilledContractOverviewP
         <h2 className={dataContainerTitleClassNames}>{ t('contracts.data.contract-details') }</h2>
 
         <div className="px-4 py-3 text-sm">
-          <div className={dataRowClassNames}>
-            <User />
+          {(isWitness || isBuyer) && (
+            <div className={dataRowClassNames}>
+              <User />
 
-            {isBuyer && (<div>
-              <strong>{ t('dashboard:contracts.list.seller-field') }: </strong> <a href={`mailto:${contract.user.email}`}>{contract.user.name}</a>
-            </div>)}
+              <div>
+                <strong>{ t('dashboard:contracts.list.seller-field') }: </strong> <a href={`mailto:${contract.user.email}`}>{contract.user.name}</a>
+              </div>
+            </div>
+          )}
 
-            {isSeller && (<div>
-              <strong>{ t('dashboard:contracts.list.buyer-field') }: </strong> <a href={`mailto:${contract.buyer.email}`}>{contract.buyer.name}</a>
-            </div>)}
-          </div>
+          {(isWitness || isSeller) && (
+            <div className={dataRowClassNames}>
+              <User />
+
+              <div>
+                <strong>{ t('dashboard:contracts.list.buyer-field') }: </strong> <a href={`mailto:${contract.buyer.email}`}>{contract.buyer.name}</a>
+              </div>
+            </div>
+          )}
 
           <div className={dataRowClassNames}>
             <FileText />
