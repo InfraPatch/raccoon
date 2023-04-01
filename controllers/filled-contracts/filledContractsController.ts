@@ -37,11 +37,12 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    const { own, foreign } = await listFilledContracts(session.user.email);
+    const { own, foreign, witness } = await listFilledContracts(session.user.email);
     return res.json({
       ok: true,
       own,
-      foreign
+      foreign,
+      witness
     });
   } catch (err) {
     if (err.name === 'ListFilledContractsError') {

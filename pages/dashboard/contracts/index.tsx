@@ -30,19 +30,23 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
 
   const [ ownContracts, setOwnContracts ] = useState<IFilledContract[] | null>(null);
   const [ foreignContracts, setForeignContracts ] = useState<IFilledContract[] | null>(null);
+  const [ witnessContracts, setWitnessContracts ] = useState<IFilledContract[] | null>(null);
 
   const [ error, setError ] = useState('');
 
   const loadContracts = async () => {
     setOwnContracts(null);
     setForeignContracts(null);
+    setWitnessContracts(null);
 
     setError('');
 
     try {
       const res = await apiService.filledContracts.listFilledContracts();
+
       setOwnContracts(res.own);
       setForeignContracts(res.foreign);
+      setWitnessContracts(res.witness);
     } catch (err) {
       console.error(err);
       setError(t('errors:INTERNAL_SERVER_ERROR'));

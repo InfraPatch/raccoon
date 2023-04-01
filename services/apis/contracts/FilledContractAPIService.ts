@@ -19,6 +19,7 @@ export interface FillContractOptionAPIParams {
 export interface ListFillContractsAPIResponse extends APIResponse {
   own: IFilledContract[];
   foreign: IFilledContract[];
+  witness: IFilledContract[];
 };
 
 export interface CreateFilledContractAPIResponse extends APIResponse {

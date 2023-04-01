@@ -4,6 +4,7 @@ import { FilledContract } from '@/db/models/contracts/FilledContract';
 import { User } from '@/db/models/auth/User';
 
 import { ListFillContractsAPIResponse } from '@/services/apis/contracts/FilledContractAPIService';
+import { WitnessSignature } from '@/db/models/contracts/WitnessSignature';
 
 class ListFilledContractsError extends Error {
   code: string;
@@ -20,6 +21,7 @@ export const listFilledContracts = async (email: string): Promise<Omit<ListFillC
 
   const userRepository = db.getRepository(User);
   const filledContractRepository = db.getRepository(FilledContract);
+  const witnessSignatureRepository = db.getRepository(WitnessSignature);
 
   const user = await userRepository.findOne({ where: { email } });
   if (!user) {
@@ -28,10 +30,18 @@ export const listFilledContracts = async (email: string): Promise<Omit<ListFillC
 
   const filledContracts = await filledContractRepository.find({ where: [
     { userId: user.id },
-    { buyerId: user.id }
+    { buyerId: user.id },
   ], relations: [ 'contract' ] });
 
-  const detailedFilledContracts = await Promise.all(filledContracts.map(async contract => {
+  const witnessSignatures = await witnessSignatureRepository.find({ where: [
+    { witnessId: user.id }
+  ], relations: [ 'filledContract' ] });
+
+  // Here's a little lesson in trickery
+  const witnessContracts = witnessSignatures.map(s => s.filledContract) as FilledContract[];
+  const allContracts = filledContracts.concat(witnessContracts);
+
+  const detailedFilledContracts = await Promise.all(allContracts.map(async contract => {
     const filledContract = contract.toJSON();
 
     if (contract.userId !== user.id) {
@@ -55,6 +65,7 @@ export const listFilledContracts = async (email: string): Promise<Omit<ListFillC
 
   return {
     own: detailedFilledContracts.filter(c => c.userId === user.id),
-    foreign: detailedFilledContracts.filter(c => c.buyerId === user.id)
+    foreign: detailedFilledContracts.filter(c => c.buyerId === user.id),
+    witness: detailedFilledContracts.filter(c => c.userId !== user.id && c.buyerId !== user.id)
   };
 };
