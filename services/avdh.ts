@@ -110,7 +110,7 @@ class AVDHService {
       ];
 
       for (const field of fields) {
-        page.drawText(field.text, {
+        page.drawText(field.text || "", {
           x: field.x,
           y: field.y,
           font: helveticaFont,
