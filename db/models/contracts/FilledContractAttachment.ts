@@ -12,7 +12,7 @@ export interface IFilledContractAttachment extends IAttachment {
 
 @Entity()
 export class FilledContractAttachment extends Attachment implements IFilledContractAttachment {
-  @ManyToOne(() => FilledContract, filledContract => filledContract.options, {
+  @ManyToOne(() => FilledContract, {
     onDelete: 'CASCADE'
   })
   filledContract: Partial<FilledContract>;
