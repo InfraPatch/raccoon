@@ -3,6 +3,7 @@ import { User, IUser } from '../auth/User';
 import { Contract, IContract } from './Contract';
 import { FilledContractOption, IFilledContractOption } from './FilledContractOption';
 import { IWitnessSignature, WitnessSignature } from './WitnessSignature';
+import { FilledContractAttachment, IFilledContractAttachment } from './FilledContractAttachment';
 
 import db from '../../../services/db';
 
@@ -22,6 +23,7 @@ export interface IFilledContract {
   contract?: IContract;
   options?: IFilledContractOption[];
   witnessSignatures?: IWitnessSignature[];
+  attachments?: IFilledContractAttachment[];
   sellerSignedAt?: Date | string;
   buyerSignedAt?: Date | string;
 };
@@ -51,6 +53,9 @@ export class FilledContract implements IFilledContract {
 
   @OneToMany(() => WitnessSignature, witnessSignature => witnessSignature.filledContract)
   witnessSignatures: Partial<WitnessSignature[]>;
+
+  @OneToMany(() => FilledContractAttachment, attachment => attachment.filledContract)
+  attachments: Partial<FilledContractAttachment[]>;
 
   // thanks to next-auth's incompatibility with typeorm entities, I cannot
   // establish a many-to-one relationship here, so it's just the user ID.
@@ -92,6 +97,7 @@ export class FilledContract implements IFilledContract {
       contract: this.contract,
       options: this.options && this.options.map(option => omit(option.toJSON(), 'filledContract')),
       witnessSignatures: this.witnessSignatures && this.witnessSignatures.map(signature => omit(signature.toJSON(), 'filledContract')),
+      attachments: this.attachments && this.attachments.map(attachment => omit(attachment.toJSON(), 'filledContract')),
       userId: this.userId,
       buyerId: this.buyerId,
       accepted: this.accepted,
