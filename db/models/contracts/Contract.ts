@@ -1,7 +1,8 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { ContractOption, IContractOption } from './ContractOption';
 
 import omit from 'lodash.omit';
+import { Item, IItem } from '../items/Item';
 
 export interface IContract {
   id?: number;
@@ -10,6 +11,7 @@ export interface IContract {
   friendlyName?: string;
   description?: string;
   filename?: string;
+  item?: IItem;
   options?: IContractOption[];
 };
 
@@ -33,6 +35,9 @@ export class Contract implements IContract {
   @Column({ nullable: true })
   filename: string;
 
+  @ManyToOne(() => Item, { nullable: true })
+  item?: Partial<Item>;
+
   @OneToMany(() => ContractOption, contractOption => contractOption.contract)
   options: Partial<ContractOption[]>;
 
@@ -44,6 +49,7 @@ export class Contract implements IContract {
       friendlyName: this.friendlyName,
       description: this.description,
       filename: this.filename,
+      item: this.item && this.item.toJSON(),
       options: this.options ? this.options.map(option => omit(option.toJSON(), 'contract')) : []
     };
   }

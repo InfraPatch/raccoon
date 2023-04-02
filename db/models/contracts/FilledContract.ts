@@ -4,6 +4,7 @@ import { Contract, IContract } from './Contract';
 import { FilledContractOption, IFilledContractOption } from './FilledContractOption';
 import { IWitnessSignature, WitnessSignature } from './WitnessSignature';
 import { FilledContractAttachment, IFilledContractAttachment } from './FilledContractAttachment';
+import { FilledItem, IFilledItem } from '../items/FilledItem';
 
 import db from '../../../services/db';
 
@@ -21,6 +22,7 @@ export interface IFilledContract {
   buyer?: IUser;
   accepted?: boolean;
   contract?: IContract;
+  filledItem?: IFilledItem;
   options?: IFilledContractOption[];
   witnessSignatures?: IWitnessSignature[];
   attachments?: IFilledContractAttachment[];
@@ -47,6 +49,9 @@ export class FilledContract implements IFilledContract {
 
   @ManyToOne(() => Contract)
   contract: Partial<Contract>;
+
+  @ManyToOne(() => FilledItem, { nullable: true })
+  filledItem: Partial<FilledItem>;
 
   @OneToMany(() => FilledContractOption, filledContractOption => filledContractOption.filledContract)
   options: Partial<FilledContractOption[]>;
@@ -95,6 +100,7 @@ export class FilledContract implements IFilledContract {
       friendlyName: this.friendlyName,
       filename: this.filename,
       contract: this.contract,
+      filledItem: this.filledItem && this.filledItem.toJSON(),
       options: this.options && this.options.map(option => omit(option.toJSON(), 'filledContract')),
       witnessSignatures: this.witnessSignatures && this.witnessSignatures.map(signature => omit(signature.toJSON(), 'filledContract')),
       attachments: this.attachments && this.attachments.map(attachment => omit(attachment.toJSON(), 'filledContract')),
