@@ -17,7 +17,8 @@
     "contracts": "Show all contracts",
     "contract": "Contract",
     "item-categories": "Property categories",
-    "new-item": "Create property category"
+    "new-item": "Create property category",
+    "new-filled-item": "New property"
   },
 
   "home": {
@@ -164,6 +165,16 @@
     "submit": "Create",
     "title": "Create new contract",
     "success": "New contract has been successfully created!"
+  },
+
+  "new-item": {
+    "fields": {
+      "friendlyName": "Property name"
+    },
+    "overview": "Overview",
+    "submit": "Add",
+    "title": "Add new property",
+    "success": "Property has been added successfully."
   },
 
   "admin": {

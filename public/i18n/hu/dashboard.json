@@ -17,7 +17,8 @@
     "contracts": "Szerződések",
     "contract": "Szerződés",
     "item-categories": "Tulajdonkategóriák",
-    "new-item": "Tulajdonkategória létrehozása"
+    "new-item": "Tulajdonkategória létrehozása",
+    "new-filled-item": "Új tulajdon"
   },
 
   "home": {
@@ -164,6 +165,16 @@
     "submit": "Létrehozás",
     "title": "Új szerződés kötése",
     "success": "Sikeresen létrehoztuk az új szerződést!"
+  },
+
+  "new-item": {
+    "fields": {
+      "friendlyName": "Tulajdon neve"
+    },
+    "overview": "Alapinformációk",
+    "submit": "Hozzáadás",
+    "title": "Új tulajdon hozzáadása",
+    "success": "A tulajdon sikeresen hozzá lett adva."
   },
 
   "admin": {

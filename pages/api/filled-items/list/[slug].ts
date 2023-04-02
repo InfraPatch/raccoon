@@ -4,5 +4,5 @@ import * as filledItemsController from '@/controllers/filled-items/filledItemsCo
 import { ensureAuthenticated } from '@/middleware/auth';
 
 export default bar({
-  post: ensureAuthenticated(filledItemsController.create)
+  get: ensureAuthenticated(filledItemsController.index)
 });

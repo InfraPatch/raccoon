@@ -10,7 +10,7 @@ import { User } from '@/db/models/auth/User';
 import { IAttachment } from '@/db/common/Attachment';
 
 export interface AttachmentsProps {
-  attachments: IAttachment[],
+  attachments: IAttachment[];
   onChange: () => Promise<void>;
   deleteAttachment: (IAttachment) => any;
   canDelete: (IAttachment) => boolean;

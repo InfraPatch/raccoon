@@ -15,7 +15,7 @@ class ListFilledItemsError extends Error {
   }
 }
 
-export const listFilledItems = async (email: string): Promise<Omit<ListFilledItemsAPIResponse, 'ok'>> => {
+export const listFilledItems = async (email: string, slug: string): Promise<Omit<ListFilledItemsAPIResponse, 'ok'>> => {
   await db.prepare();
 
   const userRepository = db.getRepository(User);
@@ -26,10 +26,11 @@ export const listFilledItems = async (email: string): Promise<Omit<ListFilledIte
     throw new ListFilledItemsError('USER_NOT_FOUND');
   }
 
-  const filledItems = await filledItemRepository.find({ where: [
-    { userId: user.id },
-    { buyerId: user.id }
-  ], relations: [ 'item' ] });
+  const filledItems = await filledItemRepository.createQueryBuilder('filledItem')
+    .innerJoinAndSelect('filledItem.item', 'item')
+    .where('userId = :id', { id: user.id })
+    .where('item.slug = :slug', { slug })
+    .getMany();
 
   return {
     filledItems: filledItems.map(item => item.toJSON())

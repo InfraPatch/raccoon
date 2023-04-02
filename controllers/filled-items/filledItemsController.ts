@@ -9,10 +9,11 @@ import { fillItemOptions } from './updateFilledItem';
 import { jsonToXml } from '@/lib/objectToXml';
 
 export const index = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { slug } = req.query;
   const session = await getSession({ req });
 
   try {
-    const { filledItems } = await listFilledItems(session.user.email);
+    const { filledItems } = await listFilledItems(session.user.email, Array.isArray(slug) ? slug[0] : slug);
     return res.json({
       ok: true,
       filledItems
@@ -71,13 +72,14 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { friendlyName, itemId } = req.body;
+  const { friendlyName, itemSlug, options } = req.body;
   const session = await getSession({ req });
 
   try {
     const filledItem = await createFilledItem(session.user.email, {
       friendlyName,
-      itemId
+      itemSlug,
+      options
     });
 
     return res.json({
@@ -85,7 +87,7 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
       filledItem: filledItem.toJSON()
     });
   } catch (err) {
-    if (err.name === 'CreateFilledItemError') {
+    if (err.name === 'CreateFilledItemError' || err.name === 'OptionValidationError') {
       return res.status(400).json({
         ok: false,
         error: err.code
@@ -136,7 +138,7 @@ export const fill = async (req: NextApiRequest, res: NextApiResponse) => {
     await fillItemOptions(session.user.email, parseInt(Array.isArray(id) ? id[0] : id), options);
     return res.json({ ok: true });
   } catch (err) {
-    if (err.name === 'FilledItemUpdateError') {
+    if (err.name === 'FilledItemUpdateError' || err.name === 'OptionValidationError') {
       return res.status(400).json({
         ok: false,
         error: err.code,

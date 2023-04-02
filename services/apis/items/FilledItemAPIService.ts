@@ -1,14 +1,15 @@
 import axiosService, { APIResponse } from '@/services/axios';
 import { IFilledItem } from '@/db/models/items/FilledItem';
 
-export interface NewFilledItemAPIParams {
-  friendlyName: string;
-  itemId: number;
-};
-
 export interface FilledOption {
   id: number;
   value: string;
+};
+
+export interface NewFilledItemAPIParams {
+  friendlyName: string;
+  itemSlug: string;
+  options: FilledOption[];
 };
 
 export interface FilledItemOptionAPIParams {
@@ -30,12 +31,13 @@ export interface GetFilledItemAPIResponse extends APIResponse {
 export interface DeleteFilledItemAPIResponse extends APIResponse {};
 
 class FilledItemAPIService {
-  static FILLED_ITEMS_URL = '/api/inventory';
-  static FILLED_ITEM_URL = '/api/inventory/:id';
+  static LIST_FILLED_ITEMS_URL = '/api/filled-items/list/:slug';
+  static FILLED_ITEMS_URL = '/api/filled-items';
+  static FILLED_ITEM_URL = '/api/filled-items/:id';
 
-  public async listFilledItems(): Promise<ListFilledItemsAPIResponse> {
-    return axiosService.get(FilledItemAPIService.FILLED_ITEMS_URL)
-      .then(res => res.data);
+  public async listFilledItems(slug: string): Promise<ListFilledItemsAPIResponse> {
+    const path = this.buildListFilledItemsUrl(slug);
+    return axiosService.get(path).then(res => res.data);
   }
 
   public async getFilledItem(id: number): Promise<GetFilledItemAPIResponse> {
@@ -51,6 +53,10 @@ class FilledItemAPIService {
   public async deleteFilledItem(id: number): Promise<DeleteFilledItemAPIResponse> {
     const path = this.buildFilledItemsUrl(id);
     return axiosService.delete(path).then(res => res.data);
+  }
+
+  private buildListFilledItemsUrl(slug: string) {
+    return FilledItemAPIService.LIST_FILLED_ITEMS_URL.replace(':slug', slug);
   }
 
   private buildFilledItemsUrl(id: number) {
