@@ -1,21 +1,20 @@
-import { useState } from 'react';
 import { Field, Form, Formik, FormikHelpers, ErrorMessage } from 'formik';
 import Button, { ButtonSize } from '@/components/common/button/Button';
 
 import { CompactDangerMessage } from '@/components/common/message-box/DangerMessage';
 
-import { NewContractOptionAPIRequest, NewContractOptionAPIResponse } from '@/services/apis/contracts/ContractOptionAPIService';
+import { NewItemOptionAPIRequest } from '@/services/apis/items/ItemOptionAPIService';
 import * as ContractOptionFormValidator from '@/validators/ContractOptionFormValidator';
 
 import apiService from '@/services/apis';
 import toaster from '@/lib/toaster';
 import { useTranslation } from 'react-i18next';
-import { Contract } from '@/db/models/contracts/Contract';
-import { ContractOption } from '@/db/models/contracts/ContractOption';
+import { Item } from '@/db/models/items/Item';
+import { ItemOption } from '@/db/models/items/ItemOption';
 import Box from '@/components/common/box/Box';
-import { GetContractAPIResponse } from '@/services/apis/contracts/ContractAPIService';
+import { GetItemAPIResponse } from '@/services/apis/items/ItemAPIService';
 
-export interface NewContractOptionFormRequest {
+export interface NewItemOptionFormRequest {
   type: number;
   priority: number;
   friendlyName: string;
@@ -24,46 +23,44 @@ export interface NewContractOptionFormRequest {
   replacementString: string;
   minimumValue?: number;
   maximumValue?: number;
-  isSeller: string;
 };
 
-interface ContractOptionFormData {
-  contract: Contract;
-  contractOption?: ContractOption;
-  setContract: (contract: Contract) => void;
+interface ItemOptionFormData {
+  item: Item;
+  itemOption?: ItemOption;
+  setItem: (item: Item) => void;
 };
 
-const ContractOptionForm = ({ contract, contractOption, setContract }: ContractOptionFormData) => {
+const ItemOptionForm = ({ item, itemOption, setItem }: ItemOptionFormData) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
-  const handleFormSubmit = async (data: NewContractOptionFormRequest, { setSubmitting }: FormikHelpers<NewContractOptionFormRequest>) => {
-    const commonFields : NewContractOptionAPIRequest = {
-      contractId: contract.id,
+  const handleFormSubmit = async (data: NewItemOptionFormRequest, { setSubmitting }: FormikHelpers<NewItemOptionFormRequest>) => {
+    const commonFields : NewItemOptionAPIRequest = {
+      itemId: item.id,
       ...data,
-      type: parseInt(Array.isArray(data.type) ? data.type[0] : data.type),
-      isSeller: data.isSeller === "1"
+      type: parseInt(Array.isArray(data.type) ? data.type[0] : data.type)
     };
 
     try {
-      if (contractOption) {
-        await apiService.contractOptions.updateContractOption({
-          id: contractOption.id,
+      if (itemOption) {
+        await apiService.itemOptions.updateItemOption({
+          id: itemOption.id,
           ...commonFields
         });
-        toaster.success(t('dashboard:admin.update-contract-option.success'));
+        toaster.success(t('dashboard:admin.update-item-option.success'));
       } else {
-        await apiService.contractOptions.newContractOption(commonFields);
-        toaster.success(t('dashboard:admin.new-contract-option.success'));
+        await apiService.itemOptions.newItemOption(commonFields);
+        toaster.success(t('dashboard:admin.new-item-option.success'));
       }
 
-      const newContract : GetContractAPIResponse = await apiService.contracts.getContract({ id : contract.id});
-      setContract(newContract.contract);
+      const newItem : GetItemAPIResponse = await apiService.items.getItem({ slug: item.slug });
+      setItem(newItem.item);
     } catch (err) {
       if (err.response?.data?.error) {
         const message = err.response.data.error;
 
         if (message?.length) {
-          toaster.danger(t(`errors:contract-options.${message}`));
+          toaster.danger(t(`errors:item-options.${message}`));
           return;
         }
       }
@@ -74,14 +71,13 @@ const ContractOptionForm = ({ contract, contractOption, setContract }: ContractO
     }
   };
 
-  let initialValues : NewContractOptionFormRequest;
+  let initialValues : NewItemOptionFormRequest;
 
-  if (contractOption) {
+  if (itemOption) {
     initialValues = {
-      ...contractOption,
-      longDescription: contractOption.longDescription || '',
-      hint: contractOption.hint || '',
-      isSeller: contractOption.isSeller ? '1' : '0',
+      ...itemOption,
+      longDescription: itemOption.longDescription || '',
+      hint: itemOption.hint || ''
     };
   } else {
     initialValues = {
@@ -92,12 +88,11 @@ const ContractOptionForm = ({ contract, contractOption, setContract }: ContractO
       hint: '',
       replacementString: '',
       minimumValue: -1,
-      maximumValue: -1,
-      isSeller: '0'
+      maximumValue: -1
     };
   }
 
-  const key : string = contractOption ? 'update-contract-option' : 'new-contract-option';
+  const key : string = itemOption ? 'update-item-option' : 'new-item-option';
 
   return (
     <Box title={ t(`dashboard:admin.${key}.title`) }>
@@ -167,15 +162,6 @@ const ContractOptionForm = ({ contract, contractOption, setContract }: ContractO
             </div>
 
             <div className="form-field">
-              <label htmlFor="isSeller">{ t('dashboard:admin.option-fields.seller-field') }</label>
-              <Field name="isSeller" id="isSeller" as="select">
-                <option value="0">{ t('dashboard:admin.option-fields.buyer-type') }</option>
-                <option value="1">{ t('dashboard:admin.option-fields.seller-type') }</option>
-              </Field>
-              <ErrorMessage name="isSeller" component={CompactDangerMessage} />
-            </div>
-
-            <div className="form-field">
               <Button size={ButtonSize.MEDIUM} type="submit" disabled={isSubmitting}>
                 { t(`dashboard:admin.${key}.submit`) }
               </Button>
@@ -187,4 +173,4 @@ const ContractOptionForm = ({ contract, contractOption, setContract }: ContractO
   );
 };
 
-export default ContractOptionForm;
+export default ItemOptionForm;

@@ -43,7 +43,7 @@ export interface DeleteItemOptionAPIResponse extends APIResponse {};
 
 class ItemOptionAPIService {
   static ITEM_OPTIONS_URL = '/api/item-options';
-  static ITEM_OPTION_URL = '/api/item-option/:id';
+  static ITEM_OPTION_URL = '/api/item-options/:id';
 
   public async newItemOption(data: NewItemOptionAPIRequest): Promise<NewItemOptionAPIResponse> {
     return axiosService.post(ItemOptionAPIService.ITEM_OPTIONS_URL, data)

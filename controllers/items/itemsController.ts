@@ -27,10 +27,10 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const get = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.query;
+  const { slug } = req.query;
 
   try {
-    const item = await getItem({ id: parseInt(firstOf(id)) });
+    const item = await getItem({ slug: firstOf(slug) });
 
     return res.json({
       ok: true,
@@ -81,11 +81,11 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const update = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.query;
-  const { friendlyName, description } = req.body;
+  const originalSlug = firstOf(req.query.slug);
+  const { friendlyName, slug, description } = req.body;
 
   try {
-    const item = await updateItem(parseInt(firstOf(id)), { friendlyName, description });
+    const item = await updateItem(firstOf(originalSlug), { friendlyName, slug, description });
 
     return res.json({
       ok: true,
@@ -109,10 +109,10 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.query;
+  const { slug } = req.query;
 
   try {
-    await deleteItem({ id: parseInt(firstOf(id)) });
+    await deleteItem({ slug: firstOf(slug) });
     return res.json({ ok: true });
   } catch (err) {
     console.error(err);

@@ -179,10 +179,7 @@
       "default-description": "This contract has no description set.",
       "last-updated": "Last updated"
     },
-    "new-contract-option": {
-      "title": "Add new contract field",
-      "success": "A new field has been successfully added to this contract!",
-      "submit": "Add new field",
+    "option-fields": {
       "type-field": "Field type",
       "priority-field": "Field priority (higher priority appears earlier)",
       "name-field": "Field name",
@@ -204,6 +201,11 @@
       "seller-type": "Seller-specific field (filled by seller)",
       "buyer-type": "Buyer-specific field (filled by buyer)"
     },
+    "new-contract-option": {
+      "title": "Add new contract field",
+      "success": "A new field has been successfully added to this contract!",
+      "submit": "Add new field"
+    },
     "update-contract-option": {
       "title": "Update contract field",
       "success": "This field of the contract has been successfully updated!",
@@ -220,6 +222,21 @@
       "edit-item": "Edit category",
       "default-description": "This category has no description set.",
       "last-updated": "Last updated"
+    },
+    "edit-item": {
+      "title": "Property category",
+      "submit": "Update category",
+      "success": "Category updated successfully!"
+    },
+    "new-item-option": {
+      "title": "Add new field",
+      "success": "A new field has been successfully added to this category!",
+      "submit": "Add new field"
+    },
+    "update-item-option": {
+      "title": "Update field",
+      "success": "This field of the category has been successfully updated!",
+      "submit": "Update field"
     }
   }
 }

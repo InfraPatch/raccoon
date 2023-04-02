@@ -13,7 +13,7 @@ export class ItemUpdateError extends Error {
   }
 }
 
-export const updateItem = async (id: number, { friendlyName, description }: UpdateItemAPIRequest): Promise<Item> => {
+export const updateItem = async (originalSlug: string, { friendlyName, slug, description }: UpdateItemAPIRequest): Promise<Item> => {
   await db.prepare();
   const itemRepository = db.getRepository(Item);
 
@@ -27,7 +27,7 @@ export const updateItem = async (id: number, { friendlyName, description }: Upda
     throw new ItemUpdateError('DESCRIPTION_TOO_SHORT');
   }
 
-  const item = await itemRepository.findOne(id);
+  const item = await itemRepository.findOne({ where: { slug: originalSlug } });
   if (!item) {
     throw new ItemUpdateError('CONTRACT_NOT_FOUND');
   }

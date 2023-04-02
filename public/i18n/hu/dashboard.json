@@ -14,8 +14,8 @@
     "new-contract": "Új szerződés létrehozása",
     "contracts": "Szerződések",
     "contract": "Szerződés",
-    "item-categories": "Tulajdon-kategóriák",
-    "new-item": "Tulajdon-kategória létrehozása"
+    "item-categories": "Tulajdonkategóriák",
+    "new-item": "Tulajdonkategória létrehozása"
   },
 
   "home": {
@@ -179,10 +179,7 @@
       "default-description": "Ennek a szérződésnek még nincs leírása.",
       "last-updated": "Utoljára frissítve"
     },
-    "new-contract-option": {
-      "title": "Új mező létrehozása",
-      "success": "Sikeresen hozzáadtuk az új mezőt a szerződéshez!",
-      "submit": "Létrehozás",
+    "option-fields": {
       "type-field": "Mező típusa",
       "priority-field": "Mező prioritása (magasabb prioritás hamarabb jelenik meg)",
       "name-field": "Mező neve",
@@ -204,6 +201,11 @@
       "seller-type": "Eladó-specifikus mező (eladó tölti ki)",
       "buyer-type": "Vevő-specifikus mező (vevő tölti ki)"
     },
+    "new-contract-option": {
+      "title": "Új mező létrehozása",
+      "success": "Sikeresen hozzáadtuk az új mezőt a szerződéshez!",
+      "submit": "Létrehozás"
+    },
     "update-contract-option": {
       "title": "Mező kibővítése",
       "success": "A szerződés ezen mezője sikeresen kibővítve!",
@@ -220,6 +222,21 @@
       "edit-item": "Kategória szerkesztése",
       "default-description": "Ennek a kategóriának még nincs leírása.",
       "last-updated": "Utoljára frissítve"
+    },
+    "edit-item": {
+      "title": "Tulajdonkategória szerkesztése",
+      "submit": "Kategória frissítése",
+      "success": "A kategória sikeresen frissítve!"
+    },
+    "new-item-option": {
+      "title": "Mező hozzáadása",
+      "success": "A mező sikeresen hozzá lett adva a kategóriához!",
+      "submit": "Mező hozzáadása"
+    },
+    "update-item-option": {
+      "title": "Mező szerkesztése",
+      "success": "A kategóriamező módosításai sikeresen elmentve!",
+      "submit": "Mező szerkesztése"
     }
   }
 }

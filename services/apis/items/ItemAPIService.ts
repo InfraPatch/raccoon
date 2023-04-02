@@ -9,17 +9,17 @@ export interface NewItemAPIRequest {
   description: string;
 };
 
-export interface ItemWithIdAPIRequest {
-  id: number;
+export interface ItemWithSlugAPIRequest {
+  slug: string;
 };
 
-export interface GetItemAPIRequest extends ItemWithIdAPIRequest {};
+export interface GetItemAPIRequest extends ItemWithSlugAPIRequest {};
 export interface GetItemAPIResponse extends APIResponse {
   item: Item;
 };
 export interface NewItemAPIResponse extends APIResponse, GetItemAPIResponse {};
 export interface UpdateItemAPIRequest extends NewItemAPIRequest { };
-export interface DeleteItemAPIRequest extends ItemWithIdAPIRequest {};
+export interface DeleteItemAPIRequest extends ItemWithSlugAPIRequest {};
 export interface UpdateItemAPIResponse extends APIResponse, GetItemAPIResponse {};
 export interface DeleteItemAPIResponse extends APIResponse {};
 
@@ -29,15 +29,15 @@ export interface GetItemsAPIResponse extends APIResponse {
 
 class ItemAPIService {
   static ITEMS_URL = '/api/items';
-  static ITEM_URL = '/api/items/:id';
+  static ITEM_URL = '/api/items/:slug';
 
   public async getItems(): Promise<GetItemsAPIResponse> {
     return axiosService.get(ItemAPIService.ITEMS_URL)
       .then(res => res.data);
   }
 
-  public async getItem({ id }: GetItemAPIRequest): Promise<GetItemAPIResponse> {
-    const path = this.makeItemUrl(id);
+  public async getItem({ slug }: GetItemAPIRequest): Promise<GetItemAPIResponse> {
+    const path = this.makeItemUrl(slug);
     return axiosService.get(path).then(res => res.data);
   }
 
@@ -46,18 +46,18 @@ class ItemAPIService {
       .then(res => res.data);
   }
 
-  public async updateItem(id: number, data: UpdateItemAPIRequest): Promise<UpdateItemAPIResponse> {
-    const path = this.makeItemUrl(id);
+  public async updateItem(slug: string, data: UpdateItemAPIRequest): Promise<UpdateItemAPIResponse> {
+    const path = this.makeItemUrl(slug);
     return axiosService.patch(path, data).then(res => res.data);
   }
 
-  public async deleteItem({ id }: DeleteItemAPIRequest): Promise<DeleteItemAPIResponse> {
-    const path = this.makeItemUrl(id);
+  public async deleteItem({ slug }: DeleteItemAPIRequest): Promise<DeleteItemAPIResponse> {
+    const path = this.makeItemUrl(slug);
     return axiosService.delete(path).then(res => res.data);
   }
 
-  private makeItemUrl(id: number) {
-    return ItemAPIService.ITEM_URL.replace(':id', id.toString());
+  private makeItemUrl(slug: string) {
+    return ItemAPIService.ITEM_URL.replace(':slug', slug);
   }
 }
 

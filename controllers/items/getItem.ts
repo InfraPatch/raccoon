@@ -13,11 +13,14 @@ class GetItemError extends Error {
   }
 }
 
-export const getItem = async ({ id }: GetItemAPIRequest): Promise<Item> => {
+export const getItem = async ({ slug }: GetItemAPIRequest): Promise<Item> => {
   await db.prepare();
   const itemRepository = db.getRepository(Item);
 
-  const item = await itemRepository.findOne(id, { relations: [ 'options' ] });
+  const item = await itemRepository.findOne({
+    where: { slug },
+    relations: [ 'options' ] }
+  );
 
   if (!item) {
     throw new GetItemError('ITEM_NOT_FOUND');
