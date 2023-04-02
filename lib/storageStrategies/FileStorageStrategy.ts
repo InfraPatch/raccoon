@@ -18,7 +18,7 @@ class FileStorageStrategy implements IStorageStrategy {
     await fs.writeFile(filePath, contents);
   }
 
-  async get(key) {
+  async get(key) : Promise<Buffer> {
     return fs.readFile(path.join(STORAGE_ROOT, key));
   }
 
@@ -27,11 +27,11 @@ class FileStorageStrategy implements IStorageStrategy {
     return fs.createReadStream(filePath);
   }
 
-  async exists(key) {
+  async exists(key) : Promise<boolean> {
     return fs.pathExists(path.join(STORAGE_ROOT, key));
   }
 
-  async delete(key) {
+  async delete(key) : Promise<boolean> {
     return fs.unlink(path.join(STORAGE_ROOT, key));
   }
 }
