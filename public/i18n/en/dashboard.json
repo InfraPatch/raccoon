@@ -142,11 +142,21 @@
         "request-lawyer-success": "Lawyer has been successfully requested! You must wait until they sign the contract as well."
       },
       "attachments": {
-        "remove-attachment": "Remove attachment"
+        "remove-attachment": "Remove attachment",
+        "choose-file": "Choose a file",
+        "drag-here": "or drag it here",
+        "try-again": "Try again!",
+        "uploading-label": "Uploading...",
+        "upload-attachment-title": "One more thing...",
+        "upload-attachment-confirmation": "Please give this attachment an easy to understand name that describes its contents.",
+        "upload-button": "Upload",
+        "attachment-friendly-name": "Name of attachment"
       },
-      "filled-attachments": {
+      "contract-attachments": {
         "delete-success": "Successfully removed attachment!",
-        "delete-confirmation": "Are you sure you want to remove this attachment? This action is irreversible!"
+        "delete-confirmation": "Are you sure you want to remove this attachment? This action is irreversible!",
+        "create-success": "Successfully uploaded attachment!",
+        "attachment-title": "Contract Attachments"
       }
     }
   },

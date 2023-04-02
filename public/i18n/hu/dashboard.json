@@ -142,11 +142,21 @@
         "request-lawyer-success": "Az ügyvédet sikeresen hozzárendeltük a szerződéshez! Meg kell várni, amíg ők is aláírják a szerződést."
       },
       "attachments": {
-        "remove-attachment": "Melléklet eltávolítása"
+        "remove-attachment": "Melléklet eltávolítása",
+        "choose-file": "Válassz egy állományt",
+        "drag-here": "vagy húzd át ide",
+        "uploading-label": "Feltöltés folyamatban...",
+        "try-again": "Próbálkozzon még egyszer!",
+        "upload-attachment-title": "Még egy dolog...",
+        "upload-attachment-confirmation": "Kérem adjon ennek a mellékletnek egy egyszerű nevet, amely leírja annak tartalmát.",
+        "upload-button": "Feltöltés",
+        "attachment-friendly-name": "Melléklet neve"
       },
-      "filled-attachments": {
+      "contract-attachments": {
         "delete-success": "Sikeresen eltávolítottuk a mellékletet!",
-        "delete-confirmation": "Biztosan eltávolítja ezt a mellékletet? Ez a művelet visszafordíthatatlan!"
+        "delete-confirmation": "Biztosan eltávolítja ezt a mellékletet? Ez a művelet visszafordíthatatlan!",
+        "create-success": "Melléklet sikeresen feltöltve!",
+        "attachment-title": "Szerződés mellékletei"
       }
     }
   },

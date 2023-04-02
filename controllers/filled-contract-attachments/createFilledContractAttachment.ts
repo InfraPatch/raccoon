@@ -10,9 +10,10 @@ import sanitize from 'sanitize-filename';
 
 import * as fs from 'fs';
 
+import { maximumAttachmentCount, maximumAttachmentSize } from './attachmentConstants';
+
 import { getStorageStrategy } from '@/lib/storageStrategies';
-import { createAttachments } from '../filled-contracts/signContract';
-import { maximumAttachmentCount, maximumAttachmentSize } from './filledContractAttachmentController';
+
 const storage = getStorageStrategy();
 
 class CreateFilledContractAttachmentError extends Error {
@@ -40,9 +41,9 @@ const uploadAttachment = async (filledContractId: number, file: File) => {
 
   let key: string = `contract-attachments/${filledContractId}/${basename}${extension}`;
 
-  do {
+  while (await storage.exists(key)) {
     key = `contract-attachments/${filledContractId}/${basename}_${index++}${extension}`;
-  } while (await storage.exists(key));
+  }
 
   await storage.create({ key, contents: buffer });
 

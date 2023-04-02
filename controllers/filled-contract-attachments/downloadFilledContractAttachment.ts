@@ -1,5 +1,5 @@
 import { getFilledContractAttachment } from './getFilledContractAttachment';
-import { mime } from 'mime-types';
+import mime from 'mime-types';
 
 import path from 'path';
 

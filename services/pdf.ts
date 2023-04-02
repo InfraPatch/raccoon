@@ -6,7 +6,7 @@ import path from 'path';
 
 import { IAVDHAttestation, avdhService } from '@/services/avdh';
 import { PDFDocument } from 'pdf-lib';
-import { mime } from 'mime-types';
+import mime from 'mime-types';
 
 // TODO: remove libreoffice dependency
 // Daniel: actually, let's keep it.

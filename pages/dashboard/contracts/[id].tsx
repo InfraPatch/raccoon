@@ -24,7 +24,7 @@ import FilledContractOverview from '@/components/dashboard/filled-contract/Fille
 import FilledContractWitnesses from '@/components/dashboard/filled-contract/FilledContractWitnesses';
 import Attachments from '@/components/dashboard/attachments/Attachments';
 import Meta from '@/components/common/Meta';
-import { IAttachment } from '@/db/common/Attachment';
+import { IAttachment, IAttachmentProps } from '@/db/common/Attachment';
 import { IFilledContractAttachment } from '@/db/models/contracts/FilledContractAttachment';
 
 export interface DashboardContractsPageProps {
@@ -70,10 +70,29 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
     return await apiService.filledContractAttachments.deleteFilledContractAttachment(attachment.id);
   };
 
+  const uploadAttachment = async (file: File, friendlyName: string) => {
+    return await apiService.filledContractAttachments.createFilledContractAttachment({ file, friendlyName, filledContractId: contract.id });
+  };
+
   const canDeleteAttachment = (attachment: IAttachment) : boolean => {
     const filledAttachment = attachment as IFilledContractAttachment;
 
-    return (filledAttachment.isSeller && !contract.sellerSignedAt) || (!filledAttachment.isSeller && !contract.buyerSignedAt);
+    // We can delete the attachment if it was created by the seller and we are the seller
+    if (filledAttachment.isSeller && !contract.sellerSignedAt && user.id === contract.userId) {
+      return true;
+    }
+
+    // We can delete the attachment if it was created by the buyer and we are the buyer
+    if (!filledAttachment.isSeller && contract.accepted && !contract.buyerSignedAt && user.id === contract.buyerId) {
+      return true;
+    }
+
+    // We cannot delete the attachment.
+    return false;
+  };
+
+  const canUploadAttachment = () : boolean => {
+    return (user.id === contract.userId && !contract.sellerSignedAt) || (user.id === contract.buyerId && contract.accepted && !contract.buyerSignedAt);
   };
 
   useEffect(() => {
@@ -110,16 +129,19 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
               </Box>
             )}
 
-            <Box title={ t('dashboard:contracts.data.attachments') }>
-              <Attachments
-                attachments={contract.attachments}
-                onChange={loadContract}
-                deleteAttachment={deleteAttachment}
-                canDelete={canDeleteAttachment}
-                translationKey='filled-attachments'
-                user={user}
-              />
-            </Box>
+            {(contract.attachments?.length > 0 || canUploadAttachment()) && (
+              <Box title={ t('dashboard:contracts.data.attachments') }>
+                <Attachments
+                  attachments={contract.attachments}
+                  onChange={loadContract}
+                  deleteAttachment={deleteAttachment}
+                  uploadAttachment={uploadAttachment}
+                  canUpload={canUploadAttachment}
+                  canDelete={canDeleteAttachment}
+                  translationKey='contract-attachments'
+                />
+              </Box>
+            )}
 
             <Box title={ t('dashboard:contracts.data.actions') }>
               <FilledContractActions
