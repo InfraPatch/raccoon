@@ -6,6 +6,8 @@ import formidable from 'formidable';
 import { createFilledContractAttachment } from './createFilledContractAttachment';
 import { deleteFilledContractAttachment } from './deleteFilledContractAttachment';
 import { getFilledContractAttachment } from './getFilledContractAttachment';
+import { downloadFilledContractAttachment } from './downloadFilledContractAttachment';
+
 import { jsonToXml } from '@/lib/objectToXml';
 import { firstOf } from '../users/usersController';
 
@@ -116,5 +118,35 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
     res.send(jsonToXml({ root: response }));
   } else {
     res.json(response);
+  }
+};
+
+export const download = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query;
+  const session = await getSession({ req });
+
+  try {
+    let response = await downloadFilledContractAttachment(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+
+    if (!response) {
+      return res.status(400).json({
+        ok: false,
+        error: 'DOCUMENT_NOT_FOUND'
+      });
+    }
+
+    const { stream, filename, contentType } = response;
+
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+
+    return stream.pipe(res);
+  } catch (err) {
+    console.error(err);
+
+    return res.status(500).json({
+      ok: false,
+      error: 'INTERNAL_SERVER_ERROR'
+    });
   }
 };

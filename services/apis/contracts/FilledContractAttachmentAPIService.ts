@@ -19,6 +19,7 @@ const url = (template: string, id: number) => template.replace(':id', id.toStrin
 export class FilledContractAttachmentAPIService {
   static CREATE_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contract-attachments';
   static GET_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contract-attachments/:id';
+  static DOWNLOAD_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contract-attachments/:id/download';
   static DELETE_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contract-attachments/:id';
 
   public async createFilledContractAttachment(data: NewFilledContractAttachmentAPIParams): Promise<CreateFilledContractAttachmentAPIResponse> {
