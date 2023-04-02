@@ -11,6 +11,7 @@ import { Contract } from '../db/models/contracts/Contract';
 import { ContractOption } from '../db/models/contracts/ContractOption';
 import { FilledContract } from '../db/models/contracts/FilledContract';
 import { FilledContractOption } from '../db/models/contracts/FilledContractOption';
+import { FilledContractAttachment } from '../db/models/contracts/FilledContractAttachment';
 
 import { Item } from '../db/models/items/Item';
 import { ItemOption } from '../db/models/items/ItemOption';
@@ -60,6 +61,7 @@ const connectionOptions: ConnectionOptions = {
     ContractOption,
     FilledContract,
     FilledContractOption,
+    FilledContractAttachment,
 
     Item,
     ItemOption,
