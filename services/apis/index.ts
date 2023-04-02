@@ -8,6 +8,7 @@ import { WitnessSignatureAPIService } from './contracts/WitnessSignatureAPIServi
 import { ItemAPIService } from './items/ItemAPIService';
 import { ItemOptionAPIService } from './items/ItemOptionAPIService';
 import { FilledItemAPIService } from './items/FilledItemAPIService';
+import { FilledContractAttachmentAPIService } from './contracts/FilledContractAttachmentAPIService';
 
 class APIService {
   public contact = new ContactAPIService();
@@ -19,6 +20,7 @@ class APIService {
   public contractOptions = new ContractOptionsAPIService();
   public filledContracts = new FilledContractAPIService();
   public witnessSignatures = new WitnessSignatureAPIService();
+  public filledContractAttachments = new FilledContractAttachmentAPIService();
 
   public items = new ItemAPIService();
   public itemOptions = new ItemOptionAPIService();

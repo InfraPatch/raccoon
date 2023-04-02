@@ -22,7 +22,10 @@ import FilledContractFieldsForm from '@/components/dashboard/filled-contract/Fil
 import FilledContractActions from '@/components/dashboard/filled-contract/FilledContractActions';
 import FilledContractOverview from '@/components/dashboard/filled-contract/FilledContractOverview';
 import FilledContractWitnesses from '@/components/dashboard/filled-contract/FilledContractWitnesses';
+import Attachments from '@/components/dashboard/attachments/Attachments';
 import Meta from '@/components/common/Meta';
+import { IAttachment } from '@/db/common/Attachment';
+import { IFilledContractAttachment } from '@/db/models/contracts/FilledContractAttachment';
 
 export interface DashboardContractsPageProps {
   user: User;
@@ -63,6 +66,16 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
     }
   };
 
+  const deleteAttachment = async (attachment: IAttachment) => {
+    return await apiService.filledContractAttachments.deleteFilledContractAttachment(attachment.id);
+  };
+
+  const canDeleteAttachment = (attachment: IAttachment) : boolean => {
+    const filledAttachment = attachment as IFilledContractAttachment;
+
+    return (filledAttachment.isSeller && !contract.sellerSignedAt) || (!filledAttachment.isSeller && !contract.buyerSignedAt);
+  };
+
   useEffect(() => {
     loadContract();
   }, []);
@@ -96,6 +109,17 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
                 />
               </Box>
             )}
+
+            <Box title={ t('dashboard:contracts.data.attachments') }>
+              <Attachments
+                attachments={contract.attachments}
+                onChange={loadContract}
+                deleteAttachment={deleteAttachment}
+                canDelete={canDeleteAttachment}
+                translationKey='filled-attachments'
+                user={user}
+              />
+            </Box>
 
             <Box title={ t('dashboard:contracts.data.actions') }>
               <FilledContractActions

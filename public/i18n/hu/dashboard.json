@@ -9,6 +9,7 @@
     "admin": "Admin",
     "lawyer": "Ügyvéd",
     "witness": "Tanú",
+    "attachment": "Melléklet",
     "make-admin": "Admin hozzáadása",
     "make-lawyer": "Ügyvéd hozzáadása",
     "admin-docs": "Admin dokumentáció",
@@ -138,6 +139,13 @@
         "delete-lawyer-success": "Az ügyvédet sikeresen eltávolítottuk a szerződésből! Ha szeretné, később újra meghívhatja.",
         "request-witness-success": "A tanút sikeresen hozzárendeltük a szerződéshez! Meg kell várni, amíg ők is aláírják a szerződést.",
         "request-lawyer-success": "Az ügyvédet sikeresen hozzárendeltük a szerződéshez! Meg kell várni, amíg ők is aláírják a szerződést."
+      },
+      "attachments": {
+        "remove-attachment": "Melléklet eltávolítása"
+      },
+      "filled-attachments": {
+        "delete-success": "Sikeresen eltávolítottuk a mellékletet!",
+        "delete-confirmation": "Biztosan eltávolítja ezt a mellékletet? Ez a művelet visszafordíthatatlan!"
       }
     }
   },

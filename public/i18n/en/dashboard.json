@@ -9,6 +9,7 @@
     "admin": "Admin",
     "lawyer": "Lawyer",
     "witness": "Witness",
+    "attachment": "Attachment",
     "make-admin": "Add administrator",
     "make-lawyer": "Add lawyer",
     "admin-docs": "Admin documentation",
@@ -138,6 +139,13 @@
         "delete-lawyer-success": "Lawyer has been successfully removed from the contract! You may reinvite them if you wish.",
         "request-witness-success": "Witness has been successfully requested! You must wait until they sign the contract as well.",
         "request-lawyer-success": "Lawyer has been successfully requested! You must wait until they sign the contract as well."
+      },
+      "attachments": {
+        "remove-attachment": "Remove attachment"
+      },
+      "filled-attachments": {
+        "delete-success": "Successfully removed attachment!",
+        "delete-confirmation": "Are you sure you want to remove this attachment? This action is irreversible!"
       }
     }
   },
