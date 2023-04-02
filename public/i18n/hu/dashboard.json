@@ -62,6 +62,11 @@
       "seller-field": "Eladó",
       "buyer-field": "Vevő",
 
+      "search-by-name": "Keresés név szerint:",
+      "search-by-type": "Keresés típus szerint:",
+      "contract-name": "Szerződés neve",
+      "all-contracts": "Összes szerződés",
+
       "contract-type": "Szerződés típusa",
       "preview": "minta",
       "buyer-accepted": "Vevő elfogadta a kérelmet",
