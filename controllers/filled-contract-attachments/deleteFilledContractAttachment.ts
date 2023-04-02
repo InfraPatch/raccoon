@@ -33,6 +33,6 @@ export const deleteFilledContractAttachment = async (email: string, attachmentId
   try {
     await storage.delete(`contract-attachments/${filledContract.id}/${attachment.filename}`);
   } catch {
-    throw new DeleteFilledContractAttachmentError('CANT_CLEANUP_ATTACHMENT');
+    throw new DeleteFilledContractAttachmentError('ATTACHMENT_CLEANUP_FAILED');
   }
 };

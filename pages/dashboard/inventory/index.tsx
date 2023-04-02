@@ -37,7 +37,7 @@ const DashboardItemsPage = ({ user }: DashboardNewContractPageProps) => {
 
     try {
       const res = await apiService.items.getItems();
-      setItems(res.items)
+      setItems(res.items);
     } catch (err) {
       console.error(err);
       setError(t('errors:INTERNAL_SERVER_ERROR'));

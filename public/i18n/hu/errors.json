@@ -83,7 +83,15 @@
     "PART_OF_CONTRACT": "Ez a felhasználó már része a szerződésnek!",
     "WITNESS_NOT_READY": "Ezt a tanút még nem tudjuk a szerződéshez kötni! Még ki kell tölteniük a személyes adataikat.",
     "SIGNATURE_ALREADY_EXISTS": "Ez a felhasználó már tanúja ennek a szerződésnek, nem kérheti őt kétszer!",
-    "ACCESS_TO_WITNESS_SIGNATURE_DENIED": "Nincs hozzáférése a tanú aláírásának módosításához!"
+    "ACCESS_TO_WITNESS_SIGNATURE_DENIED": "Nincs hozzáférése a tanú aláírásának módosításához!",
+
+    "INVALID_ATTACHMENT": "Nem töltheti fel ezt az állományt mellékletként!",
+    "ATTACHMENT_UPLOAD_FAILED": "Sajnos az állomány feltöltésekor hiba történt. Kérjük próbálja újra később.",
+    "ATTACHMENT_NOT_FOUND": "Nem található ezzel az azonosítóval rendelkező melléklet.",
+    "ACCESS_TO_ATTACHMENT_DENIED": "Nincs hozzáférése ehhez a melléklethez!",
+    "ATTACHMENT_CLEANUP_FAILED": "Töröltük a mellékletet, de lehet, hogy máshol továbbra is elérhető marad.",
+    "ATTACHMENT_TOO_LARGE": "A feltölteni kívánt állomány túl nagy. Kérem válasszon egy két megabájtnál kisebb fájlt.",
+    "MAX_ATTACHMENTS_REACHED": "Ez a szerződés elérte a feltöltött mellékletek maximális számát!"
   },
 
   "contract-options": {

@@ -83,7 +83,15 @@
     "PART_OF_CONTRACT": "This user is already part of this contract!",
     "WITNESS_NOT_READY": "Could not request this witness! They are yet to fill out their personal details.",
     "SIGNATURE_ALREADY_EXISTS": "This user is already a witness of this contract, you cannot request them twice!",
-    "ACCESS_TO_WITNESS_SIGNATURE_DENIED": "You do not have access to modify this witness signature!"
+    "ACCESS_TO_WITNESS_SIGNATURE_DENIED": "You do not have access to modify this witness signature!",
+
+    "INVALID_ATTACHMENT": "You cannot upload this file as an attachment!",
+    "ATTACHMENT_UPLOAD_FAILED": "An error has occurred during the file upload. Please try again later.",
+    "ATTACHMENT_NOT_FOUND": "Cannot find an attachment with this ID.",
+    "ACCESS_TO_ATTACHMENT_DENIED": "You do not have access to this attachment!",
+    "ATTACHMENT_CLEANUP_FAILED": "We've deleted your attachment, but it may be still available elsewhere.",
+    "ATTACHMENT_TOO_LARGE": "The file you're trying to upload is too large. Please choose a file smaller than two megabytes.",
+    "MAX_ATTACHMENTS_REACHED": "This contract has reached the maximum amount of uploaded attachments!"
   },
 
   "contract-options": {

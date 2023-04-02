@@ -11,6 +11,10 @@ import { downloadFilledContractAttachment } from './downloadFilledContractAttach
 import { jsonToXml } from '@/lib/objectToXml';
 import { firstOf } from '../users/usersController';
 
+// Attachment settings
+export const maximumAttachmentCount = 10;      // 10 attachments
+export const maximumAttachmentSize  = 2097152; // 2 megabytes
+
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
   const form = new formidable.IncomingForm();

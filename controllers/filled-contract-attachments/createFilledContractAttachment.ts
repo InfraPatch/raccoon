@@ -11,6 +11,8 @@ import sanitize from 'sanitize-filename';
 import * as fs from 'fs';
 
 import { getStorageStrategy } from '@/lib/storageStrategies';
+import { createAttachments } from '../filled-contracts/signContract';
+import { maximumAttachmentCount, maximumAttachmentSize } from './filledContractAttachmentController';
 const storage = getStorageStrategy();
 
 class CreateFilledContractAttachmentError extends Error {
@@ -56,6 +58,10 @@ export const createFilledContractAttachment = async (email: string, payload: Omi
     throw new CreateFilledContractAttachmentError('INVALID_ATTACHMENT');
   }
 
+  if (payload.file.size > maximumAttachmentSize) {
+    throw new CreateFilledContractAttachmentError('ATTACHMENT_TOO_LARGE');
+  }
+
   await db.prepare();
 
   const userRepository = db.getRepository(User);
@@ -66,7 +72,7 @@ export const createFilledContractAttachment = async (email: string, payload: Omi
   }
 
   const filledContractRepository = db.getRepository(FilledContract);
-  const filledContract = await filledContractRepository.findOne(payload.filledContractId);
+  const filledContract = await filledContractRepository.findOne(payload.filledContractId, { relations: [ 'attachments' ] });
   const contractUsers = [ filledContract.buyerId, filledContract.userId ];
 
   if (!contractUsers.includes(user.id)) {
@@ -81,6 +87,10 @@ export const createFilledContractAttachment = async (email: string, payload: Omi
 
   if ((isBuyer && filledContract.buyerSignedAt) || (!isBuyer && filledContract.sellerSignedAt)) {
     throw new CreateFilledContractAttachmentError('CONTRACT_ALREADY_SIGNED');
+  }
+
+  if (filledContract.attachments.length >= maximumAttachmentCount) {
+    throw new CreateFilledContractAttachmentError('MAX_ATTACHMENTS_REACHED');
   }
 
   const filledContractAttachmentRepository = db.getRepository(FilledContractAttachment);
