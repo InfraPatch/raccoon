@@ -65,7 +65,7 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
           contractTypes.push({ id: contract.id, friendlyName: contract.friendlyName });
         }
       }
-    }
+    };
 
     setOwnContracts(null);
     setForeignContracts(null);
@@ -148,7 +148,7 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
 
       return true;
     });
-  }
+  };
 
   const searchForName = (e) => {
     const name = e.target.value.trim().toLowerCase();
