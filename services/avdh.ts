@@ -4,6 +4,8 @@ import config from '@/config';
 import * as fs from 'fs';
 import * as path from 'path';
 
+import { IPDFAttachment } from './pdf';
+
 import { formatDate } from '@/lib/formatDate';
 import { jsonToXml } from '@/lib/objectToXml';
 
@@ -124,32 +126,31 @@ class AVDHService {
     });
   }
 
-  async addAVDHAttachments(pdfBytes: Buffer, attestations: IAVDHAttestation[]) : Promise<Buffer> {
+  async createAVDHAttachments(attestations: IAVDHAttestation[]) : Promise<IPDFAttachment[]> {
     return new Promise(async (resolve, _) => {
-      const pdfDoc = await PDFDocument.load(pdfBytes);
+      const attachments : IPDFAttachment[] = [];
 
       for (const attestation of attestations) {
         const avdhBytes : Buffer = await this.createAVDHAttachment(attestation);
         const avdhXml : Buffer = Buffer.from(jsonToXml({ ...attestation, date: attestation.date.toISOString() }));
         const avdhUuid : string = uuid();
 
-        await pdfDoc.attach(avdhBytes, `avdh-${avdhUuid}.pdf`, {
-          mimeType: 'application/pdf',
+        attachments.push({
+          file: avdhBytes,
+          filename: `avdh-${avdhUuid}.pdf`,
           description: `AVDH Attestation of ${attestation.fullName}`,
-          creationDate: attestation.date,
-          modificationDate: attestation.date
+          creationDate: attestation.date
         });
 
-        await pdfDoc.attach(avdhXml, `avdh-${avdhUuid}.xml`, {
-          mimeType: 'application/xml',
+        attachments.push({
+          file: avdhXml,
+          filename: `avdh-${avdhUuid}.xml`,
           description: `AVDH Attestation of ${attestation.fullName}`,
-          creationDate: attestation.date,
-          modificationDate: attestation.date
+          creationDate: attestation.date
         });
       }
 
-      const outputPdfBytes = Buffer.from(await pdfDoc.save({ useObjectStreams: false }));
-      return resolve(outputPdfBytes);
+      return resolve(attachments);
     });
   }
 

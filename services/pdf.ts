@@ -5,9 +5,19 @@ import tempy from 'tempy';
 import path from 'path';
 
 import { IAVDHAttestation, avdhService } from '@/services/avdh';
+import { PDFDocument } from 'pdf-lib';
+import { mime } from 'mime-types';
 
 // TODO: remove libreoffice dependency
+// Daniel: actually, let's keep it.
 const SOFFICE_ARGS = [ '--headless', '--convert-to', 'pdf' ];
+
+export interface IPDFAttachment {
+  file: Buffer;
+  filename: string;
+  description: string;
+  creationDate: Date;
+};
 
 class PDFService {
   private prepare(buffer: Buffer): string {
@@ -98,12 +108,38 @@ class PDFService {
     });
   }
 
-  async create(docx: Buffer, attestations: IAVDHAttestation[]): Promise<Buffer> {
+  async addAttachments(pdfBytes: Buffer, attachments: IPDFAttachment[]) : Promise<Buffer> {
+    return new Promise(async (resolve, _) => {
+      if (!attachments) {
+        // No attachments are to be added to this file.
+        return resolve(pdfBytes);
+      }
+
+      const pdfDoc = await PDFDocument.load(pdfBytes);
+
+      for (const attachment of attachments) {
+        await pdfDoc.attach(attachment.file, attachment.filename, {
+          mimeType: mime.lookup(attachment.filename) || 'application/octet-stream',
+          description: attachment.description,
+          creationDate: attachment.creationDate,
+          modificationDate: attachment.creationDate
+        });
+      }
+
+      const outputPdfBytes = Buffer.from(await pdfDoc.save({ useObjectStreams: false }));
+      return resolve(outputPdfBytes);
+    });
+  }
+
+  async create(docx: Buffer, attachments: IPDFAttachment[], attestations: IAVDHAttestation[]): Promise<Buffer> {
     const filepath = this.prepare(docx);
 
     try {
       const pdf = await this.convertDocxToPdf(filepath);
-      const attestedPdf = await avdhService.addAVDHAttachments(pdf, attestations);
+      const avdhAttachments = await avdhService.createAVDHAttachments(attestations);
+
+      const allAttachments = attachments.concat(avdhAttachments);
+      const attestedPdf = await this.addAttachments(pdf, allAttachments);
 
       if (attestations.length === 0) {
         // No attestations are available, so we won't be signing this document.
