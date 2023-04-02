@@ -26,8 +26,8 @@ const FilledContractWitnesses = ({ contract, onChange, partyType, user }: Filled
 
   const [ saving, setSaving ] = useState(false);
 
-  const sellerWitnesses : IWitnessSignature[] = contract.witnessSignatures.filter(o => o.isSeller).sort(o => (o.isLawyer ? 0 : 1));
-  const buyerWitnesses : IWitnessSignature[] = contract.witnessSignatures.filter(o => !o.isSeller).sort(o => (o.isLawyer ? 0 : 1));
+  const sellerWitnesses : IWitnessSignature[] = contract.witnessSignatures.filter(o => o.isSeller).sort((a, b) => Number(b.isLawyer) - Number(a.isLawyer));
+  const buyerWitnesses : IWitnessSignature[] = contract.witnessSignatures.filter(o => !o.isSeller).sort((a, b) => Number(b.isLawyer) - Number(a.isLawyer));
 
   const dataContainerClassNames = 'mb-6 bg-field shadow rounded-md';
   const dataRowClassNames = 'flex items-center gap-2 my-1';
