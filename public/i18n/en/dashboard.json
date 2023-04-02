@@ -3,6 +3,7 @@
     "home": "Home",
     "new-user-contract": "New contract",
     "my-contracts": "My contracts",
+    "my-items": "My properties",
     "user-settings": "User settings",
     "docs": "Documentation",
     "admin": "Admin",
@@ -137,6 +138,12 @@
         "request-witness-success": "Witness has been successfully requested! You must wait until they sign the contract as well.",
         "request-lawyer-success": "Lawyer has been successfully requested! You must wait until they sign the contract as well."
       }
+    }
+  },
+
+  "items": {
+    "home": {
+      "view": "View"
     }
   },
 

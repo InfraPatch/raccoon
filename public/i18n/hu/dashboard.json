@@ -3,6 +3,7 @@
     "home": "Főoldal",
     "new-user-contract": "Új szerződés kötése",
     "my-contracts": "Szerződéseim",
+    "my-items": "Tulajdonaim",
     "user-settings": "Felhasználói beállítások",
     "docs": "Dokumentáció",
     "admin": "Admin",
@@ -137,6 +138,12 @@
         "request-witness-success": "A tanút sikeresen hozzárendeltük a szerződéshez! Meg kell várni, amíg ők is aláírják a szerződést.",
         "request-lawyer-success": "Az ügyvédet sikeresen hozzárendeltük a szerződéshez! Meg kell várni, amíg ők is aláírják a szerződést."
       }
+    }
+  },
+
+  "items": {
+    "home": {
+      "view": "Megtekint"
     }
   },
 
