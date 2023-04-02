@@ -24,7 +24,7 @@ import FilledContractOverview from '@/components/dashboard/filled-contract/Fille
 import FilledContractWitnesses from '@/components/dashboard/filled-contract/FilledContractWitnesses';
 import Attachments from '@/components/dashboard/attachments/Attachments';
 import Meta from '@/components/common/Meta';
-import { IAttachment, IAttachmentProps } from '@/db/common/Attachment';
+import { IAttachment } from '@/db/common/Attachment';
 import { IFilledContractAttachment } from '@/db/models/contracts/FilledContractAttachment';
 
 export interface DashboardContractsPageProps {
