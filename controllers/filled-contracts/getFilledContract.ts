@@ -36,7 +36,7 @@ export const getFilledContract = async (email: string, contractId: number, inter
     throw new GetFilledContractError('USER_NOT_FOUND');
   }
 
-  const filledContract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures' ] });
+  const filledContract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures', 'attachments' ] });
   if (!filledContract) {
     throw new GetFilledContractError('FILLED_CONTRACT_NOT_FOUND');
   }
@@ -80,9 +80,9 @@ export const downloadContractDocument = async (filename: string): Promise<IDownl
     return null;
   }
 
-  const parts = filename.split('.');
-  const extension = parts.pop()?.toLowerCase();
-  const uuid = parts.pop()?.toLowerCase();
+  const dot = filename.indexOf('.');
+  const uuid = filename.substring(0, dot);
+  const extension = filename.substring(dot);
 
   if (!validate(uuid)) {
     // Don't even attempt to load invalid UUIDs for security reasons
@@ -93,9 +93,9 @@ export const downloadContractDocument = async (filename: string): Promise<IDownl
     return null;
   }
 
-  const contentType = extension === 'pdf'
+  const contentType = extension === '.pdf'
     ? 'application/pdf'
-    : extension === 'docx'
+    : extension === '.docx'
       ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       : 'application/octet-stream';
 

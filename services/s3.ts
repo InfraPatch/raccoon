@@ -39,6 +39,28 @@ class S3 {
     });
   }
 
+  delete(key: string): Promise<boolean> {
+    const params = {
+      Bucket: S3Config?.bucket,
+      Key: key
+    };
+
+    return new Promise((resolve, reject) => {
+      this.s3.deleteObject(params, err => {
+        if (err) {
+          if (err.code === 'NotFound') {
+            // This key doesn't exist, we wanted to delete it anyway.
+            return resolve(true);
+          }
+
+          return reject(err);
+        }
+
+        return resolve(true);
+      });
+    });
+  }
+
   upload(key: string, contents: string, isPublic?: boolean): Promise<AWS.S3.PutObjectOutput> {
     const params = {
       ACL: isPublic ? 'public-read' : 'authenticated-read',

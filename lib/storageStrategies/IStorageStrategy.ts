@@ -9,4 +9,5 @@ export default interface IStorageStrategy {
   get(key: string): Promise<Buffer>;
   getStream(key: string);
   exists(key: string): Promise<boolean>;
+  delete(key: string): Promise<boolean>;
 }

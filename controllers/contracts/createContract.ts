@@ -29,12 +29,12 @@ export class ContractCreationError extends Error {
 
 export const uploadFile = async (file: File): Promise<string> => {
   const buffer = fs.readFileSync(file.path);
-  const extension = file.name.split('.').pop();
+  const extension = file.name.substring(file.name.indexOf('.'));
 
   let key: string | null = null;
 
   do {
-    key = `${uuid()}.${extension}`;
+    key = `${uuid()}${extension}`;
   } while (await storage.exists(`templates/${key}`));
 
   await storage.create({ key: `templates/${key}`, contents: buffer });

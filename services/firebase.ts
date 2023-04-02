@@ -55,6 +55,14 @@ class Firebase {
     });
   }
 
+  delete(key): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.storage.file(key).delete()
+        .then(_ => resolve(true))
+        .catch(reject);
+    });
+  }
+
   upload(key: string, contents: Buffer): Promise<any> {
     const file = this.storage.file(key);
 

@@ -9,6 +9,12 @@ class FileStorageStrategy implements IStorageStrategy {
   async create(params) {
     const { key, contents } = params;
     const filePath = path.join(STORAGE_ROOT, key);
+    const dirPath = path.dirname(filePath);
+
+    if (dirPath?.length > 0) {
+      await fs.ensureDir(dirPath);
+    }
+
     await fs.writeFile(filePath, contents);
   }
 
@@ -23,6 +29,10 @@ class FileStorageStrategy implements IStorageStrategy {
 
   async exists(key) {
     return fs.pathExists(path.join(STORAGE_ROOT, key));
+  }
+
+  async delete(key) {
+    return fs.unlink(path.join(STORAGE_ROOT, key));
   }
 }
 

@@ -24,12 +24,12 @@ class UserUpdateError extends Error {
 
 const uploadImage = async (image: File): Promise<string> => {
   const buffer = fs.readFileSync(image.path);
-  const extension = image.name.split('.').pop();
+  const extension = image.name.substring(image.name.indexOf('.'));
 
   let key: string | null = null;
 
   do {
-    key = `${uuid()}.${extension}`;
+    key = `${uuid()}${extension}`;
   } while (await storage.exists(`avatars/${key}`));
 
   await storage.create({ key: `avatars/${key}`, contents: buffer });
