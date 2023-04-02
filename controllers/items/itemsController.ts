@@ -54,10 +54,10 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { friendlyName, description } = req.body;
+  const { friendlyName, slug, description } = req.body;
 
   try {
-    const item = await createItem({ friendlyName, description });
+    const item = await createItem({ friendlyName, slug, description });
 
     return res.json({
       ok: true,

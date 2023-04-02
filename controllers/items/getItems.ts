@@ -6,7 +6,7 @@ export const getItems = async (): Promise<Item[]> => {
   const itemRepository = db.getRepository(Item);
 
   const items = await itemRepository.createQueryBuilder('item')
-    .select([ 'item.id', 'item.friendlyName', 'item.description', 'item.updatedAt' ])
+    .select([ 'item.id', 'item.friendlyName', 'item.slug', 'item.description', 'item.updatedAt' ])
     .orderBy('item.updatedAt', 'DESC')
     .getMany();
 

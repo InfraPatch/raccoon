@@ -5,8 +5,12 @@ const withImages = require('next-images');
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/
 });
+const withTM = require('next-transpile-modules')([
+  '@sindresorhus/slugify',
+  '@sindresorhus/transliterate'
+]);
 
-module.exports = withImages(withMDX({
+module.exports = withImages(withMDX(withTM({
   pageExtensions: [ 'js', 'ts', 'jsx', 'tsx', 'md', 'mdx' ],
 
   sassOptions: {
@@ -49,4 +53,4 @@ module.exports = withImages(withMDX({
       }
     ]
   }
-}));
+})));

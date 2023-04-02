@@ -41,7 +41,7 @@ export const getServerSideProps = async ({ req, res, locale }) => {
   return {
     props: {
       ...await serverSideTranslations(locale, [ 'common', 'auth', 'errors' ]),
-      providers: Object.keys(providers)
+      providers: providers && Object.keys(providers)
     }
   };
 };

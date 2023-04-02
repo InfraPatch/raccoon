@@ -94,5 +94,11 @@
     "CONSTRAINTS_INVALID": "The constraints are invalid! The maximum limit is lower than the minimum limit.",
     "CONTRACT_OPTION_ALREADY_EXISTS": "Another field already exists with this replacement string!",
     "CONTRACT_NOT_FOUND": "We couldn't find the current contract."
+  },
+
+  "items": {
+    "NAME_TOO_SHORT": "The name needs to be at least {{ min }} characters long.",
+    "DESCRIPTION_TOO_SHORT": "The description needs to be at least {{ min }} characters long.",
+    "ITEM_ALREADY_EXISTS": "There is already another item with this slug."
   }
 }

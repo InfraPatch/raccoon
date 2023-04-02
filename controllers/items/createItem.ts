@@ -2,6 +2,8 @@ import db from '@/services/db';
 import { Item } from '@/db/models/items/Item';
 import { NewItemAPIRequest } from '@/services/apis/items/ItemAPIService';
 
+import slugify from '@sindresorhus/slugify';
+
 export class ItemCreationError extends Error {
   public code: string;
 
@@ -12,7 +14,7 @@ export class ItemCreationError extends Error {
   }
 }
 
-export const createItem = async ({ friendlyName, description }: NewItemAPIRequest): Promise<Item> => {
+export const createItem = async ({ friendlyName, slug, description }: NewItemAPIRequest): Promise<Item> => {
   await db.prepare();
   const itemRepository = db.getRepository(Item);
 
@@ -26,13 +28,19 @@ export const createItem = async ({ friendlyName, description }: NewItemAPIReques
     throw new ItemCreationError('DESCRIPTION_TOO_SHORT');
   }
 
-  const itemCount = await itemRepository.count({ where: { friendlyName } });
+  if (!slug || slug.trim().length < 2) {
+    slug = slugify(friendlyName);
+  } else {
+    slug = slugify(slug);
+  }
+
+  const itemCount = await itemRepository.count({ where: { slug } });
 
   if (itemCount !== 0) {
     throw new ItemCreationError('ITEM_ALREADY_EXISTS');
   }
 
-  const item = itemRepository.create({ friendlyName, description });
+  const item = itemRepository.create({ friendlyName, slug, description });
   await itemRepository.insert(item);
 
   return item;

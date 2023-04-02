@@ -5,6 +5,7 @@ import { Item } from '@/db/models/items/Item';
 
 export interface NewItemAPIRequest {
   friendlyName: string;
+  slug?: string;
   description: string;
 };
 

@@ -8,6 +8,7 @@ export interface IItem {
   createdAt?: Date;
   updatedAt?: Date;
   friendlyName?: string;
+  slug?: string;
   description?: string;
   options?: IItemOption[];
 };
@@ -26,6 +27,9 @@ export class Item implements IItem {
   @Column()
   friendlyName: string;
 
+  @Column({ unique: true })
+  slug: string;
+
   @Column()
   description: string;
 
@@ -38,6 +42,7 @@ export class Item implements IItem {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       friendlyName: this.friendlyName,
+      slug: this.slug,
       description: this.description,
       options: this.options ? this.options.map(option => omit(option.toJSON(), 'item')) : []
     };

@@ -13,7 +13,8 @@
     "admin-docs": "Admin documentation",
     "new-contract": "Create new contract",
     "contracts": "Show all contracts",
-    "contract": "Contract"
+    "contract": "Contract",
+    "new-item": "Create property category"
   },
 
   "home": {
@@ -201,6 +202,13 @@
       "title": "Update contract field",
       "success": "This field of the contract has been successfully updated!",
       "submit": "Update field"
+    },
+    "new-item": {
+      "name-field": "Name of property category:",
+      "slug-field": "Slug of property category:",
+      "description-field": "Description of property category:",
+      "submit": "Create property category",
+      "success": "Category created successfully!"
     }
   }
 }

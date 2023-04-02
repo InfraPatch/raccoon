@@ -13,7 +13,8 @@
     "admin-docs": "Admin dokumentáció",
     "new-contract": "Új szerződés létrehozása",
     "contracts": "Szerződések",
-    "contract": "Szerződés"
+    "contract": "Szerződés",
+    "new-item": "Tulajdon-kategória létrehozása"
   },
 
   "home": {
@@ -201,6 +202,13 @@
       "title": "Mező kibővítése",
       "success": "A szerződés ezen mezője sikeresen kibővítve!",
       "submit": "Kibővítés"
+    },
+    "new-item": {
+      "name-field": "Kategória neve:",
+      "description-field": "Kategória rövid leírása:",
+      "slug-field": "Kategória azonosító string-je:",
+      "submit": "Kategória létrehozása",
+      "success": "Kategória sikeresen létrehozva!"
     }
   }
 }
