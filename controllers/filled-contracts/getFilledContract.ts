@@ -5,6 +5,7 @@ import { FilledContract, IFilledContract } from '@/db/models/contracts/FilledCon
 
 import { getStorageStrategy } from '@/lib/storageStrategies';
 import { isWitnessOf } from './signUtils';
+import { validate } from 'uuid';
 
 const storage = getStorageStrategy();
 
@@ -74,29 +75,53 @@ export const getFilledContract = async (email: string, contractId: number, inter
   return contract;
 };
 
-export const downloadContract = async (email: string, contractId: number): Promise<IDownloadPDFResponse> => {
-  const contract = await getFilledContract(email, contractId, true) as FilledContract;
-
-  if (!contract.filename) {
+export const downloadContractDocument = async (filename: string): Promise<IDownloadPDFResponse> => {
+  if (!filename) {
     return null;
   }
 
-  if (!(await storage.exists(`documents/${contract.filename}`))) {
+  const parts = filename.split('.');
+  const extension = parts.pop()?.toLowerCase();
+  const uuid = parts.pop()?.toLowerCase();
+
+  if (!validate(uuid)) {
+    // Don't even attempt to load invalid UUIDs for security reasons
     return null;
   }
 
-  const extension = contract.filename.split('.').pop()?.toLowerCase();
+  if (!(await storage.exists(`documents/${filename}`))) {
+    return null;
+  }
+
   const contentType = extension === 'pdf'
     ? 'application/pdf'
     : extension === 'docx'
       ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       : 'application/octet-stream';
 
-  const stream = await storage.getStream(`documents/${contract.filename}`);
+  const stream = await storage.getStream(`documents/${filename}`);
 
   return {
     stream,
     extension,
     contentType
   };
+}
+
+export const downloadContract = async (email: string, contractId: number): Promise<IDownloadPDFResponse> => {
+  const contract = await getFilledContract(email, contractId, true) as FilledContract;
+
+  return await downloadContractDocument(contract.filename);
+};
+
+export const downloadContractBy = async (email: string, id: string): Promise<IDownloadPDFResponse> => {
+  const documentId = Number(id);
+
+  if (isNaN(documentId)) {
+    // Download this contract document by its full filename
+    return await downloadContractDocument(id);
+  } else {
+    // Download this contract document by the contract it's attached to
+    return await downloadContract(email, documentId);
+  }
 };

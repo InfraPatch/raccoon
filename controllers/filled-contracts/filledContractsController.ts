@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/client';
 
 import { createFilledContract } from './createFilledContract';
 import { deleteFilledContract } from './deleteFilledContract';
-import { getFilledContract, downloadContract } from './getFilledContract';
+import { getFilledContract, downloadContractBy } from './getFilledContract';
 import { listFilledContracts } from './listFilledContracts';
 import { signContract } from './signContract';
 import { acceptOrDeclineFilledContract, fillContractOptions } from './updateFilledContract';
@@ -102,18 +102,16 @@ export const download = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    const {
-      stream,
-      extension,
-      contentType
-    } = await downloadContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+    let response = await downloadContractBy(session.user.email, Array.isArray(id) ? id[0] : id);
 
-    if (!stream) {
+    if (!response) {
       return res.status(400).json({
         ok: false,
         error: 'DOCUMENT_NOT_FOUND'
       });
     }
+
+    const { stream, extension, contentType } = response;
 
     res.setHeader('Content-Type', contentType);
     res.setHeader('Content-Disposition', `attachment; filename="contract_${new Date().getTime()}.${extension}`);

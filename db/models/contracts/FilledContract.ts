@@ -13,6 +13,7 @@ export interface IFilledContract {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   friendlyName?: string;
+  filename?: string;
   userId?: number;
   user?: IUser;
   buyerId?: number;
@@ -87,6 +88,7 @@ export class FilledContract implements IFilledContract {
       createdAt: this.createdAt && this.createdAt.toJSON(),
       updatedAt: this.updatedAt && this.updatedAt.toJSON(),
       friendlyName: this.friendlyName,
+      filename: this.filename,
       contract: this.contract,
       options: this.options && this.options.map(option => omit(option.toJSON(), 'filledContract')),
       witnessSignatures: this.witnessSignatures && this.witnessSignatures.map(signature => omit(signature.toJSON(), 'filledContract')),

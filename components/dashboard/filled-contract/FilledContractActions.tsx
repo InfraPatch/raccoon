@@ -145,7 +145,7 @@ const FilledContractActions = ({ filledContract, onChange, partyType, user }: Fi
 
   const forwardContract = async () => {
     const subject = t('dashboard:contracts.actions.forward.subject', { friendlyName: filledContract.friendlyName });
-    const fullUrl = buildUrl(`/documents/${filledContract.id}`);
+    const fullUrl = buildUrl(`/documents/${filledContract.filename}`);
     const body = `${t('dashboard:contracts.actions.forward.hello')} ${t('dashboard:contracts.actions.forward.prompt')} ${fullUrl}`;
 
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
