@@ -3,7 +3,7 @@ import { FilledContract } from '@/db/models/contracts/FilledContract';
 import { FilledContractOption } from '@/db/models/contracts/FilledContractOption';
 
 import db from '@/services/db';
-import { pdfService } from '@/services/pdf';
+import { IPDFAttachment, pdfService } from '@/services/pdf';
 import { IAVDHAttestation } from '@/services/avdh';
 
 import PizZip from 'pizzip';
@@ -11,13 +11,16 @@ import DOCXTemplater from 'docxtemplater';
 
 import { v4 as uuid } from 'uuid';
 
-import { getStorageStrategy } from '@/lib/storageStrategies';
 import { formatDate } from '@/lib/formatDate';
 import { OptionType } from '@/db/common/OptionType';
 import { getPersonalIdentifierTypeString } from '@/lib/getPersonalIdentifierTypeString';
 import { allPartiesSigned, hasWitnessSigned, isWitnessOf } from './signUtils';
 import { WitnessSignature } from '@/db/models/contracts/WitnessSignature';
+import { IAttachment } from '@/db/common/Attachment';
 
+import path from 'path';
+
+import { getStorageStrategy } from '@/lib/storageStrategies';
 const storage = getStorageStrategy();
 
 class SignContractError extends Error {
@@ -48,6 +51,34 @@ const verifyOptions = (filledContract: FilledContract) => {
       });
     }
   }
+};
+
+export const createAttachments = async (attachments: IAttachment[]): Promise<IPDFAttachment[]> => {
+  return new Promise(async (resolve, _) => {
+    const pdfAttachments : IPDFAttachment[] = [];
+
+    if (!attachments) {
+      // No attachments are to be added to this file.
+      return resolve(pdfAttachments);
+    }
+
+    for (const attachment of attachments) {
+      try {
+        const attachmentBytes : Buffer = await storage.get(attachment.filename);
+
+        pdfAttachments.push({
+          file: attachmentBytes,
+          filename: path.basename(attachment.filename),
+          description: attachment.friendlyName,
+          creationDate: attachment.createdAt
+        });
+      } catch {
+        // For now, let's ignore this error.
+      }
+    }
+
+    return resolve(pdfAttachments);
+  });
 };
 
 export const savePDF = async (filledContract: FilledContract): Promise<string> => {
@@ -116,7 +147,9 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
   templateDocument.render();
 
   const document: Buffer = templateDocument.getZip().generate({ type: 'nodebuffer' });
-  const pdf = await pdfService.create(document, attestations);
+  const attachments: IPDFAttachment[] = await createAttachments(filledContract.attachments);
+
+  const pdf = await pdfService.create(document, attachments, attestations);
 
   let key: string | null = null;
 
@@ -140,7 +173,7 @@ export const signContract = async (userEmail: string, contractId: number) => {
     throw new SignContractError('USER_NOT_FOUND');
   }
 
-  const contract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures' ] });
+  const contract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures', 'attachments' ] });
   if (!contract) {
     throw new SignContractError('FILLED_CONTRACT_NOT_FOUND');
   }
