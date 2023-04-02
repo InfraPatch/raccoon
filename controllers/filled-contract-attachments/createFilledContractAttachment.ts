@@ -26,6 +26,11 @@ class CreateFilledContractAttachmentError extends Error {
 const uploadAttachment = async (filledContractId: number, file: File) => {
   const buffer = fs.readFileSync(file.path);
   const filename = sanitize(file.name);
+
+  if (filename?.length === 0) {
+    throw new CreateFilledContractAttachmentError('INVALID_ATTACHMENT');
+  }
+
   const dot = filename.indexOf('.');
   const basename = filename.substring(0, dot);
   const extension = filename.substring(dot);
@@ -45,6 +50,10 @@ const uploadAttachment = async (filledContractId: number, file: File) => {
 export const createFilledContractAttachment = async (email: string, payload: Omit<NewFilledContractAttachmentAPIParams, 'file'> & { file?: File }): Promise<FilledContractAttachment> => {
   if (!payload.friendlyName || payload.friendlyName.trim().length < 2) {
     throw new CreateFilledContractAttachmentError('NAME_TOO_SHORT');
+  }
+
+  if (!payload.file || payload.file.name.startsWith('avdh-')) {
+    throw new CreateFilledContractAttachmentError('INVALID_ATTACHMENT');
   }
 
   await db.prepare();
