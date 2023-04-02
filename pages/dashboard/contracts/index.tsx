@@ -25,6 +25,12 @@ export interface DashboardContractListPageProps {
   user: User;
 };
 
+export interface DashboardContractListProps {
+  contracts: IFilledContract[];
+  type: string;
+  partyType: PartyType;
+};
+
 const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
@@ -57,9 +63,40 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
     loadContracts();
   }, []);
 
-  const seller = PartyType.SELLER;
-  const buyer = PartyType.BUYER;
-  const witness = PartyType.WITNESS;
+  const getContractListBox = ({ contracts, type, partyType } : DashboardContractListProps) => {
+    return (
+      <Box key={`${type}-contracts`} title={t(`dashboard:contracts.list.${type}`)}>
+        {contracts === null && (
+          <div className="text-center">
+            <Loading />
+          </div>
+        )}
+
+        {contracts && contracts.length === 0 && (
+          <div className="text-center">
+            <ZeroDataState />
+          </div>
+        )}
+
+        {contracts && contracts.length > 0 && (
+          <FilledContractList contracts={contracts} onChange={loadContracts} partyType={partyType} />
+        )}
+      </Box>
+    );
+  };
+
+  let columns : DashboardContractListProps[] = [
+    {contracts: ownContracts, type: 'own', partyType: PartyType.SELLER},
+    {contracts: foreignContracts, type: 'buyer', partyType: PartyType.BUYER},
+    {contracts: witnessContracts, type: 'witness', partyType: PartyType.WITNESS}
+  ];
+
+  // Sort the columns based on whether they are empty or not
+  columns.sort((a, b) => (
+    Number(b.contracts?.length > 0) - Number(a.contracts?.length > 0)
+  ));
+
+  const contractLists = columns.map(getContractListBox);
 
   return (
     <DashboardLayout user={user}>
@@ -70,60 +107,12 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
       {!error && (
         <Columns>
           <Column>
-            <Box title={t('dashboard:contracts.list.own')}>
-              {ownContracts === null && (
-                <div className="text-center">
-                  <Loading />
-                </div>
-              )}
-
-              {ownContracts && ownContracts.length === 0 && (
-                <div className="text-center">
-                  <ZeroDataState />
-                </div>
-              )}
-
-              {ownContracts && ownContracts.length > 0 && (
-                <FilledContractList contracts={ownContracts} onChange={loadContracts} partyType={seller} />
-              )}
-            </Box>
-            <Box title={t('dashboard:contracts.list.witness')}>
-              {witnessContracts === null && (
-                <div className="text-center">
-                  <Loading />
-                </div>
-              )}
-
-              {witnessContracts && witnessContracts.length === 0 && (
-                <div className="text-center">
-                  <ZeroDataState />
-                </div>
-              )}
-
-              {witnessContracts && witnessContracts.length > 0 && (
-                <FilledContractList contracts={witnessContracts} onChange={loadContracts} partyType={witness} />
-              )}
-            </Box>
+            {contractLists[0]}
+            {contractLists[2]}
           </Column>
 
           <Column>
-            <Box title={t('dashboard:contracts.list.buyer')}>
-              {foreignContracts === null && (
-                <div className="text-center">
-                  <Loading />
-                </div>
-              )}
-
-              {foreignContracts && foreignContracts.length === 0 && (
-                <div className="text-center">
-                  <ZeroDataState />
-                </div>
-              )}
-
-              {foreignContracts && foreignContracts.length > 0 && (
-                <FilledContractList contracts={foreignContracts} onChange={loadContracts} partyType={buyer} />
-              )}
-            </Box>
+            {contractLists[1]}
           </Column>
         </Columns>
       )}
