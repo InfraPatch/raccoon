@@ -106,7 +106,7 @@ export const downloadContractDocument = async (filename: string): Promise<IDownl
     extension,
     contentType
   };
-}
+};
 
 export const downloadContract = async (email: string, contractId: number): Promise<IDownloadPDFResponse> => {
   const contract = await getFilledContract(email, contractId, true) as FilledContract;

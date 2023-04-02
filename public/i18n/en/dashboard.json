@@ -14,6 +14,7 @@
     "new-contract": "Create new contract",
     "contracts": "Show all contracts",
     "contract": "Contract",
+    "item-categories": "Property categories",
     "new-item": "Create property category"
   },
 
@@ -214,6 +215,11 @@
       "description-field": "Description of property category:",
       "submit": "Create property category",
       "success": "Category created successfully!"
+    },
+    "items": {
+      "edit-item": "Edit category",
+      "default-description": "This category has no description set.",
+      "last-updated": "Last updated"
     }
   }
 }

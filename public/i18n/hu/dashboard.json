@@ -14,6 +14,7 @@
     "new-contract": "Új szerződés létrehozása",
     "contracts": "Szerződések",
     "contract": "Szerződés",
+    "item-categories": "Tulajdon-kategóriák",
     "new-item": "Tulajdon-kategória létrehozása"
   },
 
@@ -175,7 +176,7 @@
     },
     "contracts": {
       "edit-contract": "Szerződés bővítése",
-      "default-description": "Ennek a szérződésnek még nincsen leírása.",
+      "default-description": "Ennek a szérződésnek még nincs leírása.",
       "last-updated": "Utoljára frissítve"
     },
     "new-contract-option": {
@@ -214,6 +215,11 @@
       "slug-field": "Kategória azonosító string-je:",
       "submit": "Kategória létrehozása",
       "success": "Kategória sikeresen létrehozva!"
+    },
+    "items": {
+      "edit-item": "Kategória szerkesztése",
+      "default-description": "Ennek a kategóriának még nincs leírása.",
+      "last-updated": "Utoljára frissítve"
     }
   }
 }
