@@ -220,10 +220,11 @@ export const fill = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const sign = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
+  const { signatureData } = req.body;
   const session = await getSession({ req });
 
   try {
-    await signContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+    await signContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id), signatureData);
     return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'SignContractError') {

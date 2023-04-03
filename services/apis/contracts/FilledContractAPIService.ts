@@ -90,8 +90,8 @@ export class FilledContractAPIService {
       .then(res => res.data);
   }
 
-  public async signFilledContract(id: number): Promise<SignFilledContractAPIResponse> {
-    return axiosService.patch(url(FilledContractAPIService.SIGN_FILLED_CONTRACT_URL, id))
+  public async signFilledContract(id: number, signatureData: string | null): Promise<SignFilledContractAPIResponse> {
+    return axiosService.patch(url(FilledContractAPIService.SIGN_FILLED_CONTRACT_URL, id), { signatureData })
       .then(res => res.data);
   }
 }

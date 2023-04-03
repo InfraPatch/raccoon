@@ -157,6 +157,15 @@
         "delete-confirmation": "Biztosan eltávolítja ezt a mellékletet? Ez a művelet visszafordíthatatlan!",
         "create-success": "Melléklet sikeresen feltöltve!",
         "attachment-title": "Szerződés mellékletei"
+      },
+      "signatures": {
+        "sign-action": "Szerződés aláírása",
+        "sign-here": "Kérlek írd alá:",
+        "clear-button": "Törlés",
+        "simple-sign-button": "Az egyszerű aláírást választom",
+        "digital-sign-button": "Digitálisan aláírom",
+        "signature-missing": "Elfelejtette kitölteni az aláírást! Megpróbálja újra?",
+        "signature-retry": "Újrapróbálom"
       }
     }
   },

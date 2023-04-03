@@ -10,12 +10,17 @@ import apiService from '@/services/apis';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
-import Swal from 'sweetalert2';
 import buildUrl from '@/lib/buildUrl';
 import React from 'react';
 import { CreateWitnessSignatureAPIResponse } from '@/services/apis/contracts/WitnessSignatureAPIService';
 import { allPartiesSigned, hasWitnessSigned } from '@/controllers/filled-contracts/signUtils';
 import { User } from '@/db/models/auth/User';
+
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import SignatureCanvas from 'react-signature-canvas';
+
+const MySwal = withReactContent(Swal);
 
 export interface FilledContractActionsProps {
   filledContract: IFilledContract;
@@ -60,11 +65,11 @@ const FilledContractActions = ({ filledContract, onChange, partyType, user }: Fi
     }
   };
 
-  const signContract = async () => {
+  const signContract = async (signatureImage: string | null) => {
     setSaving(true);
 
     try {
-      await apiService.filledContracts.signFilledContract(filledContract.id);
+      await apiService.filledContracts.signFilledContract(filledContract.id, signatureImage);
       toaster.success(t('dashboard:contracts.actions.sign-success'));
       await onChange();
       setSaving(false);
@@ -152,7 +157,7 @@ const FilledContractActions = ({ filledContract, onChange, partyType, user }: Fi
   };
 
   const handleAcceptOrDeclineClick = async (action: 'accept' | 'decline') => {
-    const result = await Swal.fire({
+    const result = await MySwal.fire({
       title: t('dashboard:contracts.actions.confirm-action'),
       text: t(`dashboard:contracts.actions.${action}-confirmation`),
       showCancelButton: true,
@@ -166,21 +171,72 @@ const FilledContractActions = ({ filledContract, onChange, partyType, user }: Fi
   };
 
   const handleSignClick = async () => {
-    const result = await Swal.fire({
-      title: t('dashboard:contracts.actions.confirm-action'),
-      text: t('dashboard:contracts.actions.sign-confirmation'),
+    let canvas : SignatureCanvas = null;
+
+    const clearSignatureCanvas = () => {
+      canvas.clear();
+    }
+
+    const result = await MySwal.fire({
+      title: t('dashboard:contracts.actions.signatures.sign-action'),
+      html: (
+        <div className="text-center">
+          <p className="text-xl font-bold pb-2">{ t('dashboard:contracts.actions.signatures.sign-here') }</p>
+          <SignatureCanvas
+            ref={ref => { canvas = ref }}
+            penColor="black"
+            canvasProps={{className: 'border-dashed border-2 mx-auto', width: 300, height: 150}}
+          />
+          <button
+            type="button"
+            className="swal2-styled swal2-deny"
+            onClick={clearSignatureCanvas}
+          >{ t('dashboard:contracts.actions.signatures.clear-button') }</button>
+        </div>
+      ),
       showCancelButton: true,
-      confirmButtonText: t('dashboard:contracts.actions.yes'),
-      cancelButtonText: t('dashboard:contracts.actions.no')
+      cancelButtonText: t('dashboard:contracts.actions.signatures.simple-sign-button'),
+      confirmButtonText: t('dashboard:contracts.actions.signatures.digital-sign-button'),
+      reverseButtons: true
     });
 
-    if (result.isConfirmed) {
-      await signContract();
+    if (result.dismiss === Swal.DismissReason.backdrop) {
+      // User has cancelled the dialog by clicking on the backdrop.
+      return;
     }
+
+    let data = null;
+
+    if (result.isConfirmed) {
+      if (!canvas.isEmpty()) {
+        data = canvas.toDataURL('image/png');
+      } else {
+        const errorResult = await MySwal.fire({
+          icon: 'error',
+          title: t('dashboard:contracts.actions.signatures.sign-action'),
+          text: t('dashboard:contracts.actions.signatures.signature-missing'),
+          showCancelButton: true,
+          cancelButtonText: t('dashboard:contracts.actions.signatures.simple-sign-button'),
+          confirmButtonText: t('dashboard:contracts.actions.signatures.signature-retry'),
+          reverseButtons: true
+        });
+
+        if (errorResult.dismiss === Swal.DismissReason.backdrop) {
+          // User has cancelled the dialog by clicking on the backdrop.
+          return;
+        }
+
+        if (errorResult.isConfirmed) {
+          return await handleSignClick();
+        }
+      }
+    }
+
+    await signContract(data);
   };
 
   const handleDeleteClick = async () => {
-    const result = await Swal.fire({
+    const result = await MySwal.fire({
       title: t('dashboard:contracts.actions.confirm-action'),
       text: t('dashboard:contracts.actions.delete-confirmation'),
       showCancelButton: true,
@@ -194,7 +250,7 @@ const FilledContractActions = ({ filledContract, onChange, partyType, user }: Fi
   };
 
   const handleRequestWitnessClick = async () => {
-    const result = await Swal.fire({
+    const result = await MySwal.fire({
       title: t('dashboard:contracts.actions.witness.request-witness'),
       text: t('dashboard:contracts.actions.witness.witness-confirmation'),
       input: 'text',

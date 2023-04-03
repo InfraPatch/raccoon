@@ -21,6 +21,7 @@ import { IAttachment } from '@/db/common/Attachment';
 import path from 'path';
 
 import { getStorageStrategy } from '@/lib/storageStrategies';
+import { maximumSignatureSize } from '../attachments/attachmentConstants';
 const storage = getStorageStrategy();
 
 class SignContractError extends Error {
@@ -162,7 +163,43 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
   return key;
 };
 
-export const signContract = async (userEmail: string, contractId: number) => {
+export const decodeBase64Image = (data: string | null): Buffer => {
+  if (!data) {
+    throw new Error('No string specified');
+  }
+
+  if (data.length > maximumSignatureSize) {
+    throw new Error('String is too large');
+  }
+
+  const matches = data.match(/^data:image\/png;base64,(.+)$/);
+
+  if (matches.length !== 2) {
+    throw new Error('Invalid input string');
+  }
+
+  return Buffer.from(matches[1], 'base64');
+}
+
+export const uploadSignatureContents = async (contractId: number, userId: number, contents: Buffer): Promise<string> => {
+  let key: string = `signatures/${contractId}/${userId}.png`;
+
+  await storage.create({ key, contents });
+  return key;
+};
+
+export const uploadSignature = async (contractId: number, userId: number, data: string | null): Promise<string> => {
+  let signatureContents;
+
+  try {
+    signatureContents = decodeBase64Image(data);
+    return await uploadSignatureContents(contractId, userId, signatureContents);
+  } catch {
+    return null;
+  }
+};
+
+export const signContract = async (userEmail: string, contractId: number, signatureData: string | null) => {
   await db.prepare();
 
   const userRepository = db.getRepository(User);
@@ -189,6 +226,9 @@ export const signContract = async (userEmail: string, contractId: number) => {
   }
 
   verifyOptions(contract);
+
+  // Upload signature if available
+  await uploadSignature(contract.id, user.id, signatureData);
 
   let changed: boolean = false;
 

@@ -157,6 +157,15 @@
         "delete-confirmation": "Are you sure you want to remove this attachment? This action is irreversible!",
         "create-success": "Successfully uploaded attachment!",
         "attachment-title": "Contract Attachments"
+      },
+      "signatures": {
+        "sign-action": "Sign contract",
+        "sign-here": "Please sign here:",
+        "clear-button": "Clear",
+        "simple-sign-button": "Sign with name",
+        "digital-sign-button": "Digitally sign",
+        "signature-missing": "You forgot to fill out your signature! Try again?",
+        "signature-retry": "Retry"
       }
     }
   },
