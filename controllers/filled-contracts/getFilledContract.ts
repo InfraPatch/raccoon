@@ -125,3 +125,22 @@ export const downloadContractBy = async (email: string, id: string): Promise<IDo
     return await downloadContract(email, documentId);
   }
 };
+
+export const downloadSignature = async (contractId: number, userId: number): Promise<any> => {
+  const key = `signatures/${contractId}/${userId}.png`;
+
+  if (!(await storage.exists(key))) {
+    return null;
+  }
+
+  const stream = await storage.getStream(key);
+  return stream;
+};
+
+export const downloadSignatureBy = async (email: string, contractId: number, userId: number): Promise<any> => {
+  // Check if we can access this contract.
+  await getFilledContract(email, contractId, true) as FilledContract;
+
+  // Download this signature using the contract it's attached to
+  return await downloadSignature(contractId, userId);
+};

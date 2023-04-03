@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/client';
 
 import { createFilledContract } from './createFilledContract';
 import { deleteFilledContract } from './deleteFilledContract';
-import { getFilledContract, downloadContractBy } from './getFilledContract';
+import { getFilledContract, downloadContractBy, downloadSignatureBy } from './getFilledContract';
 import { listFilledContracts } from './listFilledContracts';
 import { signContract } from './signContract';
 import { acceptOrDeclineFilledContract, fillContractOptions } from './updateFilledContract';
@@ -235,6 +235,37 @@ export const sign = async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 
+    console.error(err);
+
+    return res.status(500).json({
+      ok: false,
+      error: 'INTERNAL_SERVER_ERROR'
+    });
+  }
+};
+
+export const downloadSignature = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id, signId } = req.query;
+  const session = await getSession({ req });
+
+  try {
+    const stream = await downloadSignatureBy(
+      session.user.email,
+      parseInt(Array.isArray(id) ? id[0] : id),
+      parseInt(Array.isArray(signId) ? signId[0] : signId)
+    );
+
+    if (!stream) {
+      return res.status(400).json({
+        ok: false,
+        error: 'SIGNATURE_NOT_FOUND'
+      });
+    }
+
+    res.setHeader('Content-Type', 'image/png');
+
+    return stream.pipe(res);
+  } catch (err) {
     console.error(err);
 
     return res.status(500).json({
