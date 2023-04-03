@@ -17,7 +17,7 @@ export const downloadContractAttachment = async (filename: string, filledContrac
     return null;
   }
 
-  const key = `contract-attachments/${filledContractId}/${filename}`;
+  const key = `attachments/contract/${filledContractId}/${filename}`;
 
   if (!(await storage.exists(key))) {
     return null;

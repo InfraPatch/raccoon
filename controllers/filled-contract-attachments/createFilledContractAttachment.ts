@@ -41,11 +41,11 @@ const uploadAttachment = async (filledContractId: number, file: File) => {
 
   let key: string = `${basename}${extension}`;
 
-  while (await storage.exists(`contract-attachments/${filledContractId}/${key}`)) {
+  while (await storage.exists(`attachments/contract/${filledContractId}/${key}`)) {
     key = `${basename}_${index++}${extension}`;
   }
 
-  await storage.create({ key: `contract-attachments/${filledContractId}/${key}`, contents: buffer });
+  await storage.create({ key: `attachments/contract/${filledContractId}/${key}`, contents: buffer });
 
   return key;
 };
