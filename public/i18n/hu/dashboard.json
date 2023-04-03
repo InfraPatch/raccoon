@@ -69,6 +69,7 @@
 
       "seller-field": "Eladó",
       "buyer-field": "Vevő",
+      "witness-field": "Tanú",
 
       "search-by-name": "Keresés név szerint:",
       "search-by-type": "Keresés típus szerint:",
@@ -100,6 +101,7 @@
       "witnesses": "Tanúk és ügyvédek",
       "seller-witnesses": "Eladó tanúi",
       "buyer-witnesses": "Vevő tanúi",
+      "signatures": "Digitális aláírások",
       "my-details": "Az én adataim",
       "fill-success": "Adatok sikeresen kitöltve!",
       "fill-submit": "Adatok kitöltése",

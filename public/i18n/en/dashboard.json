@@ -69,6 +69,7 @@
 
       "seller-field": "Seller",
       "buyer-field": "Buyer",
+      "witness-field": "Witness",
 
       "search-by-name": "Search by name:",
       "search-by-type": "Search by type:",
@@ -100,6 +101,7 @@
       "witnesses": "Witnesses and lawyers",
       "seller-witnesses": "Seller's witnesses",
       "buyer-witnesses": "Buyer's witnesses",
+      "signatures": "Digital signatures",
       "my-details": "My Details",
       "fill-success": "Details filled out successfully!",
       "fill-submit": "Fill details",

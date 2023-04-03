@@ -264,6 +264,10 @@ export const downloadSignature = async (req: NextApiRequest, res: NextApiRespons
 
     res.setHeader('Content-Type', 'image/png');
 
+    // Cache all signatures on client side
+    // so that we don't end up spamming the server
+    res.setHeader('Cache-Control', 'max-age=31536000');
+
     return stream.pipe(res);
   } catch (err) {
     console.error(err);

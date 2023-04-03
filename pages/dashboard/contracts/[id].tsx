@@ -21,6 +21,7 @@ import FilledContractFieldsForm from '@/components/dashboard/filled-contract/Fil
 import FilledContractActions from '@/components/dashboard/filled-contract/FilledContractActions';
 import FilledContractOverview from '@/components/dashboard/filled-contract/FilledContractOverview';
 import FilledContractWitnesses from '@/components/dashboard/filled-contract/FilledContractWitnesses';
+import FilledContractSignatures from '@/components/dashboard/filled-contract/FilledContractSignatures';
 import Attachments from '@/components/dashboard/attachments/Attachments';
 import Meta from '@/components/common/Meta';
 import { IAttachment } from '@/db/common/Attachment';
@@ -132,6 +133,10 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
                 />
               </Box>
             )}
+
+            <FilledContractSignatures
+              contract={contract}
+            />
 
             {(contract.attachments?.length > 0 || canUploadAttachment()) && (
               <Box title={ t('dashboard:contracts.data.attachments') }>
