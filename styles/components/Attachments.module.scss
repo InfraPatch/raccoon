@@ -1,10 +1,10 @@
 .box {
   font-size: 1.25rem; /* 20 */
-  background-color: #c8dadf;
+  background-color: var(--raccoon-attachment-form-primary);
   position: relative;
   padding: 50px 0px;
 
-  outline: 2px dashed #92b0b3;
+  outline: 2px dashed var(--raccoon-attachment-form-secondary);
   outline-offset: -10px;
 
   text-align: center;
@@ -14,14 +14,14 @@
 
   &.dragging {
     outline-offset: -20px;
-    outline-color: #c8dadf;
-    background-color: #fff;
+    outline-color: var(--raccoon-attachment-form-primary);
+    background-color: var(--raccoon-attachment-form-dragging);
   }
 
   .icon {
     width: 100%;
     height: 80px;
-    fill: #92b0b3;
+    fill: var(--raccoon-attachment-form-secondary);
     display: block;
     margin-bottom: 40px;
   }
@@ -51,14 +51,14 @@
 
   .file:focus + label,
   .file.has-focus + label {
-    outline: 1px dotted #000;
+    outline: 1px dotted var(--raccoon-attachment-form-focus-label-outline);
     outline: -webkit-focus-ring-color auto 5px;
   }
 
   .file + label:hover strong,
   .file:focus + label strong,
   .file.has-focus + label strong {
-    color: #39bfd3;
+    color: var(--raccoon-attachment-form-label-color);
   }
 
   .text {
