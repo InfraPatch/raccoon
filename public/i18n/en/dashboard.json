@@ -152,12 +152,6 @@
         "upload-button": "Upload",
         "attachment-friendly-name": "Name of attachment"
       },
-      "contract-attachments": {
-        "delete-success": "Successfully removed attachment!",
-        "delete-confirmation": "Are you sure you want to remove this attachment? This action is irreversible!",
-        "create-success": "Successfully uploaded attachment!",
-        "attachment-title": "Contract Attachments"
-      },
       "signatures": {
         "sign-action": "Sign contract",
         "sign-here": "Please sign here:",
@@ -176,6 +170,32 @@
     },
     "list": {
       "search": "Search properties..."
+    },
+    "data": {
+      "attachments": "Attachments"
+    }
+  },
+
+  "attachments": {
+    "actions": {
+      "confirm-action": "Confirm action",
+      "yes": "Yes",
+      "no": "No",
+      "remove-attachment": "Remove attachment",
+
+      "contract-attachments": {
+        "delete-success": "Successfully removed attachment!",
+        "delete-confirmation": "Are you sure you want to remove this attachment? This action is irreversible!",
+        "create-success": "Successfully uploaded attachment!",
+        "attachment-title": "Contract Attachments"
+      },
+
+      "item-attachments": {
+        "delete-success": "Successfully removed attachment!",
+        "delete-confirmation": "Are you sure you want to remove this attachment? This action is irreversible!",
+        "create-success": "Successfully uploaded attachment!",
+        "attachment-title": "Property Attachments"
+      }
     }
   },
 

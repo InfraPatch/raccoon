@@ -16,6 +16,10 @@ export interface FilledItemOptionAPIParams {
   options: FilledOption[];
 };
 
+export interface UpdateFilledItemAPIRequest extends FilledItemOptionAPIParams {
+  friendlyName: string;
+};
+
 export interface ListFilledItemsAPIResponse extends APIResponse {
   filledItems: IFilledItem[];
 };
@@ -25,6 +29,10 @@ export interface CreateFilledItemAPIResponse extends APIResponse {
 };
 
 export interface GetFilledItemAPIResponse extends APIResponse {
+  filledItem: IFilledItem;
+};
+
+export interface UpdateFilledItemAPIResponse extends APIResponse {
   filledItem: IFilledItem;
 };
 
@@ -48,6 +56,11 @@ class FilledItemAPIService {
   public async createFilledItem(payload: NewFilledItemAPIParams): Promise<CreateFilledItemAPIResponse> {
     return axiosService.post(FilledItemAPIService.FILLED_ITEMS_URL, payload)
       .then(res => res.data);
+  }
+
+  public async updateFilledItem(id: number, payload: UpdateFilledItemAPIRequest): Promise<UpdateFilledItemAPIResponse> {
+    const path = this.buildFilledItemsUrl(id);
+    return axiosService.patch(path, payload).then(res => res.data);
   }
 
   public async deleteFilledItem(id: number): Promise<DeleteFilledItemAPIResponse> {

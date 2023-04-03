@@ -143,24 +143,18 @@
       },
       "attachments": {
         "remove-attachment": "Melléklet eltávolítása",
-        "choose-file": "Válassz egy állományt",
-        "drag-here": "vagy húzd át ide",
+        "choose-file": "Válasszon egy állományt",
+        "drag-here": "vagy húzza át ide",
         "uploading-label": "Feltöltés folyamatban...",
         "try-again": "Próbálkozzon még egyszer!",
         "upload-attachment-title": "Még egy dolog...",
-        "upload-attachment-confirmation": "Kérem adjon ennek a mellékletnek egy egyszerű nevet, amely leírja annak tartalmát.",
+        "upload-attachment-confirmation": "Kérjük adjon ennek a mellékletnek egy egyszerű nevet, amely leírja annak tartalmát.",
         "upload-button": "Feltöltés",
         "attachment-friendly-name": "Melléklet neve"
       },
-      "contract-attachments": {
-        "delete-success": "Sikeresen eltávolítottuk a mellékletet!",
-        "delete-confirmation": "Biztosan eltávolítja ezt a mellékletet? Ez a művelet visszafordíthatatlan!",
-        "create-success": "Melléklet sikeresen feltöltve!",
-        "attachment-title": "Szerződés mellékletei"
-      },
       "signatures": {
         "sign-action": "Szerződés aláírása",
-        "sign-here": "Kérlek írd alá:",
+        "sign-here": "Kérjük, írja alá:",
         "clear-button": "Törlés",
         "simple-sign-button": "Az egyszerű aláírást választom",
         "digital-sign-button": "Digitálisan aláírom",
@@ -174,9 +168,34 @@
     "home": {
       "view": "Megtekint"
     },
-
     "list": {
       "search": "Tulajdonok keresése..."
+    },
+    "data": {
+      "attachments": "Mellékletek"
+    }
+  },
+
+  "attachments": {
+    "actions": {
+      "confirm-action": "Művelet megerősítése",
+      "yes": "Igen",
+      "no": "Nem",
+      "remove-attachment": "Melléklet eltávolítása",
+
+      "contract-attachments": {
+        "delete-success": "Sikeresen eltávolítottuk a mellékletet!",
+        "delete-confirmation": "Biztosan eltávolítja ezt a mellékletet? Ez a művelet visszafordíthatatlan!",
+        "create-success": "Melléklet sikeresen feltöltve!",
+        "attachment-title": "Szerződés mellékletei"
+      },
+
+      "item-attachments": {
+        "delete-success": "Sikeresen eltávolítottuk a mellékletet!",
+        "delete-confirmation": "Biztosan eltávolítja ezt a mellékletet? Ez a művelet visszafordíthatatlan!",
+        "create-success": "Melléklet sikeresen feltöltve!",
+        "attachment-title": "Tulajdon mellékletei"
+      }
     }
   },
 

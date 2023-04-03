@@ -142,6 +142,7 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
                   uploadAttachment={uploadAttachment}
                   canUpload={canUploadAttachment}
                   canDelete={canDeleteAttachment}
+                  modelName="contracts"
                   translationKey='contract-attachments'
                 />
               </Box>

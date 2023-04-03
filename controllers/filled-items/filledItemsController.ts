@@ -103,7 +103,6 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-
 export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const session = await getSession({ req });
@@ -128,14 +127,20 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export const fill = async (req: NextApiRequest, res: NextApiResponse) => {
+export const update = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const { options } = req.body;
+  const { friendlyName, options } = req.body;
 
   const session = await getSession({ req });
 
   try {
-    await fillItemOptions(session.user.email, parseInt(Array.isArray(id) ? id[0] : id), options);
+    await fillItemOptions(
+      session.user.email,
+      parseInt(Array.isArray(id) ? id[0] : id),
+      friendlyName,
+      options
+    );
+
     return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'FilledItemUpdateError' || err.name === 'OptionValidationError') {

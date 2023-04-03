@@ -22,7 +22,7 @@ class FilledItemUpdateError extends Error {
   }
 }
 
-export const fillItemOptions = async (userEmail: string, itemId: number, options: FilledOption[]) => {
+export const fillItemOptions = async (userEmail: string, itemId: number, friendlyName: string | undefined, options: FilledOption[]) => {
   await db.prepare();
 
   const userRepository = db.getRepository(User);
@@ -37,6 +37,14 @@ export const fillItemOptions = async (userEmail: string, itemId: number, options
   const filledItem = await filledItemRepository.findOne(itemId, { relations: [ 'item', 'options', 'item.options', 'options.option' ] });
   if (!filledItem || filledItem.userId !== user.id) {
     throw new FilledItemUpdateError('FILLED_ITEM_NOT_FOUND');
+  }
+
+  if (typeof friendlyName !== 'undefined') {
+    if (friendlyName.length < 2) {
+      throw new FilledItemUpdateError('NAME_TOO_SHORT');
+    }
+
+    await filledItemRepository.save(filledItem);
   }
 
   const itemOptions: { [id: number]: ItemOption } = {};

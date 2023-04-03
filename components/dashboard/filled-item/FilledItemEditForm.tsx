@@ -5,26 +5,27 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
 import { IItem } from '@/db/models/items/Item';
+import { IFilledItem } from '@/db/models/items/FilledItem';
 
 import FilledItemForm, { FilledItemFormFields } from '@/components/dashboard/common/filled-item-form/FilledItemForm';
 
-export interface NewFilledItemFormProps {
+export interface FilledItemEditFormProps {
   item: IItem;
+  filledItem: IFilledItem;
 };
 
-const NewFilledItemForm = ({ item }: NewFilledItemFormProps) => {
+const FilledItemEditForm = ({ item, filledItem }: FilledItemEditFormProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
   const router = useRouter();
 
-  const handleFormSubmit = async ({ friendlyName, itemSlug, options }: FilledItemFormFields) => {
+  const handleFormSubmit = async ({ friendlyName, options }: FilledItemFormFields) => {
     try {
-      const res = await apiService.filledItems.createFilledItem({
+      const res = await apiService.filledItems.updateFilledItem(filledItem.id, {
         friendlyName,
-        itemSlug,
         options
       });
 
-      toaster.success(t('dashboard:new-item.success'));
+      toaster.success(t('dashboard:update.success'));
       router.push(`/dashboard/inventory/${item.slug}/${res.filledItem.id}`);
     } catch (err) {
       if (err.response?.data?.error) {
@@ -43,10 +44,11 @@ const NewFilledItemForm = ({ item }: NewFilledItemFormProps) => {
   return (
     <FilledItemForm
       item={item}
+      filledItem={filledItem}
       onSubmit={handleFormSubmit}
-      submitButtonText={t('dashboard:new-item.submit')}
+      submitButtonText={t('dashboard:update.submit')}
     />
   );
 };
 
-export default NewFilledItemForm;
+export default FilledItemEditForm;

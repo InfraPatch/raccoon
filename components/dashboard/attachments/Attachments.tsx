@@ -18,10 +18,11 @@ export interface AttachmentsProps {
   uploadAttachment: (File, string) => any;
   canUpload: () => boolean;
   canDelete: (IAttachment) => boolean;
+  modelName: string;
   translationKey: string;
 };
 
-const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment, canUpload, canDelete, translationKey }: AttachmentsProps) => {
+const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment, canUpload, canDelete, modelName, translationKey }: AttachmentsProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const [ saving, setSaving ] = useState<boolean>(false);
@@ -37,7 +38,7 @@ const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment
 
     try {
       await deleteAttachment(attachment);
-      toaster.success(t(`dashboard:contracts.actions.${translationKey}.delete-success`));
+      toaster.success(t(`dashboard:attachments.actions.${translationKey}.delete-success`));
       await onChange();
       setSaving(false);
     } catch (err) {
@@ -47,7 +48,7 @@ const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment
         const message = err.response.data.error;
 
         if (message?.length) {
-          toaster.danger(t(`errors:contracts.${message}`, err.response.data.details));
+          toaster.danger(t(`errors:${modelName}.${message}`, err.response.data.details));
           return;
         }
       }
@@ -64,11 +65,11 @@ const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment
     }
 
     const result = await Swal.fire({
-      title: t('dashboard:contracts.actions.confirm-action'),
-      text: t(`dashboard:contracts.actions.${translationKey}.delete-confirmation`),
+      title: t('dashboard:attachments.actions.confirm-action'),
+      text: t(`dashboard:attachments.actions.${translationKey}.delete-confirmation`),
       showCancelButton: true,
-      confirmButtonText: t('dashboard:contracts.actions.yes'),
-      cancelButtonText: t('dashboard:contracts.actions.no')
+      confirmButtonText: t('dashboard:attachments.actions.yes'),
+      cancelButtonText: t('dashboard:attachments.actions.no')
     });
 
     if (result.isConfirmed) {
@@ -105,7 +106,7 @@ const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment
                     className="text-danger"
                     href="#"
                     onClick={() => handleRemoveAttachmentClick(attachment)}
-                  >({ t('dashboard:contracts.actions.attachments.remove-attachment') })</a>
+                  >({ t('dashboard:attachments.actions.remove-attachment') })</a>
                 </strong>}
               </div>
             );
@@ -118,7 +119,7 @@ const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment
   return (
     <article className="my-4">
       <div className={dataContainerClassNames}>
-        { createAttachments(attachments, `dashboard:contracts.actions.${translationKey}.attachment-title`) }
+        { createAttachments(attachments, `dashboard:attachments.actions.${translationKey}.attachment-title`) }
 
         <AttachmentUploadForm
           attachments={attachments}

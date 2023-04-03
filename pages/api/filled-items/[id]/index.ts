@@ -5,6 +5,6 @@ import { ensureAuthenticated } from '@/middleware/auth';
 
 export default bar({
   get: ensureAuthenticated(filledItemsController.get),
-  put: ensureAuthenticated(filledItemsController.fill),
+  patch: ensureAuthenticated(filledItemsController.update),
   delete: ensureAuthenticated(filledItemsController.destroy)
 });

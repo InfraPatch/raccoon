@@ -24,7 +24,7 @@ export const getFilledItem = async (email: string, itemId: number, internal: boo
     throw new GetFilledItemError('USER_NOT_FOUND');
   }
 
-  const filledItem = await filledItemRepository.findOne(itemId, { relations: [ 'item', 'options', 'item.options', 'options.option' ] });
+  const filledItem = await filledItemRepository.findOne(itemId, { relations: [ 'item', 'options', 'item.options', 'options.option', 'attachments' ] });
   if (!filledItem) {
     throw new GetFilledItemError('FILLED_ITEM_NOT_FOUND');
   }
