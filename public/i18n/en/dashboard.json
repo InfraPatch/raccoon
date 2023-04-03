@@ -164,6 +164,9 @@
   "items": {
     "home": {
       "view": "View"
+    },
+    "list": {
+      "search": "Search properties..."
     }
   },
 
