@@ -10,6 +10,7 @@ import apiService from '@/services/apis';
 
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 const LoginForm = () => {
   const { t } = useTranslation([ 'common', 'errors', 'auth' ]);
@@ -20,6 +21,8 @@ const LoginForm = () => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
 
+  const [ _, setUser ] = useCurrentUser();
+
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -28,13 +31,16 @@ const LoginForm = () => {
     try {
       const token = await csrfToken();
 
-      const response = await apiService.credentialsAuth.signIn({
+      await apiService.credentialsAuth.signIn({
         csrfToken: token,
         email,
         password
       });
 
-      toaster.success(t('auth:signin-success', { name: response?.user?.name }));
+      const response = await apiService.users.getLoggedInUser();
+      setUser(response.user);
+
+      toaster.success(t('auth:signin-success', { name: response.user.name }));
       router.push('/dashboard');
     } catch (err) {
       if (err.response?.data?.error) {
