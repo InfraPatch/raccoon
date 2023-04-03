@@ -19,10 +19,6 @@ import Link from 'next/link';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useEffect, useState } from 'react';
 
-export interface DashboardSidebarProps {
-  user: User;
-};
-
 const SEPARATOR: NavigationSeparator = 0;
 
 const DashboardSidebar = () => {
