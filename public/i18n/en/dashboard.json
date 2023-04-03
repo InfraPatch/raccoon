@@ -25,7 +25,11 @@
     "create-title": "Create a new contract",
     "create-button": "New Contract",
     "list-title": "Check out your contracts",
-    "list-button": "My Contracts"
+    "list-button": "My Contracts",
+    "items-title": "Manage your owned properties",
+    "items-button": "My Properties",
+    "profile-title": "Fill out your personal information",
+    "profile-button": "My settings"
   },
 
   "settings": {

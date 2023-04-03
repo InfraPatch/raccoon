@@ -7,6 +7,8 @@ import OnlineCollaboration from '@/assets/images/online-collaboration.svg';
 
 import Contract from '@/assets/images/contract.svg';
 import Agreement from '@/assets/images/agreement.svg';
+import Profile from '@/assets/images/profile.svg';
+import Properties from '@/assets/images/properties.svg';
 
 import PrivacyPolicy from '@/assets/images/privacy-policy.svg';
 import Terms from '@/assets/images/terms.svg';
@@ -42,6 +44,8 @@ const Illustration = {
 
   Contract: (props: P) => <IllustrationWrapper image={Contract} {...props} />,
   Agreement: (props: P) => <IllustrationWrapper image={Agreement} {...props} />,
+  Profile: (props: P) => <IllustrationWrapper image={Profile} {...props} />,
+  Properties: (props: P) => <IllustrationWrapper image={Properties} {...props} />,
 
   PrivacyPolicy: (props: P) => <IllustrationWrapper image={PrivacyPolicy} {...props} />,
   Terms: (props: P) => <IllustrationWrapper image={Terms} {...props} />,

@@ -28,6 +28,16 @@ const DashboardHomePage = () => {
     router.push("/dashboard/contracts");
   };
 
+  const handleItemsClick = (e) => {
+    e.preventDefault();
+    router.push('/dashboard/inventory');
+  };
+
+  const handleSettingsClick = (e) => {
+    e.preventDefault();
+    router.push('/dashboard/settings');
+  };
+
   return (
     <DashboardLayout>
       <Meta
@@ -62,6 +72,40 @@ const DashboardHomePage = () => {
 
               <Button size={ButtonSize.MEDIUM} onClick={handleMyContract}>
                 { t('home.list-button') }
+              </Button>
+            </div>
+          </Box>
+        </Column>
+      </Columns>
+
+      <Columns>
+        <Column>
+          <Box>
+            <div className="text-center">
+              <Illustration.Properties className="h-72 max-w-full mx-auto" />
+
+              <div className="text-2xl my-4">
+                { t('home.items-title') }
+              </div>
+
+              <Button size={ButtonSize.MEDIUM} onClick={handleItemsClick}>
+                { t('home.items-button') }
+              </Button>
+            </div>
+          </Box>
+        </Column>
+
+        <Column>
+          <Box>
+            <div className="text-center">
+              <Illustration.Profile className="h-72 max-w-full mx-auto" />
+
+              <div className="text-2xl my-4">
+                { t('home.profile-title') }
+              </div>
+
+              <Button size={ButtonSize.MEDIUM} onClick={handleSettingsClick}>
+                { t('home.profile-button') }
               </Button>
             </div>
           </Box>

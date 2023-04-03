@@ -25,7 +25,11 @@
     "create-title": "Hozzon létre egy új szerződést",
     "create-button": "Új szerződés",
     "list-title": "Tekintse meg szerződéseit",
-    "list-button": "Szerződéseim"
+    "list-button": "Szerződéseim",
+    "items-title": "Kezelje saját tulajdonait",
+    "items-button": "Tulajdonaim",
+    "profile-title": "Töltse ki személyes adatait",
+    "profile-button": "Beállításaim"
   },
 
   "settings": {
