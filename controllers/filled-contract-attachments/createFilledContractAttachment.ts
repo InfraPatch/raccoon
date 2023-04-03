@@ -39,13 +39,13 @@ const uploadAttachment = async (filledContractId: number, file: File) => {
   const extension = filename.substring(dot);
   let index = 1;
 
-  let key: string = `contract-attachments/${filledContractId}/${basename}${extension}`;
+  let key: string = `${basename}${extension}`;
 
-  while (await storage.exists(key)) {
-    key = `contract-attachments/${filledContractId}/${basename}_${index++}${extension}`;
+  while (await storage.exists(`contract-attachments/${filledContractId}/${key}`)) {
+    key = `${basename}_${index++}${extension}`;
   }
 
-  await storage.create({ key, contents: buffer });
+  await storage.create({ key: `contract-attachments/${filledContractId}/${key}`, contents: buffer });
 
   return key;
 };

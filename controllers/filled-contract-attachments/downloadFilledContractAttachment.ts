@@ -12,18 +12,20 @@ export interface IDownloadAttachmentResponse {
   contentType: string;
 };
 
-export const downloadContractAttachment = async (filename: string): Promise<IDownloadAttachmentResponse> => {
+export const downloadContractAttachment = async (filename: string, filledContractId: number): Promise<IDownloadAttachmentResponse> => {
   if (!filename) {
     return null;
   }
 
-  if (!(await storage.exists(filename))) {
+  const key = `contract-attachments/${filledContractId}/${filename}`;
+
+  if (!(await storage.exists(key))) {
     return null;
   }
 
   const contentType = mime.contentType(filename) || 'application/octet-stream';
   const baseName = path.basename(filename);
-  const stream = await storage.getStream(filename);
+  const stream = await storage.getStream(key);
 
   return {
     stream,
@@ -35,5 +37,5 @@ export const downloadContractAttachment = async (filename: string): Promise<IDow
 export const downloadFilledContractAttachment = async (email: string, attachmentId: number): Promise<IDownloadAttachmentResponse> => {
   const { attachment } = await getFilledContractAttachment(email, attachmentId);
 
-  return await downloadContractAttachment(attachment.filename);
+  return await downloadContractAttachment(attachment.filename, attachment.filledContractId);
 };
