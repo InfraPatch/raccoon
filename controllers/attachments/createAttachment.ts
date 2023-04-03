@@ -30,7 +30,7 @@ export const verifyAttachment = (friendlyName: string, file: File) : void => {
   if (file.size > maximumAttachmentSize) {
     throw new CreateAttachmentError('ATTACHMENT_TOO_LARGE');
   }
-}
+};
 
 export const uploadAttachment = async (attachmentType: string, parentId: number, file: File) => {
   const buffer = fs.readFileSync(file.path);
