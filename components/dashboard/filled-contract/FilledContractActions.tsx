@@ -16,8 +16,8 @@ import { CreateWitnessSignatureAPIResponse } from '@/services/apis/contracts/Wit
 import { allPartiesSigned, hasWitnessSigned } from '@/controllers/filled-contracts/signUtils';
 import { User } from '@/db/models/auth/User';
 
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import SignatureCanvas from 'react-signature-canvas';
 
 const MySwal = withReactContent(Swal);
@@ -175,7 +175,7 @@ const FilledContractActions = ({ filledContract, onChange, partyType, user }: Fi
 
     const clearSignatureCanvas = () => {
       canvas.clear();
-    }
+    };
 
     const result = await MySwal.fire({
       title: t('dashboard:contracts.actions.signatures.sign-action'),
@@ -183,7 +183,7 @@ const FilledContractActions = ({ filledContract, onChange, partyType, user }: Fi
         <div className="text-center">
           <p className="text-xl font-bold pb-2">{ t('dashboard:contracts.actions.signatures.sign-here') }</p>
           <SignatureCanvas
-            ref={ref => { canvas = ref }}
+            ref={ref => { canvas = ref; }}
             penColor="black"
             canvasProps={{className: 'border-dashed border-2 mx-auto', width: 300, height: 150}}
           />

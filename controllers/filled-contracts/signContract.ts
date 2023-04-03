@@ -179,7 +179,7 @@ export const decodeBase64Image = (data: string | null): Buffer => {
   }
 
   return Buffer.from(matches[1], 'base64');
-}
+};
 
 export const uploadSignatureContents = async (contractId: number, userId: number, contents: Buffer): Promise<string> => {
   let key: string = `signatures/${contractId}/${userId}.png`;
