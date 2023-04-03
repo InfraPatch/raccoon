@@ -1,20 +1,14 @@
 import db from '@/services/db';
 
+import { File } from 'formidable';
+
 import { User } from '@/db/models/auth/User';
 import { FilledContract } from '@/db/models/contracts/FilledContract';
 import { NewFilledContractAttachmentAPIParams } from '@/services/apis/contracts/FilledContractAttachmentAPIService';
 import { FilledContractAttachment } from '@/db/models/contracts/FilledContractAttachment';
-import { File } from 'formidable';
-
-import sanitize from 'sanitize-filename';
-
-import * as fs from 'fs';
-
-import { maximumAttachmentCount, maximumAttachmentSize } from './attachmentConstants';
-
-import { getStorageStrategy } from '@/lib/storageStrategies';
-
-const storage = getStorageStrategy();
+import { maximumAttachmentCount, maximumAttachmentSize } from '../attachments/attachmentConstants';
+import { uploadAttachment, verifyAttachment } from '../attachments/createAttachment';
+import { Attachment } from '@/db/common/Attachment';
 
 class CreateFilledContractAttachmentError extends Error {
   code: string;
@@ -26,42 +20,8 @@ class CreateFilledContractAttachmentError extends Error {
   }
 }
 
-const uploadAttachment = async (filledContractId: number, file: File) => {
-  const buffer = fs.readFileSync(file.path);
-  const filename = sanitize(file.name);
-
-  if (filename?.length === 0) {
-    throw new CreateFilledContractAttachmentError('INVALID_ATTACHMENT');
-  }
-
-  const dot = filename.indexOf('.');
-  const basename = filename.substring(0, dot);
-  const extension = filename.substring(dot);
-  let index = 1;
-
-  let key: string = `${basename}${extension}`;
-
-  while (await storage.exists(`attachments/contract/${filledContractId}/${key}`)) {
-    key = `${basename}_${index++}${extension}`;
-  }
-
-  await storage.create({ key: `attachments/contract/${filledContractId}/${key}`, contents: buffer });
-
-  return key;
-};
-
 export const createFilledContractAttachment = async (email: string, payload: Omit<NewFilledContractAttachmentAPIParams, 'file'> & { file?: File }): Promise<FilledContractAttachment> => {
-  if (!payload.friendlyName || payload.friendlyName.trim().length < 2) {
-    throw new CreateFilledContractAttachmentError('NAME_TOO_SHORT');
-  }
-
-  if (!payload.file || payload.file.name.startsWith('avdh-')) {
-    throw new CreateFilledContractAttachmentError('INVALID_ATTACHMENT');
-  }
-
-  if (payload.file.size > maximumAttachmentSize) {
-    throw new CreateFilledContractAttachmentError('ATTACHMENT_TOO_LARGE');
-  }
+  verifyAttachment(payload.friendlyName, payload.file);
 
   await db.prepare();
 
@@ -98,7 +58,7 @@ export const createFilledContractAttachment = async (email: string, payload: Omi
   const filledContractAttachment = filledContractAttachmentRepository.create();
 
   try {
-    filledContractAttachment.filename = await uploadAttachment(filledContract.id, payload.file);
+    filledContractAttachment.filename = await uploadAttachment('contract', filledContract.id, payload.file);
   } catch (err) {
     console.error(err);
     throw new CreateFilledContractAttachmentError('ATTACHMENT_UPLOAD_FAILED');

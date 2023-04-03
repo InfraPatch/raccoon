@@ -1,9 +1,8 @@
 import { FilledContractAttachment } from '@/db/models/contracts/FilledContractAttachment';
 import db from '@/services/db';
-import { getFilledContractAttachment, FilledContractAttachmentResponse } from './getFilledContractAttachment';
 
-import { getStorageStrategy } from '@/lib/storageStrategies';
-const storage = getStorageStrategy();
+import { getFilledContractAttachment, FilledContractAttachmentResponse } from './getFilledContractAttachment';
+import { deleteAttachment } from '../attachments/deleteAttachment';
 
 class DeleteFilledContractAttachmentError extends Error {
   code: string;
@@ -31,7 +30,7 @@ export const deleteFilledContractAttachment = async (email: string, attachmentId
   await attachmentRepository.delete(attachment.id);
 
   try {
-    await storage.delete(`attachments/contract/${attachment.filledContractId}/${attachment.filename}`);
+    await deleteAttachment('contracts', attachment.filledContractId, attachment.filename);
   } catch {
     throw new DeleteFilledContractAttachmentError('ATTACHMENT_CLEANUP_FAILED');
   }

@@ -40,7 +40,7 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 
         return resolve();
       } catch (err) {
-        if (err.name === 'CreateFilledContractAttachmentError') {
+        if (err.name === 'CreateFilledContractAttachmentError' || err.name === 'CreateAttachmentError') {
           res.status(400).json({
             ok: false,
             error: err.code

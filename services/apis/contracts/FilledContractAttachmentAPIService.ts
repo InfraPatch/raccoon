@@ -1,10 +1,13 @@
 import axiosService, { APIResponse } from '@/services/axios';
 import { IFilledContractAttachment } from '@/db/models/contracts/FilledContractAttachment';
 
-export interface NewFilledContractAttachmentAPIParams {
-  filledContractId: number;
+export interface NewAttachmentAPIParams {
   friendlyName: string;
   file: File;
+}
+
+export interface NewFilledContractAttachmentAPIParams extends NewAttachmentAPIParams {
+  filledContractId: number;
 };
 
 export interface GetFilledContractAttachmentAPIResponse extends APIResponse {
