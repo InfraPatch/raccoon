@@ -42,6 +42,10 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
   const [ user ] = useCurrentUser();
 
   const loadContract = async () => {
+    if (!user) {
+      return;
+    }
+
     setContract(null);
     setError('');
 
@@ -97,7 +101,7 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
 
   useEffect(() => {
     loadContract();
-  }, []);
+  }, [ user ]);
 
   const isSeller = (partyType === PartyType.SELLER);
   const isBuyer = (partyType === PartyType.BUYER);
