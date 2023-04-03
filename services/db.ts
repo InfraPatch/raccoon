@@ -17,6 +17,7 @@ import { Item } from '../db/models/items/Item';
 import { ItemOption } from '../db/models/items/ItemOption';
 import { FilledItem } from '../db/models/items/FilledItem';
 import { FilledItemOption } from '../db/models/items/FilledItemOption';
+import { FilledItemAttachment } from '../db/models/items/FilledItemAttachment';
 
 import { WitnessSignature } from '../db/models/contracts/WitnessSignature';
 
@@ -67,6 +68,7 @@ const connectionOptions: ConnectionOptions = {
     ItemOption,
     FilledItem,
     FilledItemOption,
+    FilledItemAttachment,
 
     WitnessSignature
   ]
