@@ -2,7 +2,6 @@ import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
 import DashboardLayout from '@/layouts/DashboardLayout';
 
-import { User } from '@/db/models/auth/User';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
 
@@ -23,11 +22,10 @@ import Loading from '@/components/common/Loading';
 import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 
 export interface DashboardContractPageProps {
-  user: User;
   id: number;
 };
 
-const DashboardContractPage = ({ user, id }: DashboardContractPageProps) => {
+const DashboardContractPage = ({ id }: DashboardContractPageProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const [ contract, setContract ] = useState<Contract | null>(null);
@@ -74,7 +72,7 @@ const DashboardContractPage = ({ user, id }: DashboardContractPageProps) => {
   }, []);
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout>
       <Meta
         title={`${t('dashboard:pages.contract')}: ${contract?.friendlyName || '...'}`}
         url={`/dashboard/admin/contracts/${id}`}
@@ -135,7 +133,6 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
 
   return {
     props: {
-      user: session.user,
       id,
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }

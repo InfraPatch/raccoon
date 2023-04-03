@@ -2,6 +2,7 @@ import '@/styles/base.scss';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider as AuthProvider } from 'next-auth/client';
+import { UserProvider } from '@/components/providers/CurrentUserProvider';
 import { appWithTranslation } from 'next-i18next';
 
 import Router from 'next/router';
@@ -19,13 +20,15 @@ Router.events.on('routeChangeError', NProgress.done);
 const App = ({ Component, pageProps }) => {
   return (
     <AuthProvider session={pageProps.session}>
-      <QueryClientProvider client={queryClient}>
-        <main className="app">
-          <Component {...pageProps} />
-          <ToastContainer />
-          <CookieConsent />
-        </main>
-      </QueryClientProvider>
+      <UserProvider>
+        <QueryClientProvider client={queryClient}>
+          <main className="app">
+            <Component {...pageProps} />
+            <ToastContainer />
+            <CookieConsent />
+          </main>
+        </QueryClientProvider>
+      </UserProvider>
     </AuthProvider>
   );
 };

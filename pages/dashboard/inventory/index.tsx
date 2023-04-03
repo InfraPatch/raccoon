@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import DashboardLayout from '@/layouts/DashboardLayout';
 
-import { User } from '@/db/models/auth/User';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
 
@@ -21,11 +20,7 @@ import Meta from '@/components/common/Meta';
 import Loading from '@/components/common/Loading';
 import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 
-export interface DashboardNewContractPageProps {
-  user: User;
-};
-
-const DashboardItemsPage = ({ user }: DashboardNewContractPageProps) => {
+const DashboardItemsPage = () => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const [ items, setItems ] = useState<Item[] | null>(null);
@@ -49,7 +44,7 @@ const DashboardItemsPage = ({ user }: DashboardNewContractPageProps) => {
   }, []);
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout>
       <Meta
         title={ t('dashboard:pages.my-items') }
         url="/dashboard/inventory"
@@ -85,7 +80,6 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
 
   return {
     props: {
-      user: session.user,
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }
   };

@@ -1,6 +1,5 @@
 import DashboardLayout from '@/layouts/DashboardLayout';
 
-import { User } from '@/db/models/auth/User';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
 
@@ -13,15 +12,11 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
 import Meta from '@/components/common/Meta';
 
-export interface DashboardMakeLawyerPageProps {
-  user: User;
-};
-
-const DashboardMakeLawyerPage = ({ user }: DashboardMakeLawyerPageProps) => {
+const DashboardMakeLawyerPage = () => {
   const { t } = useTranslation('dashboard');
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout>
       <Meta
         title={ t('dashboard:pages.make-lawyer') }
         url="/dashboard/admin/make-lawyer"
@@ -48,7 +43,6 @@ export const getServerSideProps = async ({ req, res, locale }) => {
 
   return {
     props: {
-      user: session.user,
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }
   };

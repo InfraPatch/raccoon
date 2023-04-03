@@ -13,9 +13,10 @@ import { UpdateUserIdentificationDetailsAPIRequest } from '@/services/apis/users
 
 export interface UserIdentificationSettingsFormProps {
   user: User;
+  setUser: (user: User) => void;
 };
 
-const UserIdentificationSettingsForm = ({ user }: UserIdentificationSettingsFormProps) => {
+const UserIdentificationSettingsForm = ({ user, setUser }: UserIdentificationSettingsFormProps) => {
   const { t } = useTranslation([ 'common', 'dashboard', 'errors' ]);
 
   const handleFormSubmit = async ({
@@ -29,7 +30,7 @@ const UserIdentificationSettingsForm = ({ user }: UserIdentificationSettingsForm
     birthPlace
   }: UpdateUserIdentificationDetailsAPIRequest, { setSubmitting }: FormikHelpers<UpdateUserIdentificationDetailsAPIRequest>) => {
     try {
-      await apiService.users.updateUser({
+      const res = await apiService.users.updateUser({
         motherName,
         motherBirthDate: motherBirthDate && new Date(motherBirthDate),
         nationality,
@@ -39,6 +40,8 @@ const UserIdentificationSettingsForm = ({ user }: UserIdentificationSettingsForm
         birthDate: birthDate && new Date(birthDate),
         birthPlace
       });
+
+      setUser(res.user);
       toaster.success(t('dashboard:settings.success'));
     } catch (err) {
       if (err.response?.data?.error) {

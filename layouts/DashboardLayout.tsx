@@ -2,19 +2,16 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
-import { User } from '@/db/models/auth/User';
-
 import DashboardSidebar from '@/components/dashboard/sidebar/DashboardSidebar';
 import { Menu, X } from 'react-feather';
 
 import clsx from 'clsx';
 
 export interface DashboardLayoutProps {
-  user: User;
   children: ReactNode;
 };
 
-const DashboardLayout = ({ user, children }: DashboardLayoutProps) => {
+const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [ sidebarOpen, setSidebarOpen ] = useState(true);
   const { t } = useTranslation('common');
 
@@ -44,7 +41,7 @@ const DashboardLayout = ({ user, children }: DashboardLayoutProps) => {
       </a>
 
       <div className={sidebarWrapperClassnames}>
-        <DashboardSidebar user={user} />
+        <DashboardSidebar />
       </div>
 
       <div className="flex-1 overflow-y-auto py-10 px-4 md:px-14" id="content">

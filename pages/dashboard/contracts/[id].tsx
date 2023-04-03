@@ -5,7 +5,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 
-import { User } from '@/db/models/auth/User';
 import { IFilledContract } from '@/db/models/contracts/FilledContract';
 import { PartyType, getPartyType } from '@/db/models/contracts/PartyType';
 
@@ -27,19 +26,20 @@ import Meta from '@/components/common/Meta';
 import { IAttachment } from '@/db/common/Attachment';
 import { IFilledContractAttachment } from '@/db/models/contracts/FilledContractAttachment';
 
+import { useCurrentUser } from '@/hooks/useCurrentUser';
+
 export interface DashboardContractsPageProps {
-  user: User;
   id: number;
 };
 
-
-const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
+const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const [ contract, setContract ] = useState<IFilledContract | null>(null);
   const [ partyType, setPartyType ] = useState(PartyType.BUYER);
   const [ title, setTitle ] = useState('...');
   const [ error, setError ] = useState('');
+  const [ user ] = useCurrentUser();
 
   const loadContract = async () => {
     setContract(null);
@@ -103,7 +103,7 @@ const DashboardContractsPage = ({ user, id }: DashboardContractsPageProps) => {
   const isBuyer = (partyType === PartyType.BUYER);
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout>
       <Meta
         title={`${t('dashboard:pages.contract')}: ${title}`}
         url={`/dashboard/contracts/${id}`}
@@ -190,7 +190,6 @@ export const getServerSideProps = async ({ req, res, query, locale }) => {
   return {
     props: {
       id,
-      user: session.user,
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }
   };

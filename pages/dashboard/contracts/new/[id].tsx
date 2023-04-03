@@ -1,7 +1,5 @@
 import DashboardLayout from '@/layouts/DashboardLayout';
 
-import { User } from '@/db/models/auth/User';
-
 import Box from '@/components/common/box/Box';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
@@ -14,15 +12,14 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Meta from '@/components/common/Meta';
 
 export interface DashboardNewContractPageProps {
-  user: User;
   contractId: number;
 };
 
-const DashboardNewContractPage = ({ user, contractId }: DashboardNewContractPageProps) => {
+const DashboardNewContractPage = ({ contractId }: DashboardNewContractPageProps) => {
   const { t } = useTranslation('dashboard');
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout>
       <Meta
         title={ t('dashboard:pages.new-contract') }
         url={`/dashboard/contracts/new/${contractId}`}
@@ -51,7 +48,6 @@ export const getServerSideProps = async ({ req, res, query, locale }) => {
 
   return {
     props: {
-      user: session.user,
       contractId: parseInt(Array.isArray(id) ? id[0] : id),
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }

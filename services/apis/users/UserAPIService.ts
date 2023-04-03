@@ -46,6 +46,10 @@ export type UpdateUserAPIRequest =
   UpdateUserPasswordAPIRequest &
   UpdateUserIdentificationDetailsAPIRequest;
 
+export interface UpdateUserAPIResponse extends APIResponse {
+  user: User;
+};
+
 class UsersAPIService {
   static GET_LOGGED_IN_USER_URL = '/api/users/me';
   static UPDATE_USER_URL = '/api/users/me';
@@ -67,7 +71,7 @@ class UsersAPIService {
       .then(res => res.data);
   }
 
-  public async updateUser(data: UpdateUserAPIRequest): Promise<User> {
+  public async updateUser(data: UpdateUserAPIRequest): Promise<UpdateUserAPIResponse> {
     const payload = new FormData();
 
     if (data.name) {

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import DashboardLayout from '@/layouts/DashboardLayout';
 
-import { User } from '@/db/models/auth/User';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
 
@@ -21,11 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 import Loading from '@/components/common/Loading';
 
-export interface DashboardItemsPageProps {
-  user: User;
-};
-
-const DashboardItemsPage = ({ user }: DashboardItemsPageProps) => {
+const DashboardItemsPage = () => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const [ rows, setRows ] = useState<Item[][] | null>(null);
@@ -57,7 +52,7 @@ const DashboardItemsPage = ({ user }: DashboardItemsPageProps) => {
   }, []);
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout>
       <Meta
         title={ t('dashboard:pages.item-categories') }
         url="/dashboard/admin/property-categories"
@@ -95,7 +90,6 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
 
   return {
     props: {
-      user: session.user,
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }
   };

@@ -118,7 +118,9 @@ export class User implements IUser {
       personalIdentifier: this.personalIdentifier,
       phoneNumber: this.phoneNumber,
       birthDate: this.birthDate,
-      birthPlace: this.birthPlace
+      birthPlace: this.birthPlace,
+      isAdmin: this.isAdmin,
+      isLawyer: this.isLawyer
     };
   }
 }

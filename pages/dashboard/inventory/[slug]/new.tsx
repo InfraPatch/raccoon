@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import DashboardLayout from '@/layouts/DashboardLayout';
 
-import { User } from '@/db/models/auth/User';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
 
@@ -20,11 +19,10 @@ import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 import NewFilledItemForm from '@/components/dashboard/new-filled-item/NewFilledItemForm';
 
 export interface DashboardNewFilledItemPageProps {
-  user: User;
   slug: string;
 };
 
-const DashboardNewFilledItemPage = ({ user, slug }: DashboardNewFilledItemPageProps) => {
+const DashboardNewFilledItemPage = ({ slug }: DashboardNewFilledItemPageProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const [ item, setItem ] = useState<Item | null>(null);
@@ -56,7 +54,7 @@ const DashboardNewFilledItemPage = ({ user, slug }: DashboardNewFilledItemPagePr
   }, []);
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout>
       <Meta
         title={ t('dashboard:pages.new-filled-item') }
         url={`/dashboard/inventory/${slug}/new`}
@@ -86,7 +84,6 @@ export const getServerSideProps = async ({ req, res, query, locale }) => {
 
   return {
     props: {
-      user: session.user,
       slug: Array.isArray(slug) ? slug[0] : slug,
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }

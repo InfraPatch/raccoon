@@ -1,6 +1,5 @@
 import DashboardLayout from '@/layouts/DashboardLayout';
 
-import { User } from '@/db/models/auth/User';
 import { IFilledContract } from '@/db/models/contracts/FilledContract';
 import { PartyType } from '@/db/models/contracts/PartyType';
 
@@ -21,10 +20,6 @@ import FilledContractList from '@/components/dashboard/filled-contract-list/Fill
 import ZeroDataState from '@/components/common/zero-data-state/ZeroDataState';
 import Meta from '@/components/common/Meta';
 
-export interface DashboardContractListPageProps {
-  user: User;
-};
-
 export interface DashboardContractListProps {
   contracts: IFilledContract[];
   type: string;
@@ -36,7 +31,7 @@ export interface DashboardContractTypeProps {
   friendlyName: string;
 };
 
-const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => {
+const DashboardContractListPage = () => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
   const unsortedContractType = { id: -1, friendlyName: t('dashboard:contracts.list.all-contracts') };
 
@@ -174,7 +169,7 @@ const DashboardContractListPage = ({ user }: DashboardContractListPageProps) => 
   const contractLists = columns.map(getContractListBox);
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout>
       <Meta
         title={ t('dashboard:pages.my-contracts') }
         url="/dashboard/contracts"
@@ -228,7 +223,6 @@ export const getServerSideProps = async ({ req, res, locale }) => {
 
   return {
     props: {
-      user: session.user,
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }
   };

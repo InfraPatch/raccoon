@@ -15,16 +15,19 @@ import * as UserSettingsValidator from '@/validators/UserSettingsValidator';
 
 export interface UserSettingsFormProps {
   user: User;
+  setUser: (user: User) => void;
 };
 
-const UserSettingsForm = ({ user }: UserSettingsFormProps) => {
+const UserSettingsForm = ({ user, setUser }: UserSettingsFormProps) => {
   const { t } = useTranslation([ 'common', 'dashboard', 'errors' ]);
 
   const [ image, setImage ] = useState<File | null>(null);
 
   const handleFormSubmit = async ({ name }: UpdateUserProfileAPIRequest, { setSubmitting }: FormikHelpers<UpdateUserProfileAPIRequest>) => {
     try {
-      await apiService.users.updateUser({ name, image });
+      const res = await apiService.users.updateUser({ name, image });
+
+      setUser(res.user);
       toaster.success(t('dashboard:settings.success'));
     } catch (err) {
       if (err.response?.data?.error) {

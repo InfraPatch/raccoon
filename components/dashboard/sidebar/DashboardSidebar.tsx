@@ -16,6 +16,8 @@ import { useTranslation } from 'next-i18next';
 import buildUrl from '@/lib/buildUrl';
 
 import Link from 'next/link';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { useEffect, useState } from 'react';
 
 export interface DashboardSidebarProps {
   user: User;
@@ -23,87 +25,98 @@ export interface DashboardSidebarProps {
 
 const SEPARATOR: NavigationSeparator = 0;
 
-const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
+const DashboardSidebar = () => {
   const handleSignoutClick = async () => await signOut({ callbackUrl: buildUrl('/') });
   const { t } = useTranslation('dashboard');
 
-  const navigation: ( NavigationLinkProps | NavigationTitleProps | NavigationSeparator )[] = [
-    {
-      href: '/dashboard',
-      icon: <Home />,
-      label: t('pages.home')
-    },
+  const [ user, setUser ] = useCurrentUser();
+  const [ navigation, setNavigation ] = useState<( NavigationLinkProps | NavigationTitleProps | NavigationSeparator )[]>([]);
 
-    {
-      href: '/dashboard/contracts/new',
-      icon: <Star />,
-      label: t('pages.new-user-contract')
-    },
-
-    {
-      href: '/dashboard/contracts',
-      icon: <Edit3 />,
-      label: t('pages.my-contracts')
-    },
-
-    {
-      href: '/dashboard/settings',
-      icon: <UserIcon />,
-      label: t('pages.user-settings')
-    },
-
-    {
-      href: '/docs',
-      icon: <Book />,
-      label: t('pages.docs'),
-      newtab: true
+  useEffect(() => {
+    if (user === null) {
+      return;
     }
-  ];
 
-  if (user.isAdmin) {
-    navigation.push(SEPARATOR);
+    const newNavigation: ( NavigationLinkProps | NavigationTitleProps | NavigationSeparator )[] = [
+      {
+        href: '/dashboard',
+        icon: <Home />,
+        label: t('pages.home')
+      },
 
-    navigation.push({
-      title: t('pages.admin')
-    });
+      {
+        href: '/dashboard/contracts/new',
+        icon: <Star />,
+        label: t('pages.new-user-contract')
+      },
 
-    navigation.push(SEPARATOR);
+      {
+        href: '/dashboard/contracts',
+        icon: <Edit3 />,
+        label: t('pages.my-contracts')
+      },
 
-    navigation.push({
-      href: '/dashboard/admin/make-admin',
-      icon: <Star />,
-      label: t('pages.make-admin')
-    });
+      {
+        href: '/dashboard/settings',
+        icon: <UserIcon />,
+        label: t('pages.user-settings')
+      },
 
-    navigation.push({
-      href: '/docs/admin',
-      icon: <Book />,
-      label: t('pages.admin-docs'),
-      newtab: true
-    });
+      {
+        href: '/docs',
+        icon: <Book />,
+        label: t('pages.docs'),
+        newtab: true
+      }
+    ];
 
-    navigation.push(SEPARATOR);
+    if (user.isAdmin) {
+      newNavigation.push(SEPARATOR);
 
-    navigation.push({
-      href: '/dashboard/admin/make-lawyer',
-      icon: <UserCheck />,
-      label: t('pages.make-lawyer')
-    });
+      newNavigation.push({
+        title: t('pages.admin')
+      });
 
-    navigation.push(SEPARATOR);
+      newNavigation.push(SEPARATOR);
 
-    navigation.push({
-      href: '/dashboard/admin/new-contract',
-      icon: <Star />,
-      label: t('pages.new-contract')
-    });
+      newNavigation.push({
+        href: '/dashboard/admin/make-admin',
+        icon: <Star />,
+        label: t('pages.make-admin')
+      });
 
-    navigation.push({
-      href: '/dashboard/admin/contracts',
-      icon: <Layout />,
-      label: t('pages.contracts')
-    });
-  }
+      newNavigation.push({
+        href: '/docs/admin',
+        icon: <Book />,
+        label: t('pages.admin-docs'),
+        newtab: true
+      });
+
+      newNavigation.push(SEPARATOR);
+
+      newNavigation.push({
+        href: '/dashboard/admin/make-lawyer',
+        icon: <UserCheck />,
+        label: t('pages.make-lawyer')
+      });
+
+      newNavigation.push(SEPARATOR);
+
+      newNavigation.push({
+        href: '/dashboard/admin/new-contract',
+        icon: <Star />,
+        label: t('pages.new-contract')
+      });
+
+      newNavigation.push({
+        href: '/dashboard/admin/contracts',
+        icon: <Layout />,
+        label: t('pages.contracts')
+      });
+    }
+
+    setNavigation(newNavigation);
+  }, [ user ]);
 
   return (
     <aside className="overflow-y-auto flex flex-col md:w-64 bg-secondary shadow-lg py-6 px-5 h-full">
@@ -127,26 +140,28 @@ const DashboardSidebar = ({ user }: DashboardSidebarProps) => {
 
         <hr />
 
-        <div className="flex gap-2 items-center">
-          <UserProfilePicture size={UserProfilePictureSize.SMALL} user={user} />
+        {user && (
+          <div className="flex gap-2 items-center">
+            <UserProfilePicture size={UserProfilePictureSize.SMALL} user={user} />
 
-          <div className="flex-1 truncate" title={user.name}>
-            <span>{user.name}</span>
+            <div className="flex-1 truncate" title={user.name}>
+              <span>{user.name}</span>
 
-            {(user.isAdmin && user.isLawyer &&
-              <div>
-                <span className="text-sm text-danger">{t('pages.admin')}</span>
-                <span> | </span>
-                <span className="text-sm text-info">{t('pages.lawyer')}</span>
-              </div>)
-              || (user.isAdmin && <p className="text-sm text-danger">{t('pages.admin')}</p>)
-              || (user.isLawyer && <p className="text-sm text-info">{t('pages.lawyer')}</p>)
-            }
+              {(user.isAdmin && user.isLawyer &&
+                <div>
+                  <span className="text-sm text-danger">{t('pages.admin')}</span>
+                  <span> | </span>
+                  <span className="text-sm text-info">{t('pages.lawyer')}</span>
+                </div>)
+                || (user.isAdmin && <p className="text-sm text-danger">{t('pages.admin')}</p>)
+                || (user.isLawyer && <p className="text-sm text-info">{t('pages.lawyer')}</p>)
+              }
+            </div>
+            <div>
+              <LogOut onClick={handleSignoutClick} className="cursor-pointer" />
+            </div>
           </div>
-          <div>
-            <LogOut onClick={handleSignoutClick} className="cursor-pointer" />
-          </div>
-        </div>
+        )}
       </div>
 
     </aside>

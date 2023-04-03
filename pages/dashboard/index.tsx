@@ -1,10 +1,9 @@
 import DashboardLayout from '@/layouts/DashboardLayout';
 import Button, { ButtonSize } from '@/components/common/button/Button';
 
-import { getSession, signOut } from 'next-auth/client';
+import { getSession } from 'next-auth/client';
 import { redirectIfAnonymous } from '@/lib/redirects';
 
-import { User } from '@/db/models/auth/User';
 import Box from '@/components/common/box/Box';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
@@ -15,11 +14,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import Meta from '@/components/common/Meta';
 
-export interface DashboardHomePageProps {
-  user: User;
-}
-
-const DashboardHomePage = ({ user }: DashboardHomePageProps) => {
+const DashboardHomePage = () => {
   const router = useRouter();
   const { t } = useTranslation('dashboard');
 
@@ -34,7 +29,7 @@ const DashboardHomePage = ({ user }: DashboardHomePageProps) => {
   };
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout>
       <Meta
         title={ t('dashboard:pages.home') }
         url="/dashboard"
@@ -85,7 +80,6 @@ export const getServerSideProps = async ({ req, res, locale }) => {
 
   return {
     props: {
-      user: session.user,
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }
   };

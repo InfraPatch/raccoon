@@ -2,7 +2,6 @@ import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
 import DashboardLayout from '@/layouts/DashboardLayout';
 
-import { User } from '@/db/models/auth/User';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
 
@@ -23,11 +22,10 @@ import Loading from '@/components/common/Loading';
 import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 
 export interface DashboardItemPageProps {
-  user: User;
   slug: string;
 };
 
-const DashboardItemPage = ({ user, slug }: DashboardItemPageProps) => {
+const DashboardItemPage = ({ slug }: DashboardItemPageProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
   const [ item, setItem ] = useState<Item | null>(null);
@@ -74,7 +72,7 @@ const DashboardItemPage = ({ user, slug }: DashboardItemPageProps) => {
   }, []);
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout>
       <Meta
         title={`${t('dashboard:pages.item-categories')}: ${item?.friendlyName || '...'}`}
         url={`/dashboard/admin/property-categories/${slug}`}
@@ -135,7 +133,6 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
 
   return {
     props: {
-      user: session.user,
       slug,
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }
