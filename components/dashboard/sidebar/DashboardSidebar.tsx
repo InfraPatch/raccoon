@@ -2,7 +2,7 @@ import { signOut } from 'next-auth/client';
 
 import { User } from '@/db/models/auth/User';
 
-import { Book, LogOut, Star, Layout, Edit3, Home, UserCheck, User as UserIcon } from 'react-feather';
+import { Book, LogOut, Star, Layout, Edit3, Home, UserCheck, User as UserIcon, Folder } from 'react-feather';
 
 import UserProfilePicture, { UserProfilePictureSize } from '../common/UserProfilePicture';
 import DashboardNavigation, { NavigationSeparator } from '../common/navigation/DashboardNavigation';
@@ -44,6 +44,12 @@ const DashboardSidebar = () => {
         href: '/dashboard/contracts/new',
         icon: <Star />,
         label: t('pages.new-user-contract')
+      },
+
+      {
+        href: '/dashboard/inventory',
+        icon: <Folder />,
+        label: t('pages.my-items')
       },
 
       {

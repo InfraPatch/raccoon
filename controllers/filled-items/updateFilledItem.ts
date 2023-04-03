@@ -44,6 +44,8 @@ export const fillItemOptions = async (userEmail: string, itemId: number, friendl
       throw new FilledItemUpdateError('NAME_TOO_SHORT');
     }
 
+    filledItem.friendlyName = friendlyName;
+
     await filledItemRepository.save(filledItem);
   }
 
@@ -76,4 +78,6 @@ export const fillItemOptions = async (userEmail: string, itemId: number, friendl
       await filledItemOptionsRepository.insert(newFilledItemOption);
     }
   }
+
+  return filledItem;
 };

@@ -169,10 +169,13 @@
       "view": "View"
     },
     "list": {
-      "search": "Search properties..."
+      "search": "Search properties...",
+      "new": "New"
     },
     "data": {
-      "attachments": "Attachments"
+      "attachments": "Attachments",
+      "success": "The property has been updated successfully.",
+      "submit": "Save"
     }
   },
 
@@ -216,7 +219,8 @@
     "overview": "Overview",
     "submit": "Add",
     "title": "Add new property",
-    "success": "Property has been added successfully."
+    "success": "Property has been added successfully.",
+    "back": "Back to property listing"
   },
 
   "admin": {

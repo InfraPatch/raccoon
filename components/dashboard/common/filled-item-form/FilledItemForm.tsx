@@ -38,7 +38,7 @@ export interface FilledItemFormProps {
 const FilledItemForm = ({ item, filledItem, onSubmit, submitButtonText }: FilledItemFormProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
 
-  const [ friendlyName, setFriendlyName ] = useState('');
+  const [ friendlyName, setFriendlyName ] = useState(filledItem ? filledItem.friendlyName : '');
   const [ fields, setFields ] = useState<FilledItemField[]>([]);
   const [ saving, setSaving ] = useState(false);
 
@@ -101,7 +101,7 @@ const FilledItemForm = ({ item, filledItem, onSubmit, submitButtonText }: Filled
           <input
             id="friendlyName"
             name="friendlyName"
-            defaultValue={filledItem ? filledItem.friendlyName : ''}
+            defaultValue={friendlyName}
             onChange={e => setFriendlyName(e.currentTarget.value)}
           />
         </div>

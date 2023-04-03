@@ -19,6 +19,9 @@ import apiService from '@/services/apis';
 import FilledItemList from '@/components/dashboard/filled-item-list/FilledItemList';
 import ZeroDataState from '@/components/common/zero-data-state/ZeroDataState';
 import Meta from '@/components/common/Meta';
+import Button, { ButtonSize } from '@/components/common/button/Button';
+import Link from 'next/link';
+import { Plus } from 'react-feather';
 
 export interface DashboardFilledItemsPageProps {
   slug: string;
@@ -85,8 +88,17 @@ const DashboardFilledItemsPage = ({ slug }: DashboardFilledItemsPageProps) => {
 
       {item && (
         <div className="flex justify-between items-center mb-6">
-          <h1 className="font-normal text-2xl flex-1">
-            {item.friendlyName}
+          <h1 className="flex gap-2 items-center font-normal text-2xl flex-1">
+            <span>{item.friendlyName}</span>
+
+            <Link href={`/dashboard/inventory/${slug}/new`}>
+              <a>
+                <Button size={ButtonSize.SMALL}>
+                  <Plus className="w-5 inline-block mr-1 align-middle" />
+                  <span className="align-middle">{ t('dashboard:items.list.new') }</span>
+                </Button>
+              </a>
+            </Link>
           </h1>
 
           <div className="text-right flex-1">

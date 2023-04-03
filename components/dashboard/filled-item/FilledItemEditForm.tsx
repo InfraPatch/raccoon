@@ -12,21 +12,21 @@ import FilledItemForm, { FilledItemFormFields } from '@/components/dashboard/com
 export interface FilledItemEditFormProps {
   item: IItem;
   filledItem: IFilledItem;
+  loadFilledItem(): Promise<void>;
 };
 
-const FilledItemEditForm = ({ item, filledItem }: FilledItemEditFormProps) => {
+const FilledItemEditForm = ({ item, filledItem, loadFilledItem }: FilledItemEditFormProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
-  const router = useRouter();
 
   const handleFormSubmit = async ({ friendlyName, options }: FilledItemFormFields) => {
     try {
-      const res = await apiService.filledItems.updateFilledItem(filledItem.id, {
+      await apiService.filledItems.updateFilledItem(filledItem.id, {
         friendlyName,
         options
       });
 
-      toaster.success(t('dashboard:update.success'));
-      router.push(`/dashboard/inventory/${item.slug}/${res.filledItem.id}`);
+      toaster.success(t('dashboard:items.data.success'));
+      await loadFilledItem();
     } catch (err) {
       if (err.response?.data?.error) {
         const message = err.response.data.error;
@@ -46,7 +46,7 @@ const FilledItemEditForm = ({ item, filledItem }: FilledItemEditFormProps) => {
       item={item}
       filledItem={filledItem}
       onSubmit={handleFormSubmit}
-      submitButtonText={t('dashboard:update.submit')}
+      submitButtonText={t('dashboard:items.data.submit')}
     />
   );
 };

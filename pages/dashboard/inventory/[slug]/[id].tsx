@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardLayout from '@/layouts/DashboardLayout';
 
 import Columns from '@/components/common/columns/Columns';
@@ -24,6 +24,7 @@ import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 import FilledItemEditForm from '@/components/dashboard/filled-item/FilledItemEditForm';
 
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import Link from 'next/link';
 
 export interface DashboardFilledItemPageProps {
   slug: string;
@@ -92,28 +93,48 @@ const DashboardFilledItemPage = ({ slug, id }: DashboardFilledItemPageProps) => 
       />
 
       {user && item && filledItem && (
-        <Columns>
-          <Column>
-            {item && <FilledItemEditForm filledItem={filledItem} item={item} />}
-          </Column>
+        <>
+          <h1 className="font-normal text-2xl mb-3">
+            {filledItem.friendlyName}
+          </h1>
 
-          <Column>
-            {(filledItem.attachments?.length > 0 || canUploadAttachment()) && (
-              <Box title={ t('dashboard:items.data.attachments') }>
-                <Attachments
-                  attachments={filledItem.attachments}
-                  onChange={loadFilledItem}
-                  deleteAttachment={deleteAttachment}
-                  uploadAttachment={uploadAttachment}
-                  canUpload={canUploadAttachment}
-                  canDelete={canDeleteAttachment}
-                  modelName="items"
-                  translationKey='item-attachments'
+          <div className="mb-4">
+            <Link href={`/dashboard/inventory/${slug}`}>
+              <a>
+                &laquo; { item.friendlyName }
+              </a>
+            </Link>
+          </div>
+
+          <Columns>
+            <Column>
+              {item && (
+                <FilledItemEditForm
+                  filledItem={filledItem}
+                  loadFilledItem={loadFilledItem}
+                  item={item}
                 />
-              </Box>
-            )}
-          </Column>
-        </Columns>
+              )}
+            </Column>
+
+            <Column>
+              {(filledItem.attachments?.length > 0 || canUploadAttachment()) && (
+                <Box title={ t('dashboard:items.data.attachments') }>
+                  <Attachments
+                    attachments={filledItem.attachments}
+                    onChange={loadFilledItem}
+                    deleteAttachment={deleteAttachment}
+                    uploadAttachment={uploadAttachment}
+                    canUpload={canUploadAttachment}
+                    canDelete={canDeleteAttachment}
+                    modelName="items"
+                    translationKey='item-attachments'
+                  />
+                </Box>
+              )}
+            </Column>
+          </Columns>
+        </>
       )}
 
       {(!item || !filledItem) && !error && <Loading />}

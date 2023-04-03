@@ -169,10 +169,13 @@
       "view": "Megtekint"
     },
     "list": {
-      "search": "Tulajdonok keresése..."
+      "search": "Tulajdonok keresése...",
+      "new": "Új"
     },
     "data": {
-      "attachments": "Mellékletek"
+      "attachments": "Mellékletek",
+      "success": "A tulajdon sikeresen frissítve lett.",
+      "submit": "Mentés"
     }
   },
 
@@ -216,7 +219,8 @@
     "overview": "Alapinformációk",
     "submit": "Hozzáadás",
     "title": "Új tulajdon hozzáadása",
-    "success": "A tulajdon sikeresen hozzá lett adva."
+    "success": "A tulajdon sikeresen hozzá lett adva.",
+    "back": "Vissza a tulajdonok listájához"
   },
 
   "admin": {
