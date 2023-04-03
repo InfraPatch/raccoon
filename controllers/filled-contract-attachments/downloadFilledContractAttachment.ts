@@ -1,5 +1,5 @@
 import { getFilledContractAttachment } from './getFilledContractAttachment';
-import { downloadAttachment, IDownloadAttachmentResponse } from '../attachments/deleteAttachment';
+import { downloadAttachment, IDownloadAttachmentResponse } from '../attachments/downloadAttachment';
 
 export const downloadFilledContractAttachment = async (email: string, attachmentId: number): Promise<IDownloadAttachmentResponse> => {
   const { attachment } = await getFilledContractAttachment(email, attachmentId);

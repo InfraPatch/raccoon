@@ -5,7 +5,7 @@ import toaster from '@/lib/toaster';
 import { useTranslation } from 'react-i18next';
 
 import { IAttachment } from '@/db/common/Attachment';
-import { maximumAttachmentCount, maximumAttachmentSize } from '@/controllers/filled-contract-attachments/attachmentConstants';
+import { maximumAttachmentCount, maximumAttachmentSize } from '@/controllers/attachments/attachmentConstants';
 
 import styles from '@/styles/components/Attachments.module.scss';
 import Loading from '@/components/common/Loading';
