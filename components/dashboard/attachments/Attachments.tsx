@@ -91,7 +91,14 @@ const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment
             return (
               <div className={dataRowClassNames} key={idx}>
                 <BookOpen />
-                <strong><a className="text-info" target="_blank" href={ `/${translationKey}/${attachment.id}` }>{ attachment.friendlyName }</a></strong>
+                <strong>
+                  <a
+                    className="text-info"
+                    target="_blank"
+                    title={attachment.filename}
+                    href={`/${translationKey}/${attachment.id}`}
+                  >{attachment.friendlyName}</a>
+                </strong>
 
                 {canDelete(attachment) && <strong>
                   <a
