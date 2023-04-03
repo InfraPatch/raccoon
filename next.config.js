@@ -53,7 +53,11 @@ module.exports = withImages(withMDX(withTM({
       },
       {
         source: '/contract-attachments/:id',
-        destination: '/api/filled-contract-attachments/:id/download'
+        destination: '/api/filled-contracts/attachments/:id/download'
+      },
+      {
+        source: '/item-attachments/:id',
+        destination: '/api/filled-items/attachments/:id/download'
       }
     ]
   }

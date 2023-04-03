@@ -5,10 +5,11 @@ import { ContractsAPIService } from './contracts/ContractAPIService';
 import { ContractOptionsAPIService } from './contracts/ContractOptionAPIService';
 import { FilledContractAPIService } from './contracts/FilledContractAPIService';
 import { WitnessSignatureAPIService } from './contracts/WitnessSignatureAPIService';
+import { FilledContractAttachmentAPIService } from './contracts/FilledContractAttachmentAPIService';
 import { ItemAPIService } from './items/ItemAPIService';
 import { ItemOptionAPIService } from './items/ItemOptionAPIService';
 import { FilledItemAPIService } from './items/FilledItemAPIService';
-import { FilledContractAttachmentAPIService } from './contracts/FilledContractAttachmentAPIService';
+import { FilledItemAttachmentAPIService } from './items/FilledItemAttachmentAPIService';
 
 class APIService {
   public contact = new ContactAPIService();
@@ -25,6 +26,7 @@ class APIService {
   public items = new ItemAPIService();
   public itemOptions = new ItemOptionAPIService();
   public filledItems = new FilledItemAPIService();
+  public filledItemAttachments = new FilledItemAttachmentAPIService();
 };
 
 const apiService = new APIService();

@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGenerate
 
 import { IUser, User } from '../auth/User';
 import { FilledItemOption, IFilledItemOption } from './FilledItemOption';
+import { FilledItemAttachment, IFilledItemAttachment } from './FilledItemAttachment';
 import { IItem, Item } from './Item';
 
 import db from '../../../services/db';
@@ -16,6 +17,7 @@ export interface IFilledItem {
   user?: IUser;
   item?: IItem;
   options?: IFilledItemOption[];
+  attachments?: IFilledItemAttachment[];
 };
 
 @Entity()
@@ -37,6 +39,9 @@ export class FilledItem implements IFilledItem {
 
   @OneToMany(() => FilledItemOption, filledItemOption => filledItemOption.filledItem)
   options: Partial<FilledItemOption[]>;
+
+  @OneToMany(() => FilledItemAttachment, attachment => attachment.filledItem)
+  attachments: Partial<FilledItemAttachment[]>;
 
   @Column('integer')
   userId: number;
@@ -61,6 +66,7 @@ export class FilledItem implements IFilledItem {
       friendlyName: this.friendlyName,
       item: this.item,
       options: this.options && this.options.map(option => omit(option.toJSON(), 'filledItem')),
+      attachments: this.attachments && this.attachments.map(attachment => omit(attachment.toJSON(), 'filledItem')),
       userId: this.userId
     };
   }

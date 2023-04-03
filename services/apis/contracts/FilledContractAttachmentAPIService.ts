@@ -20,10 +20,10 @@ export interface DeleteFilledContractAttachmentAPIResponse extends APIResponse {
 const url = (template: string, id: number) => template.replace(':id', id.toString());
 
 export class FilledContractAttachmentAPIService {
-  static CREATE_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contract-attachments';
-  static GET_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contract-attachments/:id';
-  static DOWNLOAD_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contract-attachments/:id/download';
-  static DELETE_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contract-attachments/:id';
+  static CREATE_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contracts/attachments';
+  static GET_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contracts/attachments/:id';
+  static DOWNLOAD_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contracts/attachments/:id/download';
+  static DELETE_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contracts/attachments/:id';
 
   public async createFilledContractAttachment(data: NewFilledContractAttachmentAPIParams): Promise<CreateFilledContractAttachmentAPIResponse> {
     const payload = new FormData();

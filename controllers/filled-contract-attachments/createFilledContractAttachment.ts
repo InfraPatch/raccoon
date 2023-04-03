@@ -4,11 +4,12 @@ import { File } from 'formidable';
 
 import { User } from '@/db/models/auth/User';
 import { FilledContract } from '@/db/models/contracts/FilledContract';
-import { NewFilledContractAttachmentAPIParams } from '@/services/apis/contracts/FilledContractAttachmentAPIService';
 import { FilledContractAttachment } from '@/db/models/contracts/FilledContractAttachment';
-import { maximumAttachmentCount, maximumAttachmentSize } from '../attachments/attachmentConstants';
+
+import { NewFilledContractAttachmentAPIParams } from '@/services/apis/contracts/FilledContractAttachmentAPIService';
+
+import { maximumAttachmentCount } from '../attachments/attachmentConstants';
 import { uploadAttachment, verifyAttachment } from '../attachments/createAttachment';
-import { Attachment } from '@/db/common/Attachment';
 
 class CreateFilledContractAttachmentError extends Error {
   code: string;
@@ -54,20 +55,20 @@ export const createFilledContractAttachment = async (email: string, payload: Omi
     throw new CreateFilledContractAttachmentError('MAX_ATTACHMENTS_REACHED');
   }
 
-  const filledContractAttachmentRepository = db.getRepository(FilledContractAttachment);
-  const filledContractAttachment = filledContractAttachmentRepository.create();
+  const attachmentRepository = db.getRepository(FilledContractAttachment);
+  const attachment = attachmentRepository.create();
 
   try {
-    filledContractAttachment.filename = await uploadAttachment('contract', filledContract.id, payload.file);
+    attachment.filename = await uploadAttachment('contract', filledContract.id, payload.file);
   } catch (err) {
     console.error(err);
     throw new CreateFilledContractAttachmentError('ATTACHMENT_UPLOAD_FAILED');
   }
 
-  filledContractAttachment.filledContract = filledContract;
-  filledContractAttachment.friendlyName = payload.friendlyName;
-  filledContractAttachment.isSeller = !isBuyer;
+  attachment.filledContract = filledContract;
+  attachment.friendlyName = payload.friendlyName;
+  attachment.isSeller = !isBuyer;
 
-  await filledContractAttachmentRepository.insert(filledContractAttachment);
-  return filledContractAttachment;
+  await attachmentRepository.insert(attachment);
+  return attachment;
 };
