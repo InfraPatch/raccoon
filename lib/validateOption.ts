@@ -20,17 +20,17 @@ class OptionValidationError extends Error {
   }
 }
 
-export const validateOption = <T extends ItemOption | ContractOption>(option: T, value: string) => {
+export const validateOption = <T extends ItemOption | ContractOption>(option: T, value: string) : (OptionValidationError | null) => {
   if (option.minimumValue !== undefined && option.minimumValue !== null) {
     if (option.type === OptionType.STRING && value.length < option.minimumValue) {
-      throw new OptionValidationError('FIELD_STRING_TOO_SHORT', {
+      return new OptionValidationError('FIELD_STRING_TOO_SHORT', {
         friendlyName: option.friendlyName,
         min: option.minimumValue
       });
     }
 
     if (option.type === OptionType.NUMBER && parseInt(value) < option.minimumValue) {
-      throw new OptionValidationError('FIELD_NUMBER_TOO_SMALL', {
+      return new OptionValidationError('FIELD_NUMBER_TOO_SMALL', {
         friendlyName: option.friendlyName,
         min: option.minimumValue
       });
@@ -39,14 +39,14 @@ export const validateOption = <T extends ItemOption | ContractOption>(option: T,
 
   if (option.maximumValue !== undefined && option.maximumValue !== null) {
     if (option.type === OptionType.STRING && value.length > option.maximumValue) {
-      throw new OptionValidationError('FIELD_STRING_TOO_LONG', {
+      return new OptionValidationError('FIELD_STRING_TOO_LONG', {
         friendlyName: option.friendlyName,
         max: option.maximumValue
       });
     }
 
     if (option.type === OptionType.NUMBER && parseInt(value) > option.maximumValue) {
-      throw new OptionValidationError('FIELD_NUMBER_TOO_LARGE', {
+      return new OptionValidationError('FIELD_NUMBER_TOO_LARGE', {
         friendlyName: option.friendlyName,
         max: option.maximumValue
       });
@@ -55,7 +55,7 @@ export const validateOption = <T extends ItemOption | ContractOption>(option: T,
 
   if (option.type === OptionType.EMAIL) {
     if (!EmailValidator.validate(value)) {
-      throw new OptionValidationError('FIELD_INVALID_EMAIL', {
+      return new OptionValidationError('FIELD_INVALID_EMAIL', {
         friendlyName: option.friendlyName
       });
     }
@@ -65,7 +65,7 @@ export const validateOption = <T extends ItemOption | ContractOption>(option: T,
     const date = new Date(value);
 
     if (!(date instanceof Date) || !isFinite(date.getTime())) {
-      throw new OptionValidationError('FIELD_DATE_INVALID', {
+      return new OptionValidationError('FIELD_DATE_INVALID', {
         friendlyName: option.friendlyName
       });
     }
@@ -73,7 +73,7 @@ export const validateOption = <T extends ItemOption | ContractOption>(option: T,
 
   if (option.type === OptionType.URL) {
     if (!isUrl(value)) {
-      throw new OptionValidationError('FIELD_URL_INVALID', {
+      return new OptionValidationError('FIELD_URL_INVALID', {
         friendlyName: option.friendlyName
       });
     }

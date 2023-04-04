@@ -63,7 +63,11 @@ export const fillItemOptions = async (userEmail: string, itemId: number, friendl
       continue;
     }
 
-    validateOption(itemOption, option.value);
+    const error = validateOption(itemOption, option.value);
+
+    if (error) {
+      throw error;
+    }
 
     if (typeof filledItemOption !== 'undefined') {
       await filledItemOptionsRepository.update(filledItemOption.id, {

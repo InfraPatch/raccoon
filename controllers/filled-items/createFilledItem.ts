@@ -49,7 +49,11 @@ export const createFilledItem = async (ownerEmail: string, { friendlyName, itemS
       continue;
     }
 
-    validateOption(itemOption, option.value);
+    const error = validateOption(itemOption, option.value);
+
+    if (error) {
+      throw error;
+    }
   }
 
   const owner = await userRepository.findOne({ where: { email: ownerEmail } });

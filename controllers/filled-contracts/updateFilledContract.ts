@@ -95,7 +95,11 @@ export const fillContractOptions = async (userEmail: string, contractId: number,
       continue;
     }
 
-    validateOption(contractOption, option.value);
+    const error = validateOption(contractOption, option.value);
+
+    if (error) {
+      throw error;
+    }
 
     if (typeof filledContractOption !== 'undefined') {
       await filledContractOptionsRepository.update(filledContractOption.id, {
