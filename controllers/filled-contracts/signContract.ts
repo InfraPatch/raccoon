@@ -25,6 +25,9 @@ import { maximumSignatureSize } from '../attachments/attachmentConstants';
 import { downloadSignatureBuffer } from './getFilledContract';
 import { IFilledContractAttachment } from '@/db/models/contracts/FilledContractAttachment';
 import { IFilledItemAttachment } from '@/db/models/items/FilledItemAttachment';
+import { FilledItemOption } from '@/db/models/items/FilledItemOption';
+import { FilledItem } from '@/db/models/items/FilledItem';
+
 const storage = getStorageStrategy();
 
 class SignContractError extends Error {
@@ -49,7 +52,7 @@ const verifyOptions = (filledContract: FilledContract) => {
   for (const option of filledContract.contract.options) {
     const filledOption = filledContractOptions[option.id];
 
-    if (typeof filledOption === 'undefined') {
+    if (typeof filledOption === 'undefined' || typeof filledOption.value === 'undefined' || filledOption.value === '') {
       throw new SignContractError('FIELD_IS_REQUIRED', {
         friendlyName: option.friendlyName
       });
@@ -100,7 +103,8 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
   const templateDocument = new DOCXTemplater(zip);
 
   const data: { [key: string]: string } = {};
-  filledContract.options.forEach(o => {
+
+  const handleOption = (o: FilledContractOption | FilledItemOption) => {
     if (o.option.type === OptionType.DATE) {
       data[o.option.replacementString] = formatDate(o.value);
       return;
@@ -112,7 +116,13 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
     }
 
     data[o.option.replacementString] = o.value;
-  });
+  };
+
+  filledContract.options.forEach(handleOption);
+
+  if (filledContract.filledItem && filledContract.filledItem.options) {
+    filledContract.filledItem.options.forEach(handleOption);
+  }
 
   const sellerName = filledContract.options.find(o => o.option.replacementString === 'seller_name').value;
   const buyerName = filledContract.options.find(o => o.option.replacementString === 'buyer_name').value;
@@ -163,6 +173,10 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
 
   const document: Buffer = templateDocument.getZip().generate({ type: 'nodebuffer' });
   const attachments: IPDFAttachment[] = await createAttachments(filledContract.attachments);
+
+  if (filledContract.filledItem && filledContract.filledItem.attachments) {
+    attachments.push(...(await createAttachments(filledContract.filledItem.attachments)));
+  }
 
   const pdf = await pdfService.create(document, attachments, attestations);
 
@@ -218,13 +232,14 @@ export const signContract = async (userEmail: string, contractId: number, signat
 
   const userRepository = db.getRepository(User);
   const filledContractRepository = db.getRepository(FilledContract);
+  const filledItemRepository = db.getRepository(FilledItem);
 
   const user = await userRepository.findOne({ where: { email: userEmail } });
   if (!user) {
     throw new SignContractError('USER_NOT_FOUND');
   }
 
-  const contract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures', 'attachments' ] });
+  const contract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures', 'attachments', 'filledItem', 'filledItem.item', 'filledItem.attachments' ] });
   if (!contract) {
     throw new SignContractError('FILLED_CONTRACT_NOT_FOUND');
   }
@@ -270,6 +285,12 @@ export const signContract = async (userEmail: string, contractId: number, signat
     const filename = await savePDF(contract);
     contract.filename = filename;
     changed = true;
+
+    if (contract.filledItem) {
+      contract.filledItem.userId = contract.buyerId;
+      contract.filledItem.locked = false;
+      await filledItemRepository.save(contract.filledItem);
+    }
   }
 
   if (changed) {

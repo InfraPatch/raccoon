@@ -97,7 +97,12 @@
     "ACCESS_TO_ATTACHMENT_DENIED": "You do not have access to this attachment!",
     "ATTACHMENT_CLEANUP_FAILED": "We've deleted your attachment, but it may be still available elsewhere.",
     "ATTACHMENT_TOO_LARGE": "The file you're trying to upload is too large. Please choose a file smaller than two megabytes.",
-    "MAX_ATTACHMENTS_REACHED": "This contract has reached the maximum amount of uploaded attachments!"
+    "MAX_ATTACHMENTS_REACHED": "This contract has reached the maximum amount of uploaded attachments!",
+
+    "ITEM_NOT_FOUND": "We couldn't find the current property category.",
+    "FILLED_ITEM_NOT_PROVIDED": "You have not provided a property for this contract, however, one is required.",
+    "FILLED_ITEM_NOT_FOUND": "You have provided a property that doesn't exist or doesn't belong to you.",
+    "FILLED_ITEM_WRONG_CATEGORY": "The item you've selected is not assignable to this contract type."
   },
 
   "contract-options": {

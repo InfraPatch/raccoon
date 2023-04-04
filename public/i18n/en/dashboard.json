@@ -244,6 +244,8 @@
       "name-field": "Name of contract:",
       "description-field": "Description of contract:",
       "file-field": "Document template of contract:",
+      "item-field": "Property type",
+      "item-field-none": "-- none (specifying a propety is not required) --",
       "submit": "Create new contract",
       "success": "Contract created successfully!"
     },

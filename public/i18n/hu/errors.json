@@ -97,7 +97,12 @@
     "ACCESS_TO_ATTACHMENT_DENIED": "Nincs hozzáférése ehhez a melléklethez!",
     "ATTACHMENT_CLEANUP_FAILED": "Töröltük a mellékletet, de lehet, hogy máshol továbbra is elérhető marad.",
     "ATTACHMENT_TOO_LARGE": "A feltölteni kívánt állomány túl nagy. Kérem válasszon egy két megabájtnál kisebb fájlt.",
-    "MAX_ATTACHMENTS_REACHED": "Ez a szerződés elérte a feltöltött mellékletek maximális számát!"
+    "MAX_ATTACHMENTS_REACHED": "Ez a szerződés elérte a feltöltött mellékletek maximális számát!",
+
+    "ITEM_NOT_FOUND": "Nem sikerült megtalálni ezt a tulajdonkategóriát.",
+    "FILLED_ITEM_NOT_PROVIDED": "Nincs megadva egy tulajdon ehhez a szerződéshez.",
+    "FILLED_ITEM_NOT_FOUND": "A megadott tulajdon nem létezik vagy nem Ön a tulajdonosa.",
+    "FILLED_ITEM_WRONG_CATEGORY": "A kiválasztott tulajdon nem rendelhető ehhez a szerződéstípushoz."
   },
 
   "contract-options": {

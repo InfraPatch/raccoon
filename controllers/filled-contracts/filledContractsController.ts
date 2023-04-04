@@ -130,14 +130,15 @@ export const download = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { friendlyName, buyerEmail, contractId } = req.body;
+  const { friendlyName, buyerEmail, contractId, filledItemId } = req.body;
   const session = await getSession({ req });
 
   try {
     const filledContract = await createFilledContract(session.user.email, {
       friendlyName,
       buyerEmail,
-      contractId
+      contractId,
+      filledItemId: idFromQueryParam(filledItemId)
     });
 
     return res.json({

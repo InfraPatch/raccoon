@@ -1,5 +1,6 @@
 import { FilledContract } from '@/db/models/contracts/FilledContract';
 import { WitnessSignature } from '@/db/models/contracts/WitnessSignature';
+import { FilledItem } from '@/db/models/items/FilledItem';
 import db from '@/services/db';
 import { savePDF } from '../filled-contracts/signContract';
 import { allPartiesSigned } from '../filled-contracts/signUtils';
@@ -36,6 +37,8 @@ export const deleteWitnessSignature = async (email: string, signatureId: number)
   const filledContractRepository = db.getRepository(FilledContract);
   const fullContract = await filledContractRepository.findOne(signature.filledContractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures' ] });
 
+  const filledItemRepository = db.getRepository(FilledItem);
+
   if (!fullContract) {
     throw new DeleteWitnessSignatureError('FILLED_CONTRACT_NOT_FOUND');
   }
@@ -43,6 +46,13 @@ export const deleteWitnessSignature = async (email: string, signatureId: number)
   if (allPartiesSigned(fullContract)) {
     const filename = await savePDF(fullContract);
     fullContract.filename = filename;
+
+    if (fullContract.filledItem) {
+      fullContract.filledItem.userId = fullContract.buyerId;
+      fullContract.filledItem.locked = false;
+      await filledItemRepository.save(fullContract.filledItem);
+    }
+
     await filledContractRepository.update(fullContract.id, { filename });
   }
 };

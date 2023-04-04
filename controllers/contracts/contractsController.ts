@@ -139,6 +139,7 @@ export const newContract = async (req: NextApiRequest, res: NextApiResponse) => 
         const contract = await createContract({
           friendlyName: firstOf(fields.friendlyName),
           description: firstOf(fields.description),
+          itemSlug: firstOf(fields.itemSlug),
           file: firstOf(files.file)
         });
 

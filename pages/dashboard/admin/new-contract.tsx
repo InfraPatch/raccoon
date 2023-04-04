@@ -11,9 +11,32 @@ import NewContractForm from '@/components/dashboard/admin/contracts/NewContractF
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
 import Meta from '@/components/common/Meta';
+import { useEffect, useState } from 'react';
+
+import { Item } from '@/db/models/items/Item';
+import apiService from '@/services/apis';
+import Loading from '@/components/common/Loading';
+import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 
 const DashboardNewContractPage = () => {
   const { t } = useTranslation('dashboard');
+
+  const [ items, setItems ] = useState<Item[] | null>(null);
+  const [ error, setError ] = useState('');
+
+  const loadItems = async () => {
+    try {
+      const res = await apiService.items.getItems();
+      setItems(res.items);
+    } catch (err) {
+      console.error(err);
+      setError(t('errors:INTERNAL_SERVER_ERROR'));
+    }
+  };
+
+  useEffect(() => {
+    loadItems();
+  }, []);
 
   return (
     <DashboardLayout>
@@ -24,7 +47,9 @@ const DashboardNewContractPage = () => {
       <Columns>
         <Column>
           <Box title={t('pages.new-contract')}>
-            <NewContractForm />
+            {items && <NewContractForm items={items} />}
+            {!items && !error && <Loading />}
+            {error && error.length > 0 && <DangerMessage>{error}</DangerMessage>}
           </Box>
         </Column>
 

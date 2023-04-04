@@ -31,7 +31,7 @@ export const listFilledContracts = async (email: string): Promise<Omit<ListFillC
   const filledContracts = await filledContractRepository.find({ where: [
     { userId: user.id },
     { buyerId: user.id },
-  ], relations: [ 'contract' ] });
+  ], relations: [ 'contract', 'filledItem' ] });
 
   const witnessSignatures = await witnessSignatureRepository.find({ where: [
     { witnessId: user.id }

@@ -244,6 +244,8 @@
       "name-field": "Szerződés neve:",
       "description-field": "Szerződés leírása:",
       "file-field": "Szerződés sablon dokumentuma:",
+      "item-field": "Tulajdon típusa",
+      "item-field-none": "-- nincs (nem szükséges megadni egy tulajdont) --",
       "submit": "Új szerződés létrehozása",
       "success": "Szerződés sikeresen létrehozva!"
     },

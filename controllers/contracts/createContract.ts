@@ -9,11 +9,13 @@ import { File } from 'formidable';
 import * as utils from './utils';
 
 import { getStorageStrategy } from '@/lib/storageStrategies';
+import { Item } from '@/db/models/items/Item';
 const storage = getStorageStrategy();
 
 export interface ContractCreatorFields {
   friendlyName?: string;
   description?: string;
+  itemSlug?: string;
   file?: File;
 };
 
@@ -42,9 +44,10 @@ export const uploadFile = async (file: File): Promise<string> => {
   return `/templates/${key}`;
 };
 
-export const createContract = async ({ friendlyName, description, file }: ContractCreatorFields): Promise<Contract> => {
+export const createContract = async ({ friendlyName, description, itemSlug, file }: ContractCreatorFields): Promise<Contract> => {
   await db.prepare();
   const contractRepository = db.getRepository(Contract);
+  const itemRepository = db.getRepository(Item);
 
   if (!friendlyName || friendlyName.trim().length < 2) {
     throw new ContractCreationError('NAME_TOO_SHORT');
@@ -60,6 +63,17 @@ export const createContract = async ({ friendlyName, description, file }: Contra
 
   if (contractCount !== 0) {
     throw new ContractCreationError('CONTRACT_ALREADY_EXISTS');
+  }
+
+  let item: Item | null = null;
+
+  if (itemSlug && itemSlug.length > 0) {
+    const targetItem = await itemRepository.findOne({ where: { slug: itemSlug } });
+    if (!targetItem) {
+      throw new ContractCreationError('ITEM_NOT_FOUND');
+    }
+
+    item = targetItem;
   }
 
   let filename : string | null = null;
@@ -80,7 +94,7 @@ export const createContract = async ({ friendlyName, description, file }: Contra
     throw new ContractCreationError('FILE_UPLOAD_FAILED');
   }
 
-  const contract = contractRepository.create({ friendlyName, description, filename });
+  const contract = contractRepository.create({ friendlyName, description, item, filename });
   await contractRepository.insert(contract);
 
   await utils.createDefaultOptions(contract);

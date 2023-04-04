@@ -12,19 +12,26 @@ import toaster from '@/lib/toaster';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
+import { Item } from '@/db/models/items/Item';
+
 interface NewContractFormRequest {
   friendlyName: string;
   description: string;
+  itemSlug: string;
 }
 
-const NewContractForm = () => {
+interface NewContractFormProps {
+  items: Item[];
+};
+
+const NewContractForm = ({ items }: NewContractFormProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
   const [ file, setFile ] = useState<File | null>(null);
   const router = useRouter();
 
-  const handleFormSubmit = async ({ friendlyName, description }: NewContractFormRequest, { setSubmitting }: FormikHelpers<NewContractFormRequest>) => {
+  const handleFormSubmit = async ({ friendlyName, description, itemSlug }: NewContractFormRequest, { setSubmitting }: FormikHelpers<NewContractFormRequest>) => {
     try {
-      const response : NewContractAPIResponse = await apiService.contracts.newContract({ friendlyName, description, file });
+      const response : NewContractAPIResponse = await apiService.contracts.newContract({ friendlyName, description, itemSlug, file });
       toaster.success(t('dashboard:admin.new-contract.success'));
       router.push(`/dashboard/admin/contracts/${response.contract.id}`);
     } catch (err) {
@@ -45,7 +52,7 @@ const NewContractForm = () => {
 
   return (
     <Formik
-      initialValues={{ friendlyName: '', description: '' }}
+      initialValues={{ friendlyName: '', description: '', itemSlug: '' }}
       validate={NewContractFormValidator.validate(t)}
       onSubmit={handleFormSubmit}
     >
@@ -61,6 +68,17 @@ const NewContractForm = () => {
             <label htmlFor="description">{ t('dashboard:admin.new-contract.description-field') }</label>
             <Field name="description" type="description" />
             <ErrorMessage name="description" component={CompactDangerMessage} />
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="itemSlug">{ t('dashboard:admin.new-contract.item-field') }</label>
+            <Field as="select" name="itemSlug">
+              <option value="">{ t('dashboard:admin.new-contract.item-field-none') }</option>
+
+              {items.map(item => (
+                <option value={item.slug} key={item.slug}>{item.friendlyName}</option>
+              ))}
+            </Field>
           </div>
 
           <div className="form-field">

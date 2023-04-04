@@ -1,4 +1,5 @@
 import { FilledContract, IFilledContract } from '@/db/models/contracts/FilledContract';
+import { FilledItem } from '@/db/models/items/FilledItem';
 import db from '@/services/db';
 import { getFilledContract } from './getFilledContract';
 import { allPartiesSigned } from './signUtils';
@@ -25,5 +26,12 @@ export const deleteFilledContract = async (email: string, contractId: number): P
   }
 
   const filledContractRepository = db.getRepository(FilledContract);
+  const filledItemRepository = db.getRepository(FilledItem);
+
+  if (filledContract.filledItem) {
+    filledContract.filledItem.locked = false;
+    await filledItemRepository.save(filledContract.filledItem);
+  }
+
   await filledContractRepository.delete(filledContract.id);
 };

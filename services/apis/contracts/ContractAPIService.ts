@@ -6,6 +6,7 @@ import { Contract } from '@/db/models/contracts/Contract';
 export interface NewContractAPIRequest {
   friendlyName: string;
   description: string;
+  itemSlug: string;
   file: File;
 };
 
@@ -39,6 +40,10 @@ class ContractsAPIService {
 
     if (data.description) {
       payload.append('description', data.description);
+    }
+
+    if (data.itemSlug?.length) {
+      payload.append('itemSlug', data.itemSlug);
     }
 
     if (data.file) {

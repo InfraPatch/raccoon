@@ -16,6 +16,7 @@ export interface IFilledItem {
   userId?: number;
   user?: IUser;
   item?: IItem;
+  locked?: boolean;
   options?: IFilledItemOption[];
   attachments?: IFilledItemAttachment[];
 };
@@ -46,6 +47,9 @@ export class FilledItem implements IFilledItem {
   @Column('integer')
   userId: number;
 
+  @Column('boolean', { default: false })
+  locked: boolean;
+
   async getUser(id: number): Promise<IUser | null> {
     await db.prepare();
     const userRepository = db.getRepository(User);
@@ -67,7 +71,8 @@ export class FilledItem implements IFilledItem {
       item: this.item,
       options: this.options && this.options.map(option => omit(option.toJSON(), 'filledItem')),
       attachments: this.attachments && this.attachments.map(attachment => omit(attachment.toJSON(), 'filledItem')),
-      userId: this.userId
+      userId: this.userId,
+      locked: this.locked
     };
   }
 }
