@@ -31,6 +31,10 @@ const baseConnectionOptions: ConnectionOptions = {
   password: config.database.password,
   database: config.database.name,
 
+  extra: {
+    charset: 'utf8mb4_unicode_ci'
+  },
+
   namingStrategy: new CamelCaseNamingStrategy()
 };
 
