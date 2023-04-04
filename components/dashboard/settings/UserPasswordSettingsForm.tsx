@@ -13,7 +13,6 @@ import * as UserSettingsValidator from '@/validators/UserSettingsValidator';
 
 import { UpdateUserPasswordAPIRequest } from '@/services/apis/users/UserAPIService';
 import { useRouter } from 'next/router';
-import { isUserFilledOut } from '@/controllers/users/utils';
 
 export interface UserPasswordSettingsFormProps {
   user: User;
@@ -24,17 +23,10 @@ const UserPasswordSettingsForm = ({ user }: UserPasswordSettingsFormProps) => {
   const { t } = useTranslation([ 'common', 'dashboard', 'errors' ]);
 
   const handleFormSubmit = async ({ password, password2, oldPassword }: UpdateUserPasswordAPIRequest, { setSubmitting, resetForm }: FormikHelpers<UpdateUserPasswordAPIRequest>) => {
-    const previouslyFilledOut: boolean = isUserFilledOut(user);
-
     try {
       await apiService.users.updateUser({ password, password2, oldPassword });
       toaster.success(t('dashboard:settings.success'));
       resetForm();
-
-      if (!previouslyFilledOut && isUserFilledOut(res.user)) {
-        // Redirect the user to the main page.
-        router.push('/dashboard');
-      }
     } catch (err) {
       if (err.response?.data?.message) {
         const message = err.response.data.message[router.locale] || err.response.data.error || t('errors:users.AVDH_FAILED');
