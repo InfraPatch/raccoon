@@ -239,7 +239,7 @@ export const signContract = async (userEmail: string, contractId: number, signat
     throw new SignContractError('USER_NOT_FOUND');
   }
 
-  const contract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures', 'attachments', 'filledItem', 'filledItem.item', 'filledItem.attachments' ] });
+  const contract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures', 'attachments', 'filledItem', 'filledItem.item', 'filledItem.attachments', 'filledItem.options', 'filledItem.options.option' ] });
   if (!contract) {
     throw new SignContractError('FILLED_CONTRACT_NOT_FOUND');
   }
