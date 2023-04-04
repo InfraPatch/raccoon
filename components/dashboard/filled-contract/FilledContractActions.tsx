@@ -265,9 +265,14 @@ const FilledContractActions = ({ filledContract, onChange, partyType, user }: Fi
     }
   };
 
+  const resellContract = () => {
+    router.push('/dashboard/contracts/new/' + filledContract.contract.id);
+  };
+
   const isBuyer = (partyType === PartyType.BUYER);
   const isSeller = (partyType === PartyType.SELLER);
   const isWitness = (partyType === PartyType.WITNESS);
+  const filledItem = filledContract.filledItem;
 
   return (
     <div className="flex flex-wrap gap-4 my-4">
@@ -316,6 +321,14 @@ const FilledContractActions = ({ filledContract, onChange, partyType, user }: Fi
             disabled={saving}
             onClick={forwardContract}
           >{ t('dashboard:contracts.actions.forward.button')}</Button>
+
+          {isBuyer && filledItem && !filledItem.locked && filledItem.userId === filledContract.buyerId && (
+            <Button
+              size={ButtonSize.SMALL}
+              disabled={saving}
+              onClick={resellContract}
+            >{ t('dashboard:contracts.actions.resell')}</Button>
+          )}
         </>
       ) : (!isWitness && (!isBuyer || filledContract.accepted) &&
         <Button

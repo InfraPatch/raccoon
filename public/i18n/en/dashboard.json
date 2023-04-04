@@ -120,6 +120,7 @@
       "sign": "Sign",
       "delete": "Delete",
       "download": "Download",
+      "resell": "Resell",
       "forward": {
         "button": "Forward via email",
         "subject": "Contract download for \"{{ friendlyName }}\"",

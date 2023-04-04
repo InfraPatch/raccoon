@@ -120,6 +120,7 @@
       "sign": "Aláír",
       "delete": "Töröl",
       "download": "Letöltés",
+      "resell": "Viszonteladás",
       "forward": {
         "button": "Továbbítás e-mailben",
         "subject": "\"{{ friendlyName }}\" nevű szerződés letöltése",
