@@ -45,6 +45,9 @@
     "INVALID_MOTHER_BIRTH_DATE": "Az édesanyja nem születhetett ezen a dátumon!",
     "INVALID_BIRTH_DATE": "Nem születhetett ezen a dátumon!",
 
+    "AVDH_CONNECTION_FAILURE": "Jelenleg nem érhető el az AVDH szolgáltatás, kérem szóljon egy adminisztrátornak!",
+    "AVDH_FAILED": "Az AVDH szolgáltatás ismeretlen hibát jelez!",
+
     "INVALID_MIMETYPE": "Csak PNG, JPEG és GIF fájlok engedélyezettek."
   },
 

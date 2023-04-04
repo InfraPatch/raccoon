@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { UpdateUserProfileAPIRequest } from '@/services/apis/users/UserAPIService';
 
 import * as UserSettingsValidator from '@/validators/UserSettingsValidator';
+import { useRouter } from 'next/router';
 
 export interface UserSettingsFormProps {
   user: User;
@@ -19,6 +20,7 @@ export interface UserSettingsFormProps {
 };
 
 const UserSettingsForm = ({ user, setUser }: UserSettingsFormProps) => {
+  const router = useRouter();
   const { t } = useTranslation([ 'common', 'dashboard', 'errors' ]);
 
   const [ image, setImage ] = useState<File | null>(null);
@@ -30,7 +32,11 @@ const UserSettingsForm = ({ user, setUser }: UserSettingsFormProps) => {
       setUser(res.user);
       toaster.success(t('dashboard:settings.success'));
     } catch (err) {
-      if (err.response?.data?.error) {
+      if (err.response?.data?.message) {
+        const message = err.response.data.message[router.locale] || err.response.data.error || t('errors:users.AVDH_FAILED');
+        toaster.danger(message);
+        return;
+      } else if (err.response?.data?.error) {
         const message = err.response.data.error;
 
         if (message?.length) {

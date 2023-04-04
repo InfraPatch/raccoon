@@ -45,6 +45,9 @@
     "INVALID_MOTHER_BIRTH_DATE": "Your mother couldn't have been born at this date!",
     "INVALID_BIRTH_DATE": "You couldn't have been born at this date!",
 
+    "AVDH_CONNECTION_FAILURE": "The AVDH service is currently unavailable. Please contact an administrator.",
+    "AVDH_FAILED": "The AVDH service is signalling an unknown error!",
+
     "INVALID_MIMETYPE": "Only PNG, JPEG, and GIF files are allowed."
   },
 

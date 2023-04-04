@@ -9,15 +9,19 @@ import { File } from 'formidable';
 
 import * as passwords from '@/lib/passwords';
 
+import axios from 'axios';
+
 import { getStorageStrategy } from '@/lib/storageStrategies';
 const storage = getStorageStrategy();
 
 class UserUpdateError extends Error {
   public code: string;
+  public extraMessage?: any;
 
-  constructor(code: string) {
+  constructor(code: string, extraMessage?: any) {
     super();
     this.name = 'UserUpdateError';
+    this.extraMessage = extraMessage;
     this.code = code;
   }
 }
@@ -35,6 +39,42 @@ const uploadImage = async (image: File): Promise<string> => {
   await storage.create({ key: `avatars/${key}`, contents: buffer });
 
   return `/avatars/${key}`;
+};
+
+const ensureAvdhAuthentication = async (user: User) : Promise<UserUpdateError | null> => {
+  const avdhAuthenticatorService = process.env.AVDH_AUTHENTICATOR_API_URL;
+
+  if (!avdhAuthenticatorService) {
+    // Authentication is not required.
+    return null;
+  }
+
+  try {
+    const { data } = await axios.post(avdhAuthenticatorService, {
+      name: user.name,
+      email: user.email,
+      motherName: user.motherName,
+      motherBirthDate: user.motherBirthDate,
+      nationality: user.nationality,
+      personalIdentifierType: user.personalIdentifierType,
+      personalIdentifier: user.personalIdentifier,
+      phoneNumber: user.phoneNumber,
+      birthDate: user.birthDate,
+      birthPlace: user.birthPlace
+    });
+
+    if (!data.ok) {
+      // AVDH authentication has failed.
+      return new UserUpdateError(data.error, data.message);
+    }
+  } catch (err) {
+    console.error(err);
+
+    // We couldn't connect to the AVDH service.
+    // Most likely. the person who implemented the
+    // external AVDH service has messed up in some way.
+    return new UserUpdateError('AVDH_CONNECTION_FAILURE');
+  }
 };
 
 export const updateUser = async (email: string, payload: Omit<UpdateUserAPIRequest, 'image'> & { image?: File }): Promise<User | null> => {
@@ -132,6 +172,12 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
 
   if (payload.birthPlace) {
     user.birthPlace = payload.birthPlace;
+  }
+
+  const authError : UserUpdateError | null = await ensureAvdhAuthentication(user);
+
+  if (authError) {
+    throw authError;
   }
 
   return userRepository.save(user);

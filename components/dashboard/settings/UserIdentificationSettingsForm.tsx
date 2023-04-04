@@ -10,6 +10,7 @@ import { transformDate } from '@/lib/transformDate';
 import { useTranslation } from 'react-i18next';
 
 import { UpdateUserIdentificationDetailsAPIRequest } from '@/services/apis/users/UserAPIService';
+import { useRouter } from 'next/router';
 
 export interface UserIdentificationSettingsFormProps {
   user: User;
@@ -17,6 +18,7 @@ export interface UserIdentificationSettingsFormProps {
 };
 
 const UserIdentificationSettingsForm = ({ user, setUser }: UserIdentificationSettingsFormProps) => {
+  const router = useRouter();
   const { t } = useTranslation([ 'common', 'dashboard', 'errors' ]);
 
   const handleFormSubmit = async ({
@@ -44,7 +46,11 @@ const UserIdentificationSettingsForm = ({ user, setUser }: UserIdentificationSet
       setUser(res.user);
       toaster.success(t('dashboard:settings.success'));
     } catch (err) {
-      if (err.response?.data?.error) {
+      if (err.response?.data?.message) {
+        const message = err.response.data.message[router.locale] || err.response.data.error || t('errors:users.AVDH_FAILED');
+        toaster.danger(message);
+        return;
+      } else if (err.response?.data?.error) {
         const message = err.response.data.error;
 
         if (message?.length) {

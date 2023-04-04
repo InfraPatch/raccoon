@@ -131,7 +131,8 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
         if (err.name === 'UserUpdateError') {
           res.status(400).json({
             ok: false,
-            error: err.code
+            error: err.code,
+            message: err.extraMessage
           });
           return resolve();
         }

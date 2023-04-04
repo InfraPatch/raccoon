@@ -12,12 +12,14 @@ import { useTranslation } from 'react-i18next';
 import * as UserSettingsValidator from '@/validators/UserSettingsValidator';
 
 import { UpdateUserPasswordAPIRequest } from '@/services/apis/users/UserAPIService';
+import { useRouter } from 'next/router';
 
 export interface UserPasswordSettingsFormProps {
   user: User;
 };
 
 const UserPasswordSettingsForm = ({ user }: UserPasswordSettingsFormProps) => {
+  const router = useRouter();
   const { t } = useTranslation([ 'common', 'dashboard', 'errors' ]);
 
   const handleFormSubmit = async ({ password, password2, oldPassword }: UpdateUserPasswordAPIRequest, { setSubmitting, resetForm }: FormikHelpers<UpdateUserPasswordAPIRequest>) => {
@@ -26,7 +28,11 @@ const UserPasswordSettingsForm = ({ user }: UserPasswordSettingsFormProps) => {
       toaster.success(t('dashboard:settings.success'));
       resetForm();
     } catch (err) {
-      if (err.response?.data?.error) {
+      if (err.response?.data?.message) {
+        const message = err.response.data.message[router.locale] || err.response.data.error || t('errors:users.AVDH_FAILED');
+        toaster.danger(message);
+        return;
+      } else if (err.response?.data?.error) {
         const message = err.response.data.error;
 
         if (message?.length) {
