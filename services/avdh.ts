@@ -64,6 +64,7 @@ export interface IAVDHAttestation {
   birthPlace: string;
   birthDate: string;
   motherName: string;
+  signature: Buffer;
   email?: string;
 }
 
@@ -110,6 +111,17 @@ class AVDHService {
           x: 160, y: 144
         }
       ];
+
+      if (attestation.signature) {
+        const signatureImage = await pdfDoc.embedPng(attestation.signature);
+
+        try {
+          page.drawImage(signatureImage, {x: 335, y: 155, width: 200, height: 100});
+        } catch {
+          // Don't trust user-provided signatures.
+          // If pdf-lib can't parse the signature, don't include it
+        }
+      }
 
       for (const field of fields) {
         page.drawText(field.text || "", {
