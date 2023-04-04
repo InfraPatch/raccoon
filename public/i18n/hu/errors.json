@@ -42,6 +42,9 @@
     "INVALID_PERSONAL_IDENTIFIER_TYPE": "Az azonosítási okirat típusa érvénytelen.",
     "PERSONAL_IDENTIFIER_NOT_PROVIDED": "Nincs megadva az azonosító szám.",
 
+    "INVALID_MOTHER_BIRTH_DATE": "Az édesanyja nem születhetett ezen a dátumon!",
+    "INVALID_BIRTH_DATE": "Nem születhetett ezen a dátumon!",
+
     "INVALID_MIMETYPE": "Csak PNG, JPEG és GIF fájlok engedélyezettek."
   },
 

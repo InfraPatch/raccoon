@@ -94,6 +94,10 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
   }
 
   if (payload.motherBirthDate) {
+    if (payload.motherBirthDate >= new Date()) {
+      throw new UserUpdateError('INVALID_MOTHER_BIRTH_DATE');
+    }
+
     user.motherBirthDate = payload.motherBirthDate;
   }
 
@@ -119,6 +123,10 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
   }
 
   if (payload.birthDate) {
+    if ((payload.motherBirthDate && payload.birthDate <= payload.motherBirthDate) || payload.birthDate >= new Date()) {
+      throw new UserUpdateError('INVALID_BIRTH_DATE');
+    }
+
     user.birthDate = payload.birthDate;
   }
 
