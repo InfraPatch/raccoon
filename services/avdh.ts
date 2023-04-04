@@ -125,13 +125,27 @@ class AVDHService {
       }
 
       for (const field of fields) {
-        page.drawText(field.text || "", {
-          x: field.x,
-          y: field.y,
-          font: helveticaFont,
-          size: ATTESTATION_FONT_SIZE,
-          color: ATTESTATION_COLOR
-        });
+        const drawText = (text) => {
+          page.drawText(text, {
+            x: field.x,
+            y: field.y,
+            font: helveticaFont,
+            size: ATTESTATION_FONT_SIZE,
+            color: ATTESTATION_COLOR
+          });
+        };
+
+        const currentText = field.text || "";
+
+        try {
+          drawText(currentText);
+        } catch {
+          try {
+            drawText(currentText.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+          } catch {
+            // Don't try again... thanks
+          }
+        }
       }
 
       const pdfBytes = Buffer.from(await pdfDoc.save({ useObjectStreams: false }));
