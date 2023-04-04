@@ -35,7 +35,7 @@ const NewItemForm = () => {
     try {
       const response : NewItemAPIResponse = await apiService.items.newItem({ friendlyName, slug, description });
       toaster.success(t('dashboard:admin.new-item.success'));
-      router.push(`/dashboard/admin/property-categories/${response.item.id}`);
+      router.push(`/dashboard/admin/property-categories/${response.item.slug}`);
     } catch (err) {
       if (err.response?.data?.error) {
         const message = err.response.data.error;

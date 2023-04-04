@@ -52,7 +52,7 @@ export const authenticateUserDetails = async (req: NextApiRequest, res: NextApiR
       error: 'AVDH_TEST_FAILURE',
       message: {
         en: 'We have a reason to believe that your name is invalid!',
-        hu: 'Úgy véljük, hogy helytelen a neved!'
+        hu: 'Úgy véljük, hogy helytelen a neve!'
       }
     };
 
