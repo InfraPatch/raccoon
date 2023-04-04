@@ -213,7 +213,14 @@
   "new-contract": {
     "fields": {
       "friendlyName": "Contract name",
-      "buyerEmail": "Buyer's e-mail address"
+      "buyerEmail": "Buyer's e-mail address",
+      "filled-item": "Property",
+      "filled-item-none": "(none selected)",
+      "filled-item-select": "Select"
+    },
+    "filled-item-modal": {
+      "title": "Select Property",
+      "confirm": "OK"
     },
     "submit": "Create",
     "title": "Create new contract",

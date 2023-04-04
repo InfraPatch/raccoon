@@ -213,7 +213,14 @@
   "new-contract": {
     "fields": {
       "friendlyName": "Szerződés rövid neve",
-      "buyerEmail": "Vevő e-mail címe"
+      "buyerEmail": "Vevő e-mail címe",
+      "filled-item": "Tulajdon",
+      "filled-item-none": "(nincs kiválasztva)",
+      "filled-item-select": "Kiválaszt"
+    },
+    "filled-item-modal": {
+      "title": "Tulajdon kiválasztása",
+      "confirm": "OK"
     },
     "submit": "Létrehozás",
     "title": "Új szerződés kötése",

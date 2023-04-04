@@ -2,27 +2,45 @@ import { Field, Form, Formik, FormikHelpers } from 'formik';
 import Button, { ButtonSize } from '@/components/common/button/Button';
 
 import apiService from '@/services/apis';
-import { NewFilledContractAPIParams } from '@/services/apis/contracts/FilledContractAPIService';
 
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
 import toaster from '@/lib/toaster';
 
+import { Contract } from '@/db/models/contracts/Contract';
+import { FormEvent, useState } from 'react';
+
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import SelectFilledItemModal from './SelectFilledItemModal';
+
+import { IFilledItem } from '@/db/models/items/FilledItem';
+
+const MySwal = withReactContent(Swal);
+
 export interface NewFilledContractFormProps {
-  id: number;
+  contract: Contract;
 };
 
-const NewFilledContractForm = ({ id }: NewFilledContractFormProps) => {
+interface NewFilledContractFormFields {
+  friendlyName: string;
+  buyerEmail: string;
+};
+
+const NewFilledContractForm = ({ contract }: NewFilledContractFormProps) => {
   const { t } = useTranslation([ 'dashboard', 'errors' ]);
   const router = useRouter();
 
-  const handleFormSubmit = async ({ friendlyName, buyerEmail }: NewFilledContractAPIParams, { setSubmitting }: FormikHelpers<NewFilledContractAPIParams>) => {
+  const [ filledItem, setFilledItem ] = useState<IFilledItem | null>(null);
+
+  const handleFormSubmit = async ({ friendlyName, buyerEmail }: NewFilledContractFormFields, { setSubmitting }: FormikHelpers<NewFilledContractFormFields>) => {
     try {
       await apiService.filledContracts.createFilledContract({
-        contractId: id,
+        contractId: contract.id,
         friendlyName,
-        buyerEmail
+        buyerEmail,
+        filledItemId: filledItem ? filledItem.id : undefined
       });
 
       toaster.success(t('dashboard:new-contract.success'));
@@ -43,9 +61,25 @@ const NewFilledContractForm = ({ id }: NewFilledContractFormProps) => {
     }
   };
 
+  const handleItemSelectClick = async (e: FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    await MySwal.fire({
+      title: t('dashboard:new-contract.filled-item-modal.title'),
+      html: (
+        <SelectFilledItemModal
+          itemSlug={contract.item.slug}
+          filledItem={filledItem}
+          setFilledItem={setFilledItem}
+        />
+      ),
+      confirmButtonText: t('dashboard:new-contract.filled-item-modal.confirm')
+    });
+  };
+
   return (
     <Formik
-      initialValues={{ friendlyName: '', buyerEmail: '', contractId: id }}
+      initialValues={{ friendlyName: '', buyerEmail: '' }}
       onSubmit={handleFormSubmit}
     >
       {({ isSubmitting }) => (
@@ -59,6 +93,18 @@ const NewFilledContractForm = ({ id }: NewFilledContractFormProps) => {
             <label htmlFor="buyerEmail">{ t('dashboard:new-contract.fields.buyerEmail') }:</label>
             <Field name="buyerEmail" type="email" />
           </div>
+
+          {contract.item && (
+            <div className="form-fields">
+              <div className="mb-2">
+                <strong>{ t('dashboard:new-contract.fields.filled-item') } ({contract.item.friendlyName}):</strong> {filledItem ? filledItem.friendlyName : t('dashboard:new-contract.fields.filled-item-none')}
+              </div>
+
+              <Button size={ButtonSize.SMALL} onClick={handleItemSelectClick}>
+                { t('dashboard:new-contract.fields.filled-item-select') }
+              </Button>
+            </div>
+          )}
 
           <div className="form-field">
             <Button size={ButtonSize.MEDIUM} type="submit" disabled={isSubmitting}>

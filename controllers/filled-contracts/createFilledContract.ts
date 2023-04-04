@@ -53,7 +53,7 @@ export const createFilledContract = async (sellerEmail: string, { friendlyName, 
   filledContract.buyerId = buyer.id;
   filledContract.userId = seller.id;
 
-  if (contract.item && !filledItemId) {
+  if (contract.item) {
     if (!filledItemId) {
       throw new CreateFilledContractError('FILLED_ITEM_NOT_PROVIDED');
     }
