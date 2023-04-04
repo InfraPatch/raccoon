@@ -19,11 +19,11 @@ export const validate = (t: TFunction): ((fields: UpdateUserAPIRequest) => Parti
       }
     }
 
-    if (!fields.motherBirthDate || fields.motherBirthDate >= new Date()) {
+    if (fields.motherBirthDate && fields.motherBirthDate >= new Date()) {
       errors.motherBirthDate = t('errors:users.INVALID_MOTHER_BIRTH_DATE');
     }
 
-    if (!fields.birthDate || fields.birthDate <= fields.motherBirthDate || fields.birthDate >= new Date()) {
+    if (fields.birthDate && (fields.birthDate <= fields.motherBirthDate || fields.birthDate >= new Date())) {
       errors.birthDate = t('errors:users.INVALID_BIRTH_DATE');
     }
 
