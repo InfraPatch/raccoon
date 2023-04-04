@@ -137,6 +137,14 @@ export const downloadSignature = async (contractId: number, userId: number): Pro
   return stream;
 };
 
+export const downloadSignatureBuffer = async (contractId: number, userId: number): Promise<Buffer> => {
+  try {
+    return await storage.get(`signatures/${contractId}/${userId}.png`);
+  } catch {
+    return null;
+  }
+};
+
 export const downloadSignatureBy = async (email: string, contractId: number, userId: number): Promise<any> => {
   // Check if we can access this contract.
   await getFilledContract(email, contractId, true) as FilledContract;

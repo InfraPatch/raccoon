@@ -22,6 +22,7 @@ import path from 'path';
 
 import { getStorageStrategy } from '@/lib/storageStrategies';
 import { maximumSignatureSize } from '../attachments/attachmentConstants';
+import { downloadSignatureBuffer } from './getFilledContract';
 const storage = getStorageStrategy();
 
 class SignContractError extends Error {
@@ -115,7 +116,8 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
       birthPlace: filledContract.options.find(o => o.option.replacementString === 'seller_birth_place').value,
       birthDate: filledContract.options.find(o => o.option.replacementString === 'seller_birth_date').value,
       motherName: filledContract.options.find(o => o.option.replacementString === 'seller_mother_name').value,
-      email: filledContract.options.find(o => o.option.replacementString === 'seller_email').value
+      email: filledContract.options.find(o => o.option.replacementString === 'seller_email').value,
+      signature: await downloadSignatureBuffer(filledContract.id, filledContract.userId)
     },
     {
       date: filledContract.buyerSignedAt,
@@ -124,7 +126,8 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
       birthPlace: filledContract.options.find(o => o.option.replacementString === 'buyer_birth_place').value,
       birthDate: filledContract.options.find(o => o.option.replacementString === 'buyer_birth_date').value,
       motherName: filledContract.options.find(o => o.option.replacementString === 'buyer_mother_name').value,
-      email: filledContract.options.find(o => o.option.replacementString === 'buyer_email').value
+      email: filledContract.options.find(o => o.option.replacementString === 'buyer_email').value,
+      signature: await downloadSignatureBuffer(filledContract.id, filledContract.buyerId)
     }
   ];
 
@@ -136,7 +139,8 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
       birthName: signature.witnessName,
       birthPlace: signature.witnessBirthPlace,
       birthDate: formatDate(signature.witnessBirthDate, false),
-      motherName: signature.witnessMotherName
+      motherName: signature.witnessMotherName,
+      signature: await downloadSignatureBuffer(filledContract.id, signature.witnessId)
     });
   }
 
