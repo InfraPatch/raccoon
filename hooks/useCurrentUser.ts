@@ -1,5 +1,7 @@
+import { isUserFilledOut } from '@/controllers/users/utils';
 import { User } from '@/db/models/auth/User';
 import apiService from '@/services/apis';
+import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 export type ICurrentUser = [
@@ -34,4 +36,14 @@ export const useCurrentUserState = (): ICurrentUser => {
 
 export const useCurrentUser = () => {
   return useContext(UserContext);
+};
+
+export const redirectIfNotReady = (user: User) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isUserFilledOut(user)) {
+      router.push('/dashboard/settings');
+    }
+  }, [ user ]);
 };

@@ -27,7 +27,7 @@ import Meta from '@/components/common/Meta';
 import { IAttachment } from '@/db/common/Attachment';
 import { IFilledContractAttachment } from '@/db/models/contracts/FilledContractAttachment';
 
-import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { redirectIfNotReady, useCurrentUser } from '@/hooks/useCurrentUser';
 
 import idFromQueryParam from '@/lib/idFromQueryParam';
 
@@ -43,6 +43,9 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
   const [ title, setTitle ] = useState('...');
   const [ error, setError ] = useState('');
   const [ user ] = useCurrentUser();
+
+  // Redirect user if they haven't filled out their details yet
+  redirectIfNotReady(user);
 
   const loadContract = async () => {
     if (!user) {

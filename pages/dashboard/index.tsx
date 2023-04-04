@@ -13,6 +13,7 @@ import Illustration from '@/components/common/illustrations/Illustration';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import Meta from '@/components/common/Meta';
+import { redirectIfNotReady, useCurrentUser } from '@/hooks/useCurrentUser';
 
 const DashboardHomePage = () => {
   const router = useRouter();
@@ -37,6 +38,11 @@ const DashboardHomePage = () => {
     e.preventDefault();
     router.push('/dashboard/settings');
   };
+
+  const [ user ] = useCurrentUser();
+
+  // Redirect user if they haven't filled out their details yet
+  redirectIfNotReady(user);
 
   return (
     <DashboardLayout>

@@ -17,10 +17,11 @@ export interface AttachmentUploadFormProps {
   onChange: () => Promise<void>;
   uploadAttachment: (File, string) => any;
   canUpload: () => boolean;
+  modelName: string;
   translationKey: string;
 };
 
-const AttachmentUploadForm = ({ attachments, onChange, uploadAttachment, canUpload, translationKey }: AttachmentUploadFormProps) => {
+const AttachmentUploadForm = ({ attachments, onChange, uploadAttachment, canUpload, modelName, translationKey }: AttachmentUploadFormProps) => {
   if (attachments?.length >= maximumAttachmentCount || !canUpload()) {
     // We can't upload any more attachments, so no point in showing this interface.
     return <></>;
@@ -39,14 +40,14 @@ const AttachmentUploadForm = ({ attachments, onChange, uploadAttachment, canUplo
 
     try {
       await uploadAttachment(file, friendlyName);
-      toaster.success(t(`dashboard:contracts.actions.${translationKey}.create-success`));
+      toaster.success(t(`dashboard:attachments.actions.${translationKey}.create-success`));
       await onChange();
     } catch (err) {
       if (err.response?.data?.error) {
         const message = err.response.data.error;
 
         if (message?.length) {
-          toaster.danger(t(`errors:contracts.${message}`, err.response.data.details));
+          toaster.danger(t(`errors:${modelName}.${message}`, err.response.data.details));
           return;
         }
       }

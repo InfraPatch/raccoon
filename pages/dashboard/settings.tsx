@@ -18,11 +18,13 @@ import { useTranslation } from 'react-i18next';
 import Meta from '@/components/common/Meta';
 
 import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { isUserFilledOut } from '@/controllers/users/utils';
 
 const DashboardSettingsPage = () => {
   const [ userWithDetails, setUserWithDetails ] = useCurrentUser();
 
   const { t } = useTranslation([ 'dashboard', 'common', 'errors' ]);
+  const userReady: boolean = isUserFilledOut(userWithDetails);
 
   return (
     <DashboardLayout>
@@ -30,6 +32,14 @@ const DashboardSettingsPage = () => {
         title={ t('dashboard:pages.user-settings') }
         url="/dashboard/settings"
       />
+
+      {userWithDetails && !userReady && (
+        <Box>
+          <div className="text-center">
+            <span className="text-xl font-bold">{ t('dashboard:settings.welcome') }</span>
+          </div>
+        </Box>
+      )}
 
       {userWithDetails && (
         <Columns>

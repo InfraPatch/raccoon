@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 
 import { UpdateUserIdentificationDetailsAPIRequest } from '@/services/apis/users/UserAPIService';
 import { useRouter } from 'next/router';
+import { isUserFilledOut } from '@/controllers/users/utils';
 
 export interface UserIdentificationSettingsFormProps {
   user: User;
@@ -31,6 +32,8 @@ const UserIdentificationSettingsForm = ({ user, setUser }: UserIdentificationSet
     birthDate,
     birthPlace
   }: UpdateUserIdentificationDetailsAPIRequest, { setSubmitting }: FormikHelpers<UpdateUserIdentificationDetailsAPIRequest>) => {
+    const previouslyFilledOut: boolean = isUserFilledOut(user);
+
     try {
       const res = await apiService.users.updateUser({
         motherName,
@@ -45,6 +48,11 @@ const UserIdentificationSettingsForm = ({ user, setUser }: UserIdentificationSet
 
       setUser(res.user);
       toaster.success(t('dashboard:settings.success'));
+
+      if (!previouslyFilledOut && isUserFilledOut(res.user)) {
+        // Redirect the user to the main page.
+        router.push('/dashboard');
+      }
     } catch (err) {
       if (err.response?.data?.message) {
         const message = err.response.data.message[router.locale] || err.response.data.error || t('errors:users.AVDH_FAILED');
