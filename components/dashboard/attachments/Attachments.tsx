@@ -126,6 +126,7 @@ const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment
           onChange={onChange}
           uploadAttachment={uploadAttachment}
           canUpload={canUpload}
+          modelName={modelName}
           translationKey={translationKey}
         />
       </div>
