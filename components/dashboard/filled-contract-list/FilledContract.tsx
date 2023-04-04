@@ -8,7 +8,7 @@ import toaster from '@/lib/toaster';
 import apiService from '@/services/apis';
 
 import Link from 'next/link';
-import { FileText, PenTool, User, UserCheck } from 'react-feather';
+import { FileText, Folder, PenTool, User, UserCheck } from 'react-feather';
 
 import { useTranslation } from 'react-i18next';
 
@@ -88,6 +88,16 @@ const FilledContractListItem = ({ contract, onChange, partyType }: FilledContrac
             >{ t('dashboard:contracts.list.preview') }</a>)
           </div>
         </div>
+
+        {contract.filledItem && (
+          <div className={dataRowClassNames}>
+            <Folder />
+
+            <div>
+              <strong>{t('dashboard:contracts.list.item')}:</strong> {contract.filledItem.friendlyName}
+            </div>
+          </div>
+        )}
 
         {isSeller && (<div className={dataRowClassNames}>
           <UserCheck />

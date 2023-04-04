@@ -2,10 +2,11 @@ import { OptionType } from '@/db/common/OptionType';
 import { IFilledContract } from '@/db/models/contracts/FilledContract';
 import { PartyType } from '@/db/models/contracts/PartyType';
 import { IFilledContractOption } from '@/db/models/contracts/FilledContractOption';
+import { IFilledItemOption } from '@/db/models/items/FilledItemOption';
 import { formatDate } from '@/lib/formatDate';
 import { getPersonalIdentifierTypeString } from '@/lib/getPersonalIdentifierTypeString';
 
-import { FileText, PenTool, User, UserCheck } from 'react-feather';
+import { FileText, Folder, PenTool, User, UserCheck } from 'react-feather';
 
 import { useTranslation } from 'react-i18next';
 
@@ -20,7 +21,7 @@ const FilledContractOverview = ({ contract, partyType }: FilledContractOverviewP
   const sellerDetails = contract.options.filter(o => o.option.isSeller);
   const buyerDetails = contract.options.filter(o => !o.option.isSeller);
 
-  const getValueString = (filledOption: IFilledContractOption): string => {
+  const getValueString = (filledOption: IFilledContractOption | IFilledItemOption): string => {
     switch (filledOption.option.type) {
       case OptionType.DATE:
         return formatDate(filledOption.value);
@@ -75,6 +76,16 @@ const FilledContractOverview = ({ contract, partyType }: FilledContractOverviewP
             </div>
           </div>
 
+          {contract.filledItem && (
+            <div className={dataRowClassNames}>
+              <Folder />
+
+              <div>
+                <strong>{ t('dashboard:contracts.list.item') }:</strong> {contract.filledItem.friendlyName}
+              </div>
+            </div>
+          )}
+
           {isSeller && (<div className={dataRowClassNames}>
             <UserCheck />
 
@@ -106,6 +117,26 @@ const FilledContractOverview = ({ contract, partyType }: FilledContractOverviewP
           </div>
         </div>
       </div>
+
+      {contract.filledItem && contract.filledItem?.options.length && (
+        <div className={dataContainerClassNames}>
+          <h2 className={dataContainerTitleClassNames}>{t('contracts.data.item-details')}</h2>
+
+          <div className="px-4 py-3">
+            {contract.filledItem.options.map(detail => (
+              <div key={detail.id}>
+                <strong>
+                  {detail.option.friendlyName}:&nbsp;
+                </strong>
+
+                <span>
+                  {getValueString(detail)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className={dataContainerClassNames}>
         <h2 className={dataContainerTitleClassNames}>{ t('contracts.data.seller-details') }</h2>

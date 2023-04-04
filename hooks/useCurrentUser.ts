@@ -42,7 +42,7 @@ export const redirectIfNotReady = (user: User) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isUserFilledOut(user)) {
+    if (user && !isUserFilledOut(user)) {
       router.push('/dashboard/settings');
     }
   }, [ user ]);

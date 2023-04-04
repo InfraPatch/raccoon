@@ -79,6 +79,7 @@
 
       "contract-type": "Szerződés típusa",
       "preview": "minta",
+      "item": "Tulajdon",
       "buyer-accepted": "Vevő elfogadta a kérelmet",
       "yes": "igen",
       "no": "nem",
@@ -108,7 +109,8 @@
       "fill-submit": "Adatok kitöltése",
       "contract-details": "Szerződés részletei",
       "seller-details": "Eladó részletei",
-      "buyer-details": "Vásárló részletei"
+      "buyer-details": "Vásárló részletei",
+      "item-details": "Tulajdon részletei"
     },
     "actions": {
       "accept-success": "Kérelem sikeresen elfogadva!",

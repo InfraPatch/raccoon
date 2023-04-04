@@ -79,6 +79,7 @@
 
       "contract-type": "Contract type",
       "preview": "preview",
+      "item": "Property",
       "buyer-accepted": "Buyer accepted request",
       "yes": "yes",
       "no": "no",
@@ -108,7 +109,8 @@
       "fill-submit": "Fill details",
       "contract-details": "Contract Details",
       "seller-details": "Seller Details",
-      "buyer-details": "Buyer Details"
+      "buyer-details": "Buyer Details",
+      "item-details": "Property Details"
     },
     "actions": {
       "accept-success": "Request accepted successfully!",
