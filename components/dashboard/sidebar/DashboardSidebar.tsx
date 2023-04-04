@@ -115,6 +115,20 @@ const DashboardSidebar = () => {
         icon: <Layout />,
         label: t('pages.contracts')
       });
+
+      newNavigation.push(SEPARATOR);
+
+      newNavigation.push({
+        href: '/dashboard/admin/property-categories',
+        icon: <Folder />,
+        label: t('pages.item-categories')
+      });
+
+      newNavigation.push({
+        href: '/dashboard/admin/property-categories/new',
+        icon: <Star />,
+        label: t('pages.new-item')
+      });
     }
 
     setNavigation(newNavigation);
