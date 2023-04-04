@@ -8,19 +8,19 @@ import { ItemOption } from '@/db/models/items/ItemOption';
 import { validateOption } from '@/lib/validateOption';
 import { FilledItemOption } from '@/db/models/items/FilledItemOption';
 
-class CreateFilledItemsError extends Error {
+class CreateFilledItemError extends Error {
   code: string;
 
   constructor(code: string) {
     super();
-    this.name = 'CreateFilledItemsError';
+    this.name = 'CreateFilledItemError';
     this.code = code;
   }
 }
 
 export const createFilledItem = async (ownerEmail: string, { friendlyName, itemSlug, options }: NewFilledItemAPIParams): Promise<FilledItem> => {
   if (friendlyName.length < 2) {
-    throw new CreateFilledItemsError('NAME_TOO_SHORT');
+    throw new CreateFilledItemError('NAME_TOO_SHORT');
   }
 
   await db.prepare();
@@ -36,7 +36,7 @@ export const createFilledItem = async (ownerEmail: string, { friendlyName, itemS
   });
 
   if (!item) {
-    throw new CreateFilledItemsError('UNKNOWN_ITEM');
+    throw new CreateFilledItemError('UNKNOWN_ITEM');
   }
 
   const itemOptions: { [id: number]: ItemOption } = {};

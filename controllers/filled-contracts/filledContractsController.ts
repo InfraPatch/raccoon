@@ -19,7 +19,7 @@ const acceptOrDecline = async (action: 'accept' | 'decline', req: NextApiRequest
     await acceptOrDeclineFilledContract(session.user.email, idFromQueryParam(id), action);
     return res.json({ ok: true });
   } catch (err) {
-    if (err.name === 'FilledContractUpdateError') {
+    if (err.name === 'FilledContractUpdateError' || err.name === 'OptionValidationError') {
       return res.status(400).json({
         ok: false,
         error: err.code
@@ -204,7 +204,7 @@ export const fill = async (req: NextApiRequest, res: NextApiResponse) => {
     await fillContractOptions(session.user.email, idFromQueryParam(id), options);
     return res.json({ ok: true });
   } catch (err) {
-    if (err.name === 'FilledContractUpdateError') {
+    if (err.name === 'FilledContractUpdateError' || err.name === 'OptionValidationError') {
       return res.status(400).json({
         ok: false,
         error: err.code,
