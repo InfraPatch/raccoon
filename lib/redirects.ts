@@ -2,7 +2,7 @@ import { Session } from 'next-auth';
 
 export const redirectIfAuthenticated = async (res, session: Session): Promise<boolean> => {
   if (session) {
-    res.writeHead(301, {
+    res.writeHead(302, {
       location: '/dashboard'
     });
     res.end();
@@ -15,7 +15,7 @@ export const redirectIfAuthenticated = async (res, session: Session): Promise<bo
 
 export const redirectIfAnonymous = async (res, session: Session): Promise<boolean> => {
   if (!session || !session.user) {
-    res.writeHead(301, {
+    res.writeHead(302, {
       location: '/login'
     });
     res.end();
@@ -28,7 +28,7 @@ export const redirectIfAnonymous = async (res, session: Session): Promise<boolea
 
 export const redirectIfNotAdmin = async (res, session: Session): Promise<boolean> => {
   if (!session || !session.user) {
-    res.writeHead(301, {
+    res.writeHead(302, {
       location: '/login'
     });
     res.end();
@@ -37,7 +37,7 @@ export const redirectIfNotAdmin = async (res, session: Session): Promise<boolean
   }
 
   if (!session.user.isAdmin) {
-    res.writeHead(301, {
+    res.writeHead(302, {
       location: '/dashboard'
     });
     res.end();
