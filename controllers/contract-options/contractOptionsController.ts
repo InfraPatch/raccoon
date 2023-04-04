@@ -6,11 +6,13 @@ import { getContractOption } from './getContractOption';
 import { deleteContractOption } from './deleteContractOption';
 import { updateContractOption } from './updateContractOption';
 
+import idFromQueryParam from '@/lib/idFromQueryParam';
+
 export const listContractOptions = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.body;
 
   try {
-    const options = await getContractOptions({ id: parseInt(Array.isArray(id) ? id[0] : id) });
+    const options = await getContractOptions({ id: idFromQueryParam(id) });
 
     return res.json({
       ok: true,
@@ -37,7 +39,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
 
   try {
-    const option = await getContractOption({ id: parseInt(Array.isArray(id) ? id[0] : id) });
+    const option = await getContractOption({ id: idFromQueryParam(id) });
 
     return res.json({
       ok: true,
@@ -64,7 +66,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
 
   try {
-    await deleteContractOption({ id: parseInt(Array.isArray(id) ? id[0] : id) });
+    await deleteContractOption({ id: idFromQueryParam(id) });
     return res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -82,7 +84,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     await updateContractOption({
-      id: parseInt(Array.isArray(id) ? id[0] : id),
+      id: idFromQueryParam(id),
       type: parseInt(Array.isArray(type) ? type[0] : type),
       priority: parseInt(Array.isArray(priority) ? priority[0] : priority),
       friendlyName, longDescription, hint, replacementString,

@@ -6,6 +6,8 @@ import { deleteWitnessSignature } from './deleteWitnessSignature';
 import { getWitnessSignature } from './getWitnessSignature';
 import { jsonToXml } from '@/lib/objectToXml';
 
+import idFromQueryParam from '@/lib/idFromQueryParam';
+
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
   const { filledContractId, witnessEmail } = req.body;
   const session = await getSession({ req });
@@ -42,7 +44,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    await deleteWitnessSignature(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+    await deleteWitnessSignature(session.user.email, idFromQueryParam(id));
     return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'DeleteWitnessSignatureError' || err.name === 'GetWitnessSignatureError') {
@@ -67,7 +69,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   let response = null;
 
   try {
-    const getResponse = await getWitnessSignature(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+    const getResponse = await getWitnessSignature(session.user.email, idFromQueryParam(id));
     response = {
       ok: true,
       witnessSignature: getResponse.signature

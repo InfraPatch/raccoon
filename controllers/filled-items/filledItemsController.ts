@@ -8,6 +8,8 @@ import { listFilledItems } from './listFilledItems';
 import { fillItemOptions } from './updateFilledItem';
 import { jsonToXml } from '@/lib/objectToXml';
 
+import idFromQueryParam from '@/lib/idFromQueryParam';
+
 export const index = async (req: NextApiRequest, res: NextApiResponse) => {
   const { slug } = req.query;
   const session = await getSession({ req });
@@ -41,7 +43,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   let response = null;
 
   try {
-    const filledItem = await getFilledItem(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+    const filledItem = await getFilledItem(session.user.email, idFromQueryParam(id));
     response = {
       ok: true,
       filledItem
@@ -108,7 +110,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    await deleteFilledItem(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+    await deleteFilledItem(session.user.email, idFromQueryParam(id));
     return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'DeleteItemError' || err.name === 'GetFilledItemError') {
@@ -136,7 +138,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await fillItemOptions(
       session.user.email,
-      parseInt(Array.isArray(id) ? id[0] : id),
+      idFromQueryParam(id),
       friendlyName,
       options
     );

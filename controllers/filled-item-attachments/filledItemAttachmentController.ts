@@ -11,6 +11,8 @@ import { downloadFilledItemAttachment } from './downloadFilledItemAttachment';
 import { jsonToXml } from '@/lib/objectToXml';
 import { firstOf } from '../users/usersController';
 
+import idFromQueryParam from '@/lib/idFromQueryParam';
+
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
   const form = new formidable.IncomingForm();
@@ -66,7 +68,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    await deleteFilledItemAttachment(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+    await deleteFilledItemAttachment(session.user.email, idFromQueryParam(id));
     return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'DeleteFilledItemAttachmentError' || err.name === 'GetFilledItemAttachmentError') {
@@ -91,7 +93,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   let response = null;
 
   try {
-    const getResponse = await getFilledItemAttachment(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+    const getResponse = await getFilledItemAttachment(session.user.email, idFromQueryParam(id));
     response = {
       ok: true,
       attachment: getResponse.attachment
@@ -126,7 +128,7 @@ export const download = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    let response = await downloadFilledItemAttachment(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+    let response = await downloadFilledItemAttachment(session.user.email, idFromQueryParam(id));
 
     if (!response) {
       return res.status(400).json({

@@ -11,6 +11,8 @@ import { useTranslation } from 'react-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Meta from '@/components/common/Meta';
 
+import idFromQueryParam from '@/lib/idFromQueryParam';
+
 export interface DashboardNewContractPageProps {
   contractId: number;
 };
@@ -48,7 +50,7 @@ export const getServerSideProps = async ({ req, res, query, locale }) => {
 
   return {
     props: {
-      contractId: parseInt(Array.isArray(id) ? id[0] : id),
+      contractId: idFromQueryParam(id),
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }
   };

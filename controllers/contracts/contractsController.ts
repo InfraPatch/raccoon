@@ -9,6 +9,8 @@ import { getContract } from './getContract';
 import { deleteContract } from './deleteContract';
 import { updateContract } from './updateContract';
 
+import idFromQueryParam from '@/lib/idFromQueryParam';
+
 export const listContracts = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const contracts = await getContracts();
@@ -31,7 +33,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
 
   try {
-    const contract = await getContract({ id: parseInt(Array.isArray(id) ? id[0] : id) });
+    const contract = await getContract({ id: idFromQueryParam(id) });
 
     return res.json({
       ok: true,
@@ -58,7 +60,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
 
   try {
-    await deleteContract({ id: parseInt(Array.isArray(id) ? id[0] : id) });
+    await deleteContract({ id: idFromQueryParam(id) });
     return res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -87,7 +89,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
 
       try {
         const contract = await updateContract({
-          id: parseInt(Array.isArray(id) ? id[0] : id),
+          id: idFromQueryParam(id),
           friendlyName: firstOf(fields.friendlyName),
           description: firstOf(fields.description),
           file: firstOf(files.file)

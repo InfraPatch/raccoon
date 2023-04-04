@@ -29,6 +29,8 @@ import { IFilledContractAttachment } from '@/db/models/contracts/FilledContractA
 
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 
+import idFromQueryParam from '@/lib/idFromQueryParam';
+
 export interface DashboardContractsPageProps {
   id: number;
 };
@@ -195,7 +197,7 @@ export const getServerSideProps = async ({ req, res, query, locale }) => {
     return { props: { user: null } };
   }
 
-  const id = parseInt(Array.isArray(query.id) ? query.id[0] : query.id);
+  const id = idFromQueryParam(query.id);
 
   return {
     props: {

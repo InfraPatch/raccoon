@@ -9,12 +9,14 @@ import { signContract } from './signContract';
 import { acceptOrDeclineFilledContract, fillContractOptions } from './updateFilledContract';
 import { jsonToXml } from '@/lib/objectToXml';
 
+import idFromQueryParam from '@/lib/idFromQueryParam';
+
 const acceptOrDecline = async (action: 'accept' | 'decline', req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const session = await getSession({ req });
 
   try {
-    await acceptOrDeclineFilledContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id), action);
+    await acceptOrDeclineFilledContract(session.user.email, idFromQueryParam(id), action);
     return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'FilledContractUpdateError') {
@@ -67,7 +69,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   let response = null;
 
   try {
-    const filledContract = await getFilledContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+    const filledContract = await getFilledContract(session.user.email, idFromQueryParam(id));
     response = {
       ok: true,
       filledContract
@@ -172,7 +174,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    await deleteFilledContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id));
+    await deleteFilledContract(session.user.email, idFromQueryParam(id));
     return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'DeleteContractError' || err.name === 'GetFilledContractError') {
@@ -198,7 +200,7 @@ export const fill = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    await fillContractOptions(session.user.email, parseInt(Array.isArray(id) ? id[0] : id), options);
+    await fillContractOptions(session.user.email, idFromQueryParam(id), options);
     return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'FilledContractUpdateError') {
@@ -224,7 +226,7 @@ export const sign = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    await signContract(session.user.email, parseInt(Array.isArray(id) ? id[0] : id), signatureData);
+    await signContract(session.user.email, idFromQueryParam(id), signatureData);
     return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'SignContractError') {
@@ -251,8 +253,8 @@ export const downloadSignature = async (req: NextApiRequest, res: NextApiRespons
   try {
     const stream = await downloadSignatureBy(
       session.user.email,
-      parseInt(Array.isArray(id) ? id[0] : id),
-      parseInt(Array.isArray(signId) ? signId[0] : signId)
+      idFromQueryParam(id),
+      idFromQueryParam(signId)
     );
 
     if (!stream) {

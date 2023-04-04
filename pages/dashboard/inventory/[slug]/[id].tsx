@@ -26,6 +26,8 @@ import FilledItemEditForm from '@/components/dashboard/filled-item/FilledItemEdi
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import Link from 'next/link';
 
+import idFromQueryParam from '@/lib/idFromQueryParam';
+
 export interface DashboardFilledItemPageProps {
   slug: string;
   id: number;
@@ -155,7 +157,7 @@ export const getServerSideProps = async ({ req, res, query, locale }) => {
   return {
     props: {
       slug: Array.isArray(slug) ? slug[0] : slug,
-      id: parseInt(Array.isArray(id) ? id[0] : id),
+      id: idFromQueryParam(id),
       ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
     }
   };

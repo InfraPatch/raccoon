@@ -6,11 +6,13 @@ import { getItemOption } from './getItemOption';
 import { deleteItemOption } from './deleteItemOption';
 import { updateItemOption } from './updateItemOption';
 
+import idFromQueryParam from '@/lib/idFromQueryParam';
+
 export const index = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.body;
 
   try {
-    const options = await getItemOptions({ id: parseInt(Array.isArray(id) ? id[0] : id) });
+    const options = await getItemOptions({ id: idFromQueryParam(id) });
 
     return res.json({
       ok: true,
@@ -37,7 +39,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
 
   try {
-    const option = await getItemOption({ id: parseInt(Array.isArray(id) ? id[0] : id) });
+    const option = await getItemOption({ id: idFromQueryParam(id) });
 
     return res.json({
       ok: true,
@@ -64,7 +66,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
 
   try {
-    await deleteItemOption({ id: parseInt(Array.isArray(id) ? id[0] : id) });
+    await deleteItemOption({ id: idFromQueryParam(id) });
     return res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -82,7 +84,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     await updateItemOption({
-      id: parseInt(Array.isArray(id) ? id[0] : id),
+      id: idFromQueryParam(id),
       type: parseInt(Array.isArray(type) ? type[0] : type),
       priority: parseInt(Array.isArray(priority) ? priority[0] : priority),
       friendlyName, longDescription, hint, replacementString,
