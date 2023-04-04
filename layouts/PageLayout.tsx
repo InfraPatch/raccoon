@@ -9,7 +9,7 @@ const PageLayout = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation('common');
 
   return (
-    <section className="container">
+    <section className="container px-3">
       <a href="#content" className="skip-to-content">
         { t('skip-to-content') }
       </a>
