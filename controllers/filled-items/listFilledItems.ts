@@ -28,7 +28,7 @@ export const listFilledItems = async (email: string, slug: string): Promise<Omit
 
   const filledItems = await filledItemRepository.createQueryBuilder('filledItem')
     .innerJoinAndSelect('filledItem.item', 'item')
-    .where('userId = :id', { id: user.id })
+    .where('filledItem.userId = :id', { id: user.id })
     .where('item.slug = :slug', { slug })
     .getMany();
 
