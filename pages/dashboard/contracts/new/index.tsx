@@ -59,15 +59,11 @@ const DashboardContractsPage = () => {
         url="/dashboard/contracts/new"
       />
 
-      <Columns>
-        <Column>
-          <Box>
-            <div className="text-center">
-              <span className="text-xl font-bold">{ t('dashboard:contracts.new.choose-contract-title') }</span>
-            </div>
-          </Box>
-        </Column>
-      </Columns>
+      <Box>
+        <div className="text-center">
+          <span className="text-xl font-bold">{ t('dashboard:contracts.new.choose-contract-title') }</span>
+        </div>
+      </Box>
 
       {rows && rows.map((row, index) => {
         let columns = [];

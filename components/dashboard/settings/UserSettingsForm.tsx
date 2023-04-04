@@ -13,6 +13,7 @@ import { UpdateUserProfileAPIRequest } from '@/services/apis/users/UserAPIServic
 
 import * as UserSettingsValidator from '@/validators/UserSettingsValidator';
 import { useRouter } from 'next/router';
+import { isUserFilledOut } from '@/controllers/users/utils';
 
 export interface UserSettingsFormProps {
   user: User;
@@ -26,11 +27,18 @@ const UserSettingsForm = ({ user, setUser }: UserSettingsFormProps) => {
   const [ image, setImage ] = useState<File | null>(null);
 
   const handleFormSubmit = async ({ name }: UpdateUserProfileAPIRequest, { setSubmitting }: FormikHelpers<UpdateUserProfileAPIRequest>) => {
+    const previouslyFilledOut: boolean = isUserFilledOut(user);
+
     try {
       const res = await apiService.users.updateUser({ name, image });
 
       setUser(res.user);
       toaster.success(t('dashboard:settings.success'));
+
+      if (!previouslyFilledOut && isUserFilledOut(res.user)) {
+        // Redirect the user to the main page.
+        router.push('/dashboard');
+      }
     } catch (err) {
       if (err.response?.data?.message) {
         const message = err.response.data.message[router.locale] || err.response.data.error || t('errors:users.AVDH_FAILED');

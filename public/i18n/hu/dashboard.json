@@ -36,7 +36,8 @@
     "user-settings": "Felhasználói beállítások",
     "id-settings": "Azonosítási információk",
     "password": "Jelszó",
-    "success": "Beállítások sikeresen mentve! Egyes beállítások csak a következő bejelentkezéskor lépnek érvénybe."
+    "success": "Beállítások sikeresen mentve!",
+    "welcome": "Isten hozott a Project Raccoon oldalán! A felület használatához jobban meg kell ismernünk magát."
   },
 
   "user-fields": {

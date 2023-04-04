@@ -18,6 +18,7 @@ import buildUrl from '@/lib/buildUrl';
 import Link from 'next/link';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useEffect, useState } from 'react';
+import { isUserFilledOut } from '@/controllers/users/utils';
 
 const SEPARATOR: NavigationSeparator = 0;
 
@@ -33,44 +34,54 @@ const DashboardSidebar = () => {
       return;
     }
 
-    const newNavigation: ( NavigationLinkProps | NavigationTitleProps | NavigationSeparator )[] = [
-      {
-        href: '/dashboard',
-        icon: <Home />,
-        label: t('pages.home')
-      },
+    let newNavigation: ( NavigationLinkProps | NavigationTitleProps | NavigationSeparator )[] = [];
+    let userReady = isUserFilledOut(user);
 
-      {
-        href: '/dashboard/contracts/new',
-        icon: <Star />,
-        label: t('pages.new-user-contract')
-      },
+    // We want to show only a very minimal set of features
+    // to all users that have not filled out their details.
+    // They'll only be able to access their own settings
+    // and the website's documentation.
 
-      {
-        href: '/dashboard/inventory',
-        icon: <Folder />,
-        label: t('pages.my-items')
-      },
+    if (userReady) {
+      newNavigation = [
+        {
+          href: '/dashboard',
+          icon: <Home />,
+          label: t('pages.home')
+        },
 
-      {
-        href: '/dashboard/contracts',
-        icon: <Edit3 />,
-        label: t('pages.my-contracts')
-      },
+        {
+          href: '/dashboard/contracts/new',
+          icon: <Star />,
+          label: t('pages.new-user-contract')
+        },
 
-      {
-        href: '/dashboard/settings',
-        icon: <UserIcon />,
-        label: t('pages.user-settings')
-      },
+        {
+          href: '/dashboard/inventory',
+          icon: <Folder />,
+          label: t('pages.my-items')
+        },
 
-      {
-        href: '/docs',
-        icon: <Book />,
-        label: t('pages.docs'),
-        newtab: true
-      }
-    ];
+        {
+          href: '/dashboard/contracts',
+          icon: <Edit3 />,
+          label: t('pages.my-contracts')
+        },
+      ];
+    }
+
+    newNavigation.push({
+      href: '/dashboard/settings',
+      icon: <UserIcon />,
+      label: t('pages.user-settings')
+    });
+
+    newNavigation.push({
+      href: '/docs',
+      icon: <Book />,
+      label: t('pages.docs'),
+      newtab: true
+    });
 
     if (user.isAdmin) {
       newNavigation.push(SEPARATOR);

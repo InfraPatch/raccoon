@@ -29,14 +29,15 @@
     "items-title": "Manage your owned properties",
     "items-button": "My Properties",
     "profile-title": "Fill out your personal information",
-    "profile-button": "My settings"
+    "profile-button": "My Settings"
   },
 
   "settings": {
     "user-settings": "User settings",
     "id-settings": "Identification information",
     "password": "Password",
-    "success": "Settings updated successfully! Some settings will only get applied on the next login."
+    "success": "Settings updated successfully!",
+    "welcome": "Welcome to Project Raccoon! To begin using the website, we'll need to know a few things about you."
   },
 
   "user-fields": {

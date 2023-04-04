@@ -23,7 +23,7 @@ import Loading from '@/components/common/Loading';
 import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 import FilledItemEditForm from '@/components/dashboard/filled-item/FilledItemEditForm';
 
-import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { redirectIfNotReady, useCurrentUser } from '@/hooks/useCurrentUser';
 import Link from 'next/link';
 
 import idFromQueryParam from '@/lib/idFromQueryParam';
@@ -40,6 +40,9 @@ const DashboardFilledItemPage = ({ slug, id }: DashboardFilledItemPageProps) => 
   const [ filledItem, setFilledItem ] = useState<IFilledItem | null>(null);
   const [ error, setError ] = useState('');
   const [ user ] = useCurrentUser();
+
+  // Redirect user if they haven't filled out their details yet
+  redirectIfNotReady(user);
 
   const loadFilledItem = async () => {
     setItem(null);
