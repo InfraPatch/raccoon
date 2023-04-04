@@ -46,4 +46,4 @@ export const redirectIfNotReady = (user: User) => {
       router.push('/dashboard/settings');
     }
   }, [ user ]);
-}
+};

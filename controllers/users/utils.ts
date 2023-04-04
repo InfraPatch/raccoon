@@ -14,4 +14,4 @@ export const isUserFilledOut = (user: IUser): boolean => {
   }
 
   return false;
-}
+};
