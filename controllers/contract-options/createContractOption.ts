@@ -60,18 +60,21 @@ export const createContractOption = async (payload: ContractOptionCreatorFields)
     throw new ContractOptionCreationError('CONSTRAINTS_INVALID');
   }
 
-  const optionsRepository = db.getRepository(ContractOption);
-  const optionCount = await optionsRepository.count({ where: { replacementString: payload.replacementString } });
-
-  if (optionCount !== 0) {
-    throw new ContractOptionCreationError('CONTRACT_OPTION_ALREADY_EXISTS');
-  }
-
   const contractRepository = db.getRepository(Contract);
   const contract = await contractRepository.findOne({ where: { id: payload.contractId } });
 
   if (!contract) {
     throw new ContractOptionCreationError('CONTRACT_DOES_NOT_EXIST');
+  }
+
+  const optionsRepository = db.getRepository(ContractOption);
+  const optionCount = await optionsRepository.createQueryBuilder('contractOption')
+    .where('contractOption.replacementString = :replacementString', { replacementString: payload.replacementString })
+    .andWhere('contractOption.contractId = :contractId', { contractId: contract.id })
+    .getCount();
+
+  if (optionCount !== 0) {
+    throw new ContractOptionCreationError('CONTRACT_OPTION_ALREADY_EXISTS');
   }
 
   const contractOption = optionsRepository.create({

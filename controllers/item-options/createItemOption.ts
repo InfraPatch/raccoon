@@ -59,18 +59,21 @@ export const createItemOption = async (payload: ItemOptionCreatorFields): Promis
     throw new ItemOptionCreationError('CONSTRAINTS_INVALID');
   }
 
-  const optionsRepository = db.getRepository(ItemOption);
-  const optionCount = await optionsRepository.count({ where: { replacementString: payload.replacementString } });
-
-  if (optionCount !== 0) {
-    throw new ItemOptionCreationError('ITEM_OPTION_ALREADY_EXISTS');
-  }
-
   const itemRepository = db.getRepository(Item);
   const item = await itemRepository.findOne({ where: { id: payload.itemId } });
 
   if (!item) {
     throw new ItemOptionCreationError('ITEM_DOES_NOT_EXIST');
+  }
+
+  const optionsRepository = db.getRepository(ItemOption);
+  const optionCount = await optionsRepository.createQueryBuilder('itemOption')
+    .where('itemOption.replacementString = :replacementString', { replacementString: payload.replacementString })
+    .andWhere('itemOption.itemId = :itemId', { itemId: item.id })
+    .getCount();
+
+  if (optionCount !== 0) {
+    throw new ItemOptionCreationError('ITEM_OPTION_ALREADY_EXISTS');
   }
 
   const itemOption = optionsRepository.create({
