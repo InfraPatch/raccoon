@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 
 import { Item } from '@/db/models/items/Item';
 
-interface NewContractFormRequest {
+export interface NewContractFormRequest {
   friendlyName: string;
   description: string;
   itemSlug: string;

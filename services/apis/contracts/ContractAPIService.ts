@@ -6,7 +6,7 @@ import { Contract } from '@/db/models/contracts/Contract';
 export interface NewContractAPIRequest {
   friendlyName: string;
   description: string;
-  itemSlug: string;
+  itemSlug?: string;
   file: File;
 };
 
