@@ -1,0 +1,43 @@
+---
+title: Property categories
+description: Learn how to create Property types.
+url: /en/docs/admin/properties
+---
+
+## Creating a new Property category
+
+To create a new Property category, you have to give it a name, and a short description.
+The slug is automatically filled based on the name of the category, but can be edited.
+
+![newPropertyCategory.png](/images/en/admin/newPropertyCategory.png)
+
+You can check out all of the previously created categories under **Property categories**.
+
+## Adding new fields to an existing Property category:
+
+Under **Property categories**, choose one category, and press **Edit**.
+This will bring up a menu where you can add new fields to the chosen property category.
+
+### Field parameters
+
+- Field type
+- Field priority (higher priority appears earlier)
+- Field name
+- Long description/explanation (optional)
+- Hint (optional)
+- Replacement string (in document)  
+This field should also be in the template **.docx**.
+- Minimum length (constraint, optional)
+- Maximum length (constraint, optional)
+
+`-1` length means length is not defined.
+
+As an example, we will create a new field, "Brand":
+
+Brand:
+- Field type: Character string
+- Field priority: 10
+- Field name: Brand
+- Replacement string: {car_brand}
+
+![newPropertyField.png](/images/en/admin/newPropertyField.png)

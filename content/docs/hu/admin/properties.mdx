@@ -1,0 +1,43 @@
+---
+title: Tulajdonkategóriák 
+description: További információ a tulajdontípusok létrehozásáról. 
+url: /hu/docs/admin/properties
+---
+
+## Új tulajdon kategória létrehozása
+
+Új tulajdonkategória létrehozásához meg kell adnia egy nevet és egy rövid leírást.
+A slug automatikusan kitöltődik a kategória neve alapján, de szerkeszthető.
+
+![newPropertyCategory.png](/images/hu/admin/newPropertyCategory.png)
+
+Az összes korábban létrehozott kategóriát megnézheti a **Tulajdonkategóriák** alatt.
+
+## Új mezők hozzáadása egy meglévő tulajdonkategóriához:
+
+A **Tulajdonkategóriák** alatt válasszon ki egy kategóriát, majd nyomja meg a **Kategória szerkesztése** gombot.
+Ez megnyit egy menüt, ahol új mezőket adhat hozzá a kiválasztott tulajdonkategóriához.
+
+### Mező paraméterek
+
+- Mező típusa
+- Mező prioritása (magasabb prioritás hamarabb jelenik meg)
+- Mező neve
+- Hosszabb leírás/magyarázat (nem kötelező)
+- Sugó szöveg (nem kötelező)
+- Helyettesítő karakterlánc (a dokumentumban)
+Ennek a mezőnek a **.docx** sablonban is szerepelnie kell. 
+- Minimális hossz (megkötés, nem kötelező)
+- Maximális hossz (megkötés, nem kötelező)
+
+`-1` hossz azt jelenti, hogy a hossz nincs meghatározva .
+
+Példaként létrehozunk egy új mezőt, "Márka":
+
+Márka:
+- Mező típusa: Karakterlánc
+- Mező prioritása: 10
+- Mező neve: Márka
+- Helyettesítő karakterlánc: {car_brand}
+
+![newPropertyField.png](/images/hu/admin/newPropertyField.png)

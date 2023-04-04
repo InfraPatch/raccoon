@@ -1,8 +1,11 @@
 {
   "getting-started": "Első lépések",
+  "properties": "Tulajdonok",
+  "contracts": "Szerződések",
 
   "admin": {
     "getting-started": "Admin: Első lépések",
-    "templates": "Admin: Sablonok létrehozása"
+    "templates": "Admin: Sablonok létrehozása",
+    "properties": "Admin: Tulajdonkategóriák létrehozása"
   }
 }

@@ -1,8 +1,11 @@
 {
   "getting-started": "Getting Started",
+  "properties": "Properties",
+  "contracts": "Contracts",
 
   "admin": {
     "getting-started": "Admin: Getting Started",
-    "templates": "Admin: Creating templates"
+    "templates": "Admin: Creating templates",
+    "properties": "Admin: Creating Property categories"
   }
 }

@@ -18,6 +18,17 @@ const DocsSidebar = () => {
     }
   ];
 
+  navigation.push({
+    href: '/docs/properties',
+    label: t('properties')
+  });
+
+  navigation.push({
+    href: '/docs/contracts',
+    label: t('contracts')
+  });
+
+
   if (session?.user?.isAdmin) {
     navigation.push(SEPARATOR);
 
@@ -29,6 +40,11 @@ const DocsSidebar = () => {
     navigation.push({
       href: '/docs/admin/templates',
       label: t('admin.templates')
+    });
+
+    navigation.push({
+      href: '/docs/admin/properties',
+      label: t('admin.properties')
     });
   }
 
