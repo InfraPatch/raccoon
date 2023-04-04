@@ -12,6 +12,7 @@ import { jsonToXml } from '@/lib/objectToXml';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { sign } from 'pdf-signer';
 import { v4 as uuid } from 'uuid';
+import { omit } from 'lodash';
 
 // The color that all attestation fields are set to, currently dark red.
 const ATTESTATION_COLOR = rgb(0.75, 0, 0);
@@ -144,7 +145,7 @@ class AVDHService {
 
       for (const attestation of attestations) {
         const avdhBytes : Buffer = await this.createAVDHAttachment(attestation);
-        const avdhXml : Buffer = Buffer.from(jsonToXml({ ...attestation, date: attestation.date.toISOString() }));
+        const avdhXml : Buffer = Buffer.from(jsonToXml(omit({ ...attestation, date: attestation.date.toISOString() }, 'signature')));
         const avdhUuid : string = uuid();
 
         attachments.push({

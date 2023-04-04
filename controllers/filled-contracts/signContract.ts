@@ -23,6 +23,8 @@ import path from 'path';
 import { getStorageStrategy } from '@/lib/storageStrategies';
 import { maximumSignatureSize } from '../attachments/attachmentConstants';
 import { downloadSignatureBuffer } from './getFilledContract';
+import { IFilledContractAttachment } from '@/db/models/contracts/FilledContractAttachment';
+import { IFilledItemAttachment } from '@/db/models/items/FilledItemAttachment';
 const storage = getStorageStrategy();
 
 class SignContractError extends Error {
@@ -66,7 +68,15 @@ export const createAttachments = async (attachments: IAttachment[]): Promise<IPD
 
     for (const attachment of attachments) {
       try {
-        const attachmentBytes : Buffer = await storage.get(attachment.filename);
+        let attachmentBytes : Buffer;
+
+        if ('filledContractId' in attachment) {
+          const contractAttachment = attachment as IFilledContractAttachment;
+          attachmentBytes = await storage.get(`attachments/contract/${contractAttachment.filledContractId}/${contractAttachment.filename}`);
+        } else if ('filledItemId' in attachment) {
+          const itemAttachment = attachment as IFilledItemAttachment;
+          attachmentBytes = await storage.get(`attachments/item/${itemAttachment.filledItemId}/${itemAttachment.filename}`);
+        }
 
         pdfAttachments.push({
           file: attachmentBytes,
