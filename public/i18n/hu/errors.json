@@ -107,6 +107,42 @@
   "items": {
     "NAME_TOO_SHORT": "A megadott név legalább {{ min }} karakter hosszú kell legyen.",
     "DESCRIPTION_TOO_SHORT": "A megadott leírás legalább {{ min }} karakter hosszú kell legyen.",
-    "ITEM_ALREADY_EXISTS": "Már létezik egy kategória ezzel az azonosítóval."
+    "ITEM_ALREADY_EXISTS": "Már létezik egy kategória ezzel az azonosítóval.",
+    "ITEM_NOT_FOUND": "Nem sikerült megtalálni ezt a tulajdonkategóriát.",
+
+    "USER_NOT_FOUND": "Nem található ezzel az e-mail címmel rendelkező felhasználó.",
+
+    "FILLED_ITEM_NOT_FOUND": "Nem létezik a megadott azonosítóval rendelkező tulajdon.",
+    "UNKNOWN_ITEM": "Ismeretlen tulajdonkategória.",
+
+    "ACCESS_TO_ITEM_DENIED": "Önnek nincs hozzáférése ehhez a tulajdonhoz.",
+
+    "FIELD_IS_REQUIRED": "A(z) \"{{ friendlyName }}\" mező kötelező.",
+
+    "FIELD_STRING_TOO_SHORT": "A(z) \"{{ friendlyName }}\" mező legalább \"{{ min }}\" karakter hosszú kell legyen.",
+    "FIELD_STRING_TOO_LONG": "A(z) \"{{ friendlyName }}\" mező legfeljebb \"{{ max }}\" karakter hosszú kell legyen.",
+    "FIELD_NUMBER_TOO_SMALL": "A(z) \"{{ friendlyName }}\" mező legkisebb megengedett értéke: \"{{ min }}\".",
+    "FIELD_NUMBER_TOO_LARGE": "A(z) \"{{ friendlyName }}\" mező legnagyobb megengedett értéke: \"{{ max }}\".",
+    "FIELD_INVALID_EMAIL": "A(z) \"{{ friendlyName }}\" mezőben megadott e-mail cím érvénytelen.",
+    "FIELD_DATE_INVALID": "A(z) \"{{ friendlyName }}\" mezőben megadott dátum érvénytelen.",
+    "FIELD_URL_INVALID": "A(z) \"{{ friendlyName }}\" mezőben megadott URL cím érvénytelen.",
+
+    "INVALID_ATTACHMENT": "Nem töltheti fel ezt az állományt mellékletként!",
+    "ATTACHMENT_UPLOAD_FAILED": "Sajnos az állomány feltöltésekor hiba történt. Kérjük próbálja újra később.",
+    "ATTACHMENT_NOT_FOUND": "Nem található ezzel az azonosítóval rendelkező melléklet.",
+    "ACCESS_TO_ATTACHMENT_DENIED": "Nincs hozzáférése ehhez a melléklethez!",
+    "ATTACHMENT_CLEANUP_FAILED": "Töröltük a mellékletet, de lehet, hogy máshol továbbra is elérhető marad.",
+    "ATTACHMENT_TOO_LARGE": "A feltölteni kívánt állomány túl nagy. Kérem válasszon egy két megabájtnál kisebb fájlt.",
+    "MAX_ATTACHMENTS_REACHED": "Ez a tulajdon elérte a feltöltött mellékletek maximális számát!"
+  },
+
+  "item-options": {
+    "ITEM_NOT_PROVIDED": "Nem sikerült megadni az eddigi tulajdonkategóriát.",
+    "INVALID_ITEM_OPTION_TYPE": "A megadott mezőtípus nem létezik a rendszerben!",
+    "NAME_TOO_SHORT": "A megadott név legalább {{ min }} karakter hosszú kell legyen.",
+    "REPLACEMENT_STRING_TOO_SHORT": "A megadott helyettesítő karakterlánc legalább {{ min }} karakter hosszú kell legyen.",
+    "CONSTRAINTS_INVALID": "A megadott korlátok helytelenek! A maximum korlát kisebb a minimum korlátnál.",
+    "ITEM_OPTION_ALREADY_EXISTS": "Már létezik egy ilyen mező ezzel a helyettesítő karakterlánccal!",
+    "ITEM_NOT_FOUND": "Nem sikerült megtalálni az eddigi tulajdonkategóriát."
   }
 }

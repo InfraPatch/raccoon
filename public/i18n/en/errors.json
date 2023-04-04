@@ -107,6 +107,42 @@
   "items": {
     "NAME_TOO_SHORT": "The name needs to be at least {{ min }} characters long.",
     "DESCRIPTION_TOO_SHORT": "The description needs to be at least {{ min }} characters long.",
-    "ITEM_ALREADY_EXISTS": "There is already another item with this slug."
+    "ITEM_ALREADY_EXISTS": "There is already another item with this slug.",
+    "ITEM_NOT_FOUND": "We couldn't find the current property category.",
+
+    "USER_NOT_FOUND": "No user with this email address could be found.",
+
+    "FILLED_ITEM_NOT_FOUND": "Cannot find a property with this ID.",
+    "UNKNOWN_ITEM": "Unknown property category.",
+
+    "ACCESS_TO_ITEM_DENIED": "You don't have access to this property.",
+
+    "FIELD_IS_REQUIRED": "The field \"{{ friendlyName }}\" is required.",
+
+    "FIELD_STRING_TOO_SHORT": "The field \"{{ friendlyName }}\" needs to be at least \"{{ min }}\" characters long.",
+    "FIELD_STRING_TOO_LONG": "The field \"{{ friendlyName }}\" needs to be up to \"{{ max }}\" characters long.",
+    "FIELD_NUMBER_TOO_SMALL": "The field \"{{ friendlyName }}\" needs to be at least \"{{ min }}\".",
+    "FIELD_NUMBER_TOO_LARGE": "The field \"{{ friendlyName }}\" needs to be no more than \"{{ max }}\".",
+    "FIELD_INVALID_EMAIL": "The email address provided in the \"{{ friendlyName }}\" field is invalid.",
+    "FIELD_DATE_INVALID": "The date provided in the \"{{ friendlyName }}\" field is invalid.",
+    "FIELD_URL_INVALID": "The URL address provided in the \"{{ friendlyName }}\" field is invalid.",
+
+    "INVALID_ATTACHMENT": "You cannot upload this file as an attachment!",
+    "ATTACHMENT_UPLOAD_FAILED": "An error has occurred during the file upload. Please try again later.",
+    "ATTACHMENT_NOT_FOUND": "Cannot find an attachment with this ID.",
+    "ACCESS_TO_ATTACHMENT_DENIED": "You do not have access to this attachment!",
+    "ATTACHMENT_CLEANUP_FAILED": "We've deleted your attachment, but it may be still available elsewhere.",
+    "ATTACHMENT_TOO_LARGE": "The file you're trying to upload is too large. Please choose a file smaller than two megabytes.",
+    "MAX_ATTACHMENTS_REACHED": "This contract has reached the maximum amount of uploaded attachments!"
+  },
+
+  "item-options": {
+    "ITEM_NOT_PROVIDED": "You have not yet provided us with a property category.",
+    "INVALID_ITEM_OPTION_TYPE": "This field type does not exist in our system!",
+    "NAME_TOO_SHORT": "The name needs to be at least {{ min }} characters long.",
+    "REPLACEMENT_STRING_TOO_SHORT": "The replacement string needs to be at least {{ min }} characters long.",
+    "CONSTRAINTS_INVALID": "The constraints are invalid! The maximum limit is lower than the minimum limit.",
+    "ITEM_OPTION_ALREADY_EXISTS": "Another field already exists with this replacement string!",
+    "ITEM_NOT_FOUND": "We couldn't find the current property category."
   }
 }

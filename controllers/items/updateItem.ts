@@ -29,7 +29,7 @@ export const updateItem = async (originalSlug: string, { friendlyName, slug, des
 
   const item = await itemRepository.findOne({ where: { slug: originalSlug } });
   if (!item) {
-    throw new ItemUpdateError('CONTRACT_NOT_FOUND');
+    throw new ItemUpdateError('ITEM_NOT_FOUND');
   }
 
   item.friendlyName = friendlyName;
