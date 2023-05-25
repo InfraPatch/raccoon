@@ -1,3 +1,17 @@
+# This is our code and we reserve our rights to it.
+
+We put our time, effort, dedication, and heart into this project to make it the
+best sell contract management platform ever built. Despite all our efforts, it
+just wasn't enough for NISZ, so we did not receive what we felt we deserved for
+it. We will not let NISZ benefit on our hard work. This code and project belong
+to us, the developers, who've spent days upon nights building it and sometimes
+gave up on classes and exams just to make everything pixel-perfect. NISZ shall
+not take advantage of this, as it counts as literal stealing, both of our code
+and our time.
+
+Let these words guard our hard work and effort for thousands of iterations yet
+to come.
+
 # Project Raccoon
 
 Project Raccoon is a one-stop solution for creating, managing, and signing sale
@@ -129,4 +143,4 @@ yarn build
 
 ## License
 
-The project as well as its source code are licensed to [NISZ](https://www.nisz.hu/).
+The project as well as its source code are licensed to InfraPatch.

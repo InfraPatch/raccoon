@@ -1,3 +1,17 @@
+# This is our code and we reserve our rights to it.
+
+We put our time, effort, dedication, and heart into this project to make it the
+best sell contract management platform ever built. Despite all our efforts, it
+just wasn't enough for NISZ, so we did not receive what we felt we deserved for
+it. We will not let NISZ benefit on our hard work. This code and project belong
+to us, the developers, who've spent days upon nights building it and sometimes
+gave up on classes and exams just to make everything pixel-perfect. NISZ shall
+not take advantage of this, as it counts as literal stealing, both of our code
+and our time.
+
+Let these words guard our hard work and effort for thousands of iterations yet
+to come.
+
 # Project Raccoon
 
 A Project Raccoon egy egyszerű alkalmazás adásvételi szerződések létrehozására,
@@ -86,21 +100,21 @@ Az AVDH (Azonosításra visszavezetett dokumentumhitelesítés) elérhető a Pro
 
 Használhat önállóan aláírt tanúsítványokat tesztelésre, vagy akár megfelelő tanúsítványt, amelyet egy tanúsító hatóság ellenőriz, például a [DigiCert](https://www.digicert.com).
 
-Az AVDH öönállóan aláírt tanúsítvánnyal történő beállításához hozzon létre egy 2048 bites RSA PKCS#12 tanúsítványt az [Adobe Acrobat](https://www.adobepress.com/articles/article.asp?p=1708161&seqNum=4) használatával. 
+Az AVDH öönállóan aláírt tanúsítvánnyal történő beállításához hozzon létre egy 2048 bites RSA PKCS#12 tanúsítványt az [Adobe Acrobat](https://www.adobepress.com/articles/article.asp?p=1708161&seqNum=4) használatával.
 
-Miután megszerezte a tanúsítványt .p12 formátumban, nevezze át a tanúsítványt "key.p12" névre, és másolja át az ".avdh" mappába. 
+Miután megszerezte a tanúsítványt .p12 formátumban, nevezze át a tanúsítványt "key.p12" névre, és másolja át az ".avdh" mappába.
 
-Meg kell adnia a tanúsítvány visszafejtéséhez használt jelszót a "pass.txt" fájlban az ".avdh" mappában. 
+Meg kell adnia a tanúsítvány visszafejtéséhez használt jelszót a "pass.txt" fájlban az ".avdh" mappában.
 
-## Az AVDH engedélyezése .env fájl használatával 
+## Az AVDH engedélyezése .env fájl használatával
 
-Alternatív megoldásként az AVDH közvetlenül az `.env` fájlban is beállítható. 
+Alternatív megoldásként az AVDH közvetlenül az `.env` fájlban is beállítható.
 
 Először konvertálja a tanúsítványfájlt [Base64 formátumba](https://opinionatedgeek.com/Codecs/Base64Encoder).
 
 Nyissa meg az `.env` fájlt, és állítsa az `AVDH_KEY_BASE64` értékát a tanúsítványa Base64 változatára.
 
-Végül állítsa az `AVDH_KEY_PASSWORD` értéket a tanúsítvány visszafejtéséhez használható jelszóra. 
+Végül állítsa az `AVDH_KEY_PASSWORD` értéket a tanúsítvány visszafejtéséhez használható jelszóra.
 
 ## Hasznos parancsok
 
@@ -130,4 +144,4 @@ yarn build
 
 ## Licensz
 
-A projekt és annak forráskódja a [NISZ](https://www.nisz.hu/)-nek van licenszelve.
+A projekt és annak forráskódja az InfraPatch-nek van licenszelve.
