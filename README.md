@@ -1,5 +1,7 @@
 # This is our code and we reserve our rights to it.
 
+https://blog.sallai.me/nisz-competition-disappointment
+
 We put our time, effort, dedication, and heart into this project to make it the
 best sell contract management platform ever built. Despite all our efforts, it
 just wasn't enough for NISZ, so we did not receive what we felt we deserved for
