@@ -14,6 +14,8 @@ and our time.
 Let these words guard our hard work and effort for thousands of iterations yet
 to come.
 
+https://infrapatch.notion.site/Project-Raccoon-e45fcdec09e04d88ba5594e8bbef8545
+
 # Project Raccoon
 
 A Project Raccoon egy egyszerű alkalmazás adásvételi szerződések létrehozására,
