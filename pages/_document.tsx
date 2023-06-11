@@ -10,7 +10,7 @@ class RaccoonFrontend extends Document {
     return (
       <Html lang="en" className="theme-light">
         <Head>
-          <script src="/theme.js"></script>
+          <script src="/theme.js" async></script>
         </Head>
 
         <body>

@@ -40,7 +40,7 @@ export const redirectIfNotAdmin = async (
 
   const session = await getIronSession(req, res, sessionConfig);
 
-  if (!session.user || !session.user!.isAdmin) {
+  if (!session.user || !session.user.isAdmin) {
     const url = new URL('/dashboard', req.url);
     return NextResponse.redirect(url, 302);
   }

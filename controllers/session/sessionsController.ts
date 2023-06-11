@@ -27,7 +27,7 @@ export const create: NextApiHandler = async (req, res) => {
     return res.status(400).json({ ok: false, error: 'INVALID_CREDENTIALS' });
   }
 
-  delete (user as any).password;
+  delete user.password;
 
   req.session.user = user;
   await req.session.save();
