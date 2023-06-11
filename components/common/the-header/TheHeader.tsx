@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { useSession } from 'next-auth/client';
 import { useTranslation } from 'next-i18next';
 
 import Link from 'next/link';
@@ -9,17 +8,18 @@ import { useEffect, useState } from 'react';
 import { Menu, X } from 'react-feather';
 
 import Button, { ButtonSize } from '../button/Button';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 const TheHeader = () => {
   const { t } = useTranslation('common');
 
   const router = useRouter();
-  const [session, _] = useSession();
+  const [currentUser, _] = useCurrentUser();
 
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleDashboardClick = () => {
-    if (session) {
+    if (currentUser) {
       router.push('/dashboard');
     } else {
       router.push('/login');
@@ -71,7 +71,7 @@ const TheHeader = () => {
               onClick={handleDashboardClick}
               className="text-center"
             >
-              {t(session ? 'dashboard' : 'log-in')}
+              {t(currentUser ? 'dashboard' : 'log-in')}
             </Button>
           </div>
         </nav>

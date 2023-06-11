@@ -6,9 +6,6 @@ import DashboardLayout from '@/layouts/DashboardLayout';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
 
-import { getSession } from 'next-auth/client';
-import { redirectIfNotAdmin } from '@/lib/redirects';
-
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import apiService from '@/services/apis';
@@ -82,17 +79,7 @@ const DashboardContractsPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  res,
-  locale,
-}) => {
-  const session = await getSession({ req });
-
-  if (await redirectIfNotAdmin(res, session)) {
-    return { props: { user: null } };
-  }
-
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, [

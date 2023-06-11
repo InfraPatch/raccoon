@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/client';
 
 import formidable from 'formidable';
 
@@ -14,7 +13,6 @@ import { firstOf } from '../users/usersController';
 import idFromQueryParam from '@/lib/idFromQueryParam';
 
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({ req });
   const form = new formidable.IncomingForm();
 
   return new Promise<void>((resolve) => {
@@ -29,11 +27,14 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       try {
-        const user = await createFilledContractAttachment(session.user.email, {
-          filledContractId: parseInt(firstOf(fields.filledContractId)),
-          friendlyName: firstOf(fields.friendlyName),
-          file: firstOf(files.file),
-        });
+        const user = await createFilledContractAttachment(
+          req.session.user.email,
+          {
+            filledContractId: parseInt(firstOf(fields.filledContractId)),
+            friendlyName: firstOf(fields.friendlyName),
+            file: firstOf(files.file),
+          },
+        );
 
         res.json({
           ok: true,
@@ -68,11 +69,10 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const session = await getSession({ req });
 
   try {
     await deleteFilledContractAttachment(
-      session.user.email,
+      req.session.user.email,
       idFromQueryParam(id),
     );
     return res.json({ ok: true });
@@ -98,12 +98,11 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id, xml } = req.query;
-  const session = await getSession({ req });
   let response = null;
 
   try {
     const getResponse = await getFilledContractAttachment(
-      session.user.email,
+      req.session.user.email,
       idFromQueryParam(id),
     );
     response = {
@@ -137,11 +136,10 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const download = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const session = await getSession({ req });
 
   try {
     const response = await downloadFilledContractAttachment(
-      session.user.email,
+      req.session.user.email,
       idFromQueryParam(id),
     );
 

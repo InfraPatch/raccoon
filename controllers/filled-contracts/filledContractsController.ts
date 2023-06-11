@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/client';
 
 import { createFilledContract } from './createFilledContract';
 import { deleteFilledContract } from './deleteFilledContract';
@@ -24,11 +23,10 @@ const acceptOrDecline = async (
   res: NextApiResponse,
 ) => {
   const { id } = req.query;
-  const session = await getSession({ req });
 
   try {
     await acceptOrDeclineFilledContract(
-      session.user.email,
+      req.session.user.email,
       idFromQueryParam(id),
       action,
     );
@@ -54,11 +52,9 @@ const acceptOrDecline = async (
 };
 
 export const index = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({ req });
-
   try {
     const { own, foreign, witness } = await listFilledContracts(
-      session.user.email,
+      req.session.user.email,
     );
     return res.json({
       ok: true,
@@ -85,12 +81,11 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id, xml } = req.query;
-  const session = await getSession({ req });
   let response = null;
 
   try {
     const filledContract = await getFilledContract(
-      session.user.email,
+      req.session.user.email,
       idFromQueryParam(id),
     );
     response = {
@@ -124,11 +119,10 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const download = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const session = await getSession({ req });
 
   try {
     const response = await downloadContractBy(
-      session.user.email,
+      req.session.user.email,
       Array.isArray(id) ? id[0] : id,
     );
 
@@ -160,10 +154,9 @@ export const download = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
   const { friendlyName, buyerEmail, contractId, filledItemId } = req.body;
-  const session = await getSession({ req });
 
   try {
-    const filledContract = await createFilledContract(session.user.email, {
+    const filledContract = await createFilledContract(req.session.user.email, {
       friendlyName,
       buyerEmail,
       contractId,
@@ -201,10 +194,9 @@ export const decline = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const session = await getSession({ req });
 
   try {
-    await deleteFilledContract(session.user.email, idFromQueryParam(id));
+    await deleteFilledContract(req.session.user.email, idFromQueryParam(id));
     return res.json({ ok: true });
   } catch (err) {
     if (
@@ -230,11 +222,9 @@ export const fill = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const { options } = req.body;
 
-  const session = await getSession({ req });
-
   try {
     await fillContractOptions(
-      session.user.email,
+      req.session.user.email,
       idFromQueryParam(id),
       options,
     );
@@ -263,10 +253,13 @@ export const fill = async (req: NextApiRequest, res: NextApiResponse) => {
 export const sign = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const { signatureData } = req.body;
-  const session = await getSession({ req });
 
   try {
-    await signContract(session.user.email, idFromQueryParam(id), signatureData);
+    await signContract(
+      req.session.user.email,
+      idFromQueryParam(id),
+      signatureData,
+    );
     return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'SignContractError') {
@@ -291,11 +284,10 @@ export const downloadSignature = async (
   res: NextApiResponse,
 ) => {
   const { id, signId } = req.query;
-  const session = await getSession({ req });
 
   try {
     const stream = await downloadSignatureBy(
-      session.user.email,
+      req.session.user.email,
       idFromQueryParam(id),
       idFromQueryParam(signId),
     );

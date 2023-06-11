@@ -3,8 +3,6 @@ import DashboardLayout from '@/layouts/DashboardLayout';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
 
-import { getSession } from 'next-auth/client';
-import { redirectIfNotAdmin } from '@/lib/redirects';
 import Box from '@/components/common/box/Box';
 import NewContractForm from '@/components/dashboard/admin/contracts/NewContractForm';
 
@@ -61,13 +59,7 @@ const DashboardNewContractPage = () => {
   );
 };
 
-export const getServerSideProps = async ({ req, res, locale }) => {
-  const session = await getSession({ req });
-
-  if (await redirectIfNotAdmin(res, session)) {
-    return { props: { user: null } };
-  }
-
+export const getServerSideProps = async ({ locale }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, [

@@ -4,9 +4,6 @@ import DashboardLayout from '@/layouts/DashboardLayout';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
 
-import { getSession } from 'next-auth/client';
-import { redirectIfAnonymous } from '@/lib/redirects';
-
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import apiService from '@/services/apis';
@@ -87,13 +84,7 @@ const DashboardNewFilledItemPage = ({
   );
 };
 
-export const getServerSideProps = async ({ req, res, query, locale }) => {
-  const session = await getSession({ req });
-
-  if (await redirectIfAnonymous(res, session)) {
-    return { props: { user: null } };
-  }
-
+export const getServerSideProps = async ({ query, locale }) => {
   const { slug } = query;
 
   return {

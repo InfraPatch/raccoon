@@ -1,14 +1,11 @@
 import DashboardLayout from '@/layouts/DashboardLayout';
 
-import { redirectIfAnonymous } from '@/lib/redirects';
-
 import Box from '@/components/common/box/Box';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
 import Loading from '@/components/common/Loading';
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { getSession } from 'next-auth/client';
 
 import UserSettingsForm from '@/components/dashboard/settings/UserSettingsForm';
 import UserPasswordSettingsForm from '@/components/dashboard/settings/UserPasswordSettingsForm';
@@ -78,13 +75,7 @@ const DashboardSettingsPage = () => {
   );
 };
 
-export const getServerSideProps = async ({ req, res, locale }) => {
-  const session = await getSession({ req });
-
-  if (await redirectIfAnonymous(res, session)) {
-    return { props: { user: null } };
-  }
-
+export const getServerSideProps = async ({ locale }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, [

@@ -9,8 +9,6 @@ import Column from '@/components/common/columns/Column';
 import Loading from '@/components/common/Loading';
 import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 
-import { getSession } from 'next-auth/client';
-import { redirectIfAnonymous } from '@/lib/redirects';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
@@ -148,14 +146,8 @@ const DashboardFilledItemsPage = ({ slug }: DashboardFilledItemsPageProps) => {
   );
 };
 
-export const getServerSideProps = async ({ req, res, query, locale }) => {
-  const session = await getSession({ req });
-
+export const getServerSideProps = async ({ query, locale }) => {
   const { slug } = query;
-
-  if (await redirectIfAnonymous(res, session)) {
-    return { props: { user: null } };
-  }
 
   return {
     props: {

@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/client';
 
 import { createWitnessSignature } from './createWitnessSignature';
 import { deleteWitnessSignature } from './deleteWitnessSignature';
@@ -10,13 +9,15 @@ import idFromQueryParam from '@/lib/idFromQueryParam';
 
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
   const { filledContractId, witnessEmail } = req.body;
-  const session = await getSession({ req });
 
   try {
-    const witnessSignature = await createWitnessSignature(session.user.email, {
-      filledContractId,
-      witnessEmail,
-    });
+    const witnessSignature = await createWitnessSignature(
+      req.session.user.email,
+      {
+        filledContractId,
+        witnessEmail,
+      },
+    );
 
     return res.json({
       ok: true,
@@ -41,10 +42,9 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const session = await getSession({ req });
 
   try {
-    await deleteWitnessSignature(session.user.email, idFromQueryParam(id));
+    await deleteWitnessSignature(req.session.user.email, idFromQueryParam(id));
     return res.json({ ok: true });
   } catch (err) {
     if (
@@ -68,12 +68,11 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id, xml } = req.query;
-  const session = await getSession({ req });
   let response = null;
 
   try {
     const getResponse = await getWitnessSignature(
-      session.user.email,
+      req.session.user.email,
       idFromQueryParam(id),
     );
     response = {

@@ -1,4 +1,10 @@
-import Adapters from 'next-auth/adapters';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export enum PersonalIdentifierType {
   IDENTITY_CARD,
@@ -30,25 +36,64 @@ export interface IUser extends IUserIdentificationDetails {
   isLawyer?: boolean;
 }
 
+@Entity()
 export class User implements IUser {
+  @PrimaryGeneratedColumn()
   id: number;
+
+  @CreateDateColumn()
   createdAt: Date;
+
+  @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column({ nullable: true })
   name?: string;
+
+  @Column({ unique: true })
   email?: string;
+
+  @Column({ nullable: true })
   image?: string;
+
+  @Column({ type: 'datetime', nullable: true })
   emailVerified?: Date;
-  password?: string;
+
+  @Column({ nullable: false })
+  password: string;
+
+  @Column({ type: 'boolean', default: false })
   isAdmin?: boolean;
+
+  @Column({ type: 'boolean', default: false })
   isLawyer?: boolean;
 
+  @Column({ nullable: true })
   motherName?: string;
+
+  @Column({ nullable: true })
   motherBirthDate?: Date;
+
+  @Column({ nullable: true })
   nationality?: string;
+
+  @Column({
+    type: 'enum',
+    enum: PersonalIdentifierType,
+    default: PersonalIdentifierType.IDENTITY_CARD,
+  })
   personalIdentifierType?: PersonalIdentifierType;
+
+  @Column({ nullable: true })
   personalIdentifier?: string;
+
+  @Column({ nullable: true })
   phoneNumber?: string;
+
+  @Column({ type: 'datetime', nullable: true })
   birthDate?: Date;
+
+  @Column({ nullable: true })
   birthPlace?: string;
 
   constructor(
@@ -135,67 +180,3 @@ export class User implements IUser {
     };
   }
 }
-
-export const UserSchema = {
-  ...Adapters.TypeORM.Models.User.schema,
-  target: User,
-  columns: {
-    ...Adapters.TypeORM.Models.User.schema.columns,
-
-    password: {
-      type: 'varchar',
-      nullable: true,
-    },
-
-    isAdmin: {
-      type: 'boolean',
-      default: false,
-    },
-
-    isLawyer: {
-      type: 'boolean',
-      default: false,
-    },
-
-    motherName: {
-      type: 'varchar',
-      nullable: true,
-    },
-
-    motherBirthDate: {
-      type: 'datetime',
-      nullable: true,
-    },
-
-    nationality: {
-      type: 'varchar',
-      nullable: true,
-    },
-
-    personalIdentifierType: {
-      type: 'enum',
-      enum: PersonalIdentifierType,
-      default: PersonalIdentifierType.IDENTITY_CARD,
-    },
-
-    personalIdentifier: {
-      type: 'varchar',
-      nullable: true,
-    },
-
-    phoneNumber: {
-      type: 'varchar',
-      nullable: true,
-    },
-
-    birthDate: {
-      type: 'datetime',
-      nullable: true,
-    },
-
-    birthPlace: {
-      type: 'varchar',
-      nullable: true,
-    },
-  },
-};

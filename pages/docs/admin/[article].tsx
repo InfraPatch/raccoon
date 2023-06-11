@@ -6,8 +6,6 @@ import DocsPageLayout from '@/layouts/DocsPageLayout';
 import NotFoundPage from '@/pages/404';
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { getSession } from 'next-auth/client';
-import { redirectIfNotAdmin } from '@/lib/redirects';
 import { renderMarkdown } from '@/lib/renderMarkdown';
 
 const AdminDocsArticlePage = ({ source }: DocsArticlePageProps) => {
@@ -27,13 +25,7 @@ const AdminDocsArticlePage = ({ source }: DocsArticlePageProps) => {
   );
 };
 
-export const getServerSideProps = async ({ req, res, params, locale }) => {
-  const session = await getSession({ req });
-
-  if (await redirectIfNotAdmin(req, session)) {
-    return { props: { content: null } };
-  }
-
+export const getServerSideProps = async ({ res, params, locale }) => {
   const key = params.article;
   const translations = await serverSideTranslations(locale, [
     'common',

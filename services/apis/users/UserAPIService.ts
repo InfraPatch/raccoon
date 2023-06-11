@@ -55,9 +55,11 @@ class UsersAPIService {
   static MAKE_ADMIN_URL = '/api/users/make-admin';
   static MAKE_LAWYER_URL = '/api/users/make-lawyer';
 
-  public async getLoggedInUser(): Promise<GetLoggedInUserAPIResponse> {
+  public async getLoggedInUser(
+    headers?: any,
+  ): Promise<GetLoggedInUserAPIResponse> {
     return axiosService
-      .get(UsersAPIService.GET_LOGGED_IN_USER_URL)
+      .get(UsersAPIService.GET_LOGGED_IN_USER_URL, { headers })
       .then((res) => res.data);
   }
 

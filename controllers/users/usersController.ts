@@ -3,8 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import formidable from 'formidable';
 
 import { createUser } from '@/controllers/users/createUser';
-import { getSession } from 'next-auth/client';
-import { getUser } from './getUser';
+import { getUserFromSession } from './getUser';
 import { makeAdmin as _makeAdmin } from './makeAdmin';
 import { makeLawyer as _makeLawyer } from './makeLawyer';
 import { updateUser } from './updateUser';
@@ -48,9 +47,7 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const get = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({ req });
-
-  const user = await getUser(session.user.email);
+  const user = await getUserFromSession(req.session);
   return res.json({
     ok: true,
     user: user.toJSON(),
@@ -90,7 +87,6 @@ export const makeLawyer = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const update = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({ req });
   const form = new formidable.IncomingForm();
 
   return new Promise<void>((resolve) => {
@@ -105,7 +101,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       try {
-        const user = await updateUser(session.user.email, {
+        const user = await updateUser(req.session.user.email, {
           name: firstOf(fields.name),
           image: firstOf(files.image),
           password: firstOf(fields.password),

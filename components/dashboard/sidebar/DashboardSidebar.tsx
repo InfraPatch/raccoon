@@ -1,5 +1,3 @@
-import { signOut } from 'next-auth/client';
-
 import {
   Book,
   LogOut,
@@ -25,18 +23,27 @@ import LanguageSwitcher from '@/components/common/language-switcher/LanguageSwit
 
 import { useTranslation } from 'next-i18next';
 
-import buildUrl from '@/lib/buildUrl';
-
 import Link from 'next/link';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useEffect, useState } from 'react';
 import { isUserFilledOut } from '@/controllers/users/utils';
+import { useRouter } from 'next/router';
+import apiService from '@/services/apis';
 
 const SEPARATOR: NavigationSeparator = 0;
 
 const DashboardSidebar = () => {
-  const handleSignoutClick = async () =>
-    await signOut({ callbackUrl: buildUrl('/') });
+  const router = useRouter();
+
+  const handleSignoutClick = async () => {
+    try {
+      await apiService.sessions.logout();
+      await router.push('/');
+    } catch (err) {
+      console.error('humu');
+    }
+  };
+
   const { t } = useTranslation('dashboard');
 
   const [user, _] = useCurrentUser();

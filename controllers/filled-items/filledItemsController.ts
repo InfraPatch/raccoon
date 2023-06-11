@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/client';
 
 import { createFilledItem } from './createFilledItem';
 import { deleteFilledItem } from './deleteFilledItem';
@@ -12,11 +11,10 @@ import idFromQueryParam from '@/lib/idFromQueryParam';
 
 export const index = async (req: NextApiRequest, res: NextApiResponse) => {
   const { slug } = req.query;
-  const session = await getSession({ req });
 
   try {
     const { filledItems } = await listFilledItems(
-      session.user.email,
+      req.session.user.email,
       Array.isArray(slug) ? slug[0] : slug,
     );
     return res.json({
@@ -42,12 +40,11 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id, xml } = req.query;
-  const session = await getSession({ req });
   let response = null;
 
   try {
     const filledItem = await getFilledItem(
-      session.user.email,
+      req.session.user.email,
       idFromQueryParam(id),
     );
     response = {
@@ -81,10 +78,9 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
   const { friendlyName, itemSlug, options } = req.body;
-  const session = await getSession({ req });
 
   try {
-    const filledItem = await createFilledItem(session.user.email, {
+    const filledItem = await createFilledItem(req.session.user.email, {
       friendlyName,
       itemSlug,
       options,
@@ -116,10 +112,9 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const session = await getSession({ req });
 
   try {
-    await deleteFilledItem(session.user.email, idFromQueryParam(id));
+    await deleteFilledItem(req.session.user.email, idFromQueryParam(id));
     return res.json({ ok: true });
   } catch (err) {
     if (err.name === 'GetFilledItemError') {
@@ -142,11 +137,9 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const { friendlyName, options } = req.body;
 
-  const session = await getSession({ req });
-
   try {
     await fillItemOptions(
-      session.user.email,
+      req.session.user.email,
       idFromQueryParam(id),
       friendlyName,
       options,

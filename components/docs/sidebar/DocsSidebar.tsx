@@ -5,13 +5,13 @@ import DocsNavigation, {
 import { NavigationLinkProps } from '../common/navigation/NavigationLink';
 
 import { useTranslation } from 'next-i18next';
-import { useSession } from 'next-auth/client';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 const SEPARATOR: NavigationSeparator = 0;
 
 const DocsSidebar = () => {
   const { t } = useTranslation('docs');
-  const [session, _] = useSession();
+  const [currentUser, _] = useCurrentUser();
 
   const navigation: (NavigationLinkProps | NavigationSeparator)[] = [
     {
@@ -30,7 +30,7 @@ const DocsSidebar = () => {
     label: t('contracts'),
   });
 
-  if (session?.user?.isAdmin) {
+  if (currentUser?.isAdmin) {
     navigation.push(SEPARATOR);
 
     navigation.push({

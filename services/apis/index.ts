@@ -10,12 +10,14 @@ import { ItemAPIService } from './items/ItemAPIService';
 import { ItemOptionAPIService } from './items/ItemOptionAPIService';
 import { FilledItemAPIService } from './items/FilledItemAPIService';
 import { FilledItemAttachmentAPIService } from './items/FilledItemAttachmentAPIService';
+import { SessionsAPIService } from './sessions/SessionsAPIService';
 
 class APIService {
   public contact = new ContactAPIService();
 
   public credentialsAuth = new CredentialsAuthAPIService();
   public users = new UsersAPIService();
+  public sessions = new SessionsAPIService();
 
   public contracts = new ContractsAPIService();
   public contractOptions = new ContractOptionsAPIService();

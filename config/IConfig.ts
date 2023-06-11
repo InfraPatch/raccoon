@@ -7,6 +7,7 @@ export interface AppConfig {
   nextauthUrl: string;
   maxPayloadSize: string;
   serverSideProxy?: string;
+  sessionSecret: string;
 }
 
 export interface DatabaseConfig {

@@ -1,6 +1,5 @@
 import { FormEvent, useState } from 'react';
 
-import { getCsrfToken } from 'next-auth/client';
 import toaster from '@/lib/toaster';
 
 import Button, { ButtonSize } from '../common/button/Button';
@@ -29,15 +28,11 @@ const LoginForm = () => {
     setSending(true);
 
     try {
-      const token = await getCsrfToken();
-
-      await apiService.credentialsAuth.signIn({
-        csrfToken: token,
+      const response = await apiService.sessions.login({
         email,
         password,
       });
 
-      const response = await apiService.users.getLoggedInUser();
       setUser(response.user);
 
       toaster.success(t('auth:signin-success', { name: response.user.name }));

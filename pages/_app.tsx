@@ -1,6 +1,5 @@
 import '@/styles/base.scss';
 
-import { Provider as AuthProvider } from 'next-auth/client';
 import { UserProvider } from '@/components/providers/CurrentUserProvider';
 import { appWithTranslation } from 'next-i18next';
 
@@ -16,15 +15,13 @@ Router.events.on('routeChangeError', NProgress.done);
 
 const App = ({ Component, pageProps }) => {
   return (
-    <AuthProvider session={pageProps.session}>
-      <UserProvider>
-        <main className="app">
-          <Component {...pageProps} />
-          <ToastContainer />
-          <CookieConsent />
-        </main>
-      </UserProvider>
-    </AuthProvider>
+    <UserProvider>
+      <main className="app">
+        <Component {...pageProps} />
+        <ToastContainer />
+        <CookieConsent />
+      </main>
+    </UserProvider>
   );
 };
 

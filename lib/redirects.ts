@@ -1,58 +1,49 @@
-import { Session } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
 
-export const redirectIfAuthenticated = async (
-  res,
-  session: Session,
-): Promise<boolean> => {
-  if (session) {
-    res.writeHead(302, {
-      location: '/dashboard',
-    });
-    res.end();
-
-    return true;
-  }
-
-  return false;
-};
+import { getIronSession } from 'iron-session/edge';
+import sessionConfig from './sessionConfig';
 
 export const redirectIfAnonymous = async (
-  res,
-  session: Session,
-): Promise<boolean> => {
-  if (!session || !session.user) {
-    res.writeHead(302, {
-      location: '/login',
-    });
-    res.end();
+  req: NextRequest,
+): Promise<Response | undefined> => {
+  const res = NextResponse.next();
 
-    return true;
+  const session = await getIronSession(req, res, sessionConfig);
+
+  if (!session.user) {
+    const url = new URL('/login', req.url);
+    return NextResponse.redirect(url, 302);
   }
 
-  return false;
+  return res;
+};
+
+export const redirectIfAuthenticated = async (
+  req: NextRequest,
+): Promise<Response | undefined> => {
+  const res = NextResponse.next();
+
+  const session = await getIronSession(req, res, sessionConfig);
+
+  if (session.user) {
+    const url = new URL('/dashboard', req.url);
+    return NextResponse.redirect(url, 302);
+  }
+
+  return res;
 };
 
 export const redirectIfNotAdmin = async (
-  res,
-  session: Session,
-): Promise<boolean> => {
-  if (!session || !session.user) {
-    res.writeHead(302, {
-      location: '/login',
-    });
-    res.end();
+  req: NextRequest,
+): Promise<Response | undefined> => {
+  const res = NextResponse.next();
 
-    return true;
+  const session = await getIronSession(req, res, sessionConfig);
+
+  if (!session.user || !session.user!.isAdmin) {
+    const url = new URL('/dashboard', req.url);
+    return NextResponse.redirect(url, 302);
   }
 
-  if (!session.user.isAdmin) {
-    res.writeHead(302, {
-      location: '/dashboard',
-    });
-    res.end();
-
-    return true;
-  }
-
-  return false;
+  return res;
 };

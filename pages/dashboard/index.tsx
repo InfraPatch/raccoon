@@ -1,9 +1,6 @@
 import DashboardLayout from '@/layouts/DashboardLayout';
 import Button, { ButtonSize } from '@/components/common/button/Button';
 
-import { getSession } from 'next-auth/client';
-import { redirectIfAnonymous } from '@/lib/redirects';
-
 import Box from '@/components/common/box/Box';
 import Columns from '@/components/common/columns/Columns';
 import Column from '@/components/common/columns/Column';
@@ -110,13 +107,7 @@ const DashboardHomePage = () => {
   );
 };
 
-export const getServerSideProps = async ({ req, res, locale }) => {
-  const session = await getSession({ req });
-
-  if (await redirectIfAnonymous(res, session)) {
-    return { props: { user: null } };
-  }
-
+export const getServerSideProps = async ({ locale }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, [

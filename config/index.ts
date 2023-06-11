@@ -18,6 +18,7 @@ const config: IConfig = {
     nextauthUrl: process.env.NEXTAUTH_URL,
     maxPayloadSize: process.env.MAX_PAYLOAD_SIZE || '10mb',
     serverSideProxy: process.env.SERVER_SIDE_PROXY,
+    sessionSecret: process.env.SESSION_SECRET,
   },
 
   database: {
