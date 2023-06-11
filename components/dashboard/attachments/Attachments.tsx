@@ -3,7 +3,7 @@ import { useState } from 'react';
 import toaster from '@/lib/toaster';
 
 import { BookOpen } from 'react-feather';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 import { IAttachment } from '@/db/common/Attachment';
 
@@ -20,25 +20,37 @@ export interface AttachmentsProps {
   canDelete: (IAttachment) => boolean;
   modelName: string;
   translationKey: string;
-};
+}
 
-const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment, canUpload, canDelete, modelName, translationKey }: AttachmentsProps) => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+const Attachments = ({
+  attachments,
+  onChange,
+  deleteAttachment,
+  uploadAttachment,
+  canUpload,
+  canDelete,
+  modelName,
+  translationKey,
+}: AttachmentsProps) => {
+  const { t } = useTranslation(['dashboard', 'errors']);
 
-  const [ saving, setSaving ] = useState<boolean>(false);
+  const [saving, setSaving] = useState<boolean>(false);
 
   attachments.sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
 
   const dataContainerClassNames = 'mb-6 bg-field shadow rounded-md';
   const dataRowClassNames = 'flex items-center gap-2 my-1';
-  const dataContainerTitleClassNames = 'text-xl px-4 py-3 bg-accent text-secondary rounded-md rounded-b-none';
+  const dataContainerTitleClassNames =
+    'text-xl px-4 py-3 bg-accent text-secondary rounded-md rounded-b-none';
 
   const removeAttachment = async (attachment: IAttachment) => {
     setSaving(true);
 
     try {
       await deleteAttachment(attachment);
-      toaster.success(t(`dashboard:attachments.actions.${translationKey}.delete-success`));
+      toaster.success(
+        t(`dashboard:attachments.actions.${translationKey}.delete-success`),
+      );
       await onChange();
       setSaving(false);
     } catch (err) {
@@ -48,7 +60,9 @@ const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment
         const message = err.response.data.error;
 
         if (message?.length) {
-          toaster.danger(t(`errors:${modelName}.${message}`, err.response.data.details));
+          toaster.danger(
+            t(`errors:${modelName}.${message}`, err.response.data.details),
+          );
           return;
         }
       }
@@ -66,10 +80,12 @@ const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment
 
     const result = await Swal.fire({
       title: t('dashboard:attachments.actions.confirm-action'),
-      text: t(`dashboard:attachments.actions.${translationKey}.delete-confirmation`),
+      text: t(
+        `dashboard:attachments.actions.${translationKey}.delete-confirmation`,
+      ),
       showCancelButton: true,
       confirmButtonText: t('dashboard:attachments.actions.yes'),
-      cancelButtonText: t('dashboard:attachments.actions.no')
+      cancelButtonText: t('dashboard:attachments.actions.no'),
     });
 
     if (result.isConfirmed) {
@@ -77,7 +93,7 @@ const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment
     }
   };
 
-  const createAttachments = ((attachments : IAttachment[], title: string) => {
+  const createAttachments = (attachments: IAttachment[], title: string) => {
     if (attachments.length === 0) {
       // There are no attachments to display.
       return <></>;
@@ -85,10 +101,10 @@ const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment
 
     return (
       <div className={dataContainerClassNames}>
-        <h2 className={dataContainerTitleClassNames}>{ t(title) }</h2>
+        <h2 className={dataContainerTitleClassNames}>{t(title)}</h2>
 
         <div className="px-4 py-3 text-sm">
-          {attachments.map((attachment : IAttachment, idx : number) => {
+          {attachments.map((attachment: IAttachment, idx: number) => {
             return (
               <div className={dataRowClassNames} key={idx}>
                 <BookOpen />
@@ -98,28 +114,37 @@ const Attachments = ({ attachments, onChange, deleteAttachment, uploadAttachment
                     target="_blank"
                     title={attachment.filename}
                     href={`/${translationKey}/${attachment.id}`}
-                  >{attachment.friendlyName}</a>
+                  >
+                    {attachment.friendlyName}
+                  </a>
                 </strong>
 
-                {canDelete(attachment) && <strong>
-                  <a
-                    className="text-danger"
-                    href="#"
-                    onClick={() => handleRemoveAttachmentClick(attachment)}
-                  >({ t('dashboard:attachments.actions.remove-attachment') })</a>
-                </strong>}
+                {canDelete(attachment) && (
+                  <strong>
+                    <a
+                      className="text-danger"
+                      href="#"
+                      onClick={() => handleRemoveAttachmentClick(attachment)}
+                    >
+                      ({t('dashboard:attachments.actions.remove-attachment')})
+                    </a>
+                  </strong>
+                )}
               </div>
             );
           })}
         </div>
       </div>
     );
-  });
+  };
 
   return (
     <article className="my-4">
       <div className={dataContainerClassNames}>
-        { createAttachments(attachments, `dashboard:attachments.actions.${translationKey}.attachment-title`) }
+        {createAttachments(
+          attachments,
+          `dashboard:attachments.actions.${translationKey}.attachment-title`,
+        )}
 
         <AttachmentUploadForm
           attachments={attachments}

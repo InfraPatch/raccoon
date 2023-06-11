@@ -6,11 +6,11 @@ import * as contractsController from '@/controllers/contracts/contractsControlle
 
 export const config = {
   api: {
-    bodyParser: false
-  }
+    bodyParser: false,
+  },
 };
 
 export default bar({
   post: ensureAdministrator(contractsController.newContract),
-  get: ensureAuthenticated(contractsController.listContracts)
+  get: ensureAuthenticated(contractsController.listContracts),
 });

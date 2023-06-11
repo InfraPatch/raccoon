@@ -13,7 +13,7 @@ export interface ItemOptionCreatorFields {
   replacementString?: string;
   minimumValue?: number;
   maximumValue?: number;
-};
+}
 
 export class ItemOptionCreationError extends Error {
   public code: string;
@@ -25,7 +25,9 @@ export class ItemOptionCreationError extends Error {
   }
 }
 
-export const createItemOption = async (payload: ItemOptionCreatorFields): Promise<ItemOption> => {
+export const createItemOption = async (
+  payload: ItemOptionCreatorFields,
+): Promise<ItemOption> => {
   await db.prepare();
 
   if (isNaN(payload.itemId)) {
@@ -44,18 +46,33 @@ export const createItemOption = async (payload: ItemOptionCreatorFields): Promis
     throw new ItemOptionCreationError('NAME_TOO_SHORT');
   }
 
-  if (!payload.replacementString || payload.replacementString.trim().length < 2) {
+  if (
+    !payload.replacementString ||
+    payload.replacementString.trim().length < 2
+  ) {
     throw new ItemOptionCreationError('REPLACEMENT_STRING_TOO_SHORT');
   }
 
   payload.friendlyName = payload.friendlyName.trim();
   payload.replacementString = payload.replacementString.trim();
   payload.hint = payload.hint ? payload.hint.trim() : '';
-  payload.longDescription = payload.longDescription ? payload.longDescription.trim() : '';
-  payload.minimumValue = (isNaN(payload.minimumValue) || payload.minimumValue === -1) ? null : payload.minimumValue;
-  payload.maximumValue = (isNaN(payload.maximumValue) || payload.maximumValue === -1) ? null : payload.maximumValue;
+  payload.longDescription = payload.longDescription
+    ? payload.longDescription.trim()
+    : '';
+  payload.minimumValue =
+    isNaN(payload.minimumValue) || payload.minimumValue === -1
+      ? null
+      : payload.minimumValue;
+  payload.maximumValue =
+    isNaN(payload.maximumValue) || payload.maximumValue === -1
+      ? null
+      : payload.maximumValue;
 
-  if (payload.minimumValue !== null && payload.maximumValue !== null && payload.minimumValue > payload.maximumValue) {
+  if (
+    payload.minimumValue !== null &&
+    payload.maximumValue !== null &&
+    payload.minimumValue > payload.maximumValue
+  ) {
     throw new ItemOptionCreationError('CONSTRAINTS_INVALID');
   }
 
@@ -67,8 +84,11 @@ export const createItemOption = async (payload: ItemOptionCreatorFields): Promis
   }
 
   const optionsRepository = db.getRepository(ItemOption);
-  const optionCount = await optionsRepository.createQueryBuilder('itemOption')
-    .where('itemOption.replacementString = :replacementString', { replacementString: payload.replacementString })
+  const optionCount = await optionsRepository
+    .createQueryBuilder('itemOption')
+    .where('itemOption.replacementString = :replacementString', {
+      replacementString: payload.replacementString,
+    })
     .andWhere('itemOption.itemId = :itemId', { itemId: item.id })
     .getCount();
 
@@ -85,7 +105,7 @@ export const createItemOption = async (payload: ItemOptionCreatorFields): Promis
     hint: payload.hint,
     replacementString: payload.replacementString,
     minimumValue: payload.minimumValue,
-    maximumValue: payload.maximumValue
+    maximumValue: payload.maximumValue,
   });
   await optionsRepository.insert(itemOption);
   return itemOption;

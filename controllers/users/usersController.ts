@@ -28,13 +28,13 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
     const user = await createUser({ name, email, password, password2 });
     return res.json({
       ok: true,
-      user: user.toJSON()
+      user: user.toJSON(),
     });
   } catch (err) {
     if (err.name === 'UserCreationError') {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -42,7 +42,7 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -53,7 +53,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const user = await getUser(session.user.email);
   return res.json({
     ok: true,
-    user: user.toJSON()
+    user: user.toJSON(),
   });
 };
 
@@ -64,12 +64,12 @@ export const makeAdmin = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!success) {
     return res.status(404).json({
       ok: false,
-      error: 'USER_NOT_FOUND'
+      error: 'USER_NOT_FOUND',
     });
   }
 
   return res.json({
-    ok: true
+    ok: true,
   });
 };
 
@@ -80,12 +80,12 @@ export const makeLawyer = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!success) {
     return res.status(404).json({
       ok: false,
-      error: 'USER_NOT_FOUND'
+      error: 'USER_NOT_FOUND',
     });
   }
 
   return res.json({
-    ok: true
+    ok: true,
   });
 };
 
@@ -93,12 +93,12 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
   const form = new formidable.IncomingForm();
 
-  return new Promise<void>(resolve => {
+  return new Promise<void>((resolve) => {
     form.parse(req, async (err, fields, files) => {
       if (err) {
         res.status(500).json({
           ok: false,
-          error: 'INTERNAL_SERVER_ERROR'
+          error: 'INTERNAL_SERVER_ERROR',
         });
 
         return resolve();
@@ -112,18 +112,21 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
           password2: firstOf(fields.password2),
           oldPassword: firstOf(fields.oldPassword),
           motherName: firstOf(fields.motherName),
-          motherBirthDate: fields.motherBirthDate && new Date(firstOf(fields.motherBirthDate)),
+          motherBirthDate:
+            fields.motherBirthDate && new Date(firstOf(fields.motherBirthDate)),
           nationality: firstOf(fields.nationality),
-          personalIdentifierType: fields.personalIdentifierType && parseInt(firstOf(fields.personalIdentifierType)),
+          personalIdentifierType:
+            fields.personalIdentifierType &&
+            parseInt(firstOf(fields.personalIdentifierType)),
           personalIdentifier: firstOf(fields.personalIdentifier),
           phoneNumber: firstOf(fields.phoneNumber),
           birthDate: fields.birthDate && new Date(firstOf(fields.birthDate)),
-          birthPlace: firstOf(fields.birthPlace)
+          birthPlace: firstOf(fields.birthPlace),
         });
 
         res.json({
           ok: true,
-          user
+          user,
         });
 
         return resolve();
@@ -132,7 +135,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
           res.status(400).json({
             ok: false,
             error: err.code,
-            message: err.extraMessage
+            message: err.extraMessage,
           });
           return resolve();
         }
@@ -141,7 +144,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
 
         res.status(500).json({
           ok: false,
-          error: 'INTERNAL_SERVER_ERROR'
+          error: 'INTERNAL_SERVER_ERROR',
         });
 
         return resolve();

@@ -24,7 +24,11 @@ class FilledContractUpdateError extends Error {
   }
 }
 
-export const acceptOrDeclineFilledContract = async (userEmail: string, contractId: number, action: 'accept' | 'decline'): Promise<void> => {
+export const acceptOrDeclineFilledContract = async (
+  userEmail: string,
+  contractId: number,
+  action: 'accept' | 'decline',
+): Promise<void> => {
   await db.prepare();
   const userRepository = db.getRepository(User);
   const filledContractRepository = db.getRepository(FilledContract);
@@ -34,7 +38,9 @@ export const acceptOrDeclineFilledContract = async (userEmail: string, contractI
     throw new FilledContractUpdateError('USER_NOT_FOUND');
   }
 
-  const contract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options' ] });
+  const contract = await filledContractRepository.findOne(contractId, {
+    relations: ['contract', 'options', 'contract.options'],
+  });
   if (!contract || contract?.buyerId !== user.id) {
     throw new FilledContractUpdateError('FILLED_CONTRACT_NOT_FOUND');
   }
@@ -54,20 +60,30 @@ export const acceptOrDeclineFilledContract = async (userEmail: string, contractI
   await utils.fillDefaultOptions(user, contract, false);
 };
 
-export const fillContractOptions = async (userEmail: string, contractId: number, options: FilledOption[]) => {
+export const fillContractOptions = async (
+  userEmail: string,
+  contractId: number,
+  options: FilledOption[],
+) => {
   await db.prepare();
 
   const userRepository = db.getRepository(User);
   const filledContractRepository = db.getRepository(FilledContract);
-  const filledContractOptionsRepository = db.getRepository(FilledContractOption);
+  const filledContractOptionsRepository =
+    db.getRepository(FilledContractOption);
 
   const user = await userRepository.findOne({ where: { email: userEmail } });
   if (!user) {
     throw new FilledContractUpdateError('USER_NOT_FOUND');
   }
 
-  const filledContract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option' ] });
-  if (!filledContract || (filledContract.userId !== user.id && filledContract.buyerId !== user.id)) {
+  const filledContract = await filledContractRepository.findOne(contractId, {
+    relations: ['contract', 'options', 'contract.options', 'options.option'],
+  });
+  if (
+    !filledContract ||
+    (filledContract.userId !== user.id && filledContract.buyerId !== user.id)
+  ) {
     throw new FilledContractUpdateError('FILLED_CONTRACT_NOT_FOUND');
   }
 
@@ -78,10 +94,14 @@ export const fillContractOptions = async (userEmail: string, contractId: number,
   const isSeller = filledContract.userId === user.id;
 
   const contractOptions: { [id: number]: ContractOption } = {};
-  filledContract.contract.options.forEach(option => contractOptions[option.id] = option);
+  filledContract.contract.options.forEach(
+    (option) => (contractOptions[option.id] = option),
+  );
 
   const currentFilledOptions: { [id: number]: FilledContractOption } = {};
-  filledContract.options.forEach(option => currentFilledOptions[option.option.id] = option);
+  filledContract.options.forEach(
+    (option) => (currentFilledOptions[option.option.id] = option),
+  );
 
   for await (const option of options) {
     const contractOption = contractOptions[option.id];
@@ -103,7 +123,7 @@ export const fillContractOptions = async (userEmail: string, contractId: number,
 
     if (typeof filledContractOption !== 'undefined') {
       await filledContractOptionsRepository.update(filledContractOption.id, {
-        value: option.value
+        value: option.value,
       });
     } else {
       const newFilledContractOption = filledContractOptionsRepository.create();

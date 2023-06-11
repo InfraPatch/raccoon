@@ -18,12 +18,12 @@ class CreateAttachmentError extends Error {
   }
 }
 
-export const verifyAttachment = (friendlyName: string, file: File) : void => {
+export const verifyAttachment = (friendlyName: string, file: File): void => {
   if (!friendlyName || friendlyName.trim().length < 2) {
     throw new CreateAttachmentError('NAME_TOO_SHORT');
   }
 
-  if (!file || file.name.startsWith('avdh-')) {
+  if (!file || file.originalFilename.startsWith('avdh-')) {
     throw new CreateAttachmentError('INVALID_ATTACHMENT');
   }
 
@@ -32,9 +32,13 @@ export const verifyAttachment = (friendlyName: string, file: File) : void => {
   }
 };
 
-export const uploadAttachment = async (attachmentType: string, parentId: number, file: File) => {
-  const buffer = fs.readFileSync(file.path);
-  const filename = sanitize(file.name);
+export const uploadAttachment = async (
+  attachmentType: string,
+  parentId: number,
+  file: File,
+) => {
+  const buffer = fs.readFileSync(file.filepath);
+  const filename = sanitize(file.originalFilename);
 
   if (filename?.length === 0) {
     throw new CreateAttachmentError('INVALID_ATTACHMENT');
@@ -45,13 +49,18 @@ export const uploadAttachment = async (attachmentType: string, parentId: number,
   const extension = filename.substring(dot);
   let index = 1;
 
-  let key: string = `${basename}${extension}`;
+  let key = `${basename}${extension}`;
 
-  while (await storage.exists(`attachments/${attachmentType}/${parentId}/${key}`)) {
+  while (
+    await storage.exists(`attachments/${attachmentType}/${parentId}/${key}`)
+  ) {
     key = `${basename}_${index++}${extension}`;
   }
 
-  await storage.create({ key: `attachments/${attachmentType}/${parentId}/${key}`, contents: buffer });
+  await storage.create({
+    key: `attachments/${attachmentType}/${parentId}/${key}`,
+    contents: buffer,
+  });
 
   return key;
 };

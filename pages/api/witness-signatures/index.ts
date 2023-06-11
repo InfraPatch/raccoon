@@ -4,5 +4,5 @@ import * as witnessSignaturesController from '@/controllers/witness-signatures/w
 import { ensureAuthenticated } from '@/middleware/auth';
 
 export default bar({
-  post: ensureAuthenticated(witnessSignaturesController.create)
+  post: ensureAuthenticated(witnessSignaturesController.create),
 });

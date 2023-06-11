@@ -13,7 +13,11 @@ class GetFilledItemError extends Error {
   }
 }
 
-export const getFilledItem = async (email: string, itemId: number, internal: boolean = false): Promise<FilledItem | IFilledItem> => {
+export const getFilledItem = async (
+  email: string,
+  itemId: number,
+  internal = false,
+): Promise<FilledItem | IFilledItem> => {
   await db.prepare();
 
   const userRepository = db.getRepository(User);
@@ -24,7 +28,15 @@ export const getFilledItem = async (email: string, itemId: number, internal: boo
     throw new GetFilledItemError('USER_NOT_FOUND');
   }
 
-  const filledItem = await filledItemRepository.findOne(itemId, { relations: [ 'item', 'options', 'item.options', 'options.option', 'attachments' ] });
+  const filledItem = await filledItemRepository.findOne(itemId, {
+    relations: [
+      'item',
+      'options',
+      'item.options',
+      'options.option',
+      'attachments',
+    ],
+  });
   if (!filledItem) {
     throw new GetFilledItemError('FILLED_ITEM_NOT_FOUND');
   }
@@ -39,9 +51,10 @@ export const getFilledItem = async (email: string, itemId: number, internal: boo
 
   const item: IFilledItem = filledItem.toJSON();
 
-  item.user = filledItem.userId === user.id
-    ? user
-    : await filledItem.getUser(filledItem.userId);
+  item.user =
+    filledItem.userId === user.id
+      ? user
+      : await filledItem.getUser(filledItem.userId);
 
   return item;
 };

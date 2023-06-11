@@ -14,7 +14,7 @@ export interface ContractOptionAPIType {
   minimumValue?: number;
   maximumValue?: number;
   isSeller?: boolean;
-};
+}
 
 export interface ContractIdAPIRequest {
   id: number;
@@ -22,57 +22,72 @@ export interface ContractIdAPIRequest {
 
 export interface NewContractOptionAPIRequest extends ContractOptionAPIType {
   contractId: number;
-};
+}
 export interface NewContractOptionAPIResponse extends APIResponse {
   option: ContractOption;
-};
+}
 
-export interface GetContractOptionsAPIRequest extends ContractIdAPIRequest {};
-export interface GetContractOptionAPIRequest extends ContractIdAPIRequest {};
+export type GetContractOptionsAPIRequest = ContractIdAPIRequest;
+export type GetContractOptionAPIRequest = ContractIdAPIRequest;
 
 export interface GetContractOptionsAPIResponse extends APIResponse {
   options: ContractOption[];
-};
+}
 export interface GetContractOptionAPIResponse extends APIResponse {
   option: ContractOption;
-};
+}
 
-export interface DeleteContractOptionAPIRequest extends ContractIdAPIRequest {};
-export interface UpdateContractOptionAPIRequest extends NewContractOptionAPIRequest, ContractIdAPIRequest {};
-export interface UpdateContractOptionAPIResponse extends APIResponse {};
-export interface DeleteContractOptionAPIResponse extends APIResponse {};
+export type DeleteContractOptionAPIRequest = ContractIdAPIRequest;
+export interface UpdateContractOptionAPIRequest
+  extends NewContractOptionAPIRequest,
+    ContractIdAPIRequest {}
+export type UpdateContractOptionAPIResponse = APIResponse;
+export type DeleteContractOptionAPIResponse = APIResponse;
 
 class ContractOptionsAPIService {
   static CONTRACT_OPTIONS_URL = '/api/contract-options';
 
-  public async newContractOption(data: NewContractOptionAPIRequest): Promise<NewContractOptionAPIResponse> {
-    return axiosService.post(ContractOptionsAPIService.CONTRACT_OPTIONS_URL, data)
-      .then(res => res.data);
+  public async newContractOption(
+    data: NewContractOptionAPIRequest,
+  ): Promise<NewContractOptionAPIResponse> {
+    return axiosService
+      .post(ContractOptionsAPIService.CONTRACT_OPTIONS_URL, data)
+      .then((res) => res.data);
   }
 
-  public async updateContractOption(data: UpdateContractOptionAPIRequest): Promise<UpdateContractOptionAPIResponse> {
+  public async updateContractOption(
+    data: UpdateContractOptionAPIRequest,
+  ): Promise<UpdateContractOptionAPIResponse> {
     const { id } = data;
 
-    return axiosService.patch(`${ContractOptionsAPIService.CONTRACT_OPTIONS_URL}/${id}`, data)
-      .then(res => res.data);
+    return axiosService
+      .patch(`${ContractOptionsAPIService.CONTRACT_OPTIONS_URL}/${id}`, data)
+      .then((res) => res.data);
   }
 
-  public async getContractOptions(data: GetContractOptionsAPIRequest) : Promise<GetContractOptionsAPIResponse> {
-    return axiosService.get(ContractOptionsAPIService.CONTRACT_OPTIONS_URL)
-      .then(res => res.data);
+  public async getContractOptions(
+    data: GetContractOptionsAPIRequest,
+  ): Promise<GetContractOptionsAPIResponse> {
+    return axiosService
+      .get(ContractOptionsAPIService.CONTRACT_OPTIONS_URL)
+      .then((res) => res.data);
   }
 
-  public async getContractOption({ id }: GetContractOptionAPIRequest) : Promise<GetContractOptionAPIResponse> {
-    return axiosService.get(`${ContractOptionsAPIService.CONTRACT_OPTIONS_URL}/${id}`)
-      .then(res => res.data);
+  public async getContractOption({
+    id,
+  }: GetContractOptionAPIRequest): Promise<GetContractOptionAPIResponse> {
+    return axiosService
+      .get(`${ContractOptionsAPIService.CONTRACT_OPTIONS_URL}/${id}`)
+      .then((res) => res.data);
   }
 
-  public async deleteContractOption({ id }: DeleteContractOptionAPIRequest) : Promise<DeleteContractOptionAPIResponse> {
-    return axiosService.delete(`${ContractOptionsAPIService.CONTRACT_OPTIONS_URL}/${id}`)
-      .then(res => res.data);
+  public async deleteContractOption({
+    id,
+  }: DeleteContractOptionAPIRequest): Promise<DeleteContractOptionAPIResponse> {
+    return axiosService
+      .delete(`${ContractOptionsAPIService.CONTRACT_OPTIONS_URL}/${id}`)
+      .then((res) => res.data);
   }
 }
 
-export {
-  ContractOptionsAPIService
-};
+export { ContractOptionsAPIService };

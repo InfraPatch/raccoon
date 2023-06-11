@@ -8,25 +8,18 @@ export interface CompactWarningMessageProps {
 
 export interface WarningMessageProps extends CompactWarningMessageProps {
   compact?: boolean;
-};
+}
 
 const WarningMessage = ({ compact, children }: WarningMessageProps) => {
   return (
     <MessageBox type="warning" compact={compact}>
-      { children }
+      {children}
     </MessageBox>
   );
 };
 
 const CompactWarningMessage = ({ children }: CompactWarningMessageProps) => {
-  return (
-    <WarningMessage compact>
-      {children}
-    </WarningMessage>
-  );
+  return <WarningMessage compact>{children}</WarningMessage>;
 };
 
-export {
-  WarningMessage,
-  CompactWarningMessage
-};
+export { WarningMessage, CompactWarningMessage };

@@ -5,12 +5,15 @@ import { MakeAdminAPIRequest } from '@/services/apis/users/UserAPIService';
 
 import apiService from '@/services/apis';
 import toaster from '@/lib/toaster';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 const MakeAdminForm = () => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+  const { t } = useTranslation(['dashboard', 'errors']);
 
-  const handleFormSubmit = async ({ email }: MakeAdminAPIRequest, { setSubmitting }: FormikHelpers<MakeAdminAPIRequest>) => {
+  const handleFormSubmit = async (
+    { email }: MakeAdminAPIRequest,
+    { setSubmitting }: FormikHelpers<MakeAdminAPIRequest>,
+  ) => {
     try {
       await apiService.users.makeAdmin({ email });
       toaster.success(t('dashboard:admin.make-admin.success'));
@@ -31,20 +34,23 @@ const MakeAdminForm = () => {
   };
 
   return (
-    <Formik
-      initialValues={{ email: '' }}
-      onSubmit={handleFormSubmit}
-    >
+    <Formik initialValues={{ email: '' }} onSubmit={handleFormSubmit}>
       {({ isSubmitting }) => (
         <Form>
           <div className="form-field">
-            <label htmlFor="email">{ t('dashboard:admin.make-admin.email-field') }</label>
+            <label htmlFor="email">
+              {t('dashboard:admin.make-admin.email-field')}
+            </label>
             <Field name="email" type="email" />
           </div>
 
           <div className="form-field">
-            <Button size={ButtonSize.MEDIUM} type="submit" disabled={isSubmitting}>
-              { t('dashboard:admin.make-admin.submit') }
+            <Button
+              size={ButtonSize.MEDIUM}
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {t('dashboard:admin.make-admin.submit')}
             </Button>
           </div>
         </Form>

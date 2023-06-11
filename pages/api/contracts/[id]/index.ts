@@ -5,12 +5,12 @@ import { ensureAuthenticated, ensureAdministrator } from '@/middleware/auth';
 
 export const config = {
   api: {
-    bodyParser: false
-  }
+    bodyParser: false,
+  },
 };
 
 export default bar({
   get: ensureAuthenticated(contractsController.get),
   patch: ensureAdministrator(contractsController.update),
-  delete: ensureAdministrator(contractsController.destroy)
+  delete: ensureAdministrator(contractsController.destroy),
 });

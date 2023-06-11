@@ -6,5 +6,5 @@ import * as itemOptionsController from '@/controllers/item-options/itemOptionsCo
 
 export default bar({
   post: ensureAdministrator(itemOptionsController.newItemOption),
-  get: ensureAdministrator(itemOptionsController.index)
+  get: ensureAdministrator(itemOptionsController.index),
 });

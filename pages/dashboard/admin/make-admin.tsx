@@ -9,7 +9,7 @@ import Box from '@/components/common/box/Box';
 import MakeAdminForm from '@/components/dashboard/admin/make-admin/MakeAdminForm';
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Meta from '@/components/common/Meta';
 
 const DashboardMakeAdminPage = () => {
@@ -18,7 +18,7 @@ const DashboardMakeAdminPage = () => {
   return (
     <DashboardLayout>
       <Meta
-        title={ t('dashboard:pages.make-admin') }
+        title={t('dashboard:pages.make-admin')}
         url="/dashboard/admin/make-admin"
       />
       <Columns>
@@ -43,8 +43,12 @@ export const getServerSideProps = async ({ req, res, locale }) => {
 
   return {
     props: {
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

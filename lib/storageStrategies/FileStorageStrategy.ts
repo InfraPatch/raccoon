@@ -3,7 +3,10 @@ import * as path from 'path';
 import config from '@/config';
 import IStorageStrategy from './IStorageStrategy';
 
-const STORAGE_ROOT = path.join(process.cwd(), config.storage.file?.location || 'storage');
+const STORAGE_ROOT = path.join(
+  process.cwd(),
+  config.storage.file?.location || 'storage',
+);
 
 class FileStorageStrategy implements IStorageStrategy {
   async create(params) {
@@ -18,7 +21,7 @@ class FileStorageStrategy implements IStorageStrategy {
     await fs.writeFile(filePath, contents);
   }
 
-  async get(key) : Promise<Buffer> {
+  async get(key): Promise<Buffer> {
     return fs.readFile(path.join(STORAGE_ROOT, key));
   }
 
@@ -27,11 +30,11 @@ class FileStorageStrategy implements IStorageStrategy {
     return fs.createReadStream(filePath);
   }
 
-  async exists(key) : Promise<boolean> {
+  async exists(key): Promise<boolean> {
     return fs.pathExists(path.join(STORAGE_ROOT, key));
   }
 
-  async delete(key) : Promise<boolean> {
+  async delete(key): Promise<boolean> {
     return fs.unlink(path.join(STORAGE_ROOT, key));
   }
 }

@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-export const formatDate = (date: string | Date, compact: boolean = true): string => {
+export const formatDate = (date: string | Date, compact = true): string => {
   const parsedDate = new Date(date);
 
   if (!(parsedDate instanceof Date) || !isFinite(parsedDate.getTime())) {

@@ -14,7 +14,7 @@ export interface ContractOptionCreatorFields {
   minimumValue?: number;
   maximumValue?: number;
   isSeller?: boolean;
-};
+}
 
 export class ContractOptionCreationError extends Error {
   public code: string;
@@ -26,7 +26,9 @@ export class ContractOptionCreationError extends Error {
   }
 }
 
-export const createContractOption = async (payload: ContractOptionCreatorFields): Promise<ContractOption> => {
+export const createContractOption = async (
+  payload: ContractOptionCreatorFields,
+): Promise<ContractOption> => {
   await db.prepare();
 
   if (isNaN(payload.contractId)) {
@@ -45,32 +47,54 @@ export const createContractOption = async (payload: ContractOptionCreatorFields)
     throw new ContractOptionCreationError('NAME_TOO_SHORT');
   }
 
-  if (!payload.replacementString || payload.replacementString.trim().length < 2) {
+  if (
+    !payload.replacementString ||
+    payload.replacementString.trim().length < 2
+  ) {
     throw new ContractOptionCreationError('REPLACEMENT_STRING_TOO_SHORT');
   }
 
   payload.friendlyName = payload.friendlyName.trim();
   payload.replacementString = payload.replacementString.trim();
   payload.hint = payload.hint ? payload.hint.trim() : '';
-  payload.longDescription = payload.longDescription ? payload.longDescription.trim() : '';
-  payload.minimumValue = (isNaN(payload.minimumValue) || payload.minimumValue === -1) ? null : payload.minimumValue;
-  payload.maximumValue = (isNaN(payload.maximumValue) || payload.maximumValue === -1) ? null : payload.maximumValue;
+  payload.longDescription = payload.longDescription
+    ? payload.longDescription.trim()
+    : '';
+  payload.minimumValue =
+    isNaN(payload.minimumValue) || payload.minimumValue === -1
+      ? null
+      : payload.minimumValue;
+  payload.maximumValue =
+    isNaN(payload.maximumValue) || payload.maximumValue === -1
+      ? null
+      : payload.maximumValue;
 
-  if (payload.minimumValue !== null && payload.maximumValue !== null && payload.minimumValue > payload.maximumValue) {
+  if (
+    payload.minimumValue !== null &&
+    payload.maximumValue !== null &&
+    payload.minimumValue > payload.maximumValue
+  ) {
     throw new ContractOptionCreationError('CONSTRAINTS_INVALID');
   }
 
   const contractRepository = db.getRepository(Contract);
-  const contract = await contractRepository.findOne({ where: { id: payload.contractId } });
+  const contract = await contractRepository.findOne({
+    where: { id: payload.contractId },
+  });
 
   if (!contract) {
     throw new ContractOptionCreationError('CONTRACT_DOES_NOT_EXIST');
   }
 
   const optionsRepository = db.getRepository(ContractOption);
-  const optionCount = await optionsRepository.createQueryBuilder('contractOption')
-    .where('contractOption.replacementString = :replacementString', { replacementString: payload.replacementString })
-    .andWhere('contractOption.contractId = :contractId', { contractId: contract.id })
+  const optionCount = await optionsRepository
+    .createQueryBuilder('contractOption')
+    .where('contractOption.replacementString = :replacementString', {
+      replacementString: payload.replacementString,
+    })
+    .andWhere('contractOption.contractId = :contractId', {
+      contractId: contract.id,
+    })
     .getCount();
 
   if (optionCount !== 0) {
@@ -87,7 +111,7 @@ export const createContractOption = async (payload: ContractOptionCreatorFields)
     replacementString: payload.replacementString,
     minimumValue: payload.minimumValue,
     maximumValue: payload.maximumValue,
-    isSeller: payload.isSeller
+    isSeller: payload.isSeller,
   });
   await optionsRepository.insert(contractOption);
   return contractOption;

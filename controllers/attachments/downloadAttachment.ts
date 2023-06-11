@@ -8,9 +8,13 @@ export interface IDownloadAttachmentResponse {
   stream: any;
   filename: string;
   contentType: string;
-};
+}
 
-export const downloadAttachment = async (attachmentType: string, filename: string, filledContractId: number): Promise<IDownloadAttachmentResponse> => {
+export const downloadAttachment = async (
+  attachmentType: string,
+  filename: string,
+  filledContractId: number,
+): Promise<IDownloadAttachmentResponse> => {
   if (!filename) {
     return null;
   }
@@ -28,6 +32,6 @@ export const downloadAttachment = async (attachmentType: string, filename: strin
   return {
     stream,
     filename: baseName,
-    contentType
+    contentType,
   };
 };

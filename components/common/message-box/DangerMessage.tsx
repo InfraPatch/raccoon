@@ -8,25 +8,18 @@ export interface CompactDangerMessageProps {
 
 export interface DangerMessageProps extends CompactDangerMessageProps {
   compact?: boolean;
-};
+}
 
 const DangerMessage = ({ compact, children }: DangerMessageProps) => {
   return (
     <MessageBox type="danger" compact={compact}>
-      { children }
+      {children}
     </MessageBox>
   );
 };
 
 const CompactDangerMessage = ({ children }: CompactDangerMessageProps) => {
-  return (
-    <DangerMessage compact>
-      {children}
-    </DangerMessage>
-  );
+  return <DangerMessage compact>{children}</DangerMessage>;
 };
 
-export {
-  DangerMessage,
-  CompactDangerMessage
-};
+export { DangerMessage, CompactDangerMessage };

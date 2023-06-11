@@ -14,7 +14,11 @@ export class ItemCreationError extends Error {
   }
 }
 
-export const createItem = async ({ friendlyName, slug, description }: NewItemAPIRequest): Promise<Item> => {
+export const createItem = async ({
+  friendlyName,
+  slug,
+  description,
+}: NewItemAPIRequest): Promise<Item> => {
   await db.prepare();
   const itemRepository = db.getRepository(Item);
 

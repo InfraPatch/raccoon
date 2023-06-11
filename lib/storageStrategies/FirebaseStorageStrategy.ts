@@ -6,7 +6,7 @@ class FirebaseStorageStrategy implements IStorageStrategy {
     await new Firebase().upload(params.key, params.contents);
   }
 
-  async get(key: string) : Promise<Buffer> {
+  async get(key: string): Promise<Buffer> {
     return new Firebase().read(key);
   }
 
@@ -14,11 +14,11 @@ class FirebaseStorageStrategy implements IStorageStrategy {
     return new Firebase().getStream(key);
   }
 
-  async exists(key: string) : Promise<boolean> {
+  async exists(key: string): Promise<boolean> {
     return new Firebase().exists(key);
   }
 
-  async delete(key: string) : Promise<boolean> {
+  async delete(key: string): Promise<boolean> {
     return new Firebase().delete(key);
   }
 }

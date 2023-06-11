@@ -9,7 +9,10 @@ import { FilledItemAttachment } from '@/db/models/items/FilledItemAttachment';
 import { NewFilledItemAttachmentAPIParams } from '@/services/apis/items/FilledItemAttachmentAPIService';
 
 import { maximumAttachmentCount } from '../attachments/attachmentConstants';
-import { uploadAttachment, verifyAttachment } from '../attachments/createAttachment';
+import {
+  uploadAttachment,
+  verifyAttachment,
+} from '../attachments/createAttachment';
 
 class CreateFilledItemAttachmentError extends Error {
   code: string;
@@ -21,7 +24,10 @@ class CreateFilledItemAttachmentError extends Error {
   }
 }
 
-export const createFilledItemAttachment = async (email: string, payload: Omit<NewFilledItemAttachmentAPIParams, 'file'> & { file?: File }): Promise<FilledItemAttachment> => {
+export const createFilledItemAttachment = async (
+  email: string,
+  payload: Omit<NewFilledItemAttachmentAPIParams, 'file'> & { file?: File },
+): Promise<FilledItemAttachment> => {
   verifyAttachment(payload.friendlyName, payload.file);
 
   await db.prepare();
@@ -34,7 +40,9 @@ export const createFilledItemAttachment = async (email: string, payload: Omit<Ne
   }
 
   const filledItemRepository = db.getRepository(FilledItem);
-  const filledItem = await filledItemRepository.findOne(payload.filledItemId, { relations: [ 'attachments' ] });
+  const filledItem = await filledItemRepository.findOne(payload.filledItemId, {
+    relations: ['attachments'],
+  });
 
   if (!user.isAdmin && user.id !== filledItem.userId) {
     throw new CreateFilledItemAttachmentError('ACCESS_TO_ITEM_DENIED');
@@ -48,7 +56,11 @@ export const createFilledItemAttachment = async (email: string, payload: Omit<Ne
   const attachment = attachmentRepository.create();
 
   try {
-    attachment.filename = await uploadAttachment('item', filledItem.id, payload.file);
+    attachment.filename = await uploadAttachment(
+      'item',
+      filledItem.id,
+      payload.file,
+    );
   } catch (err) {
     console.error(err);
     throw new CreateFilledItemAttachmentError('ATTACHMENT_UPLOAD_FAILED');

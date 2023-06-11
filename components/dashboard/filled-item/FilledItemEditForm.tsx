@@ -1,28 +1,36 @@
 import toaster from '@/lib/toaster';
 import apiService from '@/services/apis';
 
-import { useTranslation } from 'react-i18next';
-import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 import { IItem } from '@/db/models/items/Item';
 import { IFilledItem } from '@/db/models/items/FilledItem';
 
-import FilledItemForm, { FilledItemFormFields } from '@/components/dashboard/common/filled-item-form/FilledItemForm';
+import FilledItemForm, {
+  FilledItemFormFields,
+} from '@/components/dashboard/common/filled-item-form/FilledItemForm';
 
 export interface FilledItemEditFormProps {
   item: IItem;
   filledItem: IFilledItem;
   loadFilledItem(): Promise<void>;
-};
+}
 
-const FilledItemEditForm = ({ item, filledItem, loadFilledItem }: FilledItemEditFormProps) => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+const FilledItemEditForm = ({
+  item,
+  filledItem,
+  loadFilledItem,
+}: FilledItemEditFormProps) => {
+  const { t } = useTranslation(['dashboard', 'errors']);
 
-  const handleFormSubmit = async ({ friendlyName, options }: FilledItemFormFields) => {
+  const handleFormSubmit = async ({
+    friendlyName,
+    options,
+  }: FilledItemFormFields) => {
     try {
       await apiService.filledItems.updateFilledItem(filledItem.id, {
         friendlyName,
-        options
+        options,
       });
 
       toaster.success(t('dashboard:items.data.success'));

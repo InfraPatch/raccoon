@@ -7,8 +7,12 @@ export type IRegisterFormValidationErrors = {
   [key in keyof CredentialsRegisterAPIRequest]?: string;
 };
 
-export const validate = (t: TFunction): ((fields: CredentialsRegisterAPIRequest) => IRegisterFormValidationErrors) => {
-  return fields => {
+export const validate = (
+  t: TFunction,
+): ((
+  fields: CredentialsRegisterAPIRequest,
+) => IRegisterFormValidationErrors) => {
+  return (fields) => {
     const errors: IRegisterFormValidationErrors = {};
 
     if (fields.name.length < 2) {

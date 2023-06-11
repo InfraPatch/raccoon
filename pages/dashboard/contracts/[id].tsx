@@ -33,16 +33,16 @@ import idFromQueryParam from '@/lib/idFromQueryParam';
 
 export interface DashboardContractsPageProps {
   id: number;
-};
+}
 
 const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+  const { t } = useTranslation(['dashboard', 'errors']);
 
-  const [ contract, setContract ] = useState<IFilledContract | null>(null);
-  const [ partyType, setPartyType ] = useState(PartyType.BUYER);
-  const [ title, setTitle ] = useState('...');
-  const [ error, setError ] = useState('');
-  const [ user ] = useCurrentUser();
+  const [contract, setContract] = useState<IFilledContract | null>(null);
+  const [partyType, setPartyType] = useState(PartyType.BUYER);
+  const [title, setTitle] = useState('...');
+  const [error, setError] = useState('');
+  const [user] = useCurrentUser();
 
   // Redirect user if they haven't filled out their details yet
   redirectIfNotReady(user);
@@ -77,23 +77,36 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
   };
 
   const deleteAttachment = async (attachment: IAttachment) => {
-    return await apiService.filledContractAttachments.deleteFilledContractAttachment(attachment.id);
+    return await apiService.filledContractAttachments.deleteFilledContractAttachment(
+      attachment.id,
+    );
   };
 
   const uploadAttachment = async (file: File, friendlyName: string) => {
-    return await apiService.filledContractAttachments.createFilledContractAttachment({ file, friendlyName, filledContractId: contract.id });
+    return await apiService.filledContractAttachments.createFilledContractAttachment(
+      { file, friendlyName, filledContractId: contract.id },
+    );
   };
 
-  const canDeleteAttachment = (attachment: IAttachment) : boolean => {
+  const canDeleteAttachment = (attachment: IAttachment): boolean => {
     const filledAttachment = attachment as IFilledContractAttachment;
 
     // We can delete the attachment if it was created by the seller and we are the seller
-    if (filledAttachment.isSeller && !contract.sellerSignedAt && user.id === contract.userId) {
+    if (
+      filledAttachment.isSeller &&
+      !contract.sellerSignedAt &&
+      user.id === contract.userId
+    ) {
       return true;
     }
 
     // We can delete the attachment if it was created by the buyer and we are the buyer
-    if (!filledAttachment.isSeller && contract.accepted && !contract.buyerSignedAt && user.id === contract.buyerId) {
+    if (
+      !filledAttachment.isSeller &&
+      contract.accepted &&
+      !contract.buyerSignedAt &&
+      user.id === contract.buyerId
+    ) {
       return true;
     }
 
@@ -101,16 +114,21 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
     return false;
   };
 
-  const canUploadAttachment = () : boolean => {
-    return (user.id === contract.userId && !contract.sellerSignedAt) || (user.id === contract.buyerId && contract.accepted && !contract.buyerSignedAt);
+  const canUploadAttachment = (): boolean => {
+    return (
+      (user.id === contract.userId && !contract.sellerSignedAt) ||
+      (user.id === contract.buyerId &&
+        contract.accepted &&
+        !contract.buyerSignedAt)
+    );
   };
 
   useEffect(() => {
     loadContract();
-  }, [ user ]);
+  }, [user]);
 
-  const isSeller = (partyType === PartyType.SELLER);
-  const isBuyer = (partyType === PartyType.BUYER);
+  const isSeller = partyType === PartyType.SELLER;
+  const isBuyer = partyType === PartyType.BUYER;
 
   return (
     <DashboardLayout>
@@ -121,7 +139,7 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
       {!error && contract !== null && (
         <Columns>
           <Column>
-            <Box title={ t('dashboard:contracts.data.overview') }>
+            <Box title={t('dashboard:contracts.data.overview')}>
               <FilledContractOverview
                 contract={contract}
                 partyType={partyType}
@@ -129,7 +147,7 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
             </Box>
 
             {contract.witnessSignatures.length !== 0 && (
-              <Box title={ t('dashboard:contracts.data.witnesses') }>
+              <Box title={t('dashboard:contracts.data.witnesses')}>
                 <FilledContractWitnesses
                   contract={contract}
                   onChange={loadContract}
@@ -139,12 +157,10 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
               </Box>
             )}
 
-            <FilledContractSignatures
-              contract={contract}
-            />
+            <FilledContractSignatures contract={contract} />
 
             {(contract.attachments?.length > 0 || canUploadAttachment()) && (
-              <Box title={ t('dashboard:contracts.data.attachments') }>
+              <Box title={t('dashboard:contracts.data.attachments')}>
                 <Attachments
                   attachments={contract.attachments}
                   onChange={loadContract}
@@ -153,12 +169,12 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
                   canUpload={canUploadAttachment}
                   canDelete={canDeleteAttachment}
                   modelName="contracts"
-                  translationKey='contract-attachments'
+                  translationKey="contract-attachments"
                 />
               </Box>
             )}
 
-            <Box title={ t('dashboard:contracts.data.actions') }>
+            <Box title={t('dashboard:contracts.data.actions')}>
               <FilledContractActions
                 filledContract={contract}
                 onChange={loadContract}
@@ -169,8 +185,9 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
           </Column>
 
           <Column>
-            {((isSeller && !contract.sellerSignedAt) || (isBuyer && contract.accepted && !contract.buyerSignedAt)) && (
-              <Box title={ t('dashboard:contracts.data.my-details') }>
+            {((isSeller && !contract.sellerSignedAt) ||
+              (isBuyer && contract.accepted && !contract.buyerSignedAt)) && (
+              <Box title={t('dashboard:contracts.data.my-details')}>
                 <FilledContractFieldsForm
                   filledContract={contract}
                   onChange={loadContract}
@@ -184,11 +201,7 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
 
       {!error && contract === null && <Loading />}
 
-      {error && error.length > 0 && (
-        <DangerMessage>
-          {error}
-        </DangerMessage>
-      )}
+      {error && error.length > 0 && <DangerMessage>{error}</DangerMessage>}
     </DashboardLayout>
   );
 };
@@ -205,8 +218,12 @@ export const getServerSideProps = async ({ req, res, query, locale }) => {
   return {
     props: {
       id,
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

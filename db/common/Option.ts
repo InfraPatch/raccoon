@@ -1,4 +1,9 @@
-import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { OptionType } from './OptionType';
 
 export interface IOption {
@@ -13,7 +18,7 @@ export interface IOption {
   replacementString?: string;
   minimumValue?: number;
   maximumValue?: number;
-};
+}
 
 export class Option implements IOption {
   @PrimaryGeneratedColumn()
@@ -61,7 +66,7 @@ export class Option implements IOption {
       hint: this.hint,
       replacementString: this.replacementString,
       minimumValue: this.minimumValue,
-      maximumValue: this.maximumValue
+      maximumValue: this.maximumValue,
     };
   }
 }

@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 export interface BoxProps {
   title?: string;
   children: ReactNode;
-};
+}
 
 const Box = ({ title, children }: BoxProps) => {
   return (

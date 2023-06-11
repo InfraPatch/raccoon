@@ -6,7 +6,11 @@ import { FilledContractOption } from '@/db/models/contracts/FilledContractOption
 
 const withPrefix = (name: string, prefix: string) => `${prefix}_${name}`;
 
-export const fillDefaultOptions = async (user: User, filledContract: FilledContract, isSeller: boolean) => {
+export const fillDefaultOptions = async (
+  user: User,
+  filledContract: FilledContract,
+  isSeller: boolean,
+) => {
   const filledContractOptionRepository = db.getRepository(FilledContractOption);
   const prefix = isSeller ? 'seller' : 'buyer';
 

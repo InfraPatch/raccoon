@@ -6,7 +6,7 @@ import { User } from '@/db/models/auth/User';
 
 import apiService from '@/services/apis';
 import toaster from '@/lib/toaster';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 
 import { UpdateUserProfileAPIRequest } from '@/services/apis/users/UserAPIService';
@@ -18,15 +18,18 @@ import { isUserFilledOut } from '@/controllers/users/utils';
 export interface UserSettingsFormProps {
   user: User;
   setUser: (user: User) => void;
-};
+}
 
 const UserSettingsForm = ({ user, setUser }: UserSettingsFormProps) => {
   const router = useRouter();
-  const { t } = useTranslation([ 'common', 'dashboard', 'errors' ]);
+  const { t } = useTranslation(['common', 'dashboard', 'errors']);
 
-  const [ image, setImage ] = useState<File | null>(null);
+  const [image, setImage] = useState<File | null>(null);
 
-  const handleFormSubmit = async ({ name }: UpdateUserProfileAPIRequest, { setSubmitting }: FormikHelpers<UpdateUserProfileAPIRequest>) => {
+  const handleFormSubmit = async (
+    { name }: UpdateUserProfileAPIRequest,
+    { setSubmitting }: FormikHelpers<UpdateUserProfileAPIRequest>,
+  ) => {
     const previouslyFilledOut: boolean = isUserFilledOut(user);
 
     try {
@@ -41,7 +44,10 @@ const UserSettingsForm = ({ user, setUser }: UserSettingsFormProps) => {
       }
     } catch (err) {
       if (err.response?.data?.message) {
-        const message = err.response.data.message[router.locale] || err.response.data.error || t('errors:users.AVDH_FAILED');
+        const message =
+          err.response.data.message[router.locale] ||
+          err.response.data.error ||
+          t('errors:users.AVDH_FAILED');
         toaster.danger(message);
         return;
       } else if (err.response?.data?.error) {
@@ -68,24 +74,28 @@ const UserSettingsForm = ({ user, setUser }: UserSettingsFormProps) => {
       {({ isSubmitting }) => (
         <Form>
           <div className="form-field">
-            <label htmlFor="name">{ t('dashboard:user-fields.name') }:</label>
+            <label htmlFor="name">{t('dashboard:user-fields.name')}:</label>
             <Field name="name" />
             <ErrorMessage name="name" component={CompactDangerMessage} />
           </div>
 
           <div className="form-field">
-            <label htmlFor="image">{ t('dashboard:user-fields.image') }:</label>
+            <label htmlFor="image">{t('dashboard:user-fields.image')}:</label>
             <input
               name="image"
               id="image"
               type="file"
-              onChange={e => setImage(e.currentTarget.files[0])}
+              onChange={(e) => setImage(e.currentTarget.files[0])}
             />
           </div>
 
           <div className="form-field">
-            <Button size={ButtonSize.MEDIUM} type="submit" disabled={isSubmitting}>
-              { t('common:save') }
+            <Button
+              size={ButtonSize.MEDIUM}
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {t('common:save')}
             </Button>
           </div>
         </Form>

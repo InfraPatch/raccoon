@@ -18,7 +18,10 @@ class CreateFilledItemError extends Error {
   }
 }
 
-export const createFilledItem = async (ownerEmail: string, { friendlyName, itemSlug, options }: NewFilledItemAPIParams): Promise<FilledItem> => {
+export const createFilledItem = async (
+  ownerEmail: string,
+  { friendlyName, itemSlug, options }: NewFilledItemAPIParams,
+): Promise<FilledItem> => {
   if (friendlyName.length < 2) {
     throw new CreateFilledItemError('NAME_TOO_SHORT');
   }
@@ -32,7 +35,7 @@ export const createFilledItem = async (ownerEmail: string, { friendlyName, itemS
 
   const item = await itemRepository.findOne({
     where: { slug: itemSlug },
-    relations: [ 'options' ]
+    relations: ['options'],
   });
 
   if (!item) {
@@ -40,7 +43,7 @@ export const createFilledItem = async (ownerEmail: string, { friendlyName, itemS
   }
 
   const itemOptions: { [id: number]: ItemOption } = {};
-  item.options.forEach(option => itemOptions[option.id] = option);
+  item.options.forEach((option) => (itemOptions[option.id] = option));
 
   for (const option of options) {
     const itemOption = itemOptions[option.id];

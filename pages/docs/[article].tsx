@@ -1,37 +1,28 @@
-import renderToString from 'next-mdx-remote/render-to-string';
-import hydrate from 'next-mdx-remote/hydrate';
-import { MdxRemote } from 'next-mdx-remote/types';
-
-import matter from 'gray-matter';
+import { MDXRemoteSerializeResult, MDXRemote } from 'next-mdx-remote';
 
 import DocsPageLayout from '@/layouts/DocsPageLayout';
 import NotFoundPage from '@/pages/404';
 
-import * as fs from 'fs';
-import * as path from 'path';
-
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { renderMarkdown } from '@/lib/renderMarkdown';
 
 export interface DocsArticlePageProps {
-  source?: MdxRemote.Source;
-  meta?: {
-    title: string;
-    description: string;
-    url: string;
-  };
-};
+  source?: MDXRemoteSerializeResult;
+}
 
-const DocsArticlePage = ({ source, meta }: DocsArticlePageProps) => {
-  if (!source || !meta) {
+const DocsArticlePage = ({ source }: DocsArticlePageProps) => {
+  if (!source) {
     return <NotFoundPage />;
   }
 
-  const content = hydrate(source);
-
   return (
-    <DocsPageLayout title={meta.title} description={meta.description} url={meta.url}>
-      <h1>{meta.title}</h1>
-      {content}
+    <DocsPageLayout
+      title={source.frontmatter.title as string}
+      description={source.frontmatter.description as string}
+      url={source.frontmatter.url as string}
+    >
+      <h1>{source.frontmatter.title as string}</h1>
+      <MDXRemote {...source} />
     </DocsPageLayout>
   );
 };
@@ -39,38 +30,22 @@ const DocsArticlePage = ({ source, meta }: DocsArticlePageProps) => {
 export const getServerSideProps = async ({ req, res, params, locale }) => {
   const key = params.article;
 
-  const translations = await serverSideTranslations(locale, [ 'common', 'errors', 'docs' ]);
+  const translations = await serverSideTranslations(locale, [
+    'common',
+    'errors',
+    'docs',
+  ]);
+  const source = await renderMarkdown(locale, `docs/${key}`);
 
-  const localizedArticlePath = path.join(process.cwd(), 'content/docs', locale, `${key}.mdx`);
-  const fallbackArticlePath = path.join(process.cwd(), 'content/docs/hu', `${key}.mdx`);
-
-  let fileContent: string | null = null;
-
-  if (fs.existsSync(localizedArticlePath)) {
-    fileContent = fs.readFileSync(localizedArticlePath, { encoding: 'utf8' });
-  }
-
-  if (!fileContent && fs.existsSync(fallbackArticlePath)) {
-    fileContent = fs.readFileSync(fallbackArticlePath, { encoding: 'utf8' });
-  }
-
-  if (!fileContent) {
+  if (!source) {
     res.statusCode = 404;
-    return {
-      props: {
-        ...translations
-      }
-    };
   }
 
-  const { content, data } = matter(fileContent);
-  const mdxSource = await renderToString(content, { scope: data });
   return {
     props: {
       ...translations,
-      source: mdxSource,
-      meta: data
-    }
+      source,
+    },
   };
 };
 

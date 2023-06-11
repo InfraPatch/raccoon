@@ -1,4 +1,9 @@
-import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export interface IAttachment {
   id: number;
@@ -6,7 +11,7 @@ export interface IAttachment {
   updatedAt: Date;
   friendlyName: string;
   filename: string;
-};
+}
 
 export class Attachment implements IAttachment {
   @PrimaryGeneratedColumn()
@@ -30,7 +35,7 @@ export class Attachment implements IAttachment {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       friendlyName: this.friendlyName,
-      filename: this.filename
+      filename: this.filename,
     };
   }
 }

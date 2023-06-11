@@ -7,7 +7,7 @@ export interface IMetaProps {
   description?: string;
   url: string;
   noAppendSiteName?: boolean;
-};
+}
 
 const Meta = ({ title, description, url, noAppendSiteName }: IMetaProps) => {
   if (title && !noAppendSiteName) {
@@ -32,7 +32,7 @@ const Meta = ({ title, description, url, noAppendSiteName }: IMetaProps) => {
 
       <meta property="og:url" content={url} />
 
-      <link rel="icon" href={favicon} />
+      <link rel="icon" href={favicon.src} />
     </Head>
   );
 };

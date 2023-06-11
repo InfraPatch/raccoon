@@ -19,7 +19,15 @@ class CreateFilledContractError extends Error {
   }
 }
 
-export const createFilledContract = async (sellerEmail: string, { friendlyName, buyerEmail, contractId, filledItemId }: NewFilledContractAPIParams): Promise<FilledContract> => {
+export const createFilledContract = async (
+  sellerEmail: string,
+  {
+    friendlyName,
+    buyerEmail,
+    contractId,
+    filledItemId,
+  }: NewFilledContractAPIParams,
+): Promise<FilledContract> => {
   if (friendlyName.length < 2) {
     throw new CreateFilledContractError('NAME_TOO_SHORT');
   }
@@ -35,7 +43,9 @@ export const createFilledContract = async (sellerEmail: string, { friendlyName, 
   const userRepository = db.getRepository(User);
   const filledItemRepository = db.getRepository(FilledItem);
 
-  const contract = await contractRepository.findOne(contractId, { relations: [ 'options', 'item' ] });
+  const contract = await contractRepository.findOne(contractId, {
+    relations: ['options', 'item'],
+  });
   if (!contract) {
     throw new CreateFilledContractError('UNKNOWN_CONTRACT');
   }
@@ -45,7 +55,9 @@ export const createFilledContract = async (sellerEmail: string, { friendlyName, 
     throw new CreateFilledContractError('USER_NOT_FOUND');
   }
 
-  const seller = await userRepository.findOne({ where: { email: sellerEmail } });
+  const seller = await userRepository.findOne({
+    where: { email: sellerEmail },
+  });
 
   const filledContract = filledContractRepository.create();
   filledContract.friendlyName = friendlyName;
@@ -58,7 +70,9 @@ export const createFilledContract = async (sellerEmail: string, { friendlyName, 
       throw new CreateFilledContractError('FILLED_ITEM_NOT_PROVIDED');
     }
 
-    const filledItem = await filledItemRepository.findOne(filledItemId, { relations: [ 'item' ] });
+    const filledItem = await filledItemRepository.findOne(filledItemId, {
+      relations: ['item'],
+    });
     if (!filledItem || filledItem.userId !== seller.id) {
       throw new CreateFilledContractError('FILLED_ITEM_NOT_FOUND');
     }

@@ -9,7 +9,10 @@ import { FilledContractAttachment } from '@/db/models/contracts/FilledContractAt
 import { NewFilledContractAttachmentAPIParams } from '@/services/apis/contracts/FilledContractAttachmentAPIService';
 
 import { maximumAttachmentCount } from '../attachments/attachmentConstants';
-import { uploadAttachment, verifyAttachment } from '../attachments/createAttachment';
+import {
+  uploadAttachment,
+  verifyAttachment,
+} from '../attachments/createAttachment';
 
 class CreateFilledContractAttachmentError extends Error {
   code: string;
@@ -21,7 +24,10 @@ class CreateFilledContractAttachmentError extends Error {
   }
 }
 
-export const createFilledContractAttachment = async (email: string, payload: Omit<NewFilledContractAttachmentAPIParams, 'file'> & { file?: File }): Promise<FilledContractAttachment> => {
+export const createFilledContractAttachment = async (
+  email: string,
+  payload: Omit<NewFilledContractAttachmentAPIParams, 'file'> & { file?: File },
+): Promise<FilledContractAttachment> => {
   verifyAttachment(payload.friendlyName, payload.file);
 
   await db.prepare();
@@ -34,20 +40,26 @@ export const createFilledContractAttachment = async (email: string, payload: Omi
   }
 
   const filledContractRepository = db.getRepository(FilledContract);
-  const filledContract = await filledContractRepository.findOne(payload.filledContractId, { relations: [ 'attachments' ] });
-  const contractUsers = [ filledContract.buyerId, filledContract.userId ];
+  const filledContract = await filledContractRepository.findOne(
+    payload.filledContractId,
+    { relations: ['attachments'] },
+  );
+  const contractUsers = [filledContract.buyerId, filledContract.userId];
 
   if (!contractUsers.includes(user.id)) {
     throw new CreateFilledContractAttachmentError('ACCESS_TO_CONTRACT_DENIED');
   }
 
-  const isBuyer = (user.id === filledContract.buyerId);
+  const isBuyer = user.id === filledContract.buyerId;
 
   if (isBuyer && !filledContract.accepted) {
     throw new CreateFilledContractAttachmentError('ACCESS_TO_CONTRACT_DENIED');
   }
 
-  if ((isBuyer && filledContract.buyerSignedAt) || (!isBuyer && filledContract.sellerSignedAt)) {
+  if (
+    (isBuyer && filledContract.buyerSignedAt) ||
+    (!isBuyer && filledContract.sellerSignedAt)
+  ) {
     throw new CreateFilledContractAttachmentError('CONTRACT_ALREADY_SIGNED');
   }
 
@@ -59,7 +71,11 @@ export const createFilledContractAttachment = async (email: string, payload: Omi
   const attachment = attachmentRepository.create();
 
   try {
-    attachment.filename = await uploadAttachment('contract', filledContract.id, payload.file);
+    attachment.filename = await uploadAttachment(
+      'contract',
+      filledContract.id,
+      payload.file,
+    );
   } catch (err) {
     console.error(err);
     throw new CreateFilledContractAttachmentError('ATTACHMENT_UPLOAD_FAILED');

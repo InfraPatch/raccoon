@@ -4,5 +4,5 @@ import * as filledContractsController from '@/controllers/filled-contracts/fille
 import { ensureAuthenticated } from '@/middleware/auth';
 
 export default bar({
-  get: ensureAuthenticated(filledContractsController.download)
+  get: ensureAuthenticated(filledContractsController.download),
 });

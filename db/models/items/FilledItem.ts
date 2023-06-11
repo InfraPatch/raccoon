@@ -1,8 +1,19 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 import { IUser, User } from '../auth/User';
 import { FilledItemOption, IFilledItemOption } from './FilledItemOption';
-import { FilledItemAttachment, IFilledItemAttachment } from './FilledItemAttachment';
+import {
+  FilledItemAttachment,
+  IFilledItemAttachment,
+} from './FilledItemAttachment';
 import { IItem, Item } from './Item';
 
 import db from '../../../services/db';
@@ -19,7 +30,7 @@ export interface IFilledItem {
   locked?: boolean;
   options?: IFilledItemOption[];
   attachments?: IFilledItemAttachment[];
-};
+}
 
 @Entity()
 export class FilledItem implements IFilledItem {
@@ -38,10 +49,13 @@ export class FilledItem implements IFilledItem {
   @ManyToOne(() => Item)
   item: Partial<Item>;
 
-  @OneToMany(() => FilledItemOption, filledItemOption => filledItemOption.filledItem)
+  @OneToMany(
+    () => FilledItemOption,
+    (filledItemOption) => filledItemOption.filledItem,
+  )
   options: Partial<FilledItemOption[]>;
 
-  @OneToMany(() => FilledItemAttachment, attachment => attachment.filledItem)
+  @OneToMany(() => FilledItemAttachment, (attachment) => attachment.filledItem)
   attachments: Partial<FilledItemAttachment[]>;
 
   @Column('integer')
@@ -69,10 +83,16 @@ export class FilledItem implements IFilledItem {
       updatedAt: this.updatedAt && this.updatedAt.toJSON(),
       friendlyName: this.friendlyName,
       item: this.item,
-      options: this.options && this.options.map(option => omit(option.toJSON(), 'filledItem')),
-      attachments: this.attachments && this.attachments.map(attachment => omit(attachment.toJSON(), 'filledItem')),
+      options:
+        this.options &&
+        this.options.map((option) => omit(option.toJSON(), 'filledItem')),
+      attachments:
+        this.attachments &&
+        this.attachments.map((attachment) =>
+          omit(attachment.toJSON(), 'filledItem'),
+        ),
       userId: this.userId,
-      locked: this.locked
+      locked: this.locked,
     };
   }
 }

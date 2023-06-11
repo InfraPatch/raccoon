@@ -13,19 +13,19 @@ class S3 {
       endpoint,
       credentials: {
         accessKeyId: S3Config?.key,
-        secretAccessKey: S3Config?.secret
-      }
+        secretAccessKey: S3Config?.secret,
+      },
     });
   }
 
   exists(key: string): Promise<boolean> {
     const params = {
       Bucket: S3Config?.bucket,
-      Key: key
+      Key: key,
     };
 
     return new Promise((resolve, reject) => {
-      this.s3.headObject(params, err => {
+      this.s3.headObject(params, (err) => {
         if (err) {
           if (err.code === 'NotFound') {
             return resolve(false);
@@ -42,11 +42,11 @@ class S3 {
   delete(key: string): Promise<boolean> {
     const params = {
       Bucket: S3Config?.bucket,
-      Key: key
+      Key: key,
     };
 
     return new Promise((resolve, reject) => {
-      this.s3.deleteObject(params, err => {
+      this.s3.deleteObject(params, (err) => {
         if (err) {
           if (err.code === 'NotFound') {
             // This key doesn't exist, we wanted to delete it anyway.
@@ -61,13 +61,17 @@ class S3 {
     });
   }
 
-  upload(key: string, contents: string, isPublic?: boolean): Promise<AWS.S3.PutObjectOutput> {
+  upload(
+    key: string,
+    contents: string,
+    isPublic?: boolean,
+  ): Promise<AWS.S3.PutObjectOutput> {
     const params = {
       ACL: isPublic ? 'public-read' : 'authenticated-read',
       Body: contents,
       Bucket: S3Config?.bucket,
       ContentType: 'text/plain',
-      Key: key
+      Key: key,
     };
 
     return new Promise((resolve, reject) => {
@@ -84,7 +88,7 @@ class S3 {
   getStream(key: string) {
     const params = {
       Bucket: S3Config?.bucket,
-      Key: key
+      Key: key,
     };
 
     return this.s3.getObject(params).createReadStream();
@@ -93,7 +97,7 @@ class S3 {
   read(key: string): Promise<Buffer> {
     const params = {
       Bucket: S3Config?.bucket,
-      Key: key
+      Key: key,
     };
 
     return new Promise((resolve, reject) => {

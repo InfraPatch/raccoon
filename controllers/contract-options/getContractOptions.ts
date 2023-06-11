@@ -12,7 +12,9 @@ export class GetContractOptionsError extends Error {
   }
 }
 
-export const getContractOptions = async ({ id } : GetContractOptionsAPIRequest): Promise<ContractOption[]> => {
+export const getContractOptions = async ({
+  id,
+}: GetContractOptionsAPIRequest): Promise<ContractOption[]> => {
   await db.prepare();
   const optionRepository = db.getRepository(ContractOption);
 
@@ -20,7 +22,8 @@ export const getContractOptions = async ({ id } : GetContractOptionsAPIRequest):
     throw new GetContractOptionsError('CONTRACT_ID_MISSING');
   }
 
-  const contracts = await optionRepository.createQueryBuilder('option')
+  const contracts = await optionRepository
+    .createQueryBuilder('option')
     .where('option.contract = :contractId', { contractId: id })
     .getMany();
 

@@ -15,12 +15,18 @@ export interface SelectFilledItemModalProps {
   setFilledItem(filledItem: IFilledItem): void;
 }
 
-const SelectFilledItemModal = ({ itemSlug, filledItem, setFilledItem }: SelectFilledItemModalProps) => {
-  const [ filledItems, setFilledItems ] = useState<IFilledItem[] | null>(null);
-  const [ currentItem, setCurrentItem ] = useState<IFilledItem | null>(filledItem || null);
-  const [ error, setError ] = useState('');
+const SelectFilledItemModal = ({
+  itemSlug,
+  filledItem,
+  setFilledItem,
+}: SelectFilledItemModalProps) => {
+  const [filledItems, setFilledItems] = useState<IFilledItem[] | null>(null);
+  const [currentItem, setCurrentItem] = useState<IFilledItem | null>(
+    filledItem || null,
+  );
+  const [error, setError] = useState('');
 
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+  const { t } = useTranslation(['dashboard', 'errors']);
 
   const loadFilledItems = async () => {
     setFilledItems(null);
@@ -28,7 +34,7 @@ const SelectFilledItemModal = ({ itemSlug, filledItem, setFilledItem }: SelectFi
 
     try {
       const res = await apiService.filledItems.listFilledItems(itemSlug);
-      setFilledItems(res.filledItems.filter(item => !item.locked));
+      setFilledItems(res.filledItems.filter((item) => !item.locked));
     } catch (err) {
       if (err.response?.data?.error) {
         const message = err.response.data.error;
@@ -45,7 +51,7 @@ const SelectFilledItemModal = ({ itemSlug, filledItem, setFilledItem }: SelectFi
 
   useEffect(() => {
     loadFilledItems();
-  }, [ filledItem ]);
+  }, [filledItem]);
 
   const generateClassNames = (item: IFilledItem): string => {
     const isSelected = item.id === currentItem?.id;
@@ -53,7 +59,7 @@ const SelectFilledItemModal = ({ itemSlug, filledItem, setFilledItem }: SelectFi
     return clsx('flex', 'px-3', 'py-2', 'cursor-pointer', {
       'hover:bg-[#f4f4f4]': !isSelected,
       'bg-accent': isSelected,
-      'text-white': isSelected
+      'text-white': isSelected,
     });
   };
 
@@ -64,13 +70,18 @@ const SelectFilledItemModal = ({ itemSlug, filledItem, setFilledItem }: SelectFi
 
   return (
     <div>
-      {filledItems && filledItems.map(item => (
-        <div key={item.id} className="mb-1">
-          <div className={generateClassNames(item)} onClick={() => handleItemClick(item)} role="button">
-            {item.friendlyName}
+      {filledItems &&
+        filledItems.map((item) => (
+          <div key={item.id} className="mb-1">
+            <div
+              className={generateClassNames(item)}
+              onClick={() => handleItemClick(item)}
+              role="button"
+            >
+              {item.friendlyName}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
 
       {!filledItems && !error && <Loading />}
       {error && error.length > 0 && <DangerMessage>{error}</DangerMessage>}

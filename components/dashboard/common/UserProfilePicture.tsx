@@ -6,39 +6,50 @@ import clsx from 'clsx';
 export enum UserProfilePictureSize {
   SMALL,
   MEDIUM,
-  LARGE
-};
+  LARGE,
+}
 
 export interface UserProfilePictureProps {
   user: User;
   size?: UserProfilePictureSize;
-};
+}
 
 const UserProfilePicture = ({ user, size }: UserProfilePictureProps) => {
   const finalSize = size ?? UserProfilePictureSize.MEDIUM;
-  const [ imageAvailable, setImageAvailable ] = useState<boolean>(true);
+  const [imageAvailable, setImageAvailable] = useState<boolean>(true);
 
-  const userMonogram = user.name.split(' ')
-    .filter(component => component.length > 2)
-    .map(component => component[0])
+  const userMonogram = user.name
+    .split(' ')
+    .filter((component) => component.length > 2)
+    .map((component) => component[0])
     .slice(0, 2)
     .join('')
     .toUpperCase();
 
-  const classNames = clsx({
-    'w-10': finalSize === UserProfilePictureSize.SMALL,
-    'h-10': finalSize === UserProfilePictureSize.SMALL,
+  const classNames = clsx(
+    {
+      'w-10': finalSize === UserProfilePictureSize.SMALL,
+      'h-10': finalSize === UserProfilePictureSize.SMALL,
 
-    'w-12': finalSize === UserProfilePictureSize.MEDIUM,
-    'h-12': finalSize === UserProfilePictureSize.MEDIUM,
+      'w-12': finalSize === UserProfilePictureSize.MEDIUM,
+      'h-12': finalSize === UserProfilePictureSize.MEDIUM,
 
-    'w-16': finalSize === UserProfilePictureSize.LARGE,
-    'h-16': finalSize === UserProfilePictureSize.MEDIUM
-  }, 'flex', 'flex-col', 'justify-center', 'rounded-full', 'bg-accent-hover', 'text-white', 'text-center', 'select-none');
+      'w-16': finalSize === UserProfilePictureSize.LARGE,
+      'h-16': finalSize === UserProfilePictureSize.MEDIUM,
+    },
+    'flex',
+    'flex-col',
+    'justify-center',
+    'rounded-full',
+    'bg-accent-hover',
+    'text-white',
+    'text-center',
+    'select-none',
+  );
 
   return (
     <div className={classNames}>
-      {imageAvailable && user.image && (
+      {(imageAvailable && user.image && (
         <span>
           <img
             src={user.image}
@@ -47,9 +58,7 @@ const UserProfilePicture = ({ user, size }: UserProfilePictureProps) => {
             onError={() => setImageAvailable(false)}
           />
         </span>
-      ) || (
-        <span>{userMonogram}</span>
-      )}
+      )) || <span>{userMonogram}</span>}
     </div>
   );
 };

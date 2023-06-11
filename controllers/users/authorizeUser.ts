@@ -6,7 +6,7 @@ import * as passwords from '@/lib/passwords';
 export interface UserAuthorizationFields {
   email: string;
   password: string;
-};
+}
 
 export class UserAuthorizationError extends Error {
   public code: string;
@@ -18,7 +18,10 @@ export class UserAuthorizationError extends Error {
   }
 }
 
-export const authorizeUser = async ({ email, password }: UserAuthorizationFields): Promise<User> => {
+export const authorizeUser = async ({
+  email,
+  password,
+}: UserAuthorizationFields): Promise<User> => {
   await db.prepare();
   const userRepository = db.getRepository(User);
 

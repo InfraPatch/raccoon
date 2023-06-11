@@ -7,17 +7,20 @@ import * as ContactFormValidator from '@/validators/ContactFormValidator';
 import { IContactFormFields } from './IContactFormFields';
 
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 import apiService from '@/services/apis';
 import toaster from '@/lib/toaster';
 
 const ContactForm = () => {
-  const [ displayForm, setDisplayForm ] = useState(true);
+  const [displayForm, setDisplayForm] = useState(true);
 
-  const { t } = useTranslation([ 'contact', 'errors' ]);
+  const { t } = useTranslation(['contact', 'errors']);
 
-  const handleFormSubmit = async ({ name, email, subject, message }: IContactFormFields, { setSubmitting }: FormikHelpers<IContactFormFields>) => {
+  const handleFormSubmit = async (
+    { name, email, subject, message }: IContactFormFields,
+    { setSubmitting }: FormikHelpers<IContactFormFields>,
+  ) => {
     try {
       await apiService.contact.sendEmail({ name, email, subject, message });
       setDisplayForm(false);
@@ -26,7 +29,9 @@ const ContactForm = () => {
         const message = err.response.data.error;
 
         if (message?.length) {
-          toaster.danger(t(`errors:contact.${message}`, { ...err.response.data.details }));
+          toaster.danger(
+            t(`errors:contact.${message}`, { ...err.response.data.details }),
+          );
           return;
         }
       }
@@ -48,41 +53,44 @@ const ContactForm = () => {
           {({ isSubmitting }) => (
             <Form>
               <div className="form-field">
-                <label htmlFor="name">{ t('contact:form.name') }</label>
+                <label htmlFor="name">{t('contact:form.name')}</label>
                 <Field name="name" />
                 <ErrorMessage name="name" component={CompactDangerMessage} />
               </div>
 
               <div className="form-field">
-                <label htmlFor="email">{ t('contact:form.email') }</label>
+                <label htmlFor="email">{t('contact:form.email')}</label>
                 <Field name="email" type="email" />
                 <ErrorMessage name="email" component={CompactDangerMessage} />
               </div>
 
               <div className="form-field">
-                <label htmlFor="subject">{ t('contact:form.subject') }</label>
+                <label htmlFor="subject">{t('contact:form.subject')}</label>
                 <Field name="subject" />
                 <ErrorMessage name="subject" component={CompactDangerMessage} />
               </div>
 
               <div className="form-field">
-                <label htmlFor="message">{ t('contact:form.message') }</label>
+                <label htmlFor="message">{t('contact:form.message')}</label>
                 <Field name="message" as="textarea" />
                 <ErrorMessage name="message" component={CompactDangerMessage} />
               </div>
 
               <div className="form-field text-center">
-                <Button size={ButtonSize.MEDIUM} type="submit" disabled={isSubmitting}>
-                  { t('contact:form.submit') }
+                <Button
+                  size={ButtonSize.MEDIUM}
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  {t('contact:form.submit')}
                 </Button>
               </div>
-
             </Form>
           )}
         </Formik>
       )}
 
-      {!displayForm && <SuccessMessage>{ t('contact:success') }</SuccessMessage>}
+      {!displayForm && <SuccessMessage>{t('contact:success')}</SuccessMessage>}
     </>
   );
 };

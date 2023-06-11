@@ -5,7 +5,7 @@ import { OptionType } from '@/db/common/OptionType';
 
 import { transformDate } from '@/lib/transformDate';
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 import { IItem } from '@/db/models/items/Item';
 import { IFilledItem } from '@/db/models/items/FilledItem';
@@ -20,47 +20,54 @@ export interface FilledItemField {
   value: string;
   longDescription?: string;
   hint?: string;
-};
+}
 
 export interface FilledItemFormFields {
   friendlyName: string;
   itemSlug: string;
   options: FilledItemField[];
-};
+}
 
 export interface FilledItemFormProps {
   item: IItem;
   filledItem?: IFilledItem;
   onSubmit(e: FilledItemFormFields): void | Promise<void>;
   submitButtonText: string;
-};
+}
 
-const FilledItemForm = ({ item, filledItem, onSubmit, submitButtonText }: FilledItemFormProps) => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+const FilledItemForm = ({
+  item,
+  filledItem,
+  onSubmit,
+  submitButtonText,
+}: FilledItemFormProps) => {
+  const { t } = useTranslation(['dashboard', 'errors']);
 
-  const [ friendlyName, setFriendlyName ] = useState(filledItem ? filledItem.friendlyName : '');
-  const [ fields, setFields ] = useState<FilledItemField[]>([]);
-  const [ saving, setSaving ] = useState(false);
+  const [friendlyName, setFriendlyName] = useState(
+    filledItem ? filledItem.friendlyName : '',
+  );
+  const [fields, setFields] = useState<FilledItemField[]>([]);
+  const [saving, setSaving] = useState(false);
 
   const getValue = (option: IItemOption): string => {
     if (typeof filledItem === 'undefined' || filledItem === null) {
       return '';
     }
 
-    return filledItem.options.find(a => a.option.id === option.id).value;
+    return filledItem.options.find((a) => a.option.id === option.id).value;
   };
 
   useEffect(() => {
     const newFields = item.options
       .sort((a, b) => a.priority - b.priority)
-      .map(option => {
+      .map((option) => {
         return {
           id: option.id,
           name: option.friendlyName,
           type: option.type,
           value: getValue(option),
           longDescription: option.longDescription,
-          hint: option.hint
+          hint: option.hint,
         };
       });
 
@@ -68,10 +75,10 @@ const FilledItemForm = ({ item, filledItem, onSubmit, submitButtonText }: Filled
   }, []);
 
   const updateFields = (id: number, value: string) => {
-    setFields(current => {
+    setFields((current) => {
       const newFields = current.slice(0);
 
-      newFields.forEach(field => {
+      newFields.forEach((field) => {
         if (field.id === id) {
           field.value = value;
         }
@@ -88,7 +95,7 @@ const FilledItemForm = ({ item, filledItem, onSubmit, submitButtonText }: Filled
     await onSubmit({
       friendlyName,
       itemSlug: item.slug,
-      options: fields
+      options: fields,
     });
     setSaving(false);
   };
@@ -97,19 +104,21 @@ const FilledItemForm = ({ item, filledItem, onSubmit, submitButtonText }: Filled
     <form onSubmit={handleFormSubmit} className="my-0">
       <Box title={t('dashboard:new-item.overview')}>
         <div className="form-field">
-          <label htmlFor="friendlyName">{t('dashboard:new-item.fields.friendlyName')}:</label>
+          <label htmlFor="friendlyName">
+            {t('dashboard:new-item.fields.friendlyName')}:
+          </label>
           <input
             id="friendlyName"
             name="friendlyName"
             defaultValue={friendlyName}
-            onChange={e => setFriendlyName(e.currentTarget.value)}
+            onChange={(e) => setFriendlyName(e.currentTarget.value)}
           />
         </div>
       </Box>
 
       {fields && fields.length > 0 && (
         <Box>
-          {fields.map(field => (
+          {fields.map((field) => (
             <div className="form-field mb-5" key={field.id}>
               <label htmlFor={`field_${field.id}`}>{field.name}</label>
 
@@ -120,11 +129,13 @@ const FilledItemForm = ({ item, filledItem, onSubmit, submitButtonText }: Filled
                 OptionType.PERSONAL_IDENTIFIER,
                 OptionType.EMAIL,
                 OptionType.URL,
-                OptionType.DATE
+                OptionType.DATE,
               ].includes(field.type) && (
                 <input
                   id={`field_${field.id}`}
-                  onChange={e => updateFields(field.id, e.currentTarget.value)}
+                  onChange={(e) =>
+                    updateFields(field.id, e.currentTarget.value)
+                  }
                   defaultValue={field.value}
                   placeholder={field.hint}
                 />
@@ -134,7 +145,9 @@ const FilledItemForm = ({ item, filledItem, onSubmit, submitButtonText }: Filled
                 <input
                   type="email"
                   id={`field_${field.id}`}
-                  onChange={e => updateFields(field.id, e.currentTarget.value)}
+                  onChange={(e) =>
+                    updateFields(field.id, e.currentTarget.value)
+                  }
                   defaultValue={field.value}
                   placeholder={field.hint}
                 />
@@ -144,7 +157,9 @@ const FilledItemForm = ({ item, filledItem, onSubmit, submitButtonText }: Filled
                 <input
                   type="url"
                   id={`field_${field.id}`}
-                  onChange={e => updateFields(field.id, e.currentTarget.value)}
+                  onChange={(e) =>
+                    updateFields(field.id, e.currentTarget.value)
+                  }
                   defaultValue={field.value}
                   placeholder={field.hint}
                 />
@@ -154,7 +169,9 @@ const FilledItemForm = ({ item, filledItem, onSubmit, submitButtonText }: Filled
                 <input
                   type="date"
                   id={`field_${field.id}`}
-                  onChange={e => updateFields(field.id, e.currentTarget.value)}
+                  onChange={(e) =>
+                    updateFields(field.id, e.currentTarget.value)
+                  }
                   defaultValue={transformDate(field.value)}
                 />
               )}
@@ -163,16 +180,30 @@ const FilledItemForm = ({ item, filledItem, onSubmit, submitButtonText }: Filled
                 <input
                   type="number"
                   id={`field_${field.id}`}
-                  onChange={e => updateFields(field.id, e.currentTarget.value)}
+                  onChange={(e) =>
+                    updateFields(field.id, e.currentTarget.value)
+                  }
                   defaultValue={field.value}
                 />
               )}
 
               {field.type === OptionType.PERSONAL_IDENTIFIER && (
-                <select id={`field_${field.id}`} onChange={e => updateFields(field.id, e.currentTarget.value)} defaultValue={field.value}>
-                  <option value="0">{t('dashboard:user-fields.id-card')}</option>
-                  <option value="1">{t('dashboard:user-fields.passport')}</option>
-                  <option value="2">{t('dashboard:user-fields.drivers-license')}</option>
+                <select
+                  id={`field_${field.id}`}
+                  onChange={(e) =>
+                    updateFields(field.id, e.currentTarget.value)
+                  }
+                  defaultValue={field.value}
+                >
+                  <option value="0">
+                    {t('dashboard:user-fields.id-card')}
+                  </option>
+                  <option value="1">
+                    {t('dashboard:user-fields.passport')}
+                  </option>
+                  <option value="2">
+                    {t('dashboard:user-fields.drivers-license')}
+                  </option>
                 </select>
               )}
             </div>
@@ -182,11 +213,9 @@ const FilledItemForm = ({ item, filledItem, onSubmit, submitButtonText }: Filled
 
       <Box>
         <div className="form-field">
-          <Button
-            size={ButtonSize.MEDIUM}
-            type="submit"
-            disabled={saving}
-          >{submitButtonText}</Button>
+          <Button size={ButtonSize.MEDIUM} type="submit" disabled={saving}>
+            {submitButtonText}
+          </Button>
         </div>
       </Box>
     </form>

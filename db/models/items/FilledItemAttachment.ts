@@ -7,12 +7,15 @@ import omit from 'lodash.omit';
 export interface IFilledItemAttachment extends IAttachment {
   filledItem?: IFilledItem;
   filledItemId?: number;
-};
+}
 
 @Entity()
-export class FilledItemAttachment extends Attachment implements IFilledItemAttachment {
+export class FilledItemAttachment
+  extends Attachment
+  implements IFilledItemAttachment
+{
   @ManyToOne(() => FilledItem, {
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   filledItem: Partial<FilledItem>;
 
@@ -22,7 +25,9 @@ export class FilledItemAttachment extends Attachment implements IFilledItemAttac
   toJSON(): IFilledItemAttachment {
     return {
       ...super.toJSON(),
-      filledItem: this.filledItem ? omit(this.filledItem.toJSON(), 'item', 'options') : undefined
+      filledItem: this.filledItem
+        ? omit(this.filledItem.toJSON(), 'item', 'options')
+        : undefined,
     };
   }
 }

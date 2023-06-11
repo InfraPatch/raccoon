@@ -12,17 +12,14 @@ import { useTranslation } from 'next-i18next';
 
 export interface LoginPageProps {
   providers: AllowedProvider[];
-};
+}
 
 const LoginPage = ({ providers }: LoginPageProps) => {
   const { t } = useTranslation('common');
 
   return (
     <AuthPageLayout providers={providers}>
-      <Meta
-        title={ t('log-in') }
-        url="/login"
-      />
+      <Meta title={t('log-in')} url="/login" />
 
       <LoginForm />
     </AuthPageLayout>
@@ -40,9 +37,9 @@ export const getServerSideProps = async ({ req, res, locale }) => {
 
   return {
     props: {
-      ...await serverSideTranslations(locale, [ 'common', 'auth', 'errors' ]),
-      providers: providers && Object.keys(providers)
-    }
+      ...(await serverSideTranslations(locale, ['common', 'auth', 'errors'])),
+      providers: providers && Object.keys(providers),
+    },
   };
 };
 

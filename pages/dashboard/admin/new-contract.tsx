@@ -9,7 +9,7 @@ import Box from '@/components/common/box/Box';
 import NewContractForm from '@/components/dashboard/admin/contracts/NewContractForm';
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Meta from '@/components/common/Meta';
 import { useEffect, useState } from 'react';
 
@@ -21,8 +21,8 @@ import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 const DashboardNewContractPage = () => {
   const { t } = useTranslation('dashboard');
 
-  const [ items, setItems ] = useState<Item[] | null>(null);
-  const [ error, setError ] = useState('');
+  const [items, setItems] = useState<Item[] | null>(null);
+  const [error, setError] = useState('');
 
   const loadItems = async () => {
     try {
@@ -41,7 +41,7 @@ const DashboardNewContractPage = () => {
   return (
     <DashboardLayout>
       <Meta
-        title={ t('dashboard:pages.new-contract') }
+        title={t('dashboard:pages.new-contract')}
         url="/dashboard/admin/new-contract"
       />
       <Columns>
@@ -49,7 +49,9 @@ const DashboardNewContractPage = () => {
           <Box title={t('pages.new-contract')}>
             {items && <NewContractForm items={items} />}
             {!items && !error && <Loading />}
-            {error && error.length > 0 && <DangerMessage>{error}</DangerMessage>}
+            {error && error.length > 0 && (
+              <DangerMessage>{error}</DangerMessage>
+            )}
           </Box>
         </Column>
 
@@ -68,8 +70,12 @@ export const getServerSideProps = async ({ req, res, locale }) => {
 
   return {
     props: {
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

@@ -16,7 +16,9 @@ class ListFilledContractsError extends Error {
   }
 }
 
-export const listFilledContracts = async (email: string): Promise<Omit<ListFillContractsAPIResponse, 'ok'>> => {
+export const listFilledContracts = async (
+  email: string,
+): Promise<Omit<ListFillContractsAPIResponse, 'ok'>> => {
   await db.prepare();
 
   const userRepository = db.getRepository(User);
@@ -28,44 +30,51 @@ export const listFilledContracts = async (email: string): Promise<Omit<ListFillC
     throw new ListFilledContractsError('USER_NOT_FOUND');
   }
 
-  const filledContracts = await filledContractRepository.find({ where: [
-    { userId: user.id },
-    { buyerId: user.id },
-  ], relations: [ 'contract', 'filledItem' ] });
+  const filledContracts = await filledContractRepository.find({
+    where: [{ userId: user.id }, { buyerId: user.id }],
+    relations: ['contract', 'filledItem'],
+  });
 
-  const witnessSignatures = await witnessSignatureRepository.find({ where: [
-    { witnessId: user.id }
-  ], relations: [ 'filledContract', 'filledContract.contract' ] });
+  const witnessSignatures = await witnessSignatureRepository.find({
+    where: [{ witnessId: user.id }],
+    relations: ['filledContract', 'filledContract.contract'],
+  });
 
   // Here's a little lesson in trickery
-  const witnessContracts = witnessSignatures.map(s => s.filledContract) as FilledContract[];
+  const witnessContracts = witnessSignatures.map(
+    (s) => s.filledContract,
+  ) as FilledContract[];
   const allContracts = filledContracts.concat(witnessContracts);
 
-  const detailedFilledContracts = await Promise.all(allContracts.map(async contract => {
-    const filledContract = contract.toJSON();
+  const detailedFilledContracts = await Promise.all(
+    allContracts.map(async (contract) => {
+      const filledContract = contract.toJSON();
 
-    if (contract.userId !== user.id) {
-      const seller = await contract.getUser(contract.userId);
-      filledContract.user = {
-        name: seller.name,
-        email: seller.email
-      };
-    }
+      if (contract.userId !== user.id) {
+        const seller = await contract.getUser(contract.userId);
+        filledContract.user = {
+          name: seller.name,
+          email: seller.email,
+        };
+      }
 
-    if (contract.buyerId !== user.id) {
-      const buyer = await contract.getUser(contract.buyerId);
-      filledContract.buyer = {
-        name: buyer.name,
-        email: buyer.email
-      };
-    }
+      if (contract.buyerId !== user.id) {
+        const buyer = await contract.getUser(contract.buyerId);
+        filledContract.buyer = {
+          name: buyer.name,
+          email: buyer.email,
+        };
+      }
 
-    return filledContract;
-  }));
+      return filledContract;
+    }),
+  );
 
   return {
-    own: detailedFilledContracts.filter(c => c.userId === user.id),
-    foreign: detailedFilledContracts.filter(c => c.buyerId === user.id),
-    witness: detailedFilledContracts.filter(c => c.userId !== user.id && c.buyerId !== user.id)
+    own: detailedFilledContracts.filter((c) => c.userId === user.id),
+    foreign: detailedFilledContracts.filter((c) => c.buyerId === user.id),
+    witness: detailedFilledContracts.filter(
+      (c) => c.userId !== user.id && c.buyerId !== user.id,
+    ),
   };
 };

@@ -1,10 +1,12 @@
-import NavigationLink, { NavigationLinkProps } from '@/components/docs/common/navigation/NavigationLink';
+import NavigationLink, {
+  NavigationLinkProps,
+} from '@/components/docs/common/navigation/NavigationLink';
 
 export type NavigationSeparator = number;
 
 export interface DocsNavigationProps {
-  items: ( NavigationLinkProps | NavigationSeparator )[];
-};
+  items: (NavigationLinkProps | NavigationSeparator)[];
+}
 
 const DocsNavigation = ({ items }: DocsNavigationProps) => {
   return (

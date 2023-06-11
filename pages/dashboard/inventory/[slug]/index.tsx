@@ -11,7 +11,7 @@ import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 
 import { getSession } from 'next-auth/client';
 import { redirectIfAnonymous } from '@/lib/redirects';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 
@@ -25,16 +25,18 @@ import { Plus } from 'react-feather';
 
 export interface DashboardFilledItemsPageProps {
   slug: string;
-};
+}
 
 const DashboardFilledItemsPage = ({ slug }: DashboardFilledItemsPageProps) => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+  const { t } = useTranslation(['dashboard', 'errors']);
 
-  const [ searchQuery, setSearchQuery ] = useState('');
-  const [ item, setItem ] = useState<IItem | null>();
-  const [ filledItems, setFilledItems ] = useState<IFilledItem[] | null>(null);
-  const [ filteredFilledItems, setFilteredFilledItems ] = useState<IFilledItem[] | null>(null);
-  const [ error, setError ] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [item, setItem] = useState<IItem | null>();
+  const [filledItems, setFilledItems] = useState<IFilledItem[] | null>(null);
+  const [filteredFilledItems, setFilteredFilledItems] = useState<
+    IFilledItem[] | null
+  >(null);
+  const [error, setError] = useState('');
 
   const loadItems = async () => {
     setSearchQuery('');
@@ -74,15 +76,22 @@ const DashboardFilledItemsPage = ({ slug }: DashboardFilledItemsPageProps) => {
 
     const newFilteredFilledItems = filledItems
       .slice(0)
-      .filter(item => item.friendlyName.toLowerCase().trim().includes(searchQuery.toLowerCase().trim()));
+      .filter((item) =>
+        item.friendlyName
+          .toLowerCase()
+          .trim()
+          .includes(searchQuery.toLowerCase().trim()),
+      );
 
     setFilteredFilledItems(newFilteredFilledItems);
-  }, [ searchQuery ]);
+  }, [searchQuery]);
 
   return (
     <DashboardLayout>
       <Meta
-        title={`${item ? item.friendlyName : '...'} - ${t('dashboard:pages.my-items')}`}
+        title={`${item ? item.friendlyName : '...'} - ${t(
+          'dashboard:pages.my-items',
+        )}`}
         url={`/dashboard/inventory/${slug}`}
       />
 
@@ -92,12 +101,12 @@ const DashboardFilledItemsPage = ({ slug }: DashboardFilledItemsPageProps) => {
             <span>{item.friendlyName}</span>
 
             <Link href={`/dashboard/inventory/${slug}/new`}>
-              <a>
-                <Button size={ButtonSize.SMALL}>
-                  <Plus className="w-5 inline-block mr-1 align-middle" />
-                  <span className="align-middle">{ t('dashboard:items.list.new') }</span>
-                </Button>
-              </a>
+              <Button size={ButtonSize.SMALL}>
+                <Plus className="w-5 inline-block mr-1 align-middle" />
+                <span className="align-middle">
+                  {t('dashboard:items.list.new')}
+                </span>
+              </Button>
             </Link>
           </h1>
 
@@ -107,7 +116,7 @@ const DashboardFilledItemsPage = ({ slug }: DashboardFilledItemsPageProps) => {
                 id="search"
                 type="search"
                 name="search"
-                onChange={e => setSearchQuery(e.currentTarget.value)}
+                onChange={(e) => setSearchQuery(e.currentTarget.value)}
                 disabled={filteredFilledItems === null}
                 placeholder={t('dashboard:items.list.search')}
                 className="w-full border-foreground"
@@ -134,11 +143,7 @@ const DashboardFilledItemsPage = ({ slug }: DashboardFilledItemsPageProps) => {
 
       {!filteredFilledItems && !error && <Loading />}
 
-      {error && error.length > 0 && (
-        <DangerMessage>
-          {error}
-        </DangerMessage>
-      )}
+      {error && error.length > 0 && <DangerMessage>{error}</DangerMessage>}
     </DashboardLayout>
   );
 };
@@ -155,8 +160,12 @@ export const getServerSideProps = async ({ req, res, query, locale }) => {
   return {
     props: {
       slug: Array.isArray(slug) ? slug[0] : slug,
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

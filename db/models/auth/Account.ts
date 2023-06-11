@@ -22,9 +22,11 @@ export class Account {
     providerAccountId: string,
     refreshToken: string | null,
     accessToken: string | null,
-    accessTokenExpires: Date | null
+    accessTokenExpires: Date | null,
   ) {
-    this.compoundId = createHash('sha256').update(`${providerId}:${providerAccountId}`).digest('hex');
+    this.compoundId = createHash('sha256')
+      .update(`${providerId}:${providerAccountId}`)
+      .digest('hex');
     this.userId = userId;
     this.providerType = providerType;
     this.providerId = providerId;
@@ -37,5 +39,5 @@ export class Account {
 
 export const AccountSchema = {
   ...Adapters.TypeORM.Models.Account.schema,
-  target: Account
+  target: Account,
 };

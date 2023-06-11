@@ -13,7 +13,9 @@ class GetItemOptionError extends Error {
   }
 }
 
-export const getItemOption = async ({ id }: GetItemOptionAPIRequest): Promise<ItemOption> => {
+export const getItemOption = async ({
+  id,
+}: GetItemOptionAPIRequest): Promise<ItemOption> => {
   await db.prepare();
   const optionRepository = db.getRepository(ItemOption);
 

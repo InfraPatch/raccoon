@@ -27,8 +27,10 @@ class UserUpdateError extends Error {
 }
 
 const uploadImage = async (image: File): Promise<string> => {
-  const buffer = fs.readFileSync(image.path);
-  const extension = image.name.substring(image.name.indexOf('.'));
+  const buffer = fs.readFileSync(image.filepath);
+  const extension = image.originalFilename.substring(
+    image.originalFilename.indexOf('.'),
+  );
 
   let key: string | null = null;
 
@@ -41,7 +43,9 @@ const uploadImage = async (image: File): Promise<string> => {
   return `/avatars/${key}`;
 };
 
-const ensureAvdhAuthentication = async (user: User) : Promise<UserUpdateError | null> => {
+const ensureAvdhAuthentication = async (
+  user: User,
+): Promise<UserUpdateError | null> => {
   const avdhAuthenticatorService = process.env.AVDH_AUTHENTICATOR_API_URL;
 
   if (!avdhAuthenticatorService) {
@@ -60,7 +64,7 @@ const ensureAvdhAuthentication = async (user: User) : Promise<UserUpdateError | 
       personalIdentifier: user.personalIdentifier,
       phoneNumber: user.phoneNumber,
       birthDate: user.birthDate,
-      birthPlace: user.birthPlace
+      birthPlace: user.birthPlace,
     });
 
     if (!data.ok) {
@@ -77,7 +81,10 @@ const ensureAvdhAuthentication = async (user: User) : Promise<UserUpdateError | 
   }
 };
 
-export const updateUser = async (email: string, payload: Omit<UpdateUserAPIRequest, 'image'> & { image?: File }): Promise<User | null> => {
+export const updateUser = async (
+  email: string,
+  payload: Omit<UpdateUserAPIRequest, 'image'> & { image?: File },
+): Promise<User | null> => {
   await db.prepare();
   const userRepository = db.getRepository(User);
 
@@ -103,7 +110,10 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
       throw new UserUpdateError('PASSWORDS_DONT_MATCH');
     }
 
-    if (!payload.oldPassword || !(await passwords.verify(payload.oldPassword, user.password))) {
+    if (
+      !payload.oldPassword ||
+      !(await passwords.verify(payload.oldPassword, user.password))
+    ) {
       throw new UserUpdateError('INVALID_CREDENTIALS');
     }
 
@@ -111,13 +121,9 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
   }
 
   if (payload.image) {
-    const allowedMimetypes = [
-      'image/png',
-      'image/jpeg',
-      'image/gif'
-    ];
+    const allowedMimetypes = ['image/png', 'image/jpeg', 'image/gif'];
 
-    if (!allowedMimetypes.includes(payload.image.type)) {
+    if (!allowedMimetypes.includes(payload.image.mimetype)) {
       throw new UserUpdateError('INVALID_MIMETYPE');
     }
 
@@ -146,11 +152,18 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
   }
 
   if (typeof payload.personalIdentifierType !== 'undefined') {
-    if (!Object.values(PersonalIdentifierType).includes(payload.personalIdentifierType)) {
+    if (
+      !Object.values(PersonalIdentifierType).includes(
+        payload.personalIdentifierType,
+      )
+    ) {
       throw new UserUpdateError('INVALID_PERSONAL_IDENTIFIER_TYPE');
     }
 
-    if (!payload.personalIdentifier || payload.personalIdentifier.trim().length === 0) {
+    if (
+      !payload.personalIdentifier ||
+      payload.personalIdentifier.trim().length === 0
+    ) {
       throw new UserUpdateError('PERSONAL_IDENTIFIER_NOT_PROVIDED');
     }
 
@@ -163,7 +176,11 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
   }
 
   if (payload.birthDate) {
-    if ((payload.motherBirthDate && payload.birthDate <= payload.motherBirthDate) || payload.birthDate >= new Date()) {
+    if (
+      (payload.motherBirthDate &&
+        payload.birthDate <= payload.motherBirthDate) ||
+      payload.birthDate >= new Date()
+    ) {
       throw new UserUpdateError('INVALID_BIRTH_DATE');
     }
 
@@ -174,7 +191,9 @@ export const updateUser = async (email: string, payload: Omit<UpdateUserAPIReque
     user.birthPlace = payload.birthPlace;
   }
 
-  const authError : UserUpdateError | null = await ensureAvdhAuthentication(user);
+  const authError: UserUpdateError | null = await ensureAvdhAuthentication(
+    user,
+  );
 
   if (authError) {
     throw authError;

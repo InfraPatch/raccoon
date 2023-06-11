@@ -13,7 +13,10 @@ export class ItemUpdateError extends Error {
   }
 }
 
-export const updateItem = async (originalSlug: string, { friendlyName, slug, description }: UpdateItemAPIRequest): Promise<Item> => {
+export const updateItem = async (
+  originalSlug: string,
+  { friendlyName, slug, description }: UpdateItemAPIRequest,
+): Promise<Item> => {
   await db.prepare();
   const itemRepository = db.getRepository(Item);
 

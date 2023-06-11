@@ -3,8 +3,8 @@ import Adapters from 'next-auth/adapters';
 export enum PersonalIdentifierType {
   IDENTITY_CARD,
   PASSPORT,
-  DRIVERS_LICENSE
-};
+  DRIVERS_LICENSE,
+}
 
 export interface IUserIdentificationDetails {
   motherName?: string;
@@ -15,7 +15,7 @@ export interface IUserIdentificationDetails {
   phoneNumber?: string;
   birthDate?: Date;
   birthPlace?: string;
-};
+}
 
 export interface IUser extends IUserIdentificationDetails {
   id?: number;
@@ -59,7 +59,7 @@ export class User implements IUser {
     password?: string,
     isAdmin?: boolean,
     isLawyer?: boolean,
-    identificationDetails?: IUserIdentificationDetails
+    identificationDetails?: IUserIdentificationDetails,
   ) {
     if (name) {
       this.name = name;
@@ -90,7 +90,16 @@ export class User implements IUser {
     }
 
     if (identificationDetails) {
-      const { motherName, motherBirthDate, nationality, personalIdentifierType, personalIdentifier, phoneNumber, birthDate, birthPlace } = identificationDetails;
+      const {
+        motherName,
+        motherBirthDate,
+        nationality,
+        personalIdentifierType,
+        personalIdentifier,
+        phoneNumber,
+        birthDate,
+        birthPlace,
+      } = identificationDetails;
 
       this.motherName = motherName;
       this.motherBirthDate = motherBirthDate;
@@ -112,7 +121,9 @@ export class User implements IUser {
       email: this.email,
       image: this.image,
       motherName: this.motherName,
-      motherBirthDate: this.motherBirthDate ? this.motherBirthDate.toUTCString() : null,
+      motherBirthDate: this.motherBirthDate
+        ? this.motherBirthDate.toUTCString()
+        : null,
       nationality: this.nationality,
       personalIdentifierType: this.personalIdentifierType,
       personalIdentifier: this.personalIdentifier,
@@ -120,7 +131,7 @@ export class User implements IUser {
       birthDate: this.birthDate,
       birthPlace: this.birthPlace,
       isAdmin: this.isAdmin,
-      isLawyer: this.isLawyer
+      isLawyer: this.isLawyer,
     };
   }
 }
@@ -133,58 +144,58 @@ export const UserSchema = {
 
     password: {
       type: 'varchar',
-      nullable: true
+      nullable: true,
     },
 
     isAdmin: {
       type: 'boolean',
-      default: false
+      default: false,
     },
 
     isLawyer: {
       type: 'boolean',
-      default: false
+      default: false,
     },
 
     motherName: {
       type: 'varchar',
-      nullable: true
+      nullable: true,
     },
 
     motherBirthDate: {
       type: 'datetime',
-      nullable: true
+      nullable: true,
     },
 
     nationality: {
       type: 'varchar',
-      nullable: true
+      nullable: true,
     },
 
     personalIdentifierType: {
       type: 'enum',
       enum: PersonalIdentifierType,
-      default: PersonalIdentifierType.IDENTITY_CARD
+      default: PersonalIdentifierType.IDENTITY_CARD,
     },
 
     personalIdentifier: {
       type: 'varchar',
-      nullable: true
+      nullable: true,
     },
 
     phoneNumber: {
       type: 'varchar',
-      nullable: true
+      nullable: true,
     },
 
     birthDate: {
       type: 'datetime',
-      nullable: true
+      nullable: true,
     },
 
     birthPlace: {
       type: 'varchar',
-      nullable: true
-    }
-  }
+      nullable: true,
+    },
+  },
 };

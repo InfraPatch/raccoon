@@ -14,29 +14,31 @@ import UserSettingsForm from '@/components/dashboard/settings/UserSettingsForm';
 import UserPasswordSettingsForm from '@/components/dashboard/settings/UserPasswordSettingsForm';
 import UserIdentificationSettingsForm from '@/components/dashboard/settings/UserIdentificationSettingsForm';
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Meta from '@/components/common/Meta';
 
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { isUserFilledOut } from '@/controllers/users/utils';
 
 const DashboardSettingsPage = () => {
-  const [ userWithDetails, setUserWithDetails ] = useCurrentUser();
+  const [userWithDetails, setUserWithDetails] = useCurrentUser();
 
-  const { t } = useTranslation([ 'dashboard', 'common', 'errors' ]);
+  const { t } = useTranslation(['dashboard', 'common', 'errors']);
   const userReady: boolean = isUserFilledOut(userWithDetails);
 
   return (
     <DashboardLayout>
       <Meta
-        title={ t('dashboard:pages.user-settings') }
+        title={t('dashboard:pages.user-settings')}
         url="/dashboard/settings"
       />
 
       {userWithDetails && !userReady && (
         <Box>
           <div className="text-center">
-            <span className="text-xl font-bold">{ t('dashboard:settings.welcome') }</span>
+            <span className="text-xl font-bold">
+              {t('dashboard:settings.welcome')}
+            </span>
           </div>
         </Box>
       )}
@@ -45,7 +47,10 @@ const DashboardSettingsPage = () => {
         <Columns>
           <Column>
             <Box title={t('dashboard:settings.user-settings')}>
-              <UserSettingsForm user={userWithDetails} setUser={setUserWithDetails} />
+              <UserSettingsForm
+                user={userWithDetails}
+                setUser={setUserWithDetails}
+              />
             </Box>
 
             <Box title={t('dashboard:settings.password')}>
@@ -55,7 +60,10 @@ const DashboardSettingsPage = () => {
 
           <Column>
             <Box title={t('dashboard:settings.id-settings')}>
-              <UserIdentificationSettingsForm user={userWithDetails} setUser={setUserWithDetails} />
+              <UserIdentificationSettingsForm
+                user={userWithDetails}
+                setUser={setUserWithDetails}
+              />
             </Box>
           </Column>
         </Columns>
@@ -79,8 +87,12 @@ export const getServerSideProps = async ({ req, res, locale }) => {
 
   return {
     props: {
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

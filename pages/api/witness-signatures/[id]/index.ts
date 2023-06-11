@@ -5,5 +5,5 @@ import { ensureAuthenticated } from '@/middleware/auth';
 
 export default bar({
   get: ensureAuthenticated(witnessSignaturesController.get),
-  delete: ensureAuthenticated(witnessSignaturesController.destroy)
+  delete: ensureAuthenticated(witnessSignaturesController.destroy),
 });

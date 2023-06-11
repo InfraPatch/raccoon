@@ -15,7 +15,10 @@ class CreateWitnessSignatureError extends Error {
   }
 }
 
-export const createWitnessSignature = async (email: string, { witnessEmail, filledContractId }: NewWitnessSignatureAPIParams): Promise<WitnessSignature> => {
+export const createWitnessSignature = async (
+  email: string,
+  { witnessEmail, filledContractId }: NewWitnessSignatureAPIParams,
+): Promise<WitnessSignature> => {
   email = email.trim();
   witnessEmail = witnessEmail.trim();
 
@@ -33,8 +36,10 @@ export const createWitnessSignature = async (email: string, { witnessEmail, fill
   }
 
   const filledContractRepository = db.getRepository(FilledContract);
-  const filledContract = await filledContractRepository.findOne(filledContractId);
-  const contractUsers = [ filledContract.buyerId, filledContract.userId ];
+  const filledContract = await filledContractRepository.findOne(
+    filledContractId,
+  );
+  const contractUsers = [filledContract.buyerId, filledContract.userId];
 
   if (!contractUsers.includes(user.id)) {
     throw new CreateWitnessSignatureError('ACCESS_TO_CONTRACT_DENIED');
@@ -44,7 +49,9 @@ export const createWitnessSignature = async (email: string, { witnessEmail, fill
     throw new CreateWitnessSignatureError('ACCESS_TO_CONTRACT_DENIED');
   }
 
-  const witness = await userRepository.findOne({ where: { email: witnessEmail } });
+  const witness = await userRepository.findOne({
+    where: { email: witnessEmail },
+  });
 
   if (!witness) {
     throw new CreateWitnessSignatureError('USER_NOT_FOUND');
@@ -54,12 +61,20 @@ export const createWitnessSignature = async (email: string, { witnessEmail, fill
     throw new CreateWitnessSignatureError('PART_OF_CONTRACT');
   }
 
-  if (!witness.name || !witness.birthPlace || !witness.birthDate || !witness.motherName) {
+  if (
+    !witness.name ||
+    !witness.birthPlace ||
+    !witness.birthDate ||
+    !witness.motherName
+  ) {
     throw new CreateWitnessSignatureError('WITNESS_NOT_READY');
   }
 
   const witnessSignatureRepository = db.getRepository(WitnessSignature);
-  const existingSignature = await witnessSignatureRepository.findOne({ witnessId: witness.id, filledContract });
+  const existingSignature = await witnessSignatureRepository.findOne({
+    witnessId: witness.id,
+    filledContract,
+  });
 
   if (existingSignature) {
     throw new CreateWitnessSignatureError('SIGNATURE_ALREADY_EXISTS');

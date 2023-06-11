@@ -14,8 +14,8 @@ const initializeTransport = () => {
     port: config.email.port,
     auth: {
       user: config.email.username,
-      pass: config.email.password
-    }
+      pass: config.email.password,
+    },
   });
 };
 
@@ -25,20 +25,20 @@ const sendMessage = (message: nodemailer.SendMailOptions): Promise<void> => {
   return new Promise((resolve, reject) => {
     initializeTransport();
 
-    transport.sendMail({
-      ...message,
-      from: config.email.emailFrom
-    }, (err => {
-      if (err) {
-        return reject(err);
-      }
+    transport.sendMail(
+      {
+        ...message,
+        from: config.email.emailFrom,
+      },
+      (err) => {
+        if (err) {
+          return reject(err);
+        }
 
-      return resolve();
-    }));
+        return resolve();
+      },
+    );
   });
 };
 
-export {
-  transport,
-  sendMessage
-};
+export { transport, sendMessage };

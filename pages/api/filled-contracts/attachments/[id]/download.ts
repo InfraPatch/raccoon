@@ -4,5 +4,5 @@ import * as filledContractAttachmentController from '@/controllers/filled-contra
 import { ensureAuthenticated } from '@/middleware/auth';
 
 export default bar({
-  get: ensureAuthenticated(filledContractAttachmentController.download)
+  get: ensureAuthenticated(filledContractAttachmentController.download),
 });

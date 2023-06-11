@@ -1,7 +1,10 @@
 import db from '@/services/db';
 
 import { User } from '@/db/models/auth/User';
-import { FilledContract, IFilledContract } from '@/db/models/contracts/FilledContract';
+import {
+  FilledContract,
+  IFilledContract,
+} from '@/db/models/contracts/FilledContract';
 
 import { getStorageStrategy } from '@/lib/storageStrategies';
 import { isWitnessOf } from './signUtils';
@@ -13,7 +16,7 @@ export interface IDownloadPDFResponse {
   stream: any;
   extension: string;
   contentType: string;
-};
+}
 
 class GetFilledContractError extends Error {
   code: string;
@@ -25,7 +28,11 @@ class GetFilledContractError extends Error {
   }
 }
 
-export const getFilledContract = async (email: string, contractId: number, internal: boolean = false): Promise<FilledContract | IFilledContract> => {
+export const getFilledContract = async (
+  email: string,
+  contractId: number,
+  internal = false,
+): Promise<FilledContract | IFilledContract> => {
   await db.prepare();
 
   const userRepository = db.getRepository(User);
@@ -36,25 +43,30 @@ export const getFilledContract = async (email: string, contractId: number, inter
     throw new GetFilledContractError('USER_NOT_FOUND');
   }
 
-  const filledContract = await filledContractRepository.findOne(contractId, { relations: [
-    'contract',
-    'options',
-    'contract.options',
-    'options.option',
-    'witnessSignatures',
-    'attachments',
-    'filledItem',
-    'filledItem.item',
-    'filledItem.attachments',
-    'filledItem.item.options',
-    'filledItem.options',
-    'filledItem.options.option'
-  ] });
+  const filledContract = await filledContractRepository.findOne(contractId, {
+    relations: [
+      'contract',
+      'options',
+      'contract.options',
+      'options.option',
+      'witnessSignatures',
+      'attachments',
+      'filledItem',
+      'filledItem.item',
+      'filledItem.attachments',
+      'filledItem.item.options',
+      'filledItem.options',
+      'filledItem.options.option',
+    ],
+  });
   if (!filledContract) {
     throw new GetFilledContractError('FILLED_CONTRACT_NOT_FOUND');
   }
 
-  if (![ filledContract.userId, filledContract.buyerId ].includes(user.id) && !isWitnessOf(user.id, filledContract)) {
+  if (
+    ![filledContract.userId, filledContract.buyerId].includes(user.id) &&
+    !isWitnessOf(user.id, filledContract)
+  ) {
     throw new GetFilledContractError('ACCESS_TO_CONTRACT_DENIED');
   }
 
@@ -62,9 +74,10 @@ export const getFilledContract = async (email: string, contractId: number, inter
     return filledContract;
   }
 
-  const buyer = filledContract.buyerId === user.id
-    ? user
-    : await filledContract.getUser(filledContract.buyerId);
+  const buyer =
+    filledContract.buyerId === user.id
+      ? user
+      : await filledContract.getUser(filledContract.buyerId);
 
   const contract: IFilledContract = {
     ...filledContract.toJSON(),
@@ -73,13 +86,14 @@ export const getFilledContract = async (email: string, contractId: number, inter
       createdAt: buyer.createdAt,
       updatedAt: buyer.updatedAt,
       email: buyer.email,
-      name: buyer.name
-    }
+      name: buyer.name,
+    },
   };
 
-  contract.user = filledContract.userId === user.id
-    ? user
-    : await filledContract.getUser(filledContract.userId);
+  contract.user =
+    filledContract.userId === user.id
+      ? user
+      : await filledContract.getUser(filledContract.userId);
 
   if (filledContract.accepted) {
     contract.buyer = buyer;
@@ -88,7 +102,9 @@ export const getFilledContract = async (email: string, contractId: number, inter
   return contract;
 };
 
-export const downloadContractDocument = async (filename: string): Promise<IDownloadPDFResponse> => {
+export const downloadContractDocument = async (
+  filename: string,
+): Promise<IDownloadPDFResponse> => {
   if (!filename) {
     return null;
   }
@@ -106,9 +122,10 @@ export const downloadContractDocument = async (filename: string): Promise<IDownl
     return null;
   }
 
-  const contentType = extension === '.pdf'
-    ? 'application/pdf'
-    : extension === '.docx'
+  const contentType =
+    extension === '.pdf'
+      ? 'application/pdf'
+      : extension === '.docx'
       ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       : 'application/octet-stream';
 
@@ -117,17 +134,27 @@ export const downloadContractDocument = async (filename: string): Promise<IDownl
   return {
     stream,
     extension,
-    contentType
+    contentType,
   };
 };
 
-export const downloadContract = async (email: string, contractId: number): Promise<IDownloadPDFResponse> => {
-  const contract = await getFilledContract(email, contractId, true) as FilledContract;
+export const downloadContract = async (
+  email: string,
+  contractId: number,
+): Promise<IDownloadPDFResponse> => {
+  const contract = (await getFilledContract(
+    email,
+    contractId,
+    true,
+  )) as FilledContract;
 
   return await downloadContractDocument(contract.filename);
 };
 
-export const downloadContractBy = async (email: string, id: string): Promise<IDownloadPDFResponse> => {
+export const downloadContractBy = async (
+  email: string,
+  id: string,
+): Promise<IDownloadPDFResponse> => {
   const documentId = Number(id);
 
   if (isNaN(documentId)) {
@@ -139,7 +166,10 @@ export const downloadContractBy = async (email: string, id: string): Promise<IDo
   }
 };
 
-export const downloadSignature = async (contractId: number, userId: number): Promise<any> => {
+export const downloadSignature = async (
+  contractId: number,
+  userId: number,
+): Promise<any> => {
   const key = `signatures/${contractId}/${userId}.png`;
 
   if (!(await storage.exists(key))) {
@@ -150,7 +180,10 @@ export const downloadSignature = async (contractId: number, userId: number): Pro
   return stream;
 };
 
-export const downloadSignatureBuffer = async (contractId: number, userId: number): Promise<Buffer> => {
+export const downloadSignatureBuffer = async (
+  contractId: number,
+  userId: number,
+): Promise<Buffer> => {
   try {
     return await storage.get(`signatures/${contractId}/${userId}.png`);
   } catch {
@@ -158,9 +191,13 @@ export const downloadSignatureBuffer = async (contractId: number, userId: number
   }
 };
 
-export const downloadSignatureBy = async (email: string, contractId: number, userId: number): Promise<any> => {
+export const downloadSignatureBy = async (
+  email: string,
+  contractId: number,
+  userId: number,
+): Promise<any> => {
   // Check if we can access this contract.
-  await getFilledContract(email, contractId, true) as FilledContract;
+  (await getFilledContract(email, contractId, true)) as FilledContract;
 
   // Download this signature using the contract it's attached to
   return await downloadSignature(contractId, userId);

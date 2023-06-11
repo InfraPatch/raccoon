@@ -28,7 +28,11 @@ type IllustrationWrapperProps = {
 
 type P = { center?: boolean } & HTMLAttributes<HTMLDivElement>;
 
-const IllustrationWrapper = ({ image, center, ...props }: IllustrationWrapperProps) => {
+const IllustrationWrapper = ({
+  image,
+  center,
+  ...props
+}: IllustrationWrapperProps) => {
   return (
     <div className={clsx({ 'text-center': center })} {...props}>
       <img src={image} className="mx-auto max-h-full" />
@@ -37,24 +41,42 @@ const IllustrationWrapper = ({ image, center, ...props }: IllustrationWrapperPro
 };
 
 const Illustration = {
-  HomeHero: (props: P) => <IllustrationWrapper image={HomeHero} {...props} />,
-  Forms: (props: P) => <IllustrationWrapper image={Forms} {...props} />,
-  Download: (props: P) => <IllustrationWrapper image={Download} {...props} />,
-  OnlineCollaboration: (props: P) => <IllustrationWrapper image={OnlineCollaboration} {...props} />,
+  HomeHero: (props: P) => (
+    <IllustrationWrapper image={HomeHero.src} {...props} />
+  ),
+  Forms: (props: P) => <IllustrationWrapper image={Forms.src} {...props} />,
+  Download: (props: P) => (
+    <IllustrationWrapper image={Download.src} {...props} />
+  ),
+  OnlineCollaboration: (props: P) => (
+    <IllustrationWrapper image={OnlineCollaboration.src} {...props} />
+  ),
 
-  Contract: (props: P) => <IllustrationWrapper image={Contract} {...props} />,
-  Agreement: (props: P) => <IllustrationWrapper image={Agreement} {...props} />,
-  Profile: (props: P) => <IllustrationWrapper image={Profile} {...props} />,
-  Properties: (props: P) => <IllustrationWrapper image={Properties} {...props} />,
+  Contract: (props: P) => (
+    <IllustrationWrapper image={Contract.src} {...props} />
+  ),
+  Agreement: (props: P) => (
+    <IllustrationWrapper image={Agreement.src} {...props} />
+  ),
+  Profile: (props: P) => <IllustrationWrapper image={Profile.src} {...props} />,
+  Properties: (props: P) => (
+    <IllustrationWrapper image={Properties.src} {...props} />
+  ),
 
-  PrivacyPolicy: (props: P) => <IllustrationWrapper image={PrivacyPolicy} {...props} />,
-  Terms: (props: P) => <IllustrationWrapper image={Terms} {...props} />,
-  Contact: (props: P) => <IllustrationWrapper image={Contact} {...props} />,
+  PrivacyPolicy: (props: P) => (
+    <IllustrationWrapper image={PrivacyPolicy.src} {...props} />
+  ),
+  Terms: (props: P) => <IllustrationWrapper image={Terms.src} {...props} />,
+  Contact: (props: P) => <IllustrationWrapper image={Contact.src} {...props} />,
 
-  NotFound: (props: P) => <IllustrationWrapper image={NotFound} {...props} />,
-  ServerError: (props: P) => <IllustrationWrapper image={ServerError} {...props} />,
+  NotFound: (props: P) => (
+    <IllustrationWrapper image={NotFound.src} {...props} />
+  ),
+  ServerError: (props: P) => (
+    <IllustrationWrapper image={ServerError.src} {...props} />
+  ),
 
-  ZDS: (props: P) => <IllustrationWrapper image={ZDS} {...props} />
+  ZDS: (props: P) => <IllustrationWrapper image={ZDS.src} {...props} />,
 };
 
 export default Illustration;

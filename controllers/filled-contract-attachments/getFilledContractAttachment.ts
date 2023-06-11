@@ -19,7 +19,10 @@ export interface FilledContractAttachmentResponse {
   attachment: FilledContractAttachment;
 }
 
-export const getFilledContractAttachment = async (email: string, attachmentId: number): Promise<FilledContractAttachmentResponse> => {
+export const getFilledContractAttachment = async (
+  email: string,
+  attachmentId: number,
+): Promise<FilledContractAttachmentResponse> => {
   await db.prepare();
 
   const userRepository = db.getRepository(User);
@@ -31,7 +34,9 @@ export const getFilledContractAttachment = async (email: string, attachmentId: n
     throw new GetFilledContractAttachmentError('USER_NOT_FOUND');
   }
 
-  const attachment = await attachmentRepository.findOne(attachmentId, { relations: [ 'filledContract', 'filledContract.witnessSignatures' ] });
+  const attachment = await attachmentRepository.findOne(attachmentId, {
+    relations: ['filledContract', 'filledContract.witnessSignatures'],
+  });
 
   if (!attachment) {
     throw new GetFilledContractAttachmentError('ATTACHMENT_NOT_FOUND');
@@ -39,7 +44,11 @@ export const getFilledContractAttachment = async (email: string, attachmentId: n
 
   const filledContract = attachment.filledContract;
 
-  if (!user.isAdmin && ![ filledContract.userId, filledContract.buyerId ].includes(user.id) && !isWitnessOf(user.id, filledContract)) {
+  if (
+    !user.isAdmin &&
+    ![filledContract.userId, filledContract.buyerId].includes(user.id) &&
+    !isWitnessOf(user.id, filledContract)
+  ) {
     throw new GetFilledContractAttachmentError('ACCESS_TO_ATTACHMENT_DENIED');
   }
 

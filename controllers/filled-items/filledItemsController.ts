@@ -15,16 +15,19 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    const { filledItems } = await listFilledItems(session.user.email, Array.isArray(slug) ? slug[0] : slug);
+    const { filledItems } = await listFilledItems(
+      session.user.email,
+      Array.isArray(slug) ? slug[0] : slug,
+    );
     return res.json({
       ok: true,
-      filledItems
+      filledItems,
     });
   } catch (err) {
     if (err.name === 'ListFilledItemsError') {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -32,7 +35,7 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -43,23 +46,26 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   let response = null;
 
   try {
-    const filledItem = await getFilledItem(session.user.email, idFromQueryParam(id));
+    const filledItem = await getFilledItem(
+      session.user.email,
+      idFromQueryParam(id),
+    );
     response = {
       ok: true,
-      filledItem
+      filledItem,
     };
   } catch (err) {
     if (err.name === 'GetFilledItemError') {
       response = {
         ok: false,
-        error: err.code
+        error: err.code,
       };
       res.status(400);
     } else {
       console.error(err);
       response = {
         ok: false,
-        error: 'INTERNAL_SERVER_ERROR'
+        error: 'INTERNAL_SERVER_ERROR',
       };
       res.status(500);
     }
@@ -81,18 +87,21 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
     const filledItem = await createFilledItem(session.user.email, {
       friendlyName,
       itemSlug,
-      options
+      options,
     });
 
     return res.json({
       ok: true,
-      filledItem: filledItem.toJSON()
+      filledItem: filledItem.toJSON(),
     });
   } catch (err) {
-    if (err.name === 'CreateFilledItemError' || err.name === 'OptionValidationError') {
+    if (
+      err.name === 'CreateFilledItemError' ||
+      err.name === 'OptionValidationError'
+    ) {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -100,7 +109,7 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -113,10 +122,10 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
     await deleteFilledItem(session.user.email, idFromQueryParam(id));
     return res.json({ ok: true });
   } catch (err) {
-    if (err.name === 'DeleteItemError' || err.name === 'GetFilledItemError') {
+    if (err.name === 'GetFilledItemError') {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -124,7 +133,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -140,16 +149,19 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
       session.user.email,
       idFromQueryParam(id),
       friendlyName,
-      options
+      options,
     );
 
     return res.json({ ok: true });
   } catch (err) {
-    if (err.name === 'FilledItemUpdateError' || err.name === 'OptionValidationError') {
+    if (
+      err.name === 'FilledItemUpdateError' ||
+      err.name === 'OptionValidationError'
+    ) {
       return res.status(400).json({
         ok: false,
         error: err.code,
-        details: err.details
+        details: err.details,
       });
     }
 
@@ -157,7 +169,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };

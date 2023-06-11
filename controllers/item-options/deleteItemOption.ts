@@ -3,7 +3,7 @@ import { ItemOption } from '@/db/models/items/ItemOption';
 
 import { DeleteItemOptionAPIRequest } from '@/services/apis/items/ItemOptionAPIService';
 
-export const deleteItemOption = async ({ id } : DeleteItemOptionAPIRequest) => {
+export const deleteItemOption = async ({ id }: DeleteItemOptionAPIRequest) => {
   await db.prepare();
   const optionRepository = db.getRepository(ItemOption);
 

@@ -10,7 +10,9 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
   const { key } = req.query;
 
   if (!(await storage.exists(`avatars/${key}`))) {
-    const defaultAvatar = fs.createReadStream(path.join(process.cwd(), 'assets/images', 'default-avatar.png'));
+    const defaultAvatar = fs.createReadStream(
+      path.join(process.cwd(), 'assets/images', 'default-avatar.png'),
+    );
     return defaultAvatar.pipe(res);
   }
 

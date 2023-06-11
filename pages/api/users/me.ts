@@ -6,11 +6,11 @@ import * as usersController from '@/controllers/users/usersController';
 
 export const config = {
   api: {
-    bodyParser: false
-  }
+    bodyParser: false,
+  },
 };
 
 export default bar({
   get: ensureAuthenticated(usersController.get),
-  patch: ensureAuthenticated(usersController.update)
+  patch: ensureAuthenticated(usersController.update),
 });

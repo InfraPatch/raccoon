@@ -9,19 +9,17 @@ const TheFooter = () => {
 
   return (
     <footer className="block md:flex justify-between text-xs px-4 md:px-0 py-10 mt-10 border-t-2 border-accent text-center md:text-left">
-      <div className="mb-4 md:mb-0">
-        { t('copyright') }
-      </div>
+      <div className="mb-4 md:mb-0">{t('copyright')}</div>
 
       <nav className="block md:flex items-center gap-10">
-        <Link href="/terms">
-          <a className="block md:inline-block py-2 md:py-0">{ t('tos') }</a>
+        <Link href="/terms" className="block md:inline-block py-2 md:py-0">
+          {t('tos')}
         </Link>
-        <Link href="/privacy">
-          <a className="block md:inline-block py-2 md:py-0">{ t('privacy') }</a>
+        <Link href="/privacy" className="block md:inline-block py-2 md:py-0">
+          {t('privacy')}
         </Link>
-        <Link href="/contact">
-          <a className="block md:inline-block py-2 md:py-0">{t('contact')}</a>
+        <Link href="/contact" className="block md:inline-block py-2 md:py-0">
+          {t('contact')}
         </Link>
 
         <div className="inline-block mx-auto my-4 md:my-0">

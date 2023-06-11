@@ -6,7 +6,7 @@ class S3StorageStrategy implements IStorageStrategy {
     await new S3().upload(params.key, params.contents, params.isPublic);
   }
 
-  async get(key) : Promise<Buffer> {
+  async get(key): Promise<Buffer> {
     return new S3().read(key);
   }
 
@@ -14,11 +14,11 @@ class S3StorageStrategy implements IStorageStrategy {
     return new S3().getStream(key);
   }
 
-  async exists(key) : Promise<boolean> {
+  async exists(key): Promise<boolean> {
     return new S3().exists(key);
   }
 
-  async delete(key) : Promise<boolean> {
+  async delete(key): Promise<boolean> {
     return new S3().delete(key);
   }
 }

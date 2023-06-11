@@ -6,5 +6,5 @@ import * as contractOptionsController from '@/controllers/contract-options/contr
 
 export default bar({
   post: ensureAdministrator(contractOptionsController.newContractOption),
-  get: ensureAdministrator(contractOptionsController.listContractOptions)
+  get: ensureAdministrator(contractOptionsController.listContractOptions),
 });

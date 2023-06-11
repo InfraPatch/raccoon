@@ -19,8 +19,8 @@ export const getItem = async ({ slug }: GetItemAPIRequest): Promise<Item> => {
 
   const item = await itemRepository.findOne({
     where: { slug },
-    relations: [ 'options' ] }
-  );
+    relations: ['options'],
+  });
 
   if (!item) {
     throw new GetItemError('ITEM_NOT_FOUND');

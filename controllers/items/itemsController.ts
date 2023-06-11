@@ -14,14 +14,14 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.json({
       ok: true,
-      items: items.map(item => item.toJSON())
+      items: items.map((item) => item.toJSON()),
     });
   } catch (err) {
     console.error(err);
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -34,13 +34,13 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.json({
       ok: true,
-      item: item.toJSON()
+      item: item.toJSON(),
     });
   } catch (err) {
     if (err.name === 'GetItemError') {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -48,7 +48,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -61,13 +61,13 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.json({
       ok: true,
-      item: item.toJSON()
+      item: item.toJSON(),
     });
   } catch (err) {
     if (err.name === 'ItemCreationError') {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -75,7 +75,7 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -85,17 +85,21 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
   const { friendlyName, slug, description } = req.body;
 
   try {
-    const item = await updateItem(firstOf(originalSlug), { friendlyName, slug, description });
+    const item = await updateItem(firstOf(originalSlug), {
+      friendlyName,
+      slug,
+      description,
+    });
 
     return res.json({
       ok: true,
-      item
+      item,
     });
   } catch (err) {
     if (err.name === 'ItemUpdateError') {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -103,7 +107,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -119,7 +123,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };

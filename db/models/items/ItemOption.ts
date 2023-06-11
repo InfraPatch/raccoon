@@ -10,13 +10,13 @@ export interface IItemOption extends IOption {
 
 @Entity()
 export class ItemOption extends Option implements IItemOption {
-  @ManyToOne(() => Item, item => item.options)
+  @ManyToOne(() => Item, (item) => item.options)
   item: Partial<Item>;
 
   toJSON(): IItemOption {
     return {
       ...super.toJSON(),
-      item: this.item ? omit(this.item.toJSON(), 'options') : undefined
+      item: this.item ? omit(this.item.toJSON(), 'options') : undefined,
     };
   }
 }

@@ -6,26 +6,36 @@ import * as RegisterFormValidator from '@/validators/RegisterFormValidator';
 import { CredentialsRegisterAPIRequest } from '@/services/apis/auth/CredentialsAuthAPIService';
 
 import { useRouter } from 'next/router';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 import toaster from '@/lib/toaster';
 import apiService from '@/services/apis';
 
 const RegisterForm = () => {
-  const { t } = useTranslation([ 'common', 'auth', 'errors' ]);
+  const { t } = useTranslation(['common', 'auth', 'errors']);
 
   const router = useRouter();
 
-  const handleFormSubmit = async ({ name, email, password, password2 }: CredentialsRegisterAPIRequest, { setSubmitting }: FormikHelpers<CredentialsRegisterAPIRequest>) => {
+  const handleFormSubmit = async (
+    { name, email, password, password2 }: CredentialsRegisterAPIRequest,
+    { setSubmitting }: FormikHelpers<CredentialsRegisterAPIRequest>,
+  ) => {
     try {
-      await apiService.credentialsAuth.register({ name, email, password, password2 });
+      await apiService.credentialsAuth.register({
+        name,
+        email,
+        password,
+        password2,
+      });
       toaster.success(t('auth:register-success', { name }));
       router.push('/login');
     } catch (err) {
       const message = err.response?.data?.error;
 
       if (message && message !== 'INTERNAL_SERVER_ERROR') {
-        toaster.danger(t(`errors:users.${message}`, { ...err.response.data.details }));
+        toaster.danger(
+          t(`errors:users.${message}`, { ...err.response.data.details }),
+        );
         return;
       }
 
@@ -45,32 +55,36 @@ const RegisterForm = () => {
         {({ isSubmitting }) => (
           <Form>
             <div className="form-field">
-              <label htmlFor="name">{ t('auth:fields.name') }</label>
+              <label htmlFor="name">{t('auth:fields.name')}</label>
               <Field name="name" />
               <ErrorMessage name="name" component={CompactDangerMessage} />
             </div>
 
             <div className="form-field">
-              <label htmlFor="email">{ t('auth:fields.email') }</label>
+              <label htmlFor="email">{t('auth:fields.email')}</label>
               <Field name="email" />
               <ErrorMessage name="email" component={CompactDangerMessage} />
             </div>
 
             <div className="form-field">
-              <label htmlFor="password">{ t('auth:fields.password') }</label>
+              <label htmlFor="password">{t('auth:fields.password')}</label>
               <Field name="password" type="password" />
               <ErrorMessage name="password" component={CompactDangerMessage} />
             </div>
 
             <div className="form-field">
-              <label htmlFor="password2">{ t('auth:fields.password2') }</label>
+              <label htmlFor="password2">{t('auth:fields.password2')}</label>
               <Field name="password2" type="password" />
               <ErrorMessage name="password2" component={CompactDangerMessage} />
             </div>
 
             <div className="form-field text-center">
-              <Button size={ButtonSize.MEDIUM} type="submit" disabled={isSubmitting}>
-                { t('common:register') }
+              <Button
+                size={ButtonSize.MEDIUM}
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {t('common:register')}
               </Button>
             </div>
           </Form>

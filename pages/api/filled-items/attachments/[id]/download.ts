@@ -4,5 +4,5 @@ import * as filledItemAttachmentController from '@/controllers/filled-item-attac
 import { ensureAuthenticated } from '@/middleware/auth';
 
 export default bar({
-  get: ensureAuthenticated(filledItemAttachmentController.download)
+  get: ensureAuthenticated(filledItemAttachmentController.download),
 });

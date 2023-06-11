@@ -5,10 +5,10 @@ import { ensureAuthenticated } from '@/middleware/auth';
 
 export const config = {
   api: {
-    bodyParser: false
-  }
+    bodyParser: false,
+  },
 };
 
 export default bar({
-  post: ensureAuthenticated(filledItemAttachmentController.create)
+  post: ensureAuthenticated(filledItemAttachmentController.create),
 });

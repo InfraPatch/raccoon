@@ -1,4 +1,4 @@
-import { IUser } from "@/db/models/auth/User";
+import { IUser } from '@/db/models/auth/User';
 
 export const isUserFilledOut = (user: IUser): boolean => {
   if (!user) {
@@ -6,8 +6,12 @@ export const isUserFilledOut = (user: IUser): boolean => {
   }
 
   if (
-    user.motherName && user.motherBirthDate && user.nationality &&
-    user.personalIdentifier && user.phoneNumber && user.birthDate &&
+    user.motherName &&
+    user.motherBirthDate &&
+    user.nationality &&
+    user.personalIdentifier &&
+    user.phoneNumber &&
+    user.birthDate &&
     user.birthPlace
   ) {
     return true;

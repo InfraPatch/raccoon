@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn, RelationId } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  RelationId,
+} from 'typeorm';
 import { FilledContract, IFilledContract } from './FilledContract';
 
 import omit from 'lodash.omit';
@@ -16,7 +24,7 @@ export interface IWitnessSignature {
   isSeller: boolean;
   isLawyer: boolean;
   signedAt?: Date;
-};
+}
 
 @Entity()
 export class WitnessSignature implements IWitnessSignature {
@@ -29,8 +37,8 @@ export class WitnessSignature implements IWitnessSignature {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => FilledContract, filledContract => filledContract.options, {
-    onDelete: 'CASCADE'
+  @ManyToOne(() => FilledContract, (filledContract) => filledContract.options, {
+    onDelete: 'CASCADE',
   })
   filledContract: Partial<FilledContract>;
 
@@ -66,7 +74,9 @@ export class WitnessSignature implements IWitnessSignature {
       id: this.id,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
-      filledContract: this.filledContract ? omit(this.filledContract.toJSON(), 'options') : undefined,
+      filledContract: this.filledContract
+        ? omit(this.filledContract.toJSON(), 'options')
+        : undefined,
       witnessId: this.witnessId,
       witnessName: this.witnessName,
       witnessBirthPlace: this.witnessBirthPlace,
@@ -74,7 +84,7 @@ export class WitnessSignature implements IWitnessSignature {
       witnessMotherName: this.witnessMotherName,
       isSeller: this.isSeller,
       isLawyer: this.isLawyer,
-      signedAt: this.signedAt
+      signedAt: this.signedAt,
     };
   }
 }

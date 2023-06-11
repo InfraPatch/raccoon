@@ -9,7 +9,7 @@ export interface UserCreatorFields {
   email?: string;
   password?: string;
   password2?: string;
-};
+}
 
 export class UserCreationError extends Error {
   public code: string;
@@ -21,7 +21,12 @@ export class UserCreationError extends Error {
   }
 }
 
-export const createUser = async ({ name, email, password, password2 }: UserCreatorFields): Promise<User> => {
+export const createUser = async ({
+  name,
+  email,
+  password,
+  password2,
+}: UserCreatorFields): Promise<User> => {
   await db.prepare();
   const userRepository = db.getRepository(User);
 

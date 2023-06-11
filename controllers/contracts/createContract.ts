@@ -17,7 +17,7 @@ export interface ContractCreatorFields {
   description?: string;
   itemSlug?: string;
   file?: File;
-};
+}
 
 export class ContractCreationError extends Error {
   public code: string;
@@ -30,8 +30,10 @@ export class ContractCreationError extends Error {
 }
 
 export const uploadFile = async (file: File): Promise<string> => {
-  const buffer = fs.readFileSync(file.path);
-  const extension = file.name.substring(file.name.indexOf('.'));
+  const buffer = fs.readFileSync(file.filepath);
+  const extension = file.originalFilename.substring(
+    file.originalFilename.indexOf('.'),
+  );
 
   let key: string | null = null;
 
@@ -44,7 +46,12 @@ export const uploadFile = async (file: File): Promise<string> => {
   return `/templates/${key}`;
 };
 
-export const createContract = async ({ friendlyName, description, itemSlug, file }: ContractCreatorFields): Promise<Contract> => {
+export const createContract = async ({
+  friendlyName,
+  description,
+  itemSlug,
+  file,
+}: ContractCreatorFields): Promise<Contract> => {
   await db.prepare();
   const contractRepository = db.getRepository(Contract);
   const itemRepository = db.getRepository(Item);
@@ -59,7 +66,9 @@ export const createContract = async ({ friendlyName, description, itemSlug, file
     throw new ContractCreationError('DESCRIPTION_TOO_SHORT');
   }
 
-  const contractCount = await contractRepository.count({ where: { friendlyName } });
+  const contractCount = await contractRepository.count({
+    where: { friendlyName },
+  });
 
   if (contractCount !== 0) {
     throw new ContractCreationError('CONTRACT_ALREADY_EXISTS');
@@ -68,7 +77,9 @@ export const createContract = async ({ friendlyName, description, itemSlug, file
   let item: Item | null = null;
 
   if (itemSlug && itemSlug.length > 0) {
-    const targetItem = await itemRepository.findOne({ where: { slug: itemSlug } });
+    const targetItem = await itemRepository.findOne({
+      where: { slug: itemSlug },
+    });
     if (!targetItem) {
       throw new ContractCreationError('ITEM_NOT_FOUND');
     }
@@ -76,15 +87,17 @@ export const createContract = async ({ friendlyName, description, itemSlug, file
     item = targetItem;
   }
 
-  let filename : string | null = null;
+  let filename: string | null = null;
 
   if (!file) {
     throw new ContractCreationError('FILE_MISSING');
   }
 
-  const allowedMimetypes = [ 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ];
+  const allowedMimetypes = [
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  ];
 
-  if (!allowedMimetypes.includes(file.type)) {
+  if (!allowedMimetypes.includes(file.mimetype)) {
     throw new ContractCreationError('INVALID_MIMETYPE');
   }
 
@@ -94,7 +107,12 @@ export const createContract = async ({ friendlyName, description, itemSlug, file
     throw new ContractCreationError('FILE_UPLOAD_FAILED');
   }
 
-  const contract = contractRepository.create({ friendlyName, description, item, filename });
+  const contract = contractRepository.create({
+    friendlyName,
+    description,
+    item,
+    filename,
+  });
   await contractRepository.insert(contract);
 
   await utils.createDefaultOptions(contract);

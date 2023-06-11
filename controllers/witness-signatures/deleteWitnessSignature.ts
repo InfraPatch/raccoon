@@ -4,7 +4,10 @@ import { FilledItem } from '@/db/models/items/FilledItem';
 import db from '@/services/db';
 import { savePDF } from '../filled-contracts/signContract';
 import { allPartiesSigned } from '../filled-contracts/signUtils';
-import { getWitnessSignature, WitnessSignatureResponse } from './getWitnessSignature';
+import {
+  getWitnessSignature,
+  WitnessSignatureResponse,
+} from './getWitnessSignature';
 
 class DeleteWitnessSignatureError extends Error {
   code: string;
@@ -16,11 +19,20 @@ class DeleteWitnessSignatureError extends Error {
   }
 }
 
-export const deleteWitnessSignature = async (email: string, signatureId: number): Promise<void> => {
-  const { signature, user } : WitnessSignatureResponse = await getWitnessSignature(email, signatureId);
+export const deleteWitnessSignature = async (
+  email: string,
+  signatureId: number,
+): Promise<void> => {
+  const { signature, user }: WitnessSignatureResponse =
+    await getWitnessSignature(email, signatureId);
   const filledContract = signature.filledContract;
 
-  if (!user.isAdmin && signature.witnessId !== user.id && ((signature.isSeller && filledContract.userId !== user.id) || (!signature.isSeller && filledContract.buyerId !== user.id))) {
+  if (
+    !user.isAdmin &&
+    signature.witnessId !== user.id &&
+    ((signature.isSeller && filledContract.userId !== user.id) ||
+      (!signature.isSeller && filledContract.buyerId !== user.id))
+  ) {
     throw new DeleteWitnessSignatureError('ACCESS_TO_WITNESS_SIGNATURE_DENIED');
   }
 
@@ -35,7 +47,18 @@ export const deleteWitnessSignature = async (email: string, signatureId: number)
   // but a witness is removed from the contract.
   // We'll still need to generate the PDF!
   const filledContractRepository = db.getRepository(FilledContract);
-  const fullContract = await filledContractRepository.findOne(signature.filledContractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures' ] });
+  const fullContract = await filledContractRepository.findOne(
+    signature.filledContractId,
+    {
+      relations: [
+        'contract',
+        'options',
+        'contract.options',
+        'options.option',
+        'witnessSignatures',
+      ],
+    },
+  );
 
   const filledItemRepository = db.getRepository(FilledItem);
 

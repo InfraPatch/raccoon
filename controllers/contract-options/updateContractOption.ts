@@ -14,7 +14,7 @@ export interface ContractOptionUpdateFields {
   minimumValue?: number;
   maximumValue?: number;
   isSeller?: boolean;
-};
+}
 
 export class ContractOptionUpdateError extends Error {
   public code: string;
@@ -26,14 +26,16 @@ export class ContractOptionUpdateError extends Error {
   }
 }
 
-export const updateContractOption = async (payload: ContractOptionUpdateFields) => {
+export const updateContractOption = async (
+  payload: ContractOptionUpdateFields,
+) => {
   await db.prepare();
 
   if (isNaN(payload.id)) {
     throw new ContractOptionUpdateError('CONTRACT_NOT_PROVIDED');
   }
 
-  let updateDict : ContractOptionUpdateFields = {};
+  const updateDict: ContractOptionUpdateFields = {};
 
   if (!isNaN(payload.type)) {
     if (!Object.values(OptionType).includes(payload.type)) {
@@ -56,7 +58,10 @@ export const updateContractOption = async (payload: ContractOptionUpdateFields) 
   }
 
   if (payload.replacementString !== undefined) {
-    if (!payload.replacementString || payload.replacementString.trim().length < 2) {
+    if (
+      !payload.replacementString ||
+      payload.replacementString.trim().length < 2
+    ) {
       throw new ContractOptionUpdateError('REPLACEMENT_STRING_TOO_SHORT');
     }
 
@@ -68,19 +73,31 @@ export const updateContractOption = async (payload: ContractOptionUpdateFields) 
   }
 
   if (payload.longDescription !== undefined) {
-    updateDict.longDescription = payload.longDescription ? payload.longDescription.trim() : '';
+    updateDict.longDescription = payload.longDescription
+      ? payload.longDescription.trim()
+      : '';
   }
 
   if (!isNaN(payload.minimumValue)) {
-    updateDict.minimumValue = (isNaN(payload.minimumValue) || payload.minimumValue === -1) ? null : payload.minimumValue;
+    updateDict.minimumValue =
+      isNaN(payload.minimumValue) || payload.minimumValue === -1
+        ? null
+        : payload.minimumValue;
   }
 
   if (!isNaN(payload.maximumValue)) {
-    updateDict.maximumValue = (isNaN(payload.maximumValue) || payload.maximumValue === -1) ? null : payload.maximumValue;
+    updateDict.maximumValue =
+      isNaN(payload.maximumValue) || payload.maximumValue === -1
+        ? null
+        : payload.maximumValue;
   }
 
   if (!isNaN(payload.minimumValue) || !isNaN(payload.maximumValue)) {
-    if (updateDict.minimumValue !== null && updateDict.maximumValue !== null && updateDict.minimumValue > updateDict.maximumValue) {
+    if (
+      updateDict.minimumValue !== null &&
+      updateDict.maximumValue !== null &&
+      updateDict.minimumValue > updateDict.maximumValue
+    ) {
       throw new ContractOptionUpdateError('CONSTRAINTS_INVALID');
     }
   }
@@ -88,15 +105,23 @@ export const updateContractOption = async (payload: ContractOptionUpdateFields) 
   updateDict.isSeller = payload.isSeller;
   const optionsRepository = db.getRepository(ContractOption);
 
-  if (updateDict.replacementString && updateDict.replacementString !== payload.replacementString) {
-    const optionCount = await optionsRepository.count({ where: { replacementString: updateDict.replacementString } });
+  if (
+    updateDict.replacementString &&
+    updateDict.replacementString !== payload.replacementString
+  ) {
+    const optionCount = await optionsRepository.count({
+      where: { replacementString: updateDict.replacementString },
+    });
 
     if (optionCount !== 0) {
       throw new ContractOptionUpdateError('CONTRACT_OPTION_ALREADY_EXISTS');
     }
   }
 
-  const updateResult : UpdateResult = await optionsRepository.update({ id: payload.id }, updateDict);
+  const updateResult: UpdateResult = await optionsRepository.update(
+    { id: payload.id },
+    updateDict,
+  );
 
   if (updateResult.raw.affectedRows <= 0) {
     throw new ContractOptionUpdateError('CONTRACT_NOT_FOUND');

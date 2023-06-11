@@ -15,18 +15,18 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const witnessSignature = await createWitnessSignature(session.user.email, {
       filledContractId,
-      witnessEmail
+      witnessEmail,
     });
 
     return res.json({
       ok: true,
-      witnessSignature: witnessSignature.toJSON()
+      witnessSignature: witnessSignature.toJSON(),
     });
   } catch (err) {
     if (err.name === 'CreateWitnessSignatureError') {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -34,7 +34,7 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -47,10 +47,13 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
     await deleteWitnessSignature(session.user.email, idFromQueryParam(id));
     return res.json({ ok: true });
   } catch (err) {
-    if (err.name === 'DeleteWitnessSignatureError' || err.name === 'GetWitnessSignatureError') {
+    if (
+      err.name === 'DeleteWitnessSignatureError' ||
+      err.name === 'GetWitnessSignatureError'
+    ) {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -58,7 +61,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -69,23 +72,26 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   let response = null;
 
   try {
-    const getResponse = await getWitnessSignature(session.user.email, idFromQueryParam(id));
+    const getResponse = await getWitnessSignature(
+      session.user.email,
+      idFromQueryParam(id),
+    );
     response = {
       ok: true,
-      witnessSignature: getResponse.signature
+      witnessSignature: getResponse.signature,
     };
   } catch (err) {
     if (err.name === 'GetWitnessSignatureError') {
       response = {
         ok: false,
-        error: err.code
+        error: err.code,
       };
       res.status(400);
     } else {
       console.error(err);
       response = {
         ok: false,
-        error: 'INTERNAL_SERVER_ERROR'
+        error: 'INTERNAL_SERVER_ERROR',
       };
       res.status(500);
     }

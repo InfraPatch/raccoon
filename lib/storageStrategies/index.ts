@@ -21,6 +21,5 @@ export {
   FileStorageStrategy,
   S3StorageStrategy,
   FirebaseStorageStrategy,
-
-  getStorageStrategy
+  getStorageStrategy,
 };

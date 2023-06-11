@@ -13,7 +13,9 @@ export class GetItemOptionsError extends Error {
   }
 }
 
-export const getItemOptions = async ({ id }: GetItemOptionsAPIRequest): Promise<ItemOption[]> => {
+export const getItemOptions = async ({
+  id,
+}: GetItemOptionsAPIRequest): Promise<ItemOption[]> => {
   await db.prepare();
   const optionRepository = db.getRepository(ItemOption);
 
@@ -21,7 +23,8 @@ export const getItemOptions = async ({ id }: GetItemOptionsAPIRequest): Promise<
     throw new GetItemOptionsError('ITEM_ID_MISSING');
   }
 
-  const items = await optionRepository.createQueryBuilder('option')
+  const items = await optionRepository
+    .createQueryBuilder('option')
     .where('option.item = :itemId', { itemId: id })
     .getMany();
 

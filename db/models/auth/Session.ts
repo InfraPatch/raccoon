@@ -11,7 +11,12 @@ export class Session {
   sessionToken?: string;
   accessToken?: string;
 
-  constructor(userId: number, expires: Date, sessionToken?: string, accessToken?: string) {
+  constructor(
+    userId: number,
+    expires: Date,
+    sessionToken?: string,
+    accessToken?: string,
+  ) {
     this.userId = userId;
     this.expires = expires;
     this.sessionToken = sessionToken || randomBytes(32).toString('hex');
@@ -21,5 +26,5 @@ export class Session {
 
 export const SessionSchema = {
   ...Adapters.TypeORM.Models.Session.schema,
-  target: Session
+  target: Session,
 };

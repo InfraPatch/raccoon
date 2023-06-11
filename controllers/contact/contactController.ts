@@ -25,7 +25,7 @@ export const send = async (req: NextApiRequest, res: NextApiResponse) => {
   if (process.env.FIREWALLED_INSTANCE) {
     return res.status(400).json({
       ok: false,
-      error: 'FIREWALLED_INSTANCE'
+      error: 'FIREWALLED_INSTANCE',
     });
   }
 
@@ -36,15 +36,15 @@ export const send = async (req: NextApiRequest, res: NextApiResponse) => {
       ok: false,
       error: 'NAME_TOO_SHORT',
       details: {
-        min: 2
-      }
+        min: 2,
+      },
     });
   }
 
   if (!EmailValidator.validate(email)) {
     return res.status(400).json({
       ok: false,
-      error: 'INVALID_EMAIL'
+      error: 'INVALID_EMAIL',
     });
   }
 
@@ -53,8 +53,8 @@ export const send = async (req: NextApiRequest, res: NextApiResponse) => {
       ok: false,
       error: 'SUBJECT_TOO_SHORT',
       details: {
-        min: 5
-      }
+        min: 5,
+      },
     });
   }
 
@@ -63,8 +63,8 @@ export const send = async (req: NextApiRequest, res: NextApiResponse) => {
       ok: false,
       error: 'MESSAGE_TOO_SHORT',
       details: {
-        min: 10
-      }
+        min: 10,
+      },
     });
   }
 
@@ -77,7 +77,7 @@ export const send = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!config.email.contactEmail) {
     return res.status(400).json({
       ok: false,
-      error: 'EMAIL_SEND_FAILURE'
+      error: 'EMAIL_SEND_FAILURE',
     });
   }
 
@@ -86,7 +86,7 @@ export const send = async (req: NextApiRequest, res: NextApiResponse) => {
       to: config.email.contactEmail,
       replyTo: email,
       subject,
-      text
+      text,
     });
 
     return res.json({ ok: true });
@@ -95,7 +95,7 @@ export const send = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'EMAIL_SEND_FAILURE'
+      error: 'EMAIL_SEND_FAILURE',
     });
   }
 };

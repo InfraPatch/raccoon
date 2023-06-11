@@ -5,5 +5,5 @@ import { ensureAuthenticated } from '@/middleware/auth';
 
 export default bar({
   get: ensureAuthenticated(filledContractAttachmentController.get),
-  delete: ensureAuthenticated(filledContractAttachmentController.destroy)
+  delete: ensureAuthenticated(filledContractAttachmentController.destroy),
 });

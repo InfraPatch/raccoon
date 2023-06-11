@@ -16,15 +16,15 @@ import apiService from '@/services/apis';
 import { Contract } from '@/db/models/contracts/Contract';
 import ContractBox from '@/components/dashboard/admin/contracts/ContractBox';
 import Meta from '@/components/common/Meta';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 import Loading from '@/components/common/Loading';
 
 const DashboardContractsPage = () => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+  const { t } = useTranslation(['dashboard', 'errors']);
 
-  const [ rows, setRows ] = useState<Contract[][] | null>(null);
-  const [ error, setError ] = useState('');
+  const [rows, setRows] = useState<Contract[][] | null>(null);
+  const [error, setError] = useState('');
 
   const loadContracts = async () => {
     setRows(null);
@@ -36,7 +36,7 @@ const DashboardContractsPage = () => {
 
       const rows: Contract[][] = [];
 
-      for (let i : number = 0; i < contracts.length; i += 2) {
+      for (let i = 0; i < contracts.length; i += 2) {
         rows.push(contracts.slice(i, i + 2));
       }
 
@@ -54,25 +54,26 @@ const DashboardContractsPage = () => {
   return (
     <DashboardLayout>
       <Meta
-        title={ t('dashboard:pages.contracts') }
+        title={t('dashboard:pages.contracts')}
         url="/dashboard/admin/contracts"
       />
 
-      {rows && rows.map((row, index) => {
-        let columns = [];
+      {rows &&
+        rows.map((row, index) => {
+          const columns = [];
 
-        for (let i : number = 0; i < row.length; ++i) {
-          let contract : Contract = row[i];
+          for (let i = 0; i < row.length; ++i) {
+            const contract: Contract = row[i];
 
-          columns.push(
-            <Column key={'contract-' + contract.id}>
-              <ContractBox contract={contract} />
-            </Column>
-          );
-        }
+            columns.push(
+              <Column key={'contract-' + contract.id}>
+                <ContractBox contract={contract} />
+              </Column>,
+            );
+          }
 
-        return <Columns key={'column-' + index}>{columns}</Columns>;
-      })}
+          return <Columns key={'column-' + index}>{columns}</Columns>;
+        })}
 
       {!rows && !error && <Loading />}
 
@@ -81,7 +82,11 @@ const DashboardContractsPage = () => {
   );
 };
 
-export const getServerSideProps : GetServerSideProps = async ({ req, res, locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  locale,
+}) => {
   const session = await getSession({ req });
 
   if (await redirectIfNotAdmin(res, session)) {
@@ -90,8 +95,12 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
 
   return {
     props: {
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

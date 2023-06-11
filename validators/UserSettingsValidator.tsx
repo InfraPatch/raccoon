@@ -1,8 +1,10 @@
 import { UpdateUserAPIRequest } from '@/services/apis/users/UserAPIService';
 import { TFunction } from 'next-i18next';
 
-export const validate = (t: TFunction): ((fields: UpdateUserAPIRequest) => Partial<UpdateUserAPIRequest>) => {
-  return fields => {
+export const validate = (
+  t: TFunction,
+): ((fields: UpdateUserAPIRequest) => Partial<UpdateUserAPIRequest>) => {
+  return (fields) => {
     const errors: Partial<UpdateUserAPIRequest> = {};
 
     if (fields.name && fields.name.length < 2) {
@@ -23,7 +25,11 @@ export const validate = (t: TFunction): ((fields: UpdateUserAPIRequest) => Parti
       errors.motherBirthDate = t('errors:users.INVALID_MOTHER_BIRTH_DATE');
     }
 
-    if (fields.birthDate && (fields.birthDate <= fields.motherBirthDate || fields.birthDate >= new Date())) {
+    if (
+      fields.birthDate &&
+      (fields.birthDate <= fields.motherBirthDate ||
+        fields.birthDate >= new Date())
+    ) {
       errors.birthDate = t('errors:users.INVALID_BIRTH_DATE');
     }
 

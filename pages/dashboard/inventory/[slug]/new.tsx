@@ -13,7 +13,7 @@ import apiService from '@/services/apis';
 
 import { Item } from '@/db/models/items/Item';
 import Meta from '@/components/common/Meta';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Loading from '@/components/common/Loading';
 import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 import NewFilledItemForm from '@/components/dashboard/new-filled-item/NewFilledItemForm';
@@ -21,13 +21,15 @@ import Link from 'next/link';
 
 export interface DashboardNewFilledItemPageProps {
   slug: string;
-};
+}
 
-const DashboardNewFilledItemPage = ({ slug }: DashboardNewFilledItemPageProps) => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+const DashboardNewFilledItemPage = ({
+  slug,
+}: DashboardNewFilledItemPageProps) => {
+  const { t } = useTranslation(['dashboard', 'errors']);
 
-  const [ item, setItem ] = useState<Item | null>(null);
-  const [ error, setError ] = useState('');
+  const [item, setItem] = useState<Item | null>(null);
+  const [error, setError] = useState('');
 
   const loadItem = async () => {
     setItem(null);
@@ -57,19 +59,18 @@ const DashboardNewFilledItemPage = ({ slug }: DashboardNewFilledItemPageProps) =
   return (
     <DashboardLayout>
       <Meta
-        title={ t('dashboard:pages.new-filled-item') }
+        title={t('dashboard:pages.new-filled-item')}
         url={`/dashboard/inventory/${slug}/new`}
       />
 
       <h1 className="font-normal text-2xl mb-3">
-        { t('dashboard:pages.new-filled-item') } ({ item ? item.friendlyName : '...' })
+        {t('dashboard:pages.new-filled-item')} (
+        {item ? item.friendlyName : '...'})
       </h1>
 
       <div className="mb-4">
         <Link href={`/dashboard/inventory/${slug}`}>
-          <a>
-            &laquo; { t('dashboard:new-item.back') }
-          </a>
+          &laquo; {t('dashboard:new-item.back')}
         </Link>
       </div>
 
@@ -98,8 +99,12 @@ export const getServerSideProps = async ({ req, res, query, locale }) => {
   return {
     props: {
       slug: Array.isArray(slug) ? slug[0] : slug,
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

@@ -11,7 +11,7 @@ export interface ContractUpdaterFields {
   friendlyName?: string;
   description?: string;
   file?: File;
-};
+}
 
 export interface ContractUpdateFields {
   friendlyName?: string;
@@ -29,7 +29,12 @@ export class ContractUpdateError extends Error {
   }
 }
 
-export const updateContract = async ({ id, friendlyName, description, file }: ContractUpdaterFields) : Promise<Contract> => {
+export const updateContract = async ({
+  id,
+  friendlyName,
+  description,
+  file,
+}: ContractUpdaterFields): Promise<Contract> => {
   await db.prepare();
   const contractRepository = db.getRepository(Contract);
 
@@ -46,9 +51,11 @@ export const updateContract = async ({ id, friendlyName, description, file }: Co
   let filename: string | null = null;
 
   if (file) {
-    const allowedMimetypes = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    const allowedMimetypes = [
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ];
 
-    if (!allowedMimetypes.includes(file.type)) {
+    if (!allowedMimetypes.includes(file.mimetype)) {
       throw new ContractUpdateError('INVALID_MIMETYPE');
     }
 
@@ -62,16 +69,19 @@ export const updateContract = async ({ id, friendlyName, description, file }: Co
   const updateDict: ContractUpdateFields = {
     ...(friendlyName && { friendlyName }),
     ...(description && { description }),
-    ...(filename && { filename })
+    ...(filename && { filename }),
   };
 
-  const updateResult: UpdateResult = await contractRepository.update({ id }, updateDict);
+  const updateResult: UpdateResult = await contractRepository.update(
+    { id },
+    updateDict,
+  );
 
   if (updateResult.raw.affectedRows <= 0) {
     throw new ContractUpdateError('CONTRACT_NOT_FOUND');
   }
 
-  const contract : Contract = await contractRepository.findOne({ id });
+  const contract: Contract = await contractRepository.findOne({ id });
 
   if (!contract) {
     throw new ContractUpdateError('CONTRACT_NOT_FOUND');

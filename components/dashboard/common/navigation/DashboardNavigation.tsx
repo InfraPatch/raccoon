@@ -1,11 +1,15 @@
-import NavigationLink, { NavigationLinkProps } from '@/components/dashboard/common/navigation/NavigationLink';
-import NavigationTitle, { NavigationTitleProps } from '@/components/dashboard/common/navigation/NavigationTitle';
+import NavigationLink, {
+  NavigationLinkProps,
+} from '@/components/dashboard/common/navigation/NavigationLink';
+import NavigationTitle, {
+  NavigationTitleProps,
+} from '@/components/dashboard/common/navigation/NavigationTitle';
 
 export type NavigationSeparator = number;
 
 export interface DashboardNavigationProps {
-  items: ( NavigationLinkProps | NavigationTitleProps | NavigationSeparator )[];
-};
+  items: (NavigationLinkProps | NavigationTitleProps | NavigationSeparator)[];
+}
 
 const DashboardNavigation = ({ items }: DashboardNavigationProps) => {
   return (

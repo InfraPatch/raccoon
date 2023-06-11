@@ -8,25 +8,18 @@ export interface CompactSuccessMessageProps {
 
 export interface SuccessMessageProps extends CompactSuccessMessageProps {
   compact?: boolean;
-};
+}
 
 const SuccessMessage = ({ compact, children }: SuccessMessageProps) => {
   return (
     <MessageBox type="success" compact={compact}>
-      { children }
+      {children}
     </MessageBox>
   );
 };
 
 const CompactSuccessMessage = ({ children }: CompactSuccessMessageProps) => {
-  return (
-    <SuccessMessage compact>
-      {children}
-    </SuccessMessage>
-  );
+  return <SuccessMessage compact>{children}</SuccessMessage>;
 };
 
-export {
-  SuccessMessage,
-  CompactSuccessMessage
-};
+export { SuccessMessage, CompactSuccessMessage };

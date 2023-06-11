@@ -16,13 +16,13 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.json({
       ok: true,
-      options: options.map(value => value.toJSON())
+      options: options.map((value) => value.toJSON()),
     });
   } catch (err) {
     if (err.name === 'GetItemOptionsError') {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -30,7 +30,7 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -43,13 +43,13 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.json({
       ok: true,
-      option: option.toJSON()
+      option: option.toJSON(),
     });
   } catch (err) {
     if (err.name === 'GetItemOptionError') {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -57,7 +57,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -73,33 +73,49 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
 
 export const update = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const { type, priority, friendlyName, longDescription, hint, replacementString, minimumValue, maximumValue } = req.body;
+  const {
+    type,
+    priority,
+    friendlyName,
+    longDescription,
+    hint,
+    replacementString,
+    minimumValue,
+    maximumValue,
+  } = req.body;
 
   try {
     await updateItemOption({
       id: idFromQueryParam(id),
       type: parseInt(Array.isArray(type) ? type[0] : type),
       priority: parseInt(Array.isArray(priority) ? priority[0] : priority),
-      friendlyName, longDescription, hint, replacementString,
-      minimumValue: parseInt(Array.isArray(minimumValue) ? minimumValue[0] : minimumValue),
-      maximumValue: parseInt(Array.isArray(maximumValue) ? maximumValue[0] : maximumValue)
+      friendlyName,
+      longDescription,
+      hint,
+      replacementString,
+      minimumValue: parseInt(
+        Array.isArray(minimumValue) ? minimumValue[0] : minimumValue,
+      ),
+      maximumValue: parseInt(
+        Array.isArray(maximumValue) ? maximumValue[0] : maximumValue,
+      ),
     });
 
     return res.json({
-      ok: true
+      ok: true,
     });
   } catch (err) {
     if (err.name === 'ItemOptionUpdateError') {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -107,33 +123,54 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
 
-export const newItemOption = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { itemId, type, priority, friendlyName, longDescription, hint, replacementString, minimumValue, maximumValue, isSeller } = req.body;
+export const newItemOption = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
+  const {
+    itemId,
+    type,
+    priority,
+    friendlyName,
+    longDescription,
+    hint,
+    replacementString,
+    minimumValue,
+    maximumValue,
+    isSeller,
+  } = req.body;
 
   try {
     const option = await createItemOption({
       itemId: parseInt(Array.isArray(itemId) ? itemId[0] : itemId),
       type: parseInt(Array.isArray(type) ? type[0] : type),
       priority: parseInt(Array.isArray(priority) ? priority[0] : priority),
-      friendlyName, longDescription, hint, replacementString,
-      minimumValue: parseInt(Array.isArray(minimumValue) ? minimumValue[0] : minimumValue),
-      maximumValue: parseInt(Array.isArray(maximumValue) ? maximumValue[0] : maximumValue)
+      friendlyName,
+      longDescription,
+      hint,
+      replacementString,
+      minimumValue: parseInt(
+        Array.isArray(minimumValue) ? minimumValue[0] : minimumValue,
+      ),
+      maximumValue: parseInt(
+        Array.isArray(maximumValue) ? maximumValue[0] : maximumValue,
+      ),
     });
 
     return res.json({
       ok: true,
-      option: option.toJSON()
+      option: option.toJSON(),
     });
   } catch (err) {
     if (err.name === 'ItemOptionCreationError') {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -141,7 +178,7 @@ export const newItemOption = async (req: NextApiRequest, res: NextApiResponse) =
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };

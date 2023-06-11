@@ -5,30 +5,30 @@ import { PersonalIdentifierType, User } from '@/db/models/auth/User';
 
 export interface GetLoggedInUserAPIResponse extends APIResponse {
   user: User;
-};
+}
 
 export interface MakeAdminAPIRequest {
   email: string;
-};
+}
 
-export interface MakeAdminAPIResponse extends APIResponse {};
+export type MakeAdminAPIResponse = APIResponse;
 
 export interface MakeLawyerAPIRequest {
   email: string;
-};
+}
 
-export interface MakeLawyerAPIResponse extends APIResponse {};
+export type MakeLawyerAPIResponse = APIResponse;
 
 export interface UpdateUserProfileAPIRequest {
   name?: string;
   image?: File;
-};
+}
 
 export interface UpdateUserPasswordAPIRequest {
   password?: string;
   password2?: string;
   oldPassword?: string;
-};
+}
 
 export interface UpdateUserIdentificationDetailsAPIRequest {
   motherName?: string;
@@ -41,14 +41,13 @@ export interface UpdateUserIdentificationDetailsAPIRequest {
   birthPlace?: string;
 }
 
-export type UpdateUserAPIRequest =
-  UpdateUserProfileAPIRequest &
+export type UpdateUserAPIRequest = UpdateUserProfileAPIRequest &
   UpdateUserPasswordAPIRequest &
   UpdateUserIdentificationDetailsAPIRequest;
 
 export interface UpdateUserAPIResponse extends APIResponse {
   user: User;
-};
+}
 
 class UsersAPIService {
   static GET_LOGGED_IN_USER_URL = '/api/users/me';
@@ -57,21 +56,30 @@ class UsersAPIService {
   static MAKE_LAWYER_URL = '/api/users/make-lawyer';
 
   public async getLoggedInUser(): Promise<GetLoggedInUserAPIResponse> {
-    return axiosService.get(UsersAPIService.GET_LOGGED_IN_USER_URL)
-      .then(res => res.data);
+    return axiosService
+      .get(UsersAPIService.GET_LOGGED_IN_USER_URL)
+      .then((res) => res.data);
   }
 
-  public async makeAdmin({ email }: MakeAdminAPIRequest): Promise<MakeAdminAPIResponse> {
-    return axiosService.post(UsersAPIService.MAKE_ADMIN_URL, { email })
-      .then(res => res.data);
+  public async makeAdmin({
+    email,
+  }: MakeAdminAPIRequest): Promise<MakeAdminAPIResponse> {
+    return axiosService
+      .post(UsersAPIService.MAKE_ADMIN_URL, { email })
+      .then((res) => res.data);
   }
 
-  public async makeLawyer({ email }: MakeLawyerAPIRequest): Promise<MakeLawyerAPIResponse> {
-    return axiosService.post(UsersAPIService.MAKE_LAWYER_URL, { email })
-      .then(res => res.data);
+  public async makeLawyer({
+    email,
+  }: MakeLawyerAPIRequest): Promise<MakeLawyerAPIResponse> {
+    return axiosService
+      .post(UsersAPIService.MAKE_LAWYER_URL, { email })
+      .then((res) => res.data);
   }
 
-  public async updateUser(data: UpdateUserAPIRequest): Promise<UpdateUserAPIResponse> {
+  public async updateUser(
+    data: UpdateUserAPIRequest,
+  ): Promise<UpdateUserAPIResponse> {
     const payload = new FormData();
 
     if (data.name) {
@@ -107,7 +115,10 @@ class UsersAPIService {
     }
 
     if (typeof data.personalIdentifierType !== 'undefined') {
-      payload.append('personalIdentifierType', data.personalIdentifierType.toString());
+      payload.append(
+        'personalIdentifierType',
+        data.personalIdentifierType.toString(),
+      );
     }
 
     if (data.personalIdentifier) {
@@ -126,11 +137,10 @@ class UsersAPIService {
       payload.append('birthPlace', data.birthPlace);
     }
 
-    return axiosService.patch(UsersAPIService.UPDATE_USER_URL, payload)
-      .then(res => res.data);
+    return axiosService
+      .patch(UsersAPIService.UPDATE_USER_URL, payload)
+      .then((res) => res.data);
   }
 }
 
-export {
-  UsersAPIService
-};
+export { UsersAPIService };

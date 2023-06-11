@@ -11,20 +11,23 @@ import { updateContract } from './updateContract';
 
 import idFromQueryParam from '@/lib/idFromQueryParam';
 
-export const listContracts = async (req: NextApiRequest, res: NextApiResponse) => {
+export const listContracts = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
   try {
     const contracts = await getContracts();
 
     return res.json({
       ok: true,
-      contracts: contracts.map(value => value.toJSON())
+      contracts: contracts.map((value) => value.toJSON()),
     });
   } catch (err) {
     console.error(err);
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -37,13 +40,13 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.json({
       ok: true,
-      contract: contract.toJSON()
+      contract: contract.toJSON(),
     });
   } catch (err) {
     if (err.name === 'GetContractError') {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -51,7 +54,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -67,7 +70,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -76,12 +79,12 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const form = new formidable.IncomingForm();
 
-  return new Promise<void>(resolve => {
+  return new Promise<void>((resolve) => {
     form.parse(req, async (err, fields, files) => {
       if (err) {
         res.status(500).json({
           ok: false,
-          error: 'INTERNAL_SERVER_ERROR'
+          error: 'INTERNAL_SERVER_ERROR',
         });
 
         return resolve();
@@ -92,19 +95,19 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
           id: idFromQueryParam(id),
           friendlyName: firstOf(fields.friendlyName),
           description: firstOf(fields.description),
-          file: firstOf(files.file)
+          file: firstOf(files.file),
         });
 
         res.json({
           ok: true,
-          contract: contract
+          contract: contract,
         });
         return resolve();
       } catch (err) {
         if (err.name === 'ContractUpdateError') {
           res.status(400).json({
             ok: false,
-            error: err.code
+            error: err.code,
           });
           return resolve();
         }
@@ -113,7 +116,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
 
         res.status(500).json({
           ok: false,
-          error: 'INTERNAL_SERVER_ERROR'
+          error: 'INTERNAL_SERVER_ERROR',
         });
         return resolve();
       }
@@ -121,15 +124,18 @@ export const update = async (req: NextApiRequest, res: NextApiResponse) => {
   });
 };
 
-export const newContract = async (req: NextApiRequest, res: NextApiResponse) => {
+export const newContract = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
   const form = new formidable.IncomingForm();
 
-  return new Promise<void>(resolve => {
+  return new Promise<void>((resolve) => {
     form.parse(req, async (err, fields, files) => {
       if (err) {
         res.status(500).json({
           ok: false,
-          error: 'INTERNAL_SERVER_ERROR'
+          error: 'INTERNAL_SERVER_ERROR',
         });
 
         return resolve();
@@ -140,19 +146,19 @@ export const newContract = async (req: NextApiRequest, res: NextApiResponse) => 
           friendlyName: firstOf(fields.friendlyName),
           description: firstOf(fields.description),
           itemSlug: firstOf(fields.itemSlug),
-          file: firstOf(files.file)
+          file: firstOf(files.file),
         });
 
         res.json({
           ok: true,
-          contract: contract.toJSON()
+          contract: contract.toJSON(),
         });
         return resolve();
       } catch (err) {
         if (err.name === 'ContractCreationError') {
           res.status(400).json({
             ok: false,
-            error: err.code
+            error: err.code,
           });
           return resolve();
         }
@@ -161,7 +167,7 @@ export const newContract = async (req: NextApiRequest, res: NextApiResponse) => 
 
         res.status(500).json({
           ok: false,
-          error: 'INTERNAL_SERVER_ERROR'
+          error: 'INTERNAL_SERVER_ERROR',
         });
         return resolve();
       }

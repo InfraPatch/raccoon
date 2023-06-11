@@ -47,57 +47,71 @@ class SignContractError extends Error {
 
 const verifyOptions = (filledContract: FilledContract) => {
   const filledContractOptions: { [id: number]: FilledContractOption } = {};
-  filledContract.options.forEach(option => filledContractOptions[option.option.id] = option);
+  filledContract.options.forEach(
+    (option) => (filledContractOptions[option.option.id] = option),
+  );
 
   for (const option of filledContract.contract.options) {
     const filledOption = filledContractOptions[option.id];
 
-    if (typeof filledOption === 'undefined' || typeof filledOption.value === 'undefined' || filledOption.value === '') {
+    if (
+      typeof filledOption === 'undefined' ||
+      typeof filledOption.value === 'undefined' ||
+      filledOption.value === ''
+    ) {
       throw new SignContractError('FIELD_IS_REQUIRED', {
-        friendlyName: option.friendlyName
+        friendlyName: option.friendlyName,
       });
     }
   }
 };
 
-export const createAttachments = async (attachments: IAttachment[]): Promise<IPDFAttachment[]> => {
-  return new Promise(async (resolve, _) => {
-    const pdfAttachments : IPDFAttachment[] = [];
+export const createAttachments = async (
+  attachments: IAttachment[],
+): Promise<IPDFAttachment[]> => {
+  const pdfAttachments: IPDFAttachment[] = [];
 
-    if (!attachments) {
-      // No attachments are to be added to this file.
-      return resolve(pdfAttachments);
-    }
+  if (!attachments) {
+    // No attachments are to be added to this file.
+    return pdfAttachments;
+  }
 
-    for (const attachment of attachments) {
-      try {
-        let attachmentBytes : Buffer;
+  for (const attachment of attachments) {
+    try {
+      let attachmentBytes: Buffer;
 
-        if ('filledContractId' in attachment) {
-          const contractAttachment = attachment as IFilledContractAttachment;
-          attachmentBytes = await storage.get(`attachments/contract/${contractAttachment.filledContractId}/${contractAttachment.filename}`);
-        } else if ('filledItemId' in attachment) {
-          const itemAttachment = attachment as IFilledItemAttachment;
-          attachmentBytes = await storage.get(`attachments/item/${itemAttachment.filledItemId}/${itemAttachment.filename}`);
-        }
-
-        pdfAttachments.push({
-          file: attachmentBytes,
-          filename: path.basename(attachment.filename),
-          description: attachment.friendlyName,
-          creationDate: attachment.createdAt
-        });
-      } catch {
-        // For now, let's ignore this error.
+      if ('filledContractId' in attachment) {
+        const contractAttachment = attachment as IFilledContractAttachment;
+        attachmentBytes = await storage.get(
+          `attachments/contract/${contractAttachment.filledContractId}/${contractAttachment.filename}`,
+        );
+      } else if ('filledItemId' in attachment) {
+        const itemAttachment = attachment as IFilledItemAttachment;
+        attachmentBytes = await storage.get(
+          `attachments/item/${itemAttachment.filledItemId}/${itemAttachment.filename}`,
+        );
       }
-    }
 
-    return resolve(pdfAttachments);
-  });
+      pdfAttachments.push({
+        file: attachmentBytes,
+        filename: path.basename(attachment.filename),
+        description: attachment.friendlyName,
+        creationDate: attachment.createdAt,
+      });
+    } catch {
+      // For now, let's ignore this error.
+    }
+  }
+
+  return pdfAttachments;
 };
 
-export const savePDF = async (filledContract: FilledContract): Promise<string> => {
-  const template: Buffer = await storage.get(filledContract.contract.filename.replace('/', ''));
+export const savePDF = async (
+  filledContract: FilledContract,
+): Promise<string> => {
+  const template: Buffer = await storage.get(
+    filledContract.contract.filename.replace('/', ''),
+  );
   const zip = new PizZip(template);
 
   const templateDocument = new DOCXTemplater(zip);
@@ -111,7 +125,9 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
     }
 
     if (o.option.type === OptionType.PERSONAL_IDENTIFIER) {
-      data[o.option.replacementString] = getPersonalIdentifierTypeString(parseInt(o.value));
+      data[o.option.replacementString] = getPersonalIdentifierTypeString(
+        parseInt(o.value),
+      );
       return;
     }
 
@@ -124,31 +140,57 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
     filledContract.filledItem.options.forEach(handleOption);
   }
 
-  const sellerName = filledContract.options.find(o => o.option.replacementString === 'seller_name').value;
-  const buyerName = filledContract.options.find(o => o.option.replacementString === 'buyer_name').value;
+  const sellerName = filledContract.options.find(
+    (o) => o.option.replacementString === 'seller_name',
+  ).value;
+  const buyerName = filledContract.options.find(
+    (o) => o.option.replacementString === 'buyer_name',
+  ).value;
 
   // Add attestations for seller and buyer
-  let attestations: IAVDHAttestation[] = [
+  const attestations: IAVDHAttestation[] = [
     {
       date: filledContract.sellerSignedAt,
       fullName: sellerName,
       birthName: sellerName,
-      birthPlace: filledContract.options.find(o => o.option.replacementString === 'seller_birth_place').value,
-      birthDate: filledContract.options.find(o => o.option.replacementString === 'seller_birth_date').value,
-      motherName: filledContract.options.find(o => o.option.replacementString === 'seller_mother_name').value,
-      email: filledContract.options.find(o => o.option.replacementString === 'seller_email').value,
-      signature: await downloadSignatureBuffer(filledContract.id, filledContract.userId)
+      birthPlace: filledContract.options.find(
+        (o) => o.option.replacementString === 'seller_birth_place',
+      ).value,
+      birthDate: filledContract.options.find(
+        (o) => o.option.replacementString === 'seller_birth_date',
+      ).value,
+      motherName: filledContract.options.find(
+        (o) => o.option.replacementString === 'seller_mother_name',
+      ).value,
+      email: filledContract.options.find(
+        (o) => o.option.replacementString === 'seller_email',
+      ).value,
+      signature: await downloadSignatureBuffer(
+        filledContract.id,
+        filledContract.userId,
+      ),
     },
     {
       date: filledContract.buyerSignedAt,
       fullName: buyerName,
       birthName: buyerName,
-      birthPlace: filledContract.options.find(o => o.option.replacementString === 'buyer_birth_place').value,
-      birthDate: filledContract.options.find(o => o.option.replacementString === 'buyer_birth_date').value,
-      motherName: filledContract.options.find(o => o.option.replacementString === 'buyer_mother_name').value,
-      email: filledContract.options.find(o => o.option.replacementString === 'buyer_email').value,
-      signature: await downloadSignatureBuffer(filledContract.id, filledContract.buyerId)
-    }
+      birthPlace: filledContract.options.find(
+        (o) => o.option.replacementString === 'buyer_birth_place',
+      ).value,
+      birthDate: filledContract.options.find(
+        (o) => o.option.replacementString === 'buyer_birth_date',
+      ).value,
+      motherName: filledContract.options.find(
+        (o) => o.option.replacementString === 'buyer_mother_name',
+      ).value,
+      email: filledContract.options.find(
+        (o) => o.option.replacementString === 'buyer_email',
+      ).value,
+      signature: await downloadSignatureBuffer(
+        filledContract.id,
+        filledContract.buyerId,
+      ),
+    },
   ];
 
   // Add attestations for witnesses as well
@@ -160,7 +202,10 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
       birthPlace: signature.witnessBirthPlace,
       birthDate: formatDate(signature.witnessBirthDate, false),
       motherName: signature.witnessMotherName,
-      signature: await downloadSignatureBuffer(filledContract.id, signature.witnessId)
+      signature: await downloadSignatureBuffer(
+        filledContract.id,
+        signature.witnessId,
+      ),
     });
   }
 
@@ -171,11 +216,17 @@ export const savePDF = async (filledContract: FilledContract): Promise<string> =
   templateDocument.setData(data);
   templateDocument.render();
 
-  const document: Buffer = templateDocument.getZip().generate({ type: 'nodebuffer' });
-  const attachments: IPDFAttachment[] = await createAttachments(filledContract.attachments);
+  const document: Buffer = templateDocument
+    .getZip()
+    .generate({ type: 'nodebuffer' });
+  const attachments: IPDFAttachment[] = await createAttachments(
+    filledContract.attachments,
+  );
 
   if (filledContract.filledItem && filledContract.filledItem.attachments) {
-    attachments.push(...(await createAttachments(filledContract.filledItem.attachments)));
+    attachments.push(
+      ...(await createAttachments(filledContract.filledItem.attachments)),
+    );
   }
 
   const pdf = await pdfService.create(document, attachments, attestations);
@@ -209,14 +260,22 @@ export const decodeBase64Image = (data: string | null): Buffer => {
   return Buffer.from(matches[1], 'base64');
 };
 
-export const uploadSignatureContents = async (contractId: number, userId: number, contents: Buffer): Promise<string> => {
-  let key: string = `signatures/${contractId}/${userId}.png`;
+export const uploadSignatureContents = async (
+  contractId: number,
+  userId: number,
+  contents: Buffer,
+): Promise<string> => {
+  const key = `signatures/${contractId}/${userId}.png`;
 
   await storage.create({ key, contents });
   return key;
 };
 
-export const uploadSignature = async (contractId: number, userId: number, data: string | null): Promise<string> => {
+export const uploadSignature = async (
+  contractId: number,
+  userId: number,
+  data: string | null,
+): Promise<string> => {
   let signatureContents;
 
   try {
@@ -227,7 +286,11 @@ export const uploadSignature = async (contractId: number, userId: number, data: 
   }
 };
 
-export const signContract = async (userEmail: string, contractId: number, signatureData: string | null) => {
+export const signContract = async (
+  userEmail: string,
+  contractId: number,
+  signatureData: string | null,
+) => {
   await db.prepare();
 
   const userRepository = db.getRepository(User);
@@ -239,18 +302,36 @@ export const signContract = async (userEmail: string, contractId: number, signat
     throw new SignContractError('USER_NOT_FOUND');
   }
 
-  const contract = await filledContractRepository.findOne(contractId, { relations: [ 'contract', 'options', 'contract.options', 'options.option', 'witnessSignatures', 'attachments', 'filledItem', 'filledItem.item', 'filledItem.attachments', 'filledItem.options', 'filledItem.options.option' ] });
+  const contract = await filledContractRepository.findOne(contractId, {
+    relations: [
+      'contract',
+      'options',
+      'contract.options',
+      'options.option',
+      'witnessSignatures',
+      'attachments',
+      'filledItem',
+      'filledItem.item',
+      'filledItem.attachments',
+      'filledItem.options',
+      'filledItem.options.option',
+    ],
+  });
   if (!contract) {
     throw new SignContractError('FILLED_CONTRACT_NOT_FOUND');
   }
 
   const isWitness = isWitnessOf(user.id, contract);
 
-  if (!isWitness && ![ contract.userId, contract.buyerId ].includes(user.id)) {
+  if (!isWitness && ![contract.userId, contract.buyerId].includes(user.id)) {
     throw new SignContractError('ACCESS_TO_CONTRACT_DENIED');
   }
 
-  if ((contract.userId === user.id && contract.sellerSignedAt) || (contract.buyerId === user.id && contract.buyerSignedAt) || (isWitness && hasWitnessSigned(user.id, contract))) {
+  if (
+    (contract.userId === user.id && contract.sellerSignedAt) ||
+    (contract.buyerId === user.id && contract.buyerSignedAt) ||
+    (isWitness && hasWitnessSigned(user.id, contract))
+  ) {
     throw new SignContractError('CONTRACT_ALREADY_SIGNED');
   }
 
@@ -259,7 +340,7 @@ export const signContract = async (userEmail: string, contractId: number, signat
   // Upload signature if available
   await uploadSignature(contract.id, user.id, signatureData);
 
-  let changed: boolean = false;
+  let changed = false;
 
   if (isWitness) {
     const witnessSignatureRepository = db.getRepository(WitnessSignature);
@@ -267,7 +348,10 @@ export const signContract = async (userEmail: string, contractId: number, signat
     for (const signature of contract.witnessSignatures) {
       if (signature.witnessId === user.id) {
         signature.signedAt = new Date();
-        await witnessSignatureRepository.update({ id: signature.id }, { signedAt: signature.signedAt });
+        await witnessSignatureRepository.update(
+          { id: signature.id },
+          { signedAt: signature.signedAt },
+        );
         break;
       }
     }

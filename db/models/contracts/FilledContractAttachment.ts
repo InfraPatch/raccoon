@@ -8,16 +8,21 @@ export interface IFilledContractAttachment extends IAttachment {
   filledContract?: IFilledContract;
   filledContractId?: number;
   isSeller: boolean;
-};
+}
 
 @Entity()
-export class FilledContractAttachment extends Attachment implements IFilledContractAttachment {
+export class FilledContractAttachment
+  extends Attachment
+  implements IFilledContractAttachment
+{
   @ManyToOne(() => FilledContract, {
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   filledContract: Partial<FilledContract>;
 
-  @RelationId((attachment: FilledContractAttachment) => attachment.filledContract)
+  @RelationId(
+    (attachment: FilledContractAttachment) => attachment.filledContract,
+  )
   filledContractId: number;
 
   @Column('boolean')
@@ -26,8 +31,10 @@ export class FilledContractAttachment extends Attachment implements IFilledContr
   toJSON(): IFilledContractAttachment {
     return {
       ...super.toJSON(),
-      filledContract: this.filledContract ? omit(this.filledContract.toJSON(), 'options') : undefined,
-      isSeller: this.isSeller
+      filledContract: this.filledContract
+        ? omit(this.filledContract.toJSON(), 'options')
+        : undefined,
+      isSeller: this.isSeller,
     };
   }
 }

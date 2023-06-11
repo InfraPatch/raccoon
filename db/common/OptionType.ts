@@ -7,5 +7,5 @@ export enum OptionType {
   PHONE_NUMBER,
   EMAIL,
   URL,
-  DATE
-};
+  DATE,
+}

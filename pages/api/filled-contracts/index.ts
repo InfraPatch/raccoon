@@ -5,5 +5,5 @@ import { ensureAuthenticated } from '@/middleware/auth';
 
 export default bar({
   get: ensureAuthenticated(filledContractsController.index),
-  post: ensureAuthenticated(filledContractsController.create)
+  post: ensureAuthenticated(filledContractsController.create),
 });

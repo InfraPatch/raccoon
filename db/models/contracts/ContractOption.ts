@@ -11,7 +11,7 @@ export interface IContractOption extends IOption {
 
 @Entity()
 export class ContractOption extends Option implements IContractOption {
-  @ManyToOne(() => Contract, contract => contract.options)
+  @ManyToOne(() => Contract, (contract) => contract.options)
   contract: Partial<Contract>;
 
   @Column('boolean', { default: false })
@@ -20,8 +20,10 @@ export class ContractOption extends Option implements IContractOption {
   toJSON(): IContractOption {
     return {
       ...super.toJSON(),
-      contract: this.contract ? omit(this.contract.toJSON(), 'options') : undefined,
-      isSeller: this.isSeller
+      contract: this.contract
+        ? omit(this.contract.toJSON(), 'options')
+        : undefined,
+      isSeller: this.isSeller,
     };
   }
 }

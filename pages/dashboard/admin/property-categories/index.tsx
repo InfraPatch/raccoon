@@ -16,15 +16,15 @@ import apiService from '@/services/apis';
 import { Item } from '@/db/models/items/Item';
 import ItemBox from '@/components/dashboard/admin/items/ItemBox';
 import Meta from '@/components/common/Meta';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 import Loading from '@/components/common/Loading';
 
 const DashboardItemsPage = () => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+  const { t } = useTranslation(['dashboard', 'errors']);
 
-  const [ rows, setRows ] = useState<Item[][] | null>(null);
-  const [ error, setError ] = useState('');
+  const [rows, setRows] = useState<Item[][] | null>(null);
+  const [error, setError] = useState('');
 
   const loadItems = async () => {
     setRows(null);
@@ -36,7 +36,7 @@ const DashboardItemsPage = () => {
 
       const rows: Item[][] = [];
 
-      for (let i : number = 0; i < items.length; i += 2) {
+      for (let i = 0; i < items.length; i += 2) {
         rows.push(items.slice(i, i + 2));
       }
 
@@ -54,25 +54,26 @@ const DashboardItemsPage = () => {
   return (
     <DashboardLayout>
       <Meta
-        title={ t('dashboard:pages.item-categories') }
+        title={t('dashboard:pages.item-categories')}
         url="/dashboard/admin/property-categories"
       />
 
-      {rows && rows.map((row, index) => {
-        let columns = [];
+      {rows &&
+        rows.map((row, index) => {
+          const columns = [];
 
-        for (let i : number = 0; i < row.length; ++i) {
-          let item : Item = row[i];
+          for (let i = 0; i < row.length; ++i) {
+            const item: Item = row[i];
 
-          columns.push(
-            <Column key={'item-' + item.id}>
-              <ItemBox item={item} />
-            </Column>
-          );
-        }
+            columns.push(
+              <Column key={'item-' + item.id}>
+                <ItemBox item={item} />
+              </Column>,
+            );
+          }
 
-        return <Columns key={'column-' + index}>{columns}</Columns>;
-      })}
+          return <Columns key={'column-' + index}>{columns}</Columns>;
+        })}
 
       {!rows && !error && <Loading />}
 
@@ -81,7 +82,11 @@ const DashboardItemsPage = () => {
   );
 };
 
-export const getServerSideProps : GetServerSideProps = async ({ req, res, locale }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  locale,
+}) => {
   const session = await getSession({ req });
 
   if (await redirectIfNotAdmin(res, session)) {
@@ -90,8 +95,12 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
 
   return {
     props: {
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

@@ -27,7 +27,7 @@ class APIService {
   public itemOptions = new ItemOptionAPIService();
   public filledItems = new FilledItemAPIService();
   public filledItemAttachments = new FilledItemAttachmentAPIService();
-};
+}
 
 const apiService = new APIService();
 export default apiService;

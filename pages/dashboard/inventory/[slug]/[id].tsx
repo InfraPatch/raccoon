@@ -18,7 +18,7 @@ import { IFilledItem } from '@/db/models/items/FilledItem';
 import { IAttachment } from '@/db/common/Attachment';
 
 import Meta from '@/components/common/Meta';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Loading from '@/components/common/Loading';
 import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 import FilledItemEditForm from '@/components/dashboard/filled-item/FilledItemEditForm';
@@ -31,15 +31,18 @@ import idFromQueryParam from '@/lib/idFromQueryParam';
 export interface DashboardFilledItemPageProps {
   slug: string;
   id: number;
-};
+}
 
-const DashboardFilledItemPage = ({ slug, id }: DashboardFilledItemPageProps) => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+const DashboardFilledItemPage = ({
+  slug,
+  id,
+}: DashboardFilledItemPageProps) => {
+  const { t } = useTranslation(['dashboard', 'errors']);
 
-  const [ item, setItem ] = useState<Item | null>(null);
-  const [ filledItem, setFilledItem ] = useState<IFilledItem | null>(null);
-  const [ error, setError ] = useState('');
-  const [ user ] = useCurrentUser();
+  const [item, setItem] = useState<Item | null>(null);
+  const [filledItem, setFilledItem] = useState<IFilledItem | null>(null);
+  const [error, setError] = useState('');
+  const [user] = useCurrentUser();
 
   // Redirect user if they haven't filled out their details yet
   redirectIfNotReady(user);
@@ -74,11 +77,17 @@ const DashboardFilledItemPage = ({ slug, id }: DashboardFilledItemPageProps) => 
   }, []);
 
   const deleteAttachment = async (attachment: IAttachment) => {
-    return await apiService.filledItemAttachments.deleteFilledItemAttachment(attachment.id);
+    return await apiService.filledItemAttachments.deleteFilledItemAttachment(
+      attachment.id,
+    );
   };
 
   const uploadAttachment = async (file: File, friendlyName: string) => {
-    return await apiService.filledItemAttachments.createFilledItemAttachment({ file, friendlyName, filledItemId: filledItem.id });
+    return await apiService.filledItemAttachments.createFilledItemAttachment({
+      file,
+      friendlyName,
+      filledItemId: filledItem.id,
+    });
   };
 
   const canDeleteAttachment = (attachment: IAttachment): boolean => {
@@ -89,11 +98,12 @@ const DashboardFilledItemPage = ({ slug, id }: DashboardFilledItemPageProps) => 
     return user.id === filledItem.userId;
   };
 
-
   return (
     <DashboardLayout>
       <Meta
-        title={ `${filledItem ? filledItem.friendlyName : '...'} - ${t('dashboard:pages.my-items')}` }
+        title={`${filledItem ? filledItem.friendlyName : '...'} - ${t(
+          'dashboard:pages.my-items',
+        )}`}
         url={`/dashboard/inventory/${slug}/${id}`}
       />
 
@@ -105,9 +115,7 @@ const DashboardFilledItemPage = ({ slug, id }: DashboardFilledItemPageProps) => 
 
           <div className="mb-4">
             <Link href={`/dashboard/inventory/${slug}`}>
-              <a>
-                &laquo; { item.friendlyName }
-              </a>
+              &laquo; {item.friendlyName}
             </Link>
           </div>
 
@@ -123,8 +131,9 @@ const DashboardFilledItemPage = ({ slug, id }: DashboardFilledItemPageProps) => 
             </Column>
 
             <Column>
-              {(filledItem.attachments?.length > 0 || canUploadAttachment()) && (
-                <Box title={ t('dashboard:items.data.attachments') }>
+              {(filledItem.attachments?.length > 0 ||
+                canUploadAttachment()) && (
+                <Box title={t('dashboard:items.data.attachments')}>
                   <Attachments
                     attachments={filledItem.attachments}
                     onChange={loadFilledItem}
@@ -133,7 +142,7 @@ const DashboardFilledItemPage = ({ slug, id }: DashboardFilledItemPageProps) => 
                     canUpload={canUploadAttachment}
                     canDelete={canDeleteAttachment}
                     modelName="items"
-                    translationKey='item-attachments'
+                    translationKey="item-attachments"
                   />
                 </Box>
               )}
@@ -161,8 +170,12 @@ export const getServerSideProps = async ({ req, res, query, locale }) => {
     props: {
       slug: Array.isArray(slug) ? slug[0] : slug,
       id: idFromQueryParam(id),
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

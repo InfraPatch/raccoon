@@ -7,15 +7,20 @@ export interface FilledContractListProps {
   contracts: IFilledContract[];
   onChange: () => Promise<void>;
   partyType?: PartyType;
-};
+}
 
-const FilledContractList = ({ contracts, onChange, partyType }: FilledContractListProps) => {
-  const sortedContracts = contracts
-    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+const FilledContractList = ({
+  contracts,
+  onChange,
+  partyType,
+}: FilledContractListProps) => {
+  const sortedContracts = contracts.sort(
+    (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+  );
 
   return (
     <div className="py-3">
-      {sortedContracts.map(contract => (
+      {sortedContracts.map((contract) => (
         <FilledContractListItem
           key={contract.id}
           contract={contract}

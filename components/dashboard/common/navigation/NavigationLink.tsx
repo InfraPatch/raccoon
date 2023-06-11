@@ -7,10 +7,11 @@ export interface NavigationLinkProps {
   icon: ReactElement;
   label: string;
   newtab?: boolean;
-};
+}
 
 const NavigationLink = ({ href, icon, label, newtab }: NavigationLinkProps) => {
-  const classNames = 'flex gap-2 text-foreground text-sm items-center mb-2 px-3 py-2';
+  const classNames =
+    'flex gap-2 text-foreground text-sm items-center mb-2 px-3 py-2';
 
   if (newtab) {
     return (
@@ -28,12 +29,10 @@ const NavigationLink = ({ href, icon, label, newtab }: NavigationLinkProps) => {
   }
 
   return (
-    <Link href={href}>
-      <a className={classNames}>
-        {cloneElement(icon, { className: 'w-5 h-5' })}
+    <Link href={href} className={classNames}>
+      {cloneElement(icon, { className: 'w-5 h-5' })}
 
-        <span>{label}</span>
-      </a>
+      <span>{label}</span>
     </Link>
   );
 };

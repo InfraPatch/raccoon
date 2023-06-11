@@ -1,9 +1,23 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User, IUser } from '../auth/User';
 import { Contract, IContract } from './Contract';
-import { FilledContractOption, IFilledContractOption } from './FilledContractOption';
+import {
+  FilledContractOption,
+  IFilledContractOption,
+} from './FilledContractOption';
 import { IWitnessSignature, WitnessSignature } from './WitnessSignature';
-import { FilledContractAttachment, IFilledContractAttachment } from './FilledContractAttachment';
+import {
+  FilledContractAttachment,
+  IFilledContractAttachment,
+} from './FilledContractAttachment';
 import { FilledItem, IFilledItem } from '../items/FilledItem';
 
 import db from '../../../services/db';
@@ -28,7 +42,7 @@ export interface IFilledContract {
   attachments?: IFilledContractAttachment[];
   sellerSignedAt?: Date | string;
   buyerSignedAt?: Date | string;
-};
+}
 
 @Entity()
 export class FilledContract implements IFilledContract {
@@ -53,13 +67,22 @@ export class FilledContract implements IFilledContract {
   @ManyToOne(() => FilledItem, { nullable: true })
   filledItem: Partial<FilledItem>;
 
-  @OneToMany(() => FilledContractOption, filledContractOption => filledContractOption.filledContract)
+  @OneToMany(
+    () => FilledContractOption,
+    (filledContractOption) => filledContractOption.filledContract,
+  )
   options: Partial<FilledContractOption[]>;
 
-  @OneToMany(() => WitnessSignature, witnessSignature => witnessSignature.filledContract)
+  @OneToMany(
+    () => WitnessSignature,
+    (witnessSignature) => witnessSignature.filledContract,
+  )
   witnessSignatures: Partial<WitnessSignature[]>;
 
-  @OneToMany(() => FilledContractAttachment, attachment => attachment.filledContract)
+  @OneToMany(
+    () => FilledContractAttachment,
+    (attachment) => attachment.filledContract,
+  )
   attachments: Partial<FilledContractAttachment[]>;
 
   // thanks to next-auth's incompatibility with typeorm entities, I cannot
@@ -101,14 +124,24 @@ export class FilledContract implements IFilledContract {
       filename: this.filename,
       contract: this.contract,
       filledItem: this.filledItem && this.filledItem.toJSON(),
-      options: this.options && this.options.map(option => omit(option.toJSON(), 'filledContract')),
-      witnessSignatures: this.witnessSignatures && this.witnessSignatures.map(signature => omit(signature.toJSON(), 'filledContract')),
-      attachments: this.attachments && this.attachments.map(attachment => omit(attachment.toJSON(), 'filledContract')),
+      options:
+        this.options &&
+        this.options.map((option) => omit(option.toJSON(), 'filledContract')),
+      witnessSignatures:
+        this.witnessSignatures &&
+        this.witnessSignatures.map((signature) =>
+          omit(signature.toJSON(), 'filledContract'),
+        ),
+      attachments:
+        this.attachments &&
+        this.attachments.map((attachment) =>
+          omit(attachment.toJSON(), 'filledContract'),
+        ),
       userId: this.userId,
       buyerId: this.buyerId,
       accepted: this.accepted,
       sellerSignedAt: this.sellerSignedAt && this.sellerSignedAt.toJSON(),
-      buyerSignedAt: this.buyerSignedAt && this.buyerSignedAt.toJSON()
+      buyerSignedAt: this.buyerSignedAt && this.buyerSignedAt.toJSON(),
     };
   }
 }

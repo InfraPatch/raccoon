@@ -1,7 +1,7 @@
 import Meta from '@/components/common/Meta';
 import PageLayout from '@/layouts/PageLayout';
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Illustration from '@/components/common/illustrations/Illustration';
 import Button, { ButtonSize } from '@/components/common/button/Button';
@@ -13,7 +13,7 @@ import HomeBox from '@/components/home/HomeBox';
 
 const Home = () => {
   const { t } = useTranslation('home');
-  const [ session, _ ] = useSession();
+  const [session, _] = useSession();
 
   const handleCTAClick = () => {
     if (session) {
@@ -25,23 +25,20 @@ const Home = () => {
 
   return (
     <PageLayout>
-      <Meta
-        description={ t('hero-slogan') }
-        url="/"
-      />
+      <Meta description={t('hero-slogan')} url="/" />
 
       <section className="text-center py-10 px-4 md:px-0">
         <div className="max-w-xl mx-auto mb-10">
           <h1 className="text-5xl mb-10 font-bold text-accent">
-            { t('hero-slogan') }
+            {t('hero-slogan')}
           </h1>
 
-          <p className="text-xl mb-10">
-            { t('hero-description') }
-          </p>
+          <p className="text-xl mb-10">{t('hero-description')}</p>
 
           <div className="text-xl">
-            <Button size={ButtonSize.MEDIUM} onClick={handleCTAClick}>{ t('hero-cta') }</Button>
+            <Button size={ButtonSize.MEDIUM} onClick={handleCTAClick}>
+              {t('hero-cta')}
+            </Button>
           </div>
         </div>
 
@@ -49,35 +46,37 @@ const Home = () => {
       </section>
 
       <div className="text-5xl text-center p-3 my-6 font-bold">
-        { t('hero-steps') }
+        {t('hero-steps')}
       </div>
 
       <div className="max-w-7xl mx-auto">
         <HomeBox
           illustration={<Illustration.OnlineCollaboration />}
           step={1}
-          title={ t('steps.create.title') }
-          description={ t('steps.create.description') }
+          title={t('steps.create.title')}
+          description={t('steps.create.description')}
         />
 
         <HomeBox
           illustration={<Illustration.Forms />}
           step={2}
           reverse
-          title={ t('steps.fill.title') }
-          description={ t('steps.fill.description') }
+          title={t('steps.fill.title')}
+          description={t('steps.fill.description')}
         />
 
         <HomeBox
           illustration={<Illustration.Download />}
           step={3}
-          title={ t('steps.download.title') }
-          description={ t('steps.download.description') }
+          title={t('steps.download.title')}
+          description={t('steps.download.description')}
         />
       </div>
 
       <div className="my-6 p-3 text-center">
-        <Button size={ButtonSize.MEDIUM} onClick={handleCTAClick}>{ t('hero-cta') }</Button>
+        <Button size={ButtonSize.MEDIUM} onClick={handleCTAClick}>
+          {t('hero-cta')}
+        </Button>
       </div>
     </PageLayout>
   );
@@ -86,8 +85,8 @@ const Home = () => {
 export const getStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...await serverSideTranslations(locale, [ 'common', 'home' ])
-    }
+      ...(await serverSideTranslations(locale, ['common', 'home'])),
+    },
   };
 };
 

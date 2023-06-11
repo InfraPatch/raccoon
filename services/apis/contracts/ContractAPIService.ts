@@ -8,25 +8,31 @@ export interface NewContractAPIRequest {
   description: string;
   itemSlug?: string;
   file: File;
-};
+}
 
 export interface ContractIdAPIRequest {
   id: number;
 }
 
-export interface GetContractAPIRequest extends ContractIdAPIRequest {};
+export type GetContractAPIRequest = ContractIdAPIRequest;
 export interface GetContractAPIResponse extends APIResponse {
   contract: Contract;
-};
-export interface DeleteContractAPIRequest extends ContractIdAPIRequest {};
-export interface UpdateContractAPIRequest extends NewContractAPIRequest, ContractIdAPIRequest {};
-export interface UpdateContractAPIResponse extends APIResponse, GetContractAPIResponse {};
-export interface DeleteContractAPIResponse extends APIResponse {};
-export interface NewContractAPIResponse extends APIResponse, GetContractAPIResponse {};
+}
+export type DeleteContractAPIRequest = ContractIdAPIRequest;
+export interface UpdateContractAPIRequest
+  extends NewContractAPIRequest,
+    ContractIdAPIRequest {}
+export interface UpdateContractAPIResponse
+  extends APIResponse,
+    GetContractAPIResponse {}
+export type DeleteContractAPIResponse = APIResponse;
+export interface NewContractAPIResponse
+  extends APIResponse,
+    GetContractAPIResponse {}
 
 export interface GetContractsAPIResponse extends APIResponse {
   contracts: Contract[];
-};
+}
 
 class ContractsAPIService {
   static CONTRACT_URL = '/api/contracts';
@@ -53,37 +59,48 @@ class ContractsAPIService {
     return payload;
   }
 
-  public async newContract(data: NewContractAPIRequest): Promise<NewContractAPIResponse> {
+  public async newContract(
+    data: NewContractAPIRequest,
+  ): Promise<NewContractAPIResponse> {
     const payload = this.createContractData(data);
 
-    return axiosService.post(ContractsAPIService.CONTRACT_URL, payload)
-      .then(res => res.data);
+    return axiosService
+      .post(ContractsAPIService.CONTRACT_URL, payload)
+      .then((res) => res.data);
   }
 
-  public async updateContract(data: UpdateContractAPIRequest): Promise<UpdateContractAPIResponse> {
+  public async updateContract(
+    data: UpdateContractAPIRequest,
+  ): Promise<UpdateContractAPIResponse> {
     const { id } = data;
     const payload = this.createContractData(data);
 
-    return axiosService.patch(`${ContractsAPIService.CONTRACT_URL}/${id}`, payload)
-      .then(res => res.data);
+    return axiosService
+      .patch(`${ContractsAPIService.CONTRACT_URL}/${id}`, payload)
+      .then((res) => res.data);
   }
 
-  public async getContracts() : Promise<GetContractsAPIResponse> {
-    return axiosService.get(ContractsAPIService.CONTRACT_URL)
-      .then(res => res.data);
+  public async getContracts(): Promise<GetContractsAPIResponse> {
+    return axiosService
+      .get(ContractsAPIService.CONTRACT_URL)
+      .then((res) => res.data);
   }
 
-  public async getContract({ id }: GetContractAPIRequest) : Promise<GetContractAPIResponse> {
-    return axiosService.get(`${ContractsAPIService.CONTRACT_URL}/${id}`)
-      .then(res => res.data);
+  public async getContract({
+    id,
+  }: GetContractAPIRequest): Promise<GetContractAPIResponse> {
+    return axiosService
+      .get(`${ContractsAPIService.CONTRACT_URL}/${id}`)
+      .then((res) => res.data);
   }
 
-  public async deleteContract({ id }: DeleteContractAPIRequest) : Promise<DeleteContractAPIResponse> {
-    return axiosService.delete(`${ContractsAPIService.CONTRACT_URL}/${id}`)
-      .then(res => res.data);
+  public async deleteContract({
+    id,
+  }: DeleteContractAPIRequest): Promise<DeleteContractAPIResponse> {
+    return axiosService
+      .delete(`${ContractsAPIService.CONTRACT_URL}/${id}`)
+      .then((res) => res.data);
   }
 }
 
-export {
-  ContractsAPIService
-};
+export { ContractsAPIService };

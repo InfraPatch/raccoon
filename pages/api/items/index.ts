@@ -6,5 +6,5 @@ import * as itemsController from '@/controllers/items/itemsController';
 
 export default bar({
   get: ensureAuthenticated(itemsController.index),
-  post: ensureAdministrator(itemsController.create)
+  post: ensureAdministrator(itemsController.create),
 });

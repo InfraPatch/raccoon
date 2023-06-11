@@ -18,7 +18,10 @@ export interface WitnessSignatureResponse {
   signature: WitnessSignature;
 }
 
-export const getWitnessSignature = async (email: string, signatureId: number): Promise<WitnessSignatureResponse> => {
+export const getWitnessSignature = async (
+  email: string,
+  signatureId: number,
+): Promise<WitnessSignatureResponse> => {
   await db.prepare();
 
   const userRepository = db.getRepository(User);
@@ -30,7 +33,9 @@ export const getWitnessSignature = async (email: string, signatureId: number): P
     throw new GetWitnessSignatureError('USER_NOT_FOUND');
   }
 
-  const signature = await witnessSignatureRepository.findOne(signatureId, { relations: [ 'filledContract' ] });
+  const signature = await witnessSignatureRepository.findOne(signatureId, {
+    relations: ['filledContract'],
+  });
 
   if (!signature) {
     throw new GetWitnessSignatureError('WITNESS_SIGNATURE_NOT_FOUND');
@@ -38,7 +43,14 @@ export const getWitnessSignature = async (email: string, signatureId: number): P
 
   const filledContract = signature.filledContract;
 
-  if (!user.isAdmin && ![ signature.witnessId, filledContract.userId, filledContract.buyerId ].includes(user.id)) {
+  if (
+    !user.isAdmin &&
+    ![
+      signature.witnessId,
+      filledContract.userId,
+      filledContract.buyerId,
+    ].includes(user.id)
+  ) {
     throw new GetWitnessSignatureError('ACCESS_TO_WITNESS_SIGNATURE_DENIED');
   }
 

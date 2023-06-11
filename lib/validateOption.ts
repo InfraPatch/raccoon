@@ -20,35 +20,50 @@ class OptionValidationError extends Error {
   }
 }
 
-export const validateOption = <T extends ItemOption | ContractOption>(option: T, value: string) : (OptionValidationError | null) => {
+export const validateOption = <T extends ItemOption | ContractOption>(
+  option: T,
+  value: string,
+): OptionValidationError | null => {
   if (option.minimumValue !== undefined && option.minimumValue !== null) {
-    if (option.type === OptionType.STRING && value.length < option.minimumValue) {
+    if (
+      option.type === OptionType.STRING &&
+      value.length < option.minimumValue
+    ) {
       return new OptionValidationError('FIELD_STRING_TOO_SHORT', {
         friendlyName: option.friendlyName,
-        min: option.minimumValue
+        min: option.minimumValue,
       });
     }
 
-    if (option.type === OptionType.NUMBER && parseInt(value) < option.minimumValue) {
+    if (
+      option.type === OptionType.NUMBER &&
+      parseInt(value) < option.minimumValue
+    ) {
       return new OptionValidationError('FIELD_NUMBER_TOO_SMALL', {
         friendlyName: option.friendlyName,
-        min: option.minimumValue
+        min: option.minimumValue,
       });
     }
   }
 
   if (option.maximumValue !== undefined && option.maximumValue !== null) {
-    if (option.type === OptionType.STRING && value.length > option.maximumValue) {
+    if (
+      option.type === OptionType.STRING &&
+      value.length > option.maximumValue
+    ) {
       return new OptionValidationError('FIELD_STRING_TOO_LONG', {
         friendlyName: option.friendlyName,
-        max: option.maximumValue
+        max: option.maximumValue,
       });
     }
 
-    if (option.type === OptionType.NUMBER && parseInt(value) > option.maximumValue) {
+    if (
+      option.type === OptionType.NUMBER &&
+      parseInt(value) > option.maximumValue
+    ) {
       return new OptionValidationError('FIELD_NUMBER_TOO_LARGE', {
         friendlyName: option.friendlyName,
-        max: option.maximumValue
+        max: option.maximumValue,
       });
     }
   }
@@ -56,7 +71,7 @@ export const validateOption = <T extends ItemOption | ContractOption>(option: T,
   if (option.type === OptionType.EMAIL) {
     if (!EmailValidator.validate(value)) {
       return new OptionValidationError('FIELD_INVALID_EMAIL', {
-        friendlyName: option.friendlyName
+        friendlyName: option.friendlyName,
       });
     }
   }
@@ -66,7 +81,7 @@ export const validateOption = <T extends ItemOption | ContractOption>(option: T,
 
     if (!(date instanceof Date) || !isFinite(date.getTime())) {
       return new OptionValidationError('FIELD_DATE_INVALID', {
-        friendlyName: option.friendlyName
+        friendlyName: option.friendlyName,
       });
     }
   }
@@ -74,7 +89,7 @@ export const validateOption = <T extends ItemOption | ContractOption>(option: T,
   if (option.type === OptionType.URL) {
     if (!isUrl(value)) {
       return new OptionValidationError('FIELD_URL_INVALID', {
-        friendlyName: option.friendlyName
+        friendlyName: option.friendlyName,
       });
     }
   }

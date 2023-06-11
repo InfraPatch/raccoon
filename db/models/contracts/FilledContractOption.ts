@@ -1,4 +1,11 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ContractOption, IContractOption } from './ContractOption';
 import { FilledContract, IFilledContract } from './FilledContract';
 
@@ -11,7 +18,7 @@ export interface IFilledContractOption {
   filledContract?: IFilledContract;
   option?: IContractOption;
   value: string;
-};
+}
 
 @Entity()
 export class FilledContractOption implements IFilledContractOption {
@@ -24,13 +31,13 @@ export class FilledContractOption implements IFilledContractOption {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => FilledContract, filledContract => filledContract.options, {
-    onDelete: 'CASCADE'
+  @ManyToOne(() => FilledContract, (filledContract) => filledContract.options, {
+    onDelete: 'CASCADE',
   })
   filledContract: Partial<FilledContract>;
 
   @ManyToOne(() => ContractOption, {
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   option: Partial<ContractOption>;
 
@@ -42,9 +49,11 @@ export class FilledContractOption implements IFilledContractOption {
       id: this.id,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
-      filledContract: this.filledContract ? omit(this.filledContract.toJSON(), 'options') : undefined,
+      filledContract: this.filledContract
+        ? omit(this.filledContract.toJSON(), 'options')
+        : undefined,
       option: this.option ? omit(this.option.toJSON(), 'contract') : undefined,
-      value: this.value
+      value: this.value,
     };
   }
 }

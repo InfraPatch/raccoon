@@ -3,7 +3,7 @@ import Button, { ButtonSize } from '@/components/common/button/Button';
 
 import apiService from '@/services/apis';
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 
 import toaster from '@/lib/toaster';
@@ -21,26 +21,29 @@ const MySwal = withReactContent(Swal);
 
 export interface NewFilledContractFormProps {
   contract: Contract;
-};
+}
 
 interface NewFilledContractFormFields {
   friendlyName: string;
   buyerEmail: string;
-};
+}
 
 const NewFilledContractForm = ({ contract }: NewFilledContractFormProps) => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+  const { t } = useTranslation(['dashboard', 'errors']);
   const router = useRouter();
 
-  const [ filledItem, setFilledItem ] = useState<IFilledItem | null>(null);
+  const [filledItem, setFilledItem] = useState<IFilledItem | null>(null);
 
-  const handleFormSubmit = async ({ friendlyName, buyerEmail }: NewFilledContractFormFields, { setSubmitting }: FormikHelpers<NewFilledContractFormFields>) => {
+  const handleFormSubmit = async (
+    { friendlyName, buyerEmail }: NewFilledContractFormFields,
+    { setSubmitting }: FormikHelpers<NewFilledContractFormFields>,
+  ) => {
     try {
       await apiService.filledContracts.createFilledContract({
         contractId: contract.id,
         friendlyName,
         buyerEmail,
-        filledItemId: filledItem ? filledItem.id : undefined
+        filledItemId: filledItem ? filledItem.id : undefined,
       });
 
       toaster.success(t('dashboard:new-contract.success'));
@@ -73,7 +76,7 @@ const NewFilledContractForm = ({ contract }: NewFilledContractFormProps) => {
           setFilledItem={setFilledItem}
         />
       ),
-      confirmButtonText: t('dashboard:new-contract.filled-item-modal.confirm')
+      confirmButtonText: t('dashboard:new-contract.filled-item-modal.confirm'),
     });
   };
 
@@ -85,30 +88,44 @@ const NewFilledContractForm = ({ contract }: NewFilledContractFormProps) => {
       {({ isSubmitting }) => (
         <Form>
           <div className="form-field">
-            <label htmlFor="friendlyName">{ t('dashboard:new-contract.fields.friendlyName') }:</label>
+            <label htmlFor="friendlyName">
+              {t('dashboard:new-contract.fields.friendlyName')}:
+            </label>
             <Field name="friendlyName" />
           </div>
 
           <div className="form-field">
-            <label htmlFor="buyerEmail">{ t('dashboard:new-contract.fields.buyerEmail') }:</label>
+            <label htmlFor="buyerEmail">
+              {t('dashboard:new-contract.fields.buyerEmail')}:
+            </label>
             <Field name="buyerEmail" type="email" />
           </div>
 
           {contract.item && (
             <div className="form-fields">
               <div className="mb-2">
-                <strong>{ t('dashboard:new-contract.fields.filled-item') } ({contract.item.friendlyName}):</strong> {filledItem ? filledItem.friendlyName : t('dashboard:new-contract.fields.filled-item-none')}
+                <strong>
+                  {t('dashboard:new-contract.fields.filled-item')} (
+                  {contract.item.friendlyName}):
+                </strong>{' '}
+                {filledItem
+                  ? filledItem.friendlyName
+                  : t('dashboard:new-contract.fields.filled-item-none')}
               </div>
 
               <Button size={ButtonSize.SMALL} onClick={handleItemSelectClick}>
-                { t('dashboard:new-contract.fields.filled-item-select') }
+                {t('dashboard:new-contract.fields.filled-item-select')}
               </Button>
             </div>
           )}
 
           <div className="form-field">
-            <Button size={ButtonSize.MEDIUM} type="submit" disabled={isSubmitting}>
-              { t('dashboard:new-contract.submit') }
+            <Button
+              size={ButtonSize.MEDIUM}
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {t('dashboard:new-contract.submit')}
             </Button>
           </div>
         </Form>

@@ -1,4 +1,4 @@
-import Adapters, { TypeORMVerificationRequestModel } from 'next-auth/adapters';
+import Adapters from 'next-auth/adapters';
 
 export class VerificationRequest {
   id: number;
@@ -25,5 +25,5 @@ export class VerificationRequest {
 
 export const VerificationRequestSchema = {
   ...Adapters.TypeORM.Models.VerificationRequest.schema,
-  target: VerificationRequest
+  target: VerificationRequest,
 };

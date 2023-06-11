@@ -9,7 +9,7 @@ import Box from '@/components/common/box/Box';
 import NewItemForm from '@/components/dashboard/admin/items/NewItemForm';
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Meta from '@/components/common/Meta';
 
 const DashboardNewItemPage = () => {
@@ -18,7 +18,7 @@ const DashboardNewItemPage = () => {
   return (
     <DashboardLayout>
       <Meta
-        title={ t('dashboard:pages.new-item') }
+        title={t('dashboard:pages.new-item')}
         url="/dashboard/admin/property-categories/new"
       />
       <Columns>
@@ -43,8 +43,12 @@ export const getServerSideProps = async ({ req, res, locale }) => {
 
   return {
     props: {
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

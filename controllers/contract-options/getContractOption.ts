@@ -13,7 +13,9 @@ class GetContractOptionError extends Error {
   }
 }
 
-export const getContractOption = async ({ id } : GetContractOptionAPIRequest): Promise<ContractOption> => {
+export const getContractOption = async ({
+  id,
+}: GetContractOptionAPIRequest): Promise<ContractOption> => {
   await db.prepare();
   const optionRepository = db.getRepository(ContractOption);
 

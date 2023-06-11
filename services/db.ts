@@ -1,4 +1,11 @@
-import { ConnectionOptions, EntitySchema, createConnection, getConnection, getManager, getRepository } from 'typeorm';
+import {
+  ConnectionOptions,
+  EntitySchema,
+  createConnection,
+  getConnection,
+  getManager,
+  getRepository,
+} from 'typeorm';
 import config from '../config';
 import { CamelCaseNamingStrategy } from '../lib/namingStrategies';
 
@@ -32,27 +39,29 @@ const baseConnectionOptions: ConnectionOptions = {
   database: config.database.name,
 
   extra: {
-    charset: 'utf8mb4_unicode_ci'
+    charset: 'utf8mb4_unicode_ci',
   },
 
-  namingStrategy: new CamelCaseNamingStrategy()
+  namingStrategy: new CamelCaseNamingStrategy(),
 };
 
 const authModels = {
   Account: { schema: AccountSchema },
   Session: { schema: SessionSchema },
   User: { schema: UserSchema },
-  VerificationRequest: { schema: VerificationRequestSchema }
+  VerificationRequest: { schema: VerificationRequestSchema },
 };
 
 transform(baseConnectionOptions, authModels, {
-  namingStrategy: baseConnectionOptions.namingStrategy
+  namingStrategy: baseConnectionOptions.namingStrategy,
 });
 
 const Account = new EntitySchema(authModels.Account.schema);
 const Session = new EntitySchema(authModels.Session.schema);
 const User = new EntitySchema(authModels.User.schema as any); // idk
-const VerificationRequest = new EntitySchema(authModels.VerificationRequest.schema);
+const VerificationRequest = new EntitySchema(
+  authModels.VerificationRequest.schema,
+);
 
 const connectionOptions: ConnectionOptions = {
   ...baseConnectionOptions,
@@ -74,8 +83,8 @@ const connectionOptions: ConnectionOptions = {
     FilledItemOption,
     FilledItemAttachment,
 
-    WitnessSignature
-  ]
+    WitnessSignature,
+  ],
 };
 
 let connectionReadyPromise: Promise<void> | null = null;
@@ -87,7 +96,9 @@ const db = {
         try {
           const connection = getConnection();
           await connection.close();
-        } catch (err) {}
+        } catch (err) {
+          // Ignore.
+        }
 
         await createConnection(connectionOptions);
       })();
@@ -98,7 +109,7 @@ const db = {
 
   getConnection,
   getManager,
-  getRepository
+  getRepository,
 };
 
 export default db;
@@ -106,9 +117,8 @@ export default db;
 export {
   baseConnectionOptions,
   connectionOptions,
-
   Account,
   Session,
   User,
-  VerificationRequest
+  VerificationRequest,
 };

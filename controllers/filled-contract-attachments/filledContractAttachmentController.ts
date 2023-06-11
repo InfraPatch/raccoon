@@ -17,12 +17,12 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
   const form = new formidable.IncomingForm();
 
-  return new Promise<void>(resolve => {
+  return new Promise<void>((resolve) => {
     form.parse(req, async (err, fields, files) => {
       if (err) {
         res.status(500).json({
           ok: false,
-          error: 'INTERNAL_SERVER_ERROR'
+          error: 'INTERNAL_SERVER_ERROR',
         });
 
         return resolve();
@@ -32,20 +32,23 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
         const user = await createFilledContractAttachment(session.user.email, {
           filledContractId: parseInt(firstOf(fields.filledContractId)),
           friendlyName: firstOf(fields.friendlyName),
-          file: firstOf(files.file)
+          file: firstOf(files.file),
         });
 
         res.json({
           ok: true,
-          user
+          user,
         });
 
         return resolve();
       } catch (err) {
-        if (err.name === 'CreateFilledContractAttachmentError' || err.name === 'CreateAttachmentError') {
+        if (
+          err.name === 'CreateFilledContractAttachmentError' ||
+          err.name === 'CreateAttachmentError'
+        ) {
           res.status(400).json({
             ok: false,
-            error: err.code
+            error: err.code,
           });
           return resolve();
         }
@@ -54,7 +57,7 @@ export const create = async (req: NextApiRequest, res: NextApiResponse) => {
 
         res.status(500).json({
           ok: false,
-          error: 'INTERNAL_SERVER_ERROR'
+          error: 'INTERNAL_SERVER_ERROR',
         });
 
         return resolve();
@@ -68,13 +71,19 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    await deleteFilledContractAttachment(session.user.email, idFromQueryParam(id));
+    await deleteFilledContractAttachment(
+      session.user.email,
+      idFromQueryParam(id),
+    );
     return res.json({ ok: true });
   } catch (err) {
-    if (err.name === 'DeleteFilledContractAttachmentError' || err.name === 'GetFilledContractAttachmentError') {
+    if (
+      err.name === 'DeleteFilledContractAttachmentError' ||
+      err.name === 'GetFilledContractAttachmentError'
+    ) {
       return res.status(400).json({
         ok: false,
-        error: err.code
+        error: err.code,
       });
     }
 
@@ -82,7 +91,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };
@@ -93,23 +102,26 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   let response = null;
 
   try {
-    const getResponse = await getFilledContractAttachment(session.user.email, idFromQueryParam(id));
+    const getResponse = await getFilledContractAttachment(
+      session.user.email,
+      idFromQueryParam(id),
+    );
     response = {
       ok: true,
-      attachment: getResponse.attachment
+      attachment: getResponse.attachment,
     };
   } catch (err) {
     if (err.name === 'GetFilledContractAttachmentError') {
       response = {
         ok: false,
-        error: err.code
+        error: err.code,
       };
       res.status(400);
     } else {
       console.error(err);
       response = {
         ok: false,
-        error: 'INTERNAL_SERVER_ERROR'
+        error: 'INTERNAL_SERVER_ERROR',
       };
       res.status(500);
     }
@@ -128,12 +140,15 @@ export const download = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    let response = await downloadFilledContractAttachment(session.user.email, idFromQueryParam(id));
+    const response = await downloadFilledContractAttachment(
+      session.user.email,
+      idFromQueryParam(id),
+    );
 
     if (!response) {
       return res.status(400).json({
         ok: false,
-        error: 'DOCUMENT_NOT_FOUND'
+        error: 'DOCUMENT_NOT_FOUND',
       });
     }
 
@@ -148,7 +163,7 @@ export const download = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(500).json({
       ok: false,
-      error: 'INTERNAL_SERVER_ERROR'
+      error: 'INTERNAL_SERVER_ERROR',
     });
   }
 };

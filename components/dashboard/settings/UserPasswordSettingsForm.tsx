@@ -7,7 +7,7 @@ import { User } from '@/db/models/auth/User';
 import apiService from '@/services/apis';
 import toaster from '@/lib/toaster';
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 import * as UserSettingsValidator from '@/validators/UserSettingsValidator';
 
@@ -16,20 +16,26 @@ import { useRouter } from 'next/router';
 
 export interface UserPasswordSettingsFormProps {
   user: User;
-};
+}
 
 const UserPasswordSettingsForm = ({ user }: UserPasswordSettingsFormProps) => {
   const router = useRouter();
-  const { t } = useTranslation([ 'common', 'dashboard', 'errors' ]);
+  const { t } = useTranslation(['common', 'dashboard', 'errors']);
 
-  const handleFormSubmit = async ({ password, password2, oldPassword }: UpdateUserPasswordAPIRequest, { setSubmitting, resetForm }: FormikHelpers<UpdateUserPasswordAPIRequest>) => {
+  const handleFormSubmit = async (
+    { password, password2, oldPassword }: UpdateUserPasswordAPIRequest,
+    { setSubmitting, resetForm }: FormikHelpers<UpdateUserPasswordAPIRequest>,
+  ) => {
     try {
       await apiService.users.updateUser({ password, password2, oldPassword });
       toaster.success(t('dashboard:settings.success'));
       resetForm();
     } catch (err) {
       if (err.response?.data?.message) {
-        const message = err.response.data.message[router.locale] || err.response.data.error || t('errors:users.AVDH_FAILED');
+        const message =
+          err.response.data.message[router.locale] ||
+          err.response.data.error ||
+          t('errors:users.AVDH_FAILED');
         toaster.danger(message);
         return;
       } else if (err.response?.data?.error) {
@@ -56,25 +62,35 @@ const UserPasswordSettingsForm = ({ user }: UserPasswordSettingsFormProps) => {
       {({ isSubmitting }) => (
         <Form>
           <div className="form-field">
-            <label htmlFor="password">{ t('dashboard:user-fields.new-password') }:</label>
+            <label htmlFor="password">
+              {t('dashboard:user-fields.new-password')}:
+            </label>
             <Field name="password" type="password" />
             <ErrorMessage name="password" component={CompactDangerMessage} />
           </div>
 
           <div className="form-field">
-            <label htmlFor="password2">{ t('dashboard:user-fields.new-password2') }:</label>
+            <label htmlFor="password2">
+              {t('dashboard:user-fields.new-password2')}:
+            </label>
             <Field name="password2" type="password" />
             <ErrorMessage name="password2" component={CompactDangerMessage} />
           </div>
 
           <div className="form-field">
-            <label htmlFor="oldPassword">{ t('dashboard:user-fields.old-password') }:</label>
+            <label htmlFor="oldPassword">
+              {t('dashboard:user-fields.old-password')}:
+            </label>
             <Field name="oldPassword" type="password" />
           </div>
 
           <div className="form-field">
-            <Button size={ButtonSize.MEDIUM} type="submit" disabled={isSubmitting}>
-              { t('common:save') }
+            <Button
+              size={ButtonSize.MEDIUM}
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {t('common:save')}
             </Button>
           </div>
         </Form>

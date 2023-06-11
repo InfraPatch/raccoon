@@ -1,10 +1,15 @@
-import { IContactFormFields, IContactFormValidationErrors } from '@/components/contact-form/IContactFormFields';
+import {
+  IContactFormFields,
+  IContactFormValidationErrors,
+} from '@/components/contact-form/IContactFormFields';
 import { TFunction } from 'next-i18next';
 
 import EmailValidator from 'email-validator';
 
-const validate = (t: TFunction): ((fields: IContactFormFields) => IContactFormValidationErrors) => {
-  return fields => {
+const validate = (
+  t: TFunction,
+): ((fields: IContactFormFields) => IContactFormValidationErrors) => {
+  return (fields) => {
     const errors: IContactFormValidationErrors = {};
 
     if (fields.name.length < 2) {
@@ -27,6 +32,4 @@ const validate = (t: TFunction): ((fields: IContactFormFields) => IContactFormVa
   };
 };
 
-export {
-  validate
-};
+export { validate };

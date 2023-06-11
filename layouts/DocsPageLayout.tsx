@@ -11,9 +11,14 @@ export interface DocsPageLayoutProps {
   description: string;
   url: string;
   children: ReactNode;
-};
+}
 
-const DocsPageLayout = ({ title, description, url, children }: DocsPageLayoutProps) => {
+const DocsPageLayout = ({
+  title,
+  description,
+  url,
+  children,
+}: DocsPageLayoutProps) => {
   return (
     <PageLayout>
       <Meta title={title} description={description} url={url} />
@@ -23,9 +28,7 @@ const DocsPageLayout = ({ title, description, url, children }: DocsPageLayoutPro
 
         <article className="flex-1">
           <Box>
-            <div className="content docs">
-              {children}
-            </div>
+            <div className="content docs">{children}</div>
           </Box>
         </article>
       </section>

@@ -9,15 +9,14 @@ import { useEffect, useState } from 'react';
 import { Menu, X } from 'react-feather';
 
 import Button, { ButtonSize } from '../button/Button';
-import HeaderLink from './HeaderLink';
 
 const TheHeader = () => {
   const { t } = useTranslation('common');
 
   const router = useRouter();
-  const [ session, _ ] = useSession();
+  const [session, _] = useSession();
 
-  const [ menuOpen, setMenuOpen ] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleDashboardClick = () => {
     if (session) {
@@ -27,43 +26,52 @@ const TheHeader = () => {
     }
   };
 
-  const toggleMenu = () => setMenuOpen(currentState => !currentState);
+  const toggleMenu = () => setMenuOpen((currentState) => !currentState);
 
   useEffect(() => {
     setMenuOpen(false);
-  }, [ router.pathname ]);
+  }, [router.pathname]);
 
   const navigationWrapperClasses = clsx('md:block', { hidden: !menuOpen });
 
   return (
     <header className="block w-full md:flex justify-between items-center p-3 md:p-0 md:py-8 mb-4 md:mb-0">
       <Link href="/">
-        <a>
-          <div className="text-accent text-2xl mb-3 md:mb-0">
-            Project Raccoon
-          </div>
-        </a>
+        <div className="text-accent text-2xl mb-3 md:mb-0">Project Raccoon</div>
       </Link>
 
       <div className={navigationWrapperClasses}>
         <nav className="md:flex items-center gap-1">
           <div className="text-center md:mr-4 md:text-left">
-            <Link href="/">
-              <HeaderLink>{ t('home') }</HeaderLink>
+            <Link
+              href="/"
+              className="block md:inline-block px-4 lg:px-10 py-2 text-foreground hover:bg-secondary rounded-3xl cursor-pointer mb-2 md:mb-0"
+            >
+              {t('home')}
             </Link>
 
-            <Link href="/docs">
-              <HeaderLink>{ t('how-it-works') }</HeaderLink>
+            <Link
+              href="/docs"
+              className="block md:inline-block px-4 lg:px-10 py-2 text-foreground hover:bg-secondary rounded-3xl cursor-pointer mb-2 md:mb-0"
+            >
+              {t('how-it-works')}
             </Link>
 
-            <Link href="/contact">
-              <HeaderLink>{ t('contact') }</HeaderLink>
+            <Link
+              href="/contact"
+              className="block md:inline-block px-4 lg:px-10 py-2 text-foreground hover:bg-secondary rounded-3xl cursor-pointer mb-2 md:mb-0"
+            >
+              {t('contact')}
             </Link>
           </div>
 
           <div className="text-center">
-            <Button size={ButtonSize.SMALL} onClick={handleDashboardClick} className="text-center">
-              { t(session ? 'dashboard' : 'log-in') }
+            <Button
+              size={ButtonSize.SMALL}
+              onClick={handleDashboardClick}
+              className="text-center"
+            >
+              {t(session ? 'dashboard' : 'log-in')}
             </Button>
           </div>
         </nav>

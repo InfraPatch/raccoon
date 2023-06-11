@@ -1,4 +1,11 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ItemOption, IItemOption } from './ItemOption';
 
 import omit from 'lodash.omit';
@@ -11,7 +18,7 @@ export interface IItem {
   slug?: string;
   description?: string;
   options?: IItemOption[];
-};
+}
 
 @Entity()
 export class Item implements IItem {
@@ -33,7 +40,7 @@ export class Item implements IItem {
   @Column()
   description: string;
 
-  @OneToMany(() => ItemOption, itemOption => itemOption.item)
+  @OneToMany(() => ItemOption, (itemOption) => itemOption.item)
   options: Partial<ItemOption[]>;
 
   toJSON(): IItem {
@@ -44,7 +51,9 @@ export class Item implements IItem {
       friendlyName: this.friendlyName,
       slug: this.slug,
       description: this.description,
-      options: this.options ? this.options.map(option => omit(option.toJSON(), 'item')) : []
+      options: this.options
+        ? this.options.map((option) => omit(option.toJSON(), 'item'))
+        : [],
     };
   }
 }

@@ -3,35 +3,16 @@
     "browser": true,
     "node": true
   },
-  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": [
-    "@typescript-eslint/eslint-plugin"
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@next/next/recommended"
   ],
-  "rules": {
-    "@typescript-eslint/indent": [ "error", 2 ],
-    "@typescript-eslint/member-delimiter-style": [ "error", {
-      "multiline": {
-        "delimiter": "semi",
-        "requireLast": true
-      },
-
-      "singleline": {
-        "delimiter": "semi",
-        "requireLast": false
-      }
-    } ],
-    "@typescript-eslint/no-unused-expressions": "error",
-    "@typescript-eslint/semi": [ "error", "always" ],
-    "curly": "error",
-    "eqeqeq": [ "error", "always" ],
-    "no-redeclare": "error",
-    "no-throw-literal": "error"
-  },
-  "ignorePatterns": [
-    "db/migrations/*"
-  ]
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "root": true
 }

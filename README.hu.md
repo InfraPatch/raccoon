@@ -1,21 +1,3 @@
-# This is our code and we reserve our rights to it.
-
-https://blog.sallai.me/hu/nisz-verseny-csalodas
-
-We put our time, effort, dedication, and heart into this project to make it the
-best sell contract management platform ever built. Despite all our efforts, it
-just wasn't enough for NISZ, so we did not receive what we felt we deserved for
-it. We will not let NISZ benefit on our hard work. This code and project belong
-to us, the developers, who've spent days upon nights building it and sometimes
-gave up on classes and exams just to make everything pixel-perfect. NISZ shall
-not take advantage of this, as it counts as literal stealing, both of our code
-and our time.
-
-Let these words guard our hard work and effort for thousands of iterations yet
-to come.
-
-https://infrapatch.notion.site/Project-Raccoon-e45fcdec09e04d88ba5594e8bbef8545
-
 # Project Raccoon
 
 A Project Raccoon egy egyszerű alkalmazás adásvételi szerződések létrehozására,
@@ -23,7 +5,7 @@ aláírására és kezelésére.
 
 ## Szükséges szoftverek
 
-- Node.js v12 vagy annál újabb
+- Node.js v14 vagy annál újabb
 - MySQL
 - [LibreOffice](https://libreoffice.org/download/download) a Word dokumentumok PDF
 formátumba való konvertálásához.
@@ -33,7 +15,7 @@ formátumba való konvertálásához.
 **1. Klónold a repository-t**
 
 ```sh
-git clone git@github.com:infrapatch/raccoon.git
+git clone git@github.com:jozsefsallai/project-raccoon.git
 cd raccoon
 ```
 
@@ -145,7 +127,3 @@ yarn migration:rollback
 ```
 yarn build
 ```
-
-## Licensz
-
-A projekt és annak forráskódja az InfraPatch-nek van licenszelve.

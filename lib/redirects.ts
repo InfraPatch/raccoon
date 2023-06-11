@@ -1,9 +1,12 @@
 import { Session } from 'next-auth';
 
-export const redirectIfAuthenticated = async (res, session: Session): Promise<boolean> => {
+export const redirectIfAuthenticated = async (
+  res,
+  session: Session,
+): Promise<boolean> => {
   if (session) {
     res.writeHead(302, {
-      location: '/dashboard'
+      location: '/dashboard',
     });
     res.end();
 
@@ -13,10 +16,13 @@ export const redirectIfAuthenticated = async (res, session: Session): Promise<bo
   return false;
 };
 
-export const redirectIfAnonymous = async (res, session: Session): Promise<boolean> => {
+export const redirectIfAnonymous = async (
+  res,
+  session: Session,
+): Promise<boolean> => {
   if (!session || !session.user) {
     res.writeHead(302, {
-      location: '/login'
+      location: '/login',
     });
     res.end();
 
@@ -26,10 +32,13 @@ export const redirectIfAnonymous = async (res, session: Session): Promise<boolea
   return false;
 };
 
-export const redirectIfNotAdmin = async (res, session: Session): Promise<boolean> => {
+export const redirectIfNotAdmin = async (
+  res,
+  session: Session,
+): Promise<boolean> => {
   if (!session || !session.user) {
     res.writeHead(302, {
-      location: '/login'
+      location: '/login',
     });
     res.end();
 
@@ -38,7 +47,7 @@ export const redirectIfNotAdmin = async (res, session: Session): Promise<boolean
 
   if (!session.user.isAdmin) {
     res.writeHead(302, {
-      location: '/dashboard'
+      location: '/dashboard',
     });
     res.end();
 

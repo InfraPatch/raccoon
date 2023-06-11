@@ -1,6 +1,9 @@
 import { IFilledContract } from '@/db/models/contracts/FilledContract';
 
-export const isWitnessOf = (userId: number, contract: IFilledContract) : boolean => {
+export const isWitnessOf = (
+  userId: number,
+  contract: IFilledContract,
+): boolean => {
   for (const signature of contract.witnessSignatures) {
     if (signature.witnessId === userId) {
       return true;
@@ -10,7 +13,10 @@ export const isWitnessOf = (userId: number, contract: IFilledContract) : boolean
   return false;
 };
 
-export const hasWitnessSigned = (userId: number, contract: IFilledContract) : boolean => {
+export const hasWitnessSigned = (
+  userId: number,
+  contract: IFilledContract,
+): boolean => {
   for (const signature of contract.witnessSignatures) {
     if (signature.witnessId === userId) {
       return !!signature.signedAt;
@@ -20,7 +26,7 @@ export const hasWitnessSigned = (userId: number, contract: IFilledContract) : bo
   return false;
 };
 
-export const allWitnessesSigned = (contract: IFilledContract) : boolean => {
+export const allWitnessesSigned = (contract: IFilledContract): boolean => {
   for (const signature of contract.witnessSignatures) {
     if (!signature.signedAt) {
       return false;
@@ -30,6 +36,10 @@ export const allWitnessesSigned = (contract: IFilledContract) : boolean => {
   return true;
 };
 
-export const allPartiesSigned = (contract: IFilledContract) : boolean => {
-  return contract.sellerSignedAt && contract.buyerSignedAt && allWitnessesSigned(contract);
+export const allPartiesSigned = (contract: IFilledContract): boolean => {
+  return (
+    contract.sellerSignedAt &&
+    contract.buyerSignedAt &&
+    allWitnessesSigned(contract)
+  );
 };

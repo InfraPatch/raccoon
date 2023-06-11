@@ -4,7 +4,7 @@ export const hash = (password: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     return bcrypt
       .genSalt(10)
-      .then(salt => bcrypt.hash(password, salt))
+      .then((salt) => bcrypt.hash(password, salt))
       .then(resolve)
       .catch(reject);
   });

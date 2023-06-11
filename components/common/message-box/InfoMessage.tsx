@@ -8,25 +8,18 @@ export interface CompactInfoMessageProps {
 
 export interface InfoMessageProps extends CompactInfoMessageProps {
   compact?: boolean;
-};
+}
 
 const InfoMessage = ({ compact, children }: InfoMessageProps) => {
   return (
     <MessageBox type="info" compact={compact}>
-      { children }
+      {children}
     </MessageBox>
   );
 };
 
 const CompactInfoMessage = ({ children }: CompactInfoMessageProps) => {
-  return (
-    <InfoMessage compact>
-      {children}
-    </InfoMessage>
-  );
+  return <InfoMessage compact>{children}</InfoMessage>;
 };
 
-export {
-  InfoMessage,
-  CompactInfoMessage
-};
+export { InfoMessage, CompactInfoMessage };

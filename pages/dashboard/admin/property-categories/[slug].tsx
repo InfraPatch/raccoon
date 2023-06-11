@@ -17,26 +17,26 @@ import { ItemOption } from '@/db/models/items/ItemOption';
 import EditItemForm from '@/components/dashboard/admin/items/EditItemForm';
 import ItemOptionForm from '@/components/dashboard/admin/items/ItemOptionForm';
 import Meta from '@/components/common/Meta';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Loading from '@/components/common/Loading';
 import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 
 export interface DashboardItemPageProps {
   slug: string;
-};
+}
 
 const DashboardItemPage = ({ slug }: DashboardItemPageProps) => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+  const { t } = useTranslation(['dashboard', 'errors']);
 
-  const [ item, setItem ] = useState<Item | null>(null);
-  const [ rows, setRows ] = useState<ItemOption[][]>([]);
+  const [item, setItem] = useState<Item | null>(null);
+  const [rows, setRows] = useState<ItemOption[][]>([]);
 
-  const [ error, setError ] = useState('');
+  const [error, setError] = useState('');
 
   const rerenderOptions = (item: Item) => {
     const rows: ItemOption[][] = [];
 
-    for (let i : number = 0; i < item.options.length; i += 3) {
+    for (let i = 0; i < item.options.length; i += 3) {
       rows.push(item.options.slice(i, i + 3));
     }
 
@@ -74,7 +74,9 @@ const DashboardItemPage = ({ slug }: DashboardItemPageProps) => {
   return (
     <DashboardLayout>
       <Meta
-        title={`${t('dashboard:pages.item-categories')}: ${item?.friendlyName || '...'}`}
+        title={`${t('dashboard:pages.item-categories')}: ${
+          item?.friendlyName || '...'
+        }`}
         url={`/dashboard/admin/property-categories/${slug}`}
       />
 
@@ -86,30 +88,29 @@ const DashboardItemPage = ({ slug }: DashboardItemPageProps) => {
             </Column>
           </Columns>
 
-          {rows && rows.map((row, index) => {
-            let columns = [];
+          {rows &&
+            rows.map((row, index) => {
+              const columns = [];
 
-            for (let i : number = 0; i < row.length; ++i) {
-              let itemOption : ItemOption = row[i];
+              for (let i = 0; i < row.length; ++i) {
+                const itemOption: ItemOption = row[i];
 
-              columns.push(
-                <Column key={'itemOption-' + itemOption.id}>
-                  <ItemOptionForm
-                    item={item}
-                    itemOption={itemOption}
-                    setItem={rerenderOptions}
-                  />
-                </Column>
-              );
-            }
+                columns.push(
+                  <Column key={'itemOption-' + itemOption.id}>
+                    <ItemOptionForm
+                      item={item}
+                      itemOption={itemOption}
+                      setItem={rerenderOptions}
+                    />
+                  </Column>,
+                );
+              }
 
-            return <Columns key={'column-' + index}>{columns}</Columns>;
-          })}
+              return <Columns key={'column-' + index}>{columns}</Columns>;
+            })}
           <Columns>
             <Column>
-              <ItemOptionForm
-                item={item}
-                setItem={rerenderOptions} />
+              <ItemOptionForm item={item} setItem={rerenderOptions} />
             </Column>
           </Columns>
         </>
@@ -122,7 +123,12 @@ const DashboardItemPage = ({ slug }: DashboardItemPageProps) => {
   );
 };
 
-export const getServerSideProps : GetServerSideProps = async ({ req, res, locale, query }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  locale,
+  query,
+}) => {
   const session = await getSession({ req });
 
   if (await redirectIfNotAdmin(res, session)) {
@@ -134,8 +140,12 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
   return {
     props: {
       slug,
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

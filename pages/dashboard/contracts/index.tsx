@@ -11,7 +11,7 @@ import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 
 import { getSession } from 'next-auth/client';
 import { redirectIfAnonymous } from '@/lib/redirects';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 
@@ -24,30 +24,44 @@ export interface DashboardContractListProps {
   contracts: IFilledContract[];
   type: string;
   partyType: PartyType;
-};
+}
 
 export interface DashboardContractTypeProps {
   id: number;
   friendlyName: string;
-};
+}
 
 const DashboardContractListPage = () => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
-  const unsortedContractType = { id: -1, friendlyName: t('dashboard:contracts.list.all-contracts') };
+  const { t } = useTranslation(['dashboard', 'errors']);
+  const unsortedContractType = {
+    id: -1,
+    friendlyName: t('dashboard:contracts.list.all-contracts'),
+  };
 
-  const [ ownContracts, setOwnContracts ] = useState<IFilledContract[] | null>(null);
-  const [ foreignContracts, setForeignContracts ] = useState<IFilledContract[] | null>(null);
-  const [ witnessContracts, setWitnessContracts ] = useState<IFilledContract[] | null>(null);
-  const [ contractTypes, setContractTypes ] = useState<DashboardContractTypeProps[]>([ unsortedContractType ]);
+  const [ownContracts, setOwnContracts] = useState<IFilledContract[] | null>(
+    null,
+  );
+  const [foreignContracts, setForeignContracts] = useState<
+    IFilledContract[] | null
+  >(null);
+  const [witnessContracts, setWitnessContracts] = useState<
+    IFilledContract[] | null
+  >(null);
+  const [contractTypes, setContractTypes] = useState<
+    DashboardContractTypeProps[]
+  >([unsortedContractType]);
 
   // Search arguments
-  const [ filteredName, setFilteredName ] = useState<string | null>(null);
-  const [ filteredType, setFilteredType ] = useState<number | null>(null);
+  const [filteredName, setFilteredName] = useState<string | null>(null);
+  const [filteredType, setFilteredType] = useState<number | null>(null);
 
-  const [ error, setError ] = useState('');
+  const [error, setError] = useState('');
 
   const loadContracts = async () => {
-    const collectContractTypes = (contracts: IFilledContract[], contractTypes : DashboardContractTypeProps[]) => {
+    const collectContractTypes = (
+      contracts: IFilledContract[],
+      contractTypes: DashboardContractTypeProps[],
+    ) => {
       if (!contracts) {
         return;
       }
@@ -56,8 +70,11 @@ const DashboardContractListPage = () => {
         const contract = filledContract.contract;
 
         // Add this contract type if we haven't encountered it previously
-        if (!contractTypes.some(t => t.id === contract.id)) {
-          contractTypes.push({ id: contract.id, friendlyName: contract.friendlyName });
+        if (!contractTypes.some((t) => t.id === contract.id)) {
+          contractTypes.push({
+            id: contract.id,
+            friendlyName: contract.friendlyName,
+          });
         }
       }
     };
@@ -67,7 +84,7 @@ const DashboardContractListPage = () => {
     setWitnessContracts(null);
     setFilteredName(null);
     setFilteredType(null);
-    setContractTypes([ unsortedContractType ]);
+    setContractTypes([unsortedContractType]);
 
     setError('');
 
@@ -78,7 +95,7 @@ const DashboardContractListPage = () => {
       setForeignContracts(res.foreign);
       setWitnessContracts(res.witness);
 
-      const types : DashboardContractTypeProps[] = [];
+      const types: DashboardContractTypeProps[] = [];
       collectContractTypes(res.own, types);
       collectContractTypes(res.foreign, types);
       collectContractTypes(res.witness, types);
@@ -100,9 +117,16 @@ const DashboardContractListPage = () => {
     loadContracts();
   }, []);
 
-  const getContractListBox = ({ contracts, type, partyType } : DashboardContractListProps) => {
+  const getContractListBox = ({
+    contracts,
+    type,
+    partyType,
+  }: DashboardContractListProps) => {
     return (
-      <Box key={`${type}-contracts`} title={t(`dashboard:contracts.list.${type}`)}>
+      <Box
+        key={`${type}-contracts`}
+        title={t(`dashboard:contracts.list.${type}`)}
+      >
         {contracts === null && (
           <div className="text-center">
             <Loading />
@@ -116,7 +140,11 @@ const DashboardContractListPage = () => {
         )}
 
         {contracts && contracts.length > 0 && (
-          <FilledContractList contracts={contracts} onChange={loadContracts} partyType={partyType} />
+          <FilledContractList
+            contracts={contracts}
+            onChange={loadContracts}
+            partyType={partyType}
+          />
         )}
       </Box>
     );
@@ -127,12 +155,13 @@ const DashboardContractListPage = () => {
       return null;
     }
 
-    return contracts.filter(c => {
-      if (filteredName &&
-          !c.friendlyName.trim().toLowerCase().includes(filteredName) &&
-          !c.contract.friendlyName.trim().toLowerCase().includes(filteredName) &&
-          !c.buyer?.name?.trim().toLowerCase().includes(filteredName) &&
-          !c.user?.name?.trim().toLowerCase().includes(filteredName)
+    return contracts.filter((c) => {
+      if (
+        filteredName &&
+        !c.friendlyName.trim().toLowerCase().includes(filteredName) &&
+        !c.contract.friendlyName.trim().toLowerCase().includes(filteredName) &&
+        !c.buyer?.name?.trim().toLowerCase().includes(filteredName) &&
+        !c.user?.name?.trim().toLowerCase().includes(filteredName)
       ) {
         return false;
       }
@@ -155,23 +184,35 @@ const DashboardContractListPage = () => {
     setFilteredType(type !== -1 ? type : null);
   };
 
-  let columns : DashboardContractListProps[] = [
-    {contracts: filterContracts(ownContracts), type: 'own', partyType: PartyType.SELLER},
-    {contracts: filterContracts(foreignContracts), type: 'buyer', partyType: PartyType.BUYER},
-    {contracts: filterContracts(witnessContracts), type: 'witness', partyType: PartyType.WITNESS}
+  const columns: DashboardContractListProps[] = [
+    {
+      contracts: filterContracts(ownContracts),
+      type: 'own',
+      partyType: PartyType.SELLER,
+    },
+    {
+      contracts: filterContracts(foreignContracts),
+      type: 'buyer',
+      partyType: PartyType.BUYER,
+    },
+    {
+      contracts: filterContracts(witnessContracts),
+      type: 'witness',
+      partyType: PartyType.WITNESS,
+    },
   ];
 
   // Sort the columns based on whether they are empty or not
-  columns.sort((a, b) => (
-    Number(b.contracts?.length > 0) - Number(a.contracts?.length > 0)
-  ));
+  columns.sort(
+    (a, b) => Number(b.contracts?.length > 0) - Number(a.contracts?.length > 0),
+  );
 
   const contractLists = columns.map(getContractListBox);
 
   return (
     <DashboardLayout>
       <Meta
-        title={ t('dashboard:pages.my-contracts') }
+        title={t('dashboard:pages.my-contracts')}
         url="/dashboard/contracts"
       />
       {!error && (
@@ -180,8 +221,16 @@ const DashboardContractListPage = () => {
             <Box>
               <div className="text-center">
                 <div className="form-field">
-                  <label htmlFor="searchName">{ t('dashboard:contracts.list.search-by-name') }</label>
-                  <input id="searchName" name="searchName" type="text" onChange={searchForName} placeholder={ t('dashboard:contracts.list.contract-name') } />
+                  <label htmlFor="searchName">
+                    {t('dashboard:contracts.list.search-by-name')}
+                  </label>
+                  <input
+                    id="searchName"
+                    name="searchName"
+                    type="text"
+                    onChange={searchForName}
+                    placeholder={t('dashboard:contracts.list.contract-name')}
+                  />
                 </div>
               </div>
             </Box>
@@ -193,9 +242,19 @@ const DashboardContractListPage = () => {
             <Box>
               <div className="text-center">
                 <div className="form-field">
-                  <label htmlFor="searchType">{ t('dashboard:contracts.list.search-by-type') }</label>
-                  <select id="searchType" name="searchType" onChange={searchForType}>
-                    {contractTypes.map(t => <option key={t.id} value={t.id}>{ t.friendlyName }</option>)}
+                  <label htmlFor="searchType">
+                    {t('dashboard:contracts.list.search-by-type')}
+                  </label>
+                  <select
+                    id="searchType"
+                    name="searchType"
+                    onChange={searchForType}
+                  >
+                    {contractTypes.map((t) => (
+                      <option key={t.id} value={t.id}>
+                        {t.friendlyName}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -205,11 +264,7 @@ const DashboardContractListPage = () => {
         </Columns>
       )}
 
-      {error && error.length > 0 && (
-        <DangerMessage>
-          {error}
-        </DangerMessage>
-      )}
+      {error && error.length > 0 && <DangerMessage>{error}</DangerMessage>}
     </DashboardLayout>
   );
 };
@@ -223,8 +278,12 @@ export const getServerSideProps = async ({ req, res, locale }) => {
 
   return {
     props: {
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

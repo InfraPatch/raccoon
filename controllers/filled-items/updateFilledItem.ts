@@ -22,7 +22,12 @@ class FilledItemUpdateError extends Error {
   }
 }
 
-export const fillItemOptions = async (userEmail: string, itemId: number, friendlyName: string | undefined, options: FilledOption[]) => {
+export const fillItemOptions = async (
+  userEmail: string,
+  itemId: number,
+  friendlyName: string | undefined,
+  options: FilledOption[],
+) => {
   await db.prepare();
 
   const userRepository = db.getRepository(User);
@@ -34,7 +39,9 @@ export const fillItemOptions = async (userEmail: string, itemId: number, friendl
     throw new FilledItemUpdateError('USER_NOT_FOUND');
   }
 
-  const filledItem = await filledItemRepository.findOne(itemId, { relations: [ 'item', 'options', 'item.options', 'options.option' ] });
+  const filledItem = await filledItemRepository.findOne(itemId, {
+    relations: ['item', 'options', 'item.options', 'options.option'],
+  });
   if (!filledItem || filledItem.userId !== user.id) {
     throw new FilledItemUpdateError('FILLED_ITEM_NOT_FOUND');
   }
@@ -50,10 +57,14 @@ export const fillItemOptions = async (userEmail: string, itemId: number, friendl
   }
 
   const itemOptions: { [id: number]: ItemOption } = {};
-  filledItem.item.options.forEach(option => itemOptions[option.id] = option);
+  filledItem.item.options.forEach(
+    (option) => (itemOptions[option.id] = option),
+  );
 
   const currentFilledOptions: { [id: number]: FilledItemOption } = {};
-  filledItem.options.forEach(option => currentFilledOptions[option.option.id] = option);
+  filledItem.options.forEach(
+    (option) => (currentFilledOptions[option.option.id] = option),
+  );
 
   for await (const option of options) {
     const itemOption = itemOptions[option.id];
@@ -71,7 +82,7 @@ export const fillItemOptions = async (userEmail: string, itemId: number, friendl
 
     if (typeof filledItemOption !== 'undefined') {
       await filledItemOptionsRepository.update(filledItemOption.id, {
-        value: option.value
+        value: option.value,
       });
     } else {
       const newFilledItemOption = filledItemOptionsRepository.create();

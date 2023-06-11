@@ -18,7 +18,10 @@ export interface FilledItemAttachmentResponse {
   attachment: FilledItemAttachment;
 }
 
-export const getFilledItemAttachment = async (email: string, attachmentId: number): Promise<FilledItemAttachmentResponse> => {
+export const getFilledItemAttachment = async (
+  email: string,
+  attachmentId: number,
+): Promise<FilledItemAttachmentResponse> => {
   await db.prepare();
 
   const userRepository = db.getRepository(User);
@@ -30,7 +33,9 @@ export const getFilledItemAttachment = async (email: string, attachmentId: numbe
     throw new GetFilledItemAttachmentError('USER_NOT_FOUND');
   }
 
-  const attachment = await attachmentRepository.findOne(attachmentId, { relations: [ 'filledItem' ] });
+  const attachment = await attachmentRepository.findOne(attachmentId, {
+    relations: ['filledItem'],
+  });
 
   if (!attachment) {
     throw new GetFilledItemAttachmentError('ATTACHMENT_NOT_FOUND');

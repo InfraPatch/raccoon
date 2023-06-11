@@ -9,7 +9,7 @@ import NewFilledContractForm from '@/components/dashboard/new-filled-contract/Ne
 
 import { getSession } from 'next-auth/client';
 import { redirectIfAnonymous } from '@/lib/redirects';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Meta from '@/components/common/Meta';
 
@@ -20,13 +20,15 @@ import { Contract } from '@/db/models/contracts/Contract';
 
 export interface DashboardNewContractPageProps {
   contractId: number;
-};
+}
 
-const DashboardNewContractPage = ({ contractId }: DashboardNewContractPageProps) => {
+const DashboardNewContractPage = ({
+  contractId,
+}: DashboardNewContractPageProps) => {
   const { t } = useTranslation('dashboard');
 
-  const [ contract, setContract ] = useState<Contract | null>(null);
-  const [ error, setError ] = useState('');
+  const [contract, setContract] = useState<Contract | null>(null);
+  const [error, setError] = useState('');
 
   const loadContract = async () => {
     setContract(null);
@@ -56,15 +58,17 @@ const DashboardNewContractPage = ({ contractId }: DashboardNewContractPageProps)
   return (
     <DashboardLayout>
       <Meta
-        title={ t('dashboard:pages.new-contract') }
+        title={t('dashboard:pages.new-contract')}
         url={`/dashboard/contracts/new/${contractId}`}
       />
       <Columns>
         <Column>
-          <Box title={ t('new-contract.title') }>
+          <Box title={t('new-contract.title')}>
             {contract && <NewFilledContractForm contract={contract} />}
             {!contract && !error && <Loading />}
-            {error && error.length > 0 && <DangerMessage>{error}</DangerMessage>}
+            {error && error.length > 0 && (
+              <DangerMessage>{error}</DangerMessage>
+            )}
           </Box>
         </Column>
 
@@ -86,8 +90,12 @@ export const getServerSideProps = async ({ req, res, query, locale }) => {
   return {
     props: {
       contractId: idFromQueryParam(id),
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 

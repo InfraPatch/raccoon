@@ -13,8 +13,8 @@ import bar from 'next-bar';
 export enum PersonalIdentifierType {
   IDENTITY_CARD,
   PASSPORT,
-  DRIVERS_LICENSE
-};
+  DRIVERS_LICENSE,
+}
 
 export interface IUser {
   name?: string;
@@ -40,32 +40,35 @@ export interface IAVDHVerificationResponse {
   message?: IAVDHVerificationErrorMessage;
 }
 
-export const authenticateUserDetails = async (req: NextApiRequest, res: NextApiResponse) => {
-  const user : IUser = req.body;
+export const authenticateUserDetails = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+) => {
+  const user: IUser = req.body;
 
   // For testing purposes, if the user's name contains the substring
   // "HELYTELEN", AVDH verification will immediately fail.
 
   if (user.name && user.name.includes('HELYTELEN')) {
-    const response : IAVDHVerificationResponse = {
+    const response: IAVDHVerificationResponse = {
       ok: false,
       error: 'AVDH_TEST_FAILURE',
       message: {
         en: 'We have a reason to believe that your name is invalid!',
-        hu: 'Úgy véljük, hogy helytelen a neve!'
-      }
+        hu: 'Úgy véljük, hogy helytelen a neve!',
+      },
     };
 
     return res.json(response);
   }
 
-  const response : IAVDHVerificationResponse = {
-    ok: true
+  const response: IAVDHVerificationResponse = {
+    ok: true,
   };
 
   return res.json(response);
 };
 
 export default bar({
-  post: authenticateUserDetails
+  post: authenticateUserDetails,
 });

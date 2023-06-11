@@ -6,26 +6,35 @@ export interface NewAttachmentAPIParams {
   file: File;
 }
 
-export interface NewFilledContractAttachmentAPIParams extends NewAttachmentAPIParams {
+export interface NewFilledContractAttachmentAPIParams
+  extends NewAttachmentAPIParams {
   filledContractId: number;
-};
+}
 
 export interface GetFilledContractAttachmentAPIResponse extends APIResponse {
   FilledContractAttachment: IFilledContractAttachment;
-};
+}
 
-export interface CreateFilledContractAttachmentAPIResponse extends GetFilledContractAttachmentAPIResponse {};
-export interface DeleteFilledContractAttachmentAPIResponse extends APIResponse {};
+export type CreateFilledContractAttachmentAPIResponse =
+  GetFilledContractAttachmentAPIResponse;
+export type DeleteFilledContractAttachmentAPIResponse = APIResponse;
 
-const url = (template: string, id: number) => template.replace(':id', id.toString());
+const url = (template: string, id: number) =>
+  template.replace(':id', id.toString());
 
 export class FilledContractAttachmentAPIService {
-  static CREATE_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contracts/attachments';
-  static GET_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contracts/attachments/:id';
-  static DOWNLOAD_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contracts/attachments/:id/download';
-  static DELETE_FILLED_CONTRACT_ATTACHMENT_URL = '/api/filled-contracts/attachments/:id';
+  static CREATE_FILLED_CONTRACT_ATTACHMENT_URL =
+    '/api/filled-contracts/attachments';
+  static GET_FILLED_CONTRACT_ATTACHMENT_URL =
+    '/api/filled-contracts/attachments/:id';
+  static DOWNLOAD_FILLED_CONTRACT_ATTACHMENT_URL =
+    '/api/filled-contracts/attachments/:id/download';
+  static DELETE_FILLED_CONTRACT_ATTACHMENT_URL =
+    '/api/filled-contracts/attachments/:id';
 
-  public async createFilledContractAttachment(data: NewFilledContractAttachmentAPIParams): Promise<CreateFilledContractAttachmentAPIResponse> {
+  public async createFilledContractAttachment(
+    data: NewFilledContractAttachmentAPIParams,
+  ): Promise<CreateFilledContractAttachmentAPIResponse> {
     const payload = new FormData();
 
     if (data.filledContractId) {
@@ -40,17 +49,37 @@ export class FilledContractAttachmentAPIService {
       payload.append('file', data.file);
     }
 
-    return axiosService.post(FilledContractAttachmentAPIService.CREATE_FILLED_CONTRACT_ATTACHMENT_URL, payload)
-      .then(res => res.data);
+    return axiosService
+      .post(
+        FilledContractAttachmentAPIService.CREATE_FILLED_CONTRACT_ATTACHMENT_URL,
+        payload,
+      )
+      .then((res) => res.data);
   }
 
-  public async getFilledContractAttachment(id: number): Promise<GetFilledContractAttachmentAPIResponse> {
-    return axiosService.get(url(FilledContractAttachmentAPIService.GET_FILLED_CONTRACT_ATTACHMENT_URL, id))
-      .then(res => res.data);
+  public async getFilledContractAttachment(
+    id: number,
+  ): Promise<GetFilledContractAttachmentAPIResponse> {
+    return axiosService
+      .get(
+        url(
+          FilledContractAttachmentAPIService.GET_FILLED_CONTRACT_ATTACHMENT_URL,
+          id,
+        ),
+      )
+      .then((res) => res.data);
   }
 
-  public async deleteFilledContractAttachment(id: number): Promise<DeleteFilledContractAttachmentAPIResponse> {
-    return axiosService.delete(url(FilledContractAttachmentAPIService.DELETE_FILLED_CONTRACT_ATTACHMENT_URL, id))
-      .then(res => res.data);
+  public async deleteFilledContractAttachment(
+    id: number,
+  ): Promise<DeleteFilledContractAttachmentAPIResponse> {
+    return axiosService
+      .delete(
+        url(
+          FilledContractAttachmentAPIService.DELETE_FILLED_CONTRACT_ATTACHMENT_URL,
+          id,
+        ),
+      )
+      .then((res) => res.data);
   }
 }

@@ -13,11 +13,16 @@ class GetContractError extends Error {
   }
 }
 
-export const getContract = async ({ id } : GetContractAPIRequest): Promise<Contract> => {
+export const getContract = async ({
+  id,
+}: GetContractAPIRequest): Promise<Contract> => {
   await db.prepare();
   const contractRepository = db.getRepository(Contract);
 
-  const contract = await contractRepository.findOne({ id }, { relations: [ 'options', 'item' ] });
+  const contract = await contractRepository.findOne(
+    { id },
+    { relations: ['options', 'item'] },
+  );
 
   if (!contract) {
     throw new GetContractError('CONTRACT_NOT_FOUND');

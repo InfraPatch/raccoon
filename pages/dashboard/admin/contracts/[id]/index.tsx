@@ -17,26 +17,26 @@ import { ContractOption } from '@/db/models/contracts/ContractOption';
 import EditContractForm from '@/components/dashboard/admin/contracts/EditContractForm';
 import ContractOptionForm from '@/components/dashboard/admin/contracts/ContractOptionForm';
 import Meta from '@/components/common/Meta';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Loading from '@/components/common/Loading';
 import { DangerMessage } from '@/components/common/message-box/DangerMessage';
 
 export interface DashboardContractPageProps {
   id: number;
-};
+}
 
 const DashboardContractPage = ({ id }: DashboardContractPageProps) => {
-  const { t } = useTranslation([ 'dashboard', 'errors' ]);
+  const { t } = useTranslation(['dashboard', 'errors']);
 
-  const [ contract, setContract ] = useState<Contract | null>(null);
-  const [ rows, setRows ] = useState<ContractOption[][]>([]);
+  const [contract, setContract] = useState<Contract | null>(null);
+  const [rows, setRows] = useState<ContractOption[][]>([]);
 
-  const [ error, setError ] = useState('');
+  const [error, setError] = useState('');
 
   const rerenderOptions = (contract: Contract) => {
     const rows: ContractOption[][] = [];
 
-    for (let i : number = 0; i < contract.options.length; i += 3) {
+    for (let i = 0; i < contract.options.length; i += 3) {
       rows.push(contract.options.slice(i, i + 3));
     }
 
@@ -74,7 +74,9 @@ const DashboardContractPage = ({ id }: DashboardContractPageProps) => {
   return (
     <DashboardLayout>
       <Meta
-        title={`${t('dashboard:pages.contract')}: ${contract?.friendlyName || '...'}`}
+        title={`${t('dashboard:pages.contract')}: ${
+          contract?.friendlyName || '...'
+        }`}
         url={`/dashboard/admin/contracts/${id}`}
       />
 
@@ -86,30 +88,32 @@ const DashboardContractPage = ({ id }: DashboardContractPageProps) => {
             </Column>
           </Columns>
 
-          {rows && rows.map((row, index) => {
-            let columns = [];
+          {rows &&
+            rows.map((row, index) => {
+              const columns = [];
 
-            for (let i : number = 0; i < row.length; ++i) {
-              let contractOption : ContractOption = row[i];
+              for (let i = 0; i < row.length; ++i) {
+                const contractOption: ContractOption = row[i];
 
-              columns.push(
-                <Column key={'contractoption-' + contractOption.id}>
-                  <ContractOptionForm
-                    contract={contract}
-                    contractOption={contractOption}
-                    setContract={rerenderOptions}
-                  />
-                </Column>
-              );
-            }
+                columns.push(
+                  <Column key={'contractoption-' + contractOption.id}>
+                    <ContractOptionForm
+                      contract={contract}
+                      contractOption={contractOption}
+                      setContract={rerenderOptions}
+                    />
+                  </Column>,
+                );
+              }
 
-            return <Columns key={'column-' + index}>{columns}</Columns>;
-          })}
+              return <Columns key={'column-' + index}>{columns}</Columns>;
+            })}
           <Columns>
             <Column>
               <ContractOptionForm
                 contract={contract}
-                setContract={rerenderOptions} />
+                setContract={rerenderOptions}
+              />
             </Column>
           </Columns>
         </>
@@ -122,7 +126,12 @@ const DashboardContractPage = ({ id }: DashboardContractPageProps) => {
   );
 };
 
-export const getServerSideProps : GetServerSideProps = async ({ req, res, locale, query }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  locale,
+  query,
+}) => {
   const session = await getSession({ req });
 
   if (await redirectIfNotAdmin(res, session)) {
@@ -134,8 +143,12 @@ export const getServerSideProps : GetServerSideProps = async ({ req, res, locale
   return {
     props: {
       id,
-      ...await serverSideTranslations(locale, [ 'common', 'dashboard', 'errors' ])
-    }
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'dashboard',
+        'errors',
+      ])),
+    },
   };
 };
 
