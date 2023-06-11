@@ -17,8 +17,6 @@ const startsWithAny = (pathNames: string[], pathname: string) => {
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  console.log('middleware pathname', pathname);
-
   if (startsWithAny(AUTHENTICATED_PATH_NAMES, pathname)) {
     return redirectIfAnonymous(req);
   }
