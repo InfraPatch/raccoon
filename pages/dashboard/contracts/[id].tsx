@@ -28,11 +28,18 @@ import { redirectIfNotReady, useCurrentUser } from '@/hooks/useCurrentUser';
 
 import idFromQueryParam from '@/lib/idFromQueryParam';
 
+import cookie from 'cookie';
+import FilledContractChat from '@/components/dashboard/filled-contract/FilledContractChat';
+
 export interface DashboardContractsPageProps {
   id: number;
+  ironSessionValue?: string;
 }
 
-const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
+const DashboardContractsPage = ({
+  id,
+  ironSessionValue,
+}: DashboardContractsPageProps) => {
   const { t } = useTranslation(['dashboard', 'errors']);
 
   const [contract, setContract] = useState<IFilledContract | null>(null);
@@ -134,66 +141,73 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
         url={`/dashboard/contracts/${id}`}
       />
       {!error && contract !== null && (
-        <Columns>
-          <Column>
-            <Box title={t('dashboard:contracts.data.overview')}>
-              <FilledContractOverview
-                contract={contract}
-                partyType={partyType}
-              />
-            </Box>
-
-            {contract.witnessSignatures.length !== 0 && (
-              <Box title={t('dashboard:contracts.data.witnesses')}>
-                <FilledContractWitnesses
+        <>
+          <Columns>
+            <Column>
+              <Box title={t('dashboard:contracts.data.overview')}>
+                <FilledContractOverview
                   contract={contract}
+                  partyType={partyType}
+                />
+              </Box>
+
+              {contract.witnessSignatures.length !== 0 && (
+                <Box title={t('dashboard:contracts.data.witnesses')}>
+                  <FilledContractWitnesses
+                    contract={contract}
+                    onChange={loadContract}
+                    partyType={partyType}
+                    user={user}
+                  />
+                </Box>
+              )}
+
+              <FilledContractSignatures contract={contract} />
+
+              {(contract.attachments?.length > 0 || canUploadAttachment()) && (
+                <Box title={t('dashboard:contracts.data.attachments')}>
+                  <Attachments
+                    attachments={contract.attachments}
+                    onChange={loadContract}
+                    deleteAttachment={deleteAttachment}
+                    uploadAttachment={uploadAttachment}
+                    canUpload={canUploadAttachment}
+                    canDelete={canDeleteAttachment}
+                    modelName="contracts"
+                    translationKey="contract-attachments"
+                  />
+                </Box>
+              )}
+
+              <Box title={t('dashboard:contracts.data.actions')}>
+                <FilledContractActions
+                  filledContract={contract}
                   onChange={loadContract}
                   partyType={partyType}
                   user={user}
                 />
               </Box>
-            )}
+            </Column>
 
-            <FilledContractSignatures contract={contract} />
+            <Column>
+              {((isSeller && !contract.sellerSignedAt) ||
+                (isBuyer && contract.accepted && !contract.buyerSignedAt)) && (
+                <Box title={t('dashboard:contracts.data.my-details')}>
+                  <FilledContractFieldsForm
+                    filledContract={contract}
+                    onChange={loadContract}
+                    partyType={partyType}
+                  />
+                </Box>
+              )}
+            </Column>
+          </Columns>
 
-            {(contract.attachments?.length > 0 || canUploadAttachment()) && (
-              <Box title={t('dashboard:contracts.data.attachments')}>
-                <Attachments
-                  attachments={contract.attachments}
-                  onChange={loadContract}
-                  deleteAttachment={deleteAttachment}
-                  uploadAttachment={uploadAttachment}
-                  canUpload={canUploadAttachment}
-                  canDelete={canDeleteAttachment}
-                  modelName="contracts"
-                  translationKey="contract-attachments"
-                />
-              </Box>
-            )}
-
-            <Box title={t('dashboard:contracts.data.actions')}>
-              <FilledContractActions
-                filledContract={contract}
-                onChange={loadContract}
-                partyType={partyType}
-                user={user}
-              />
-            </Box>
-          </Column>
-
-          <Column>
-            {((isSeller && !contract.sellerSignedAt) ||
-              (isBuyer && contract.accepted && !contract.buyerSignedAt)) && (
-              <Box title={t('dashboard:contracts.data.my-details')}>
-                <FilledContractFieldsForm
-                  filledContract={contract}
-                  onChange={loadContract}
-                  partyType={partyType}
-                />
-              </Box>
-            )}
-          </Column>
-        </Columns>
+          <FilledContractChat
+            filledContract={contract}
+            ironSessionValue={ironSessionValue}
+          />
+        </>
       )}
 
       {!error && contract === null && <Loading />}
@@ -203,12 +217,16 @@ const DashboardContractsPage = ({ id }: DashboardContractsPageProps) => {
   );
 };
 
-export const getServerSideProps = async ({ query, locale }) => {
+export const getServerSideProps = async ({ req, query, locale }) => {
   const id = idFromQueryParam(query.id);
+
+  const cookies = cookie.parse(req.headers.cookie ?? '');
+  const ironSessionValue = cookies['raccoon_sess'];
 
   return {
     props: {
       id,
+      ironSessionValue,
       ...(await serverSideTranslations(locale, [
         'common',
         'dashboard',

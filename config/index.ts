@@ -49,6 +49,11 @@ const config: IConfig = {
   },
 
   auth: {},
+
+  websocket: {
+    port: process.env.WS_PORT && parseInt(process.env.WS_PORT, 10),
+    serverUrl: process.env.NEXT_PUBLIC_WS_SERVER_URL,
+  },
 };
 
 const {

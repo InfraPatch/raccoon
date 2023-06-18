@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig/base.json",
+  "compilerOptions": {
+    "lib": ["ES2015"],
+    "module": "CommonJS",
+    "outDir": "./dist/ws",
+    "rootDir": ".",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "strict": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["./typings/**/*.d.ts", "chat/**/*.ts"],
+  "ts-node": {
+    "files": true
+  }
+}

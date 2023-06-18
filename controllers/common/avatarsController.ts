@@ -13,9 +13,9 @@ export const index = async (req: NextApiRequest, res: NextApiResponse) => {
     const defaultAvatar = fs.createReadStream(
       path.join(process.cwd(), 'assets/images', 'default-avatar.png'),
     );
-    return defaultAvatar.pipe(res);
+    defaultAvatar.pipe(res);
   }
 
   const stream = storage.getStream(`avatars/${key}`);
-  return stream.pipe(res);
+  stream.pipe(res);
 };

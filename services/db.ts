@@ -24,6 +24,8 @@ import { FilledItemAttachment } from '../db/models/items/FilledItemAttachment';
 
 import { WitnessSignature } from '../db/models/contracts/WitnessSignature';
 
+import { ChatMessage } from '../db/models/chat/ChatMessage';
+
 const baseConnectionOptions: ConnectionOptions = {
   type: config.database.dialect as any,
   host: config.database.host,
@@ -57,6 +59,8 @@ const connectionOptions: ConnectionOptions = {
     FilledItemAttachment,
 
     WitnessSignature,
+
+    ChatMessage,
   ],
 };
 
@@ -83,6 +87,13 @@ const db = {
   getConnection,
   getManager,
   getRepository,
+
+  createNamedConnection(name: string) {
+    return createConnection({
+      ...connectionOptions,
+      name,
+    });
+  },
 };
 
 export default db;

@@ -1,5 +1,6 @@
 import axiosService, { APIResponse } from '@/services/axios';
 import { IFilledContract } from '@/db/models/contracts/FilledContract';
+import { IChatMessage } from '@/db/models/chat/ChatMessage';
 
 export interface NewFilledContractAPIParams {
   friendlyName: string;
@@ -39,6 +40,10 @@ export type DeclineFilledContractAPIResponse = APIResponse;
 
 export type SignFilledContractAPIResponse = APIResponse;
 
+export interface GetFilledContractChatMessagesAPIResponse extends APIResponse {
+  messages: IChatMessage[];
+}
+
 const url = (template: string, id: number) =>
   template.replace(':id', id.toString());
 
@@ -56,6 +61,8 @@ export class FilledContractAPIService {
   static DECLINE_FILLED_CONTRACT_URL = '/api/filled-contracts/:id/decline';
 
   static SIGN_FILLED_CONTRACT_URL = '/api/filled-contracts/:id/sign';
+
+  static FILLED_CONTRACT_CHAT_MESSAGES_URL = '/api/filled-contracts/:id/chat';
 
   public async listFilledContracts(): Promise<ListFillContractsAPIResponse> {
     return axiosService
@@ -120,6 +127,14 @@ export class FilledContractAPIService {
       .patch(url(FilledContractAPIService.SIGN_FILLED_CONTRACT_URL, id), {
         signatureData,
       })
+      .then((res) => res.data);
+  }
+
+  public async getFilledContractChatMessages(
+    id: number,
+  ): Promise<GetFilledContractChatMessagesAPIResponse> {
+    return axiosService
+      .get(url(FilledContractAPIService.FILLED_CONTRACT_CHAT_MESSAGES_URL, id))
       .then((res) => res.data);
   }
 }

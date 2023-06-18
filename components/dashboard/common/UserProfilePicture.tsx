@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { User } from '@/db/models/auth/User';
+import { User, IUser } from '@/db/models/auth/User';
 
 import clsx from 'clsx';
 
@@ -10,7 +10,7 @@ export enum UserProfilePictureSize {
 }
 
 export interface UserProfilePictureProps {
-  user: User;
+  user: User | IUser;
   size?: UserProfilePictureSize;
 }
 

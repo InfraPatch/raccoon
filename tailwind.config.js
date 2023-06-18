@@ -1,63 +1,63 @@
 module.exports = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./layouts/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './layouts/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
 
   theme: {
     fontFamily: {
       sans: [
-        "Karla",
-        "-apple-system",
-        "BlinkMacSystemFont",
+        'Karla',
+        '-apple-system',
+        'BlinkMacSystemFont',
         '"Segoe UI"',
-        "Roboto",
-        "Helvetica",
-        "Arial",
-        "sans-serif",
+        'Roboto',
+        'Helvetica',
+        'Arial',
+        'sans-serif',
       ],
     },
 
     colors: {
       accent: {
-        DEFAULT: "var(--raccoon-accent)",
-        hover: "var(--raccoon-accent-hover)",
-        disabled: "var(--raccoon-accent-disabled)",
+        DEFAULT: 'var(--raccoon-accent)',
+        hover: 'var(--raccoon-accent-hover)',
+        disabled: 'var(--raccoon-accent-disabled)',
       },
 
       foreground: {
-        DEFAULT: "var(--raccoon-foreground)",
+        DEFAULT: 'var(--raccoon-foreground)',
       },
       primary: {
-        DEFAULT: "var(--raccoon-background-primary)",
+        DEFAULT: 'var(--raccoon-background-primary)',
       },
       secondary: {
-        DEFAULT: "var(--raccoon-background-secondary)",
+        DEFAULT: 'var(--raccoon-background-secondary)',
       },
 
-      danger: "var(--raccoon-danger)",
-      info: "var(--raccoon-info)",
-      success: "var(--raccoon-success)",
-      warning: "var(--raccoon-warning)",
+      danger: 'var(--raccoon-danger)',
+      info: 'var(--raccoon-info)',
+      success: 'var(--raccoon-success)',
+      warning: 'var(--raccoon-warning)',
 
-      transparent: "transparent",
-      black: "#000",
-      white: "#fff",
-      gray: "var(--raccoon-gray)",
-      field: "var(--raccoon-field)",
+      transparent: 'transparent',
+      black: '#000',
+      white: '#fff',
+      gray: 'var(--raccoon-gray)',
+      field: 'var(--raccoon-field)',
 
       facebook: {
-        DEFAULT: "var(--facebook)",
-        hover: "var(--facebook-hover)",
+        DEFAULT: 'var(--facebook)',
+        hover: 'var(--facebook-hover)',
       },
       twitter: {
-        DEFAULT: "var(--twitter)",
-        hover: "var(--twitter-hover)",
+        DEFAULT: 'var(--twitter)',
+        hover: 'var(--twitter-hover)',
       },
       google: {
-        DEFAULT: "var(--google)",
-        hover: "var(--google-hover)",
+        DEFAULT: 'var(--google)',
+        hover: 'var(--google-hover)',
       },
     },
 
@@ -66,10 +66,10 @@ module.exports = {
     },
 
     listStyleType: {
-      none: "none",
-      disc: "disc",
-      decimal: "decimal",
-      square: "square",
+      none: 'none',
+      disc: 'disc',
+      decimal: 'decimal',
+      square: 'square',
     },
   },
 };

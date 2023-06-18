@@ -74,6 +74,11 @@ export interface AvdhConfig {
   password?: string;
 }
 
+export interface WebsocketConfig {
+  port: number;
+  serverUrl: string;
+}
+
 export interface IConfig {
   app: AppConfig;
   database: DatabaseConfig;
@@ -81,4 +86,5 @@ export interface IConfig {
   email: EmailConfig;
   avdh: AvdhConfig;
   auth: AuthConfig;
+  websocket: WebsocketConfig;
 }
