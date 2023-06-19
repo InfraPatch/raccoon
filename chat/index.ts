@@ -11,7 +11,7 @@ import { ironSession } from 'iron-session/express';
 
 import sessionConfig from '@/lib/sessionConfig';
 import { EventType, ExectuorRepository } from './executors';
-import { User } from '@/dist/ws/services/db';
+import { User } from '@/services/db';
 
 const PORT = process.env.WS_PORT || process.env.PORT || 4679;
 
