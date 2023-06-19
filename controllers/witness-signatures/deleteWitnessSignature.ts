@@ -41,7 +41,7 @@ export const deleteWitnessSignature = async (
   }
 
   const witnessSignatureRepository = db.getRepository(WitnessSignature);
-  await witnessSignatureRepository.delete(signature.id);
+  await witnessSignatureRepository.softDelete(signature.id);
 
   // Edge case: both buyer and seller have accepted the contract,
   // but a witness is removed from the contract.

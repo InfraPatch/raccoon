@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   RelationId,
+  DeleteDateColumn,
 } from 'typeorm';
 import { FilledContract, IFilledContract } from './FilledContract';
 
@@ -36,6 +37,9 @@ export class WitnessSignature implements IWitnessSignature {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 
   @ManyToOne(() => FilledContract, (filledContract) => filledContract.options, {
     onDelete: 'CASCADE',

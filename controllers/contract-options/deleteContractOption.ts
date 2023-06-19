@@ -9,5 +9,5 @@ export const deleteContractOption = async ({
   await db.prepare();
   const optionRepository = db.getRepository(ContractOption);
 
-  await optionRepository.delete({ id });
+  await optionRepository.softDelete({ id });
 };

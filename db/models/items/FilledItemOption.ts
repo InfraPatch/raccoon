@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -30,6 +31,9 @@ export class FilledItemOption implements IFilledItemOption {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 
   @ManyToOne(() => FilledItem, (filledItem) => filledItem.options, {
     onDelete: 'CASCADE',

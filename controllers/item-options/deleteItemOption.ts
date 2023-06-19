@@ -7,5 +7,5 @@ export const deleteItemOption = async ({ id }: DeleteItemOptionAPIRequest) => {
   await db.prepare();
   const optionRepository = db.getRepository(ItemOption);
 
-  await optionRepository.delete({ id });
+  await optionRepository.softDelete({ id });
 };

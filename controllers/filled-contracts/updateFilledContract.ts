@@ -50,7 +50,7 @@ export const acceptOrDeclineFilledContract = async (
   }
 
   if (action === 'decline') {
-    await filledContractRepository.delete(contract.id);
+    await filledContractRepository.softDelete(contract.id);
     return;
   }
 

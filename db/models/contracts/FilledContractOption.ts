@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -30,6 +31,9 @@ export class FilledContractOption implements IFilledContractOption {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 
   @ManyToOne(() => FilledContract, (filledContract) => filledContract.options, {
     onDelete: 'CASCADE',

@@ -44,7 +44,7 @@ export const deleteFilledContractAttachment = async (
   }
 
   const attachmentRepository = db.getRepository(FilledContractAttachment);
-  await attachmentRepository.delete(attachment.id);
+  await attachmentRepository.softDelete(attachment.id);
 
   try {
     await deleteAttachment(

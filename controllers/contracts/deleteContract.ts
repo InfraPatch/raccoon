@@ -7,5 +7,5 @@ export const deleteContract = async ({ id }: DeleteContractAPIRequest) => {
   await db.prepare();
   const contractRepository = db.getRepository(Contract);
 
-  await contractRepository.delete({ id });
+  await contractRepository.softDelete({ id });
 };

@@ -42,5 +42,5 @@ export const deleteFilledContract = async (
     await filledItemRepository.save(filledContract.filledItem);
   }
 
-  await filledContractRepository.delete(filledContract.id);
+  await filledContractRepository.softDelete(filledContract.id);
 };

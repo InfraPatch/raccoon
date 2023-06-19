@@ -7,5 +7,5 @@ export const deleteItem = async ({ slug }: DeleteItemAPIRequest) => {
   await db.prepare();
   const itemRepository = db.getRepository(Item);
 
-  await itemRepository.delete({ slug });
+  await itemRepository.softDelete({ slug });
 };

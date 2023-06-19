@@ -9,5 +9,5 @@ export const deleteFilledItem = async (
   const filledItem = (await getFilledItem(email, contractId)) as IFilledItem;
 
   const filledItemRepository = db.getRepository(FilledItem);
-  await filledItemRepository.delete(filledItem.id);
+  await filledItemRepository.softDelete(filledItem.id);
 };
