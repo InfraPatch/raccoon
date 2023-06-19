@@ -7,9 +7,9 @@
     "dev:ws": "ts-node -r tsconfig-paths/register -P tsconfig.ws.json chat/index.ts",
     "dev:full": "concurrently \"npm run dev\" \"npm run dev:ws\"",
     "build": "next build",
-    "build:ws": "tsc -p tsconfig.ws.json",
+    "build:ws": "tsc -p tsconfig.ws.json && tsc-alias -p tsconfig.ws.json",
     "start": "next start",
-    "start:ws": "node dist/ws/index.js",
+    "start:ws": "node dist/ws/chat/index.js",
     "lint": "eslint . --ext .ts --ext .tsx",
     "typeorm": "node ./node_modules/typeorm/cli.js --config ormconfig.cli.js",
     "migration:run": "npm run typeorm -- migration:run",
@@ -95,6 +95,7 @@
     "postcss": "^8.4.24",
     "tailwindcss": "^3.3.2",
     "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.6",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.3"
   }
