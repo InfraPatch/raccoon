@@ -17,6 +17,7 @@ export interface DatabaseConfig {
   username: string;
   password: string;
   name: string;
+  secure: boolean;
 }
 
 export interface FileStorageConfig {

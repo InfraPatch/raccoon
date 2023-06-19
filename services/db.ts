@@ -34,9 +34,13 @@ const baseConnectionOptions: ConnectionOptions = {
   password: config.database.password,
   database: config.database.name,
 
-  // ssl: {
-  //   rejectUnauthorized: true,
-  // },
+  ...(config.database.secure
+    ? {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      }
+    : {}),
 
   extra: {
     charset: 'utf8mb4_unicode_ci',

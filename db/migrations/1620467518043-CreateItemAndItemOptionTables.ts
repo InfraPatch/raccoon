@@ -12,15 +12,9 @@ export class CreateItemAndItemOptionTables1620467518043
     await queryRunner.query(
       'CREATE TABLE `items` (`id` int NOT NULL AUTO_INCREMENT, `createdAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), `updatedAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), `friendlyName` varchar(255) NOT NULL, `description` varchar(255) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB',
     );
-    await queryRunner.query(
-      'ALTER TABLE `itemOptions` ADD CONSTRAINT `FK_6f8f0d00c2f3c68f8a1664960fc` FOREIGN KEY (`itemId`) REFERENCES `items`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      'ALTER TABLE `itemOptions` DROP FOREIGN KEY `FK_6f8f0d00c2f3c68f8a1664960fc`',
-    );
     await queryRunner.query('DROP TABLE `items`');
     await queryRunner.query('DROP TABLE `itemOptions`');
   }
