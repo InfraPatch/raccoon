@@ -65,27 +65,33 @@ export class FilledContract implements IFilledContract {
   @Column({ nullable: true })
   filename?: string;
 
-  @ManyToOne(() => Contract)
+  @ManyToOne(() => Contract, { createForeignKeyConstraints: false })
   contract: Partial<Contract>;
 
-  @ManyToOne(() => FilledItem, { nullable: true })
+  @ManyToOne(() => FilledItem, {
+    nullable: true,
+    createForeignKeyConstraints: false,
+  })
   filledItem: Partial<FilledItem>;
 
   @OneToMany(
     () => FilledContractOption,
     (filledContractOption) => filledContractOption.filledContract,
+    { createForeignKeyConstraints: false },
   )
   options: Partial<FilledContractOption[]>;
 
   @OneToMany(
     () => WitnessSignature,
     (witnessSignature) => witnessSignature.filledContract,
+    { createForeignKeyConstraints: false },
   )
   witnessSignatures: Partial<WitnessSignature[]>;
 
   @OneToMany(
     () => FilledContractAttachment,
     (attachment) => attachment.filledContract,
+    { createForeignKeyConstraints: false },
   )
   attachments: Partial<FilledContractAttachment[]>;
 

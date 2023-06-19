@@ -36,12 +36,12 @@ export class FilledItemOption implements IFilledItemOption {
   deletedAt?: Date;
 
   @ManyToOne(() => FilledItem, (filledItem) => filledItem.options, {
-    onDelete: 'CASCADE',
+    createForeignKeyConstraints: false,
   })
   filledItem: Partial<FilledItem>;
 
   @ManyToOne(() => ItemOption, {
-    onDelete: 'CASCADE',
+    createForeignKeyConstraints: false,
   })
   option: Partial<ItemOption>;
 

@@ -31,10 +31,10 @@ export class ChatMessage implements IChatMessage {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { createForeignKeyConstraints: false })
   user: Partial<User>;
 
-  @ManyToOne(() => FilledContract)
+  @ManyToOne(() => FilledContract, { createForeignKeyConstraints: false })
   filledContract: Partial<FilledContract>;
 
   @Column()

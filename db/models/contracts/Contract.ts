@@ -47,10 +47,14 @@ export class Contract implements IContract {
   @Column({ nullable: true })
   filename: string;
 
-  @ManyToOne(() => Item, { nullable: true })
+  @ManyToOne(() => Item, { nullable: true, createForeignKeyConstraints: false })
   item?: Partial<Item>;
 
-  @OneToMany(() => ContractOption, (contractOption) => contractOption.contract)
+  @OneToMany(
+    () => ContractOption,
+    (contractOption) => contractOption.contract,
+    { createForeignKeyConstraints: false },
+  )
   options: Partial<ContractOption[]>;
 
   toJSON(): IContract {

@@ -16,7 +16,7 @@ export class FilledContractAttachment
   implements IFilledContractAttachment
 {
   @ManyToOne(() => FilledContract, {
-    onDelete: 'CASCADE',
+    createForeignKeyConstraints: false,
   })
   filledContract: Partial<FilledContract>;
 

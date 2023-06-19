@@ -44,7 +44,9 @@ export class Item implements IItem {
   @Column()
   description: string;
 
-  @OneToMany(() => ItemOption, (itemOption) => itemOption.item)
+  @OneToMany(() => ItemOption, (itemOption) => itemOption.item, {
+    createForeignKeyConstraints: false,
+  })
   options: Partial<ItemOption[]>;
 
   toJSON(): IItem {

@@ -15,7 +15,7 @@ export class FilledItemAttachment
   implements IFilledItemAttachment
 {
   @ManyToOne(() => FilledItem, {
-    onDelete: 'CASCADE',
+    createForeignKeyConstraints: false,
   })
   filledItem: Partial<FilledItem>;
 

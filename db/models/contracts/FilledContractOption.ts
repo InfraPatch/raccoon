@@ -36,12 +36,12 @@ export class FilledContractOption implements IFilledContractOption {
   deletedAt?: Date;
 
   @ManyToOne(() => FilledContract, (filledContract) => filledContract.options, {
-    onDelete: 'CASCADE',
+    createForeignKeyConstraints: false,
   })
   filledContract: Partial<FilledContract>;
 
   @ManyToOne(() => ContractOption, {
-    onDelete: 'CASCADE',
+    createForeignKeyConstraints: false,
   })
   option: Partial<ContractOption>;
 

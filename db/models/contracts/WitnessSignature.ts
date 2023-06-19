@@ -42,7 +42,7 @@ export class WitnessSignature implements IWitnessSignature {
   deletedAt?: Date;
 
   @ManyToOne(() => FilledContract, (filledContract) => filledContract.options, {
-    onDelete: 'CASCADE',
+    createForeignKeyConstraints: false,
   })
   filledContract: Partial<FilledContract>;
 

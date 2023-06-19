@@ -11,7 +11,9 @@ export interface IContractOption extends IOption {
 
 @Entity()
 export class ContractOption extends Option implements IContractOption {
-  @ManyToOne(() => Contract, (contract) => contract.options)
+  @ManyToOne(() => Contract, (contract) => contract.options, {
+    createForeignKeyConstraints: false,
+  })
   contract: Partial<Contract>;
 
   @Column('boolean', { default: false })

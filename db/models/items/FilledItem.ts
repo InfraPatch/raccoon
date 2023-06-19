@@ -50,16 +50,21 @@ export class FilledItem implements IFilledItem {
   @Column()
   friendlyName: string;
 
-  @ManyToOne(() => Item)
+  @ManyToOne(() => Item, { createForeignKeyConstraints: false })
   item: Partial<Item>;
 
   @OneToMany(
     () => FilledItemOption,
     (filledItemOption) => filledItemOption.filledItem,
+    { createForeignKeyConstraints: false },
   )
   options: Partial<FilledItemOption[]>;
 
-  @OneToMany(() => FilledItemAttachment, (attachment) => attachment.filledItem)
+  @OneToMany(
+    () => FilledItemAttachment,
+    (attachment) => attachment.filledItem,
+    { createForeignKeyConstraints: false },
+  )
   attachments: Partial<FilledItemAttachment[]>;
 
   @Column('integer')
