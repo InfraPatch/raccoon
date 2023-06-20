@@ -87,7 +87,7 @@ export const makeLawyer = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const update = async (req: NextApiRequest, res: NextApiResponse) => {
-  const form = new formidable.IncomingForm();
+  const form = formidable();
 
   return new Promise<void>((resolve) => {
     form.parse(req, async (err, fields, files) => {

@@ -80,6 +80,12 @@ export interface WebsocketConfig {
   serverUrl: string;
 }
 
+export interface GoogleConfig {
+  clientEmail: string;
+  privateKey: string;
+  driveFolder: string;
+}
+
 export interface IConfig {
   app: AppConfig;
   database: DatabaseConfig;
@@ -88,4 +94,5 @@ export interface IConfig {
   avdh: AvdhConfig;
   auth: AuthConfig;
   websocket: WebsocketConfig;
+  google: GoogleConfig;
 }

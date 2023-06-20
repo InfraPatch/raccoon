@@ -86,12 +86,7 @@ const FilledContractOverview = ({
             <div>
               <strong>{t('dashboard:contracts.list.contract-type')}:</strong>{' '}
               {contract.contract.friendlyName} (
-              <a
-                href={`/templates/${contract.contract.filename.replace(
-                  '/templates/',
-                  '',
-                )}`}
-              >
+              <a href={`/contracts/${contract.contract.id}/download`}>
                 {t('dashboard:contracts.list.preview')}
               </a>
               )

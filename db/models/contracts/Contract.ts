@@ -19,7 +19,7 @@ export interface IContract {
   updatedAt?: Date;
   friendlyName?: string;
   description?: string;
-  filename?: string;
+  driveId?: string;
   item?: IItem;
   options?: IContractOption[];
 }
@@ -44,8 +44,8 @@ export class Contract implements IContract {
   @Column()
   description: string;
 
-  @Column({ nullable: true })
-  filename: string;
+  @Column()
+  driveId: string;
 
   @ManyToOne(() => Item, { nullable: true, createForeignKeyConstraints: false })
   item?: Partial<Item>;
@@ -64,7 +64,6 @@ export class Contract implements IContract {
       updatedAt: this.updatedAt,
       friendlyName: this.friendlyName,
       description: this.description,
-      filename: this.filename,
       item: this.item && this.item.toJSON(),
       options: this.options
         ? this.options.map((option) => omit(option.toJSON(), 'contract'))

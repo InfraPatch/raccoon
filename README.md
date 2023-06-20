@@ -7,8 +7,6 @@ contracts online.
 
 - Node.js v14 or newer
 - MySQL
-- [LibreOffice](https://libreoffice.org/download/download) for converting Word documents to
-PDF files.
 
 ## Getting Started
 
@@ -26,8 +24,8 @@ npm i -g yarn
 yarn
 ```
 
-*Note: if `yarn` is not available and/or cannot be installed, use `npm run`
-instead of `yarn` in all of the following commands.*
+_Note: if `yarn` is not available and/or cannot be installed, use `npm run`
+instead of `yarn` in all of the following commands._
 
 **3. Create a user and a database**
 

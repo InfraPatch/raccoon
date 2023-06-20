@@ -7,8 +7,6 @@ aláírására és kezelésére.
 
 - Node.js v14 vagy annál újabb
 - MySQL
-- [LibreOffice](https://libreoffice.org/download/download) a Word dokumentumok PDF
-formátumba való konvertálásához.
 
 ## Első lépések
 
@@ -26,8 +24,8 @@ npm i -g yarn
 yarn
 ```
 
-*Megj.: ha a `yarn` elérhető és/vagy nem telepíthető, a következő parancsok
-mindegyikében `yarn` helyett használj `npm run`-t.*
+_Megj.: ha a `yarn` elérhető és/vagy nem telepíthető, a következő parancsok
+mindegyikében `yarn` helyett használj `npm run`-t._
 
 **3. Hozz létre egy felhasználót és egy adatbázist**
 

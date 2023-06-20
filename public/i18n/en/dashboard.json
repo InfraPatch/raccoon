@@ -254,14 +254,17 @@
     "new-contract": {
       "name-field": "Name of contract:",
       "description-field": "Description of contract:",
-      "file-field": "Document template of contract:",
+      "file-field": "Document template of contract (optional):",
       "item-field": "Property type",
       "item-field-none": "-- none (specifying a propety is not required) --",
       "submit": "Create new contract",
-      "success": "Contract created successfully!"
+      "success": "Contract created successfully!",
+      "edit-action": "Contract created!",
+      "edit": "Your contract has been successfully created. Would you like to edit the new contract template?"
     },
     "edit-contract": {
       "file-preview-link": "(Preview template)",
+      "edit-template": "Edit template",
       "title": "Contract",
       "submit": "Update contract",
       "success": "Contract updated successfully!"

@@ -138,7 +138,9 @@ export const download = async (req: NextApiRequest, res: NextApiResponse) => {
     res.setHeader('Content-Type', contentType);
     res.setHeader(
       'Content-Disposition',
-      `attachment; filename="contract_${new Date().getTime()}.${extension}`,
+      `attachment; filename=${encodeURI(
+        `contract_${new Date().getTime()}${extension}`,
+      )}`,
     );
 
     return stream.pipe(res);

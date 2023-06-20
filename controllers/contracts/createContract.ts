@@ -1,16 +1,13 @@
 import db from '@/services/db';
 import { Contract } from '@/db/models/contracts/Contract';
 
-import { v4 as uuid } from 'uuid';
-
 import * as fs from 'fs';
 import { File } from 'formidable';
 
 import * as utils from './utils';
 
-import { getStorageStrategy } from '@/lib/storageStrategies';
 import { Item } from '@/db/models/items/Item';
-const storage = getStorageStrategy();
+import { driveFolder, driveService } from '@/services/google';
 
 export interface ContractCreatorFields {
   friendlyName?: string;
@@ -29,21 +26,37 @@ export class ContractCreationError extends Error {
   }
 }
 
-export const uploadFile = async (file: File): Promise<string> => {
-  const buffer = fs.readFileSync(file.filepath);
-  const extension = file.originalFilename.substring(
-    file.originalFilename.indexOf('.'),
-  );
+export const uploadFile = async (
+  file: File | null,
+  name: string,
+): Promise<string> => {
+  const stream = file && fs.createReadStream(file.filepath);
+  const extension = file
+    ? file.originalFilename.substring(file.originalFilename.indexOf('.'))
+    : '.docx';
+  const key = `${name}${extension}`;
 
-  let key: string | null = null;
+  const driveFileUpload = await driveService.files.create({
+    requestBody: {
+      name: key,
+      parents: [driveFolder],
+      mimeType: 'application/vnd.google-apps.document',
+    },
+    media: {
+      body: stream,
+    },
+  });
+  const fileId = driveFileUpload.data.id;
 
-  do {
-    key = `${uuid()}${extension}`;
-  } while (await storage.exists(`templates/${key}`));
+  await driveService.permissions.create({
+    requestBody: {
+      type: 'anyone',
+      role: 'writer',
+    },
+    fileId,
+  });
 
-  await storage.create({ key: `templates/${key}`, contents: buffer });
-
-  return `/templates/${key}`;
+  return fileId;
 };
 
 export const createContract = async ({
@@ -87,23 +100,20 @@ export const createContract = async ({
     item = targetItem;
   }
 
-  let filename: string | null = null;
-
-  if (!file) {
-    throw new ContractCreationError('FILE_MISSING');
-  }
+  let driveId: string | null = null;
 
   const allowedMimetypes = [
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   ];
 
-  if (!allowedMimetypes.includes(file.mimetype)) {
+  if (file && !allowedMimetypes.includes(file.mimetype)) {
     throw new ContractCreationError('INVALID_MIMETYPE');
   }
 
   try {
-    filename = await uploadFile(file);
+    driveId = await uploadFile(file, friendlyName);
   } catch (err) {
+    console.log(err);
     throw new ContractCreationError('FILE_UPLOAD_FAILED');
   }
 
@@ -111,7 +121,7 @@ export const createContract = async ({
     friendlyName,
     description,
     item,
-    filename,
+    driveId,
   });
   await contractRepository.insert(contract);
 

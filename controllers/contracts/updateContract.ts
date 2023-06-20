@@ -48,7 +48,7 @@ export const updateContract = async ({
     throw new ContractUpdateError('DESCRIPTION_TOO_SHORT');
   }
 
-  let filename: string | null = null;
+  let driveId: string | null = null;
 
   if (file) {
     const allowedMimetypes = [
@@ -60,7 +60,7 @@ export const updateContract = async ({
     }
 
     try {
-      filename = await uploadFile(file);
+      driveId = await uploadFile(file, friendlyName);
     } catch (err) {
       throw new ContractUpdateError('FILE_UPLOAD_FAILED');
     }
@@ -69,7 +69,7 @@ export const updateContract = async ({
   const updateDict: ContractUpdateFields = {
     ...(friendlyName && { friendlyName }),
     ...(description && { description }),
-    ...(filename && { filename }),
+    ...(driveId && { driveId }),
   };
 
   const updateResult: UpdateResult = await contractRepository.update(

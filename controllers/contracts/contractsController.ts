@@ -11,6 +11,8 @@ import { updateContract } from './updateContract';
 
 import idFromQueryParam from '@/lib/idFromQueryParam';
 
+import { driveService, shareFile } from '@/services/google';
+
 export const listContracts = async (
   req: NextApiRequest,
   res: NextApiResponse,
@@ -77,7 +79,7 @@ export const destroy = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const update = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const form = new formidable.IncomingForm();
+  const form = formidable();
 
   return new Promise<void>((resolve) => {
     form.parse(req, async (err, fields, files) => {
@@ -128,7 +130,7 @@ export const newContract = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  const form = new formidable.IncomingForm();
+  const form = formidable();
 
   return new Promise<void>((resolve) => {
     form.parse(req, async (err, fields, files) => {
@@ -173,4 +175,67 @@ export const newContract = async (
       }
     });
   });
+};
+
+export const download = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query;
+
+  try {
+    const contract = await getContract({ id: idFromQueryParam(id) });
+    const mimeType =
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+
+    const file = await driveService.files.export(
+      {
+        fileId: contract.driveId,
+        mimeType,
+      },
+      { responseType: 'stream' },
+    );
+
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename=${encodeURI(`${contract.friendlyName}.docx`)}`,
+    );
+
+    return file.data.pipe(res);
+  } catch (err) {
+    if (err.name === 'GetContractError') {
+      return res.status(400).json({
+        ok: false,
+        error: err.code,
+      });
+    }
+
+    console.error(err);
+
+    return res.status(500).json({
+      ok: false,
+      error: 'INTERNAL_SERVER_ERROR',
+    });
+  }
+};
+
+export const edit = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query;
+
+  try {
+    const contract = await getContract({ id: idFromQueryParam(id) });
+
+    return res.redirect(307, shareFile(contract.driveId));
+  } catch (err) {
+    if (err.name === 'GetContractError') {
+      return res.status(400).json({
+        ok: false,
+        error: err.code,
+      });
+    }
+
+    console.error(err);
+
+    return res.status(500).json({
+      ok: false,
+      error: 'INTERNAL_SERVER_ERROR',
+    });
+  }
 };

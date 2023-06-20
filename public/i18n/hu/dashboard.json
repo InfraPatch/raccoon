@@ -254,14 +254,17 @@
     "new-contract": {
       "name-field": "Szerződés neve:",
       "description-field": "Szerződés leírása:",
-      "file-field": "Szerződés sablon dokumentuma:",
+      "file-field": "Szerződés sablon dokumentuma (fakultatív):",
       "item-field": "Tulajdon típusa",
       "item-field-none": "-- nincs (nem szükséges megadni egy tulajdont) --",
       "submit": "Új szerződés létrehozása",
-      "success": "Szerződés sikeresen létrehozva!"
+      "success": "Szerződés sikeresen létrehozva!",
+      "edit-action": "Szerződés létrehozva!",
+      "edit": "Sikeresen létrehoztuk az új szerződést! Meg szeretné szerkeszteni a szerződés sablonát?"
     },
     "edit-contract": {
       "file-preview-link": "(Sablon megtekintése)",
+      "edit-template": "Sablon szerkesztése",
       "title": "Szerződés",
       "submit": "Szerződés frissítése",
       "success": "Szerződés sikeresen frissítve!"

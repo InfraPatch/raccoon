@@ -11,7 +11,6 @@ export const getContracts = async (): Promise<Contract[]> => {
       'contract.id',
       'contract.friendlyName',
       'contract.description',
-      'contract.filename',
       'contract.updatedAt',
     ])
     .orderBy('contract.updatedAt', 'DESC')

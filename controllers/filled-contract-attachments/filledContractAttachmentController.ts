@@ -13,7 +13,7 @@ import { firstOf } from '../users/usersController';
 import idFromQueryParam from '@/lib/idFromQueryParam';
 
 export const create = async (req: NextApiRequest, res: NextApiResponse) => {
-  const form = new formidable.IncomingForm();
+  const form = formidable();
 
   return new Promise<void>((resolve) => {
     form.parse(req, async (err, fields, files) => {
@@ -153,7 +153,10 @@ export const download = async (req: NextApiRequest, res: NextApiResponse) => {
     const { stream, filename, contentType } = response;
 
     res.setHeader('Content-Type', contentType);
-    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename=${encodeURI(filename)}`,
+    );
 
     return stream.pipe(res);
   } catch (err) {

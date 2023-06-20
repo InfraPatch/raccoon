@@ -45,8 +45,12 @@ const exported = {
         destination: '/api/avatars/:key',
       },
       {
-        source: '/templates/:key',
-        destination: '/api/templates/:key',
+        source: '/contracts/:id/download',
+        destination: '/api/contracts/:id/download',
+      },
+      {
+        source: '/contracts/:id/edit',
+        destination: '/api/contracts/:id/edit',
       },
       {
         source: '/documents/:id',

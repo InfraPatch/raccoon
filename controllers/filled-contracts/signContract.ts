@@ -6,9 +6,6 @@ import db from '@/services/db';
 import { IPDFAttachment, pdfService } from '@/services/pdf';
 import { IAVDHAttestation } from '@/services/avdh';
 
-import PizZip from 'pizzip';
-import DOCXTemplater from 'docxtemplater';
-
 import { v4 as uuid } from 'uuid';
 
 import { formatDate } from '@/lib/formatDate';
@@ -27,6 +24,7 @@ import { IFilledContractAttachment } from '@/db/models/contracts/FilledContractA
 import { IFilledItemAttachment } from '@/db/models/items/FilledItemAttachment';
 import { FilledItemOption } from '@/db/models/items/FilledItemOption';
 import { FilledItem } from '@/db/models/items/FilledItem';
+import { docsService, driveService } from '@/services/google';
 
 const storage = getStorageStrategy();
 
@@ -109,13 +107,6 @@ export const createAttachments = async (
 export const savePDF = async (
   filledContract: FilledContract,
 ): Promise<string> => {
-  const template: Buffer = await storage.get(
-    filledContract.contract.filename.replace('/', ''),
-  );
-  const zip = new PizZip(template);
-
-  const templateDocument = new DOCXTemplater(zip);
-
   const data: { [key: string]: string } = {};
 
   const handleOption = (o: FilledContractOption | FilledItemOption) => {
@@ -213,12 +204,41 @@ export const savePDF = async (
   data['seller_signature'] = sellerName.toUpperCase();
   data['buyer_signature'] = buyerName.toUpperCase();
 
-  templateDocument.setData(data);
-  templateDocument.render();
+  // Create a copy of the contract template to fill out
+  const temporaryFile = await driveService.files.copy({
+    fileId: filledContract.contract.driveId,
+    requestBody: {
+      name: filledContract.friendlyName,
+    },
+  });
+  const documentId = temporaryFile.data.id;
 
-  const document: Buffer = templateDocument
-    .getZip()
-    .generate({ type: 'nodebuffer' });
+  // Update all fields on the document
+  await docsService.documents.batchUpdate({
+    documentId,
+    requestBody: {
+      requests: Object.entries(data).map(([key, value]) => ({
+        replaceAllText: {
+          replaceText: value,
+          containsText: { text: `{${key}}`, matchCase: true },
+        },
+      })),
+    },
+  });
+
+  // Export the document as a PDF
+  const mimeType = 'application/pdf';
+  const contractFile = await driveService.files.export(
+    { fileId: documentId, mimeType },
+    { responseType: 'arraybuffer' },
+  );
+  const document = Buffer.from(contractFile.data as ArrayBuffer);
+
+  // Delete the temporary document from Google Drive
+  await driveService.files.delete({
+    fileId: temporaryFile.data.id,
+  });
+
   const attachments: IPDFAttachment[] = await createAttachments(
     filledContract.attachments,
   );

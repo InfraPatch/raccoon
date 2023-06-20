@@ -13,6 +13,7 @@ import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 
 import { Item } from '@/db/models/items/Item';
+import Swal from 'sweetalert2';
 
 export interface NewContractFormRequest {
   friendlyName: string;
@@ -33,6 +34,8 @@ const NewContractForm = ({ items }: NewContractFormProps) => {
     { friendlyName, description, itemSlug }: NewContractFormRequest,
     { setSubmitting }: FormikHelpers<NewContractFormRequest>,
   ) => {
+    setSubmitting(true);
+
     try {
       const response: NewContractAPIResponse =
         await apiService.contracts.newContract({
@@ -41,8 +44,22 @@ const NewContractForm = ({ items }: NewContractFormProps) => {
           itemSlug,
           file,
         });
+      const { id } = response.contract;
+
+      const result = await Swal.fire({
+        title: t('dashboard:admin.new-contract.edit-action'),
+        text: t('dashboard:admin.new-contract.edit'),
+        showCancelButton: true,
+        confirmButtonText: t('dashboard:contracts.actions.yes'),
+        cancelButtonText: t('dashboard:contracts.actions.no'),
+      });
+
+      if (result.isConfirmed) {
+        window.open(`/contracts/${id}/edit`, '_blank');
+      }
+
       toaster.success(t('dashboard:admin.new-contract.success'));
-      router.push(`/dashboard/admin/contracts/${response.contract.id}`);
+      router.push(`/dashboard/admin/contracts/${id}`);
     } catch (err) {
       if (err.response?.data?.error) {
         const message = err.response.data.error;
@@ -112,7 +129,6 @@ const NewContractForm = ({ items }: NewContractFormProps) => {
               type="file"
               id="file"
               onChange={(e) => setFile(e.currentTarget.files[0])}
-              required
             />
           </div>
 

@@ -94,12 +94,7 @@ const FilledContractListItem = ({
           <div>
             <strong>{t('dashboard:contracts.list.contract-type')}:</strong>{' '}
             {contract.contract.friendlyName} (
-            <a
-              href={`/templates/${contract.contract.filename.replace(
-                '/templates/',
-                '',
-              )}`}
-            >
+            <a href={`/contracts/${contract.contract.id}`}>
               {t('dashboard:contracts.list.preview')}
             </a>
             )

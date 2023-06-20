@@ -132,7 +132,9 @@ export class FilledContract implements IFilledContract {
       updatedAt: this.updatedAt && this.updatedAt.toJSON(),
       friendlyName: this.friendlyName,
       filename: this.filename,
-      contract: this.contract,
+      contract: this.contract
+        ? omit(this.contract.toJSON(), 'options')
+        : undefined,
       filledItem: this.filledItem && this.filledItem.toJSON(),
       options:
         this.options &&

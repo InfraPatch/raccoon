@@ -58,6 +58,10 @@ const EditContractForm = ({ contractProp }: EditContractFormProps) => {
     }
   };
 
+  const editTemplate = () => {
+    window.open(`/contracts/${contract.id}/edit`, '_blank');
+  };
+
   return (
     <Box
       title={`${t('dashboard:admin.edit-contract:title')}: ${
@@ -99,7 +103,7 @@ const EditContractForm = ({ contractProp }: EditContractFormProps) => {
             <div className="form-field">
               <label htmlFor="file">
                 {t('dashboard:admin.new-contract.file-field')}&nbsp;
-                <a href={contract.filename} target="_blank">
+                <a href={`/contracts/${contract.id}/download`} target="_blank">
                   {t('dashboard:admin.edit-contract.file-preview-link')}
                 </a>
               </label>
@@ -112,13 +116,22 @@ const EditContractForm = ({ contractProp }: EditContractFormProps) => {
             </div>
 
             <div className="form-field">
-              <Button
-                size={ButtonSize.MEDIUM}
-                type="submit"
-                disabled={isSubmitting}
-              >
-                {t('dashboard:admin.edit-contract.submit')}
-              </Button>
+              <div className="flex flex-wrap gap-4 my-4">
+                <Button
+                  size={ButtonSize.MEDIUM}
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  {t('dashboard:admin.edit-contract.submit')}
+                </Button>
+                <Button
+                  size={ButtonSize.MEDIUM}
+                  onClick={editTemplate}
+                  disabled={isSubmitting}
+                >
+                  {t('dashboard:admin.edit-contract.edit-template')}
+                </Button>
+              </div>
             </div>
           </Form>
         )}

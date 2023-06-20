@@ -55,6 +55,13 @@ const config: IConfig = {
     port: process.env.WS_PORT && parseInt(process.env.WS_PORT, 10),
     serverUrl: process.env.NEXT_PUBLIC_WS_SERVER_URL,
   },
+
+  google: {
+    clientEmail: process.env.GOOGLE_CLIENT_EMAIL,
+    privateKey:
+      process.env.GOOGLE_PRIVATE_KEY && atob(process.env.GOOGLE_PRIVATE_KEY),
+    driveFolder: process.env.GOOGLE_DRIVE_FOLDER,
+  },
 };
 
 const {
