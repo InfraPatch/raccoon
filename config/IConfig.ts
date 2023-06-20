@@ -30,7 +30,7 @@ export interface FirebaseStorageConfig {
 }
 
 export interface S3StorageConfig {
-  endpoint: string;
+  region: string;
   key: string;
   secret: string;
   bucket: string;

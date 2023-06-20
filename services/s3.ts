@@ -1,71 +1,64 @@
-import AWS from 'aws-sdk';
+import AWS_S3, { S3 as S3Client } from '@aws-sdk/client-s3';
 import config from '@/config';
+
+import type { Readable } from 'stream';
 
 const S3Config = config.storage.s3;
 
 class S3 {
-  private s3: AWS.S3;
+  private s3: S3Client;
 
   constructor() {
-    const endpoint = new AWS.Endpoint(S3Config?.endpoint);
-
-    this.s3 = new AWS.S3({
-      endpoint,
+    this.s3 = new S3Client({
       credentials: {
         accessKeyId: S3Config?.key,
         secretAccessKey: S3Config?.secret,
       },
+      region: S3Config?.region,
     });
   }
 
-  exists(key: string): Promise<boolean> {
+  async exists(key: string): Promise<boolean> {
     const params = {
       Bucket: S3Config?.bucket,
       Key: key,
     };
 
-    return new Promise((resolve, reject) => {
-      this.s3.headObject(params, (err) => {
-        if (err) {
-          if (err.code === 'NotFound') {
-            return resolve(false);
-          }
+    try {
+      await this.s3.headObject(params);
+      return true;
+    } catch (err) {
+      if (err.name === 'NotFound') {
+        return false;
+      }
 
-          return reject(err);
-        }
-
-        return resolve(true);
-      });
-    });
+      throw err;
+    }
   }
 
-  delete(key: string): Promise<boolean> {
+  async delete(key: string): Promise<boolean> {
     const params = {
       Bucket: S3Config?.bucket,
       Key: key,
     };
 
-    return new Promise((resolve, reject) => {
-      this.s3.deleteObject(params, (err) => {
-        if (err) {
-          if (err.code === 'NotFound') {
-            // This key doesn't exist, we wanted to delete it anyway.
-            return resolve(true);
-          }
+    try {
+      await this.s3.headObject(params);
+      return true;
+    } catch (err) {
+      if (err.code === 'NotFound') {
+        return true; // This key doesn't exist, we wanted to delete it anyway.
+      }
 
-          return reject(err);
-        }
-
-        return resolve(true);
-      });
-    });
+      throw err;
+    }
   }
 
-  upload(
+  async upload(
     key: string,
     contents: string,
     isPublic?: boolean,
-  ): Promise<AWS.S3.PutObjectOutput> {
+  ): Promise<AWS_S3.PutObjectCommandOutput> {
     const params = {
       ACL: isPublic ? 'public-read' : 'authenticated-read',
       Body: contents,
@@ -74,42 +67,30 @@ class S3 {
       Key: key,
     };
 
-    return new Promise((resolve, reject) => {
-      this.s3.putObject(params, (err, data) => {
-        if (err) {
-          return reject(err);
-        }
-
-        return resolve(data);
-      });
-    });
+    const data = await this.s3.putObject(params);
+    return data;
   }
 
-  getStream(key: string) {
+  async getStream(key: string) {
     const params = {
       Bucket: S3Config?.bucket,
       Key: key,
     };
 
-    return this.s3.getObject(params).createReadStream();
+    const data = await this.s3.getObject(params);
+    return data.Body as Readable;
   }
 
-  read(key: string): Promise<Buffer> {
+  async read(key: string): Promise<Buffer> {
     const params = {
       Bucket: S3Config?.bucket,
       Key: key,
     };
 
-    return new Promise((resolve, reject) => {
-      return this.s3.getObject(params, (err, data) => {
-        if (err) {
-          return reject(err);
-        }
+    const data = await this.s3.getObject(params);
+    const bytes = await data.Body.transformToByteArray();
 
-        // kinda slow
-        return resolve(Buffer.from(data.Body.toString('binary')));
-      });
-    });
+    return Buffer.from(bytes);
   }
 }
 

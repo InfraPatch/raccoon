@@ -110,7 +110,7 @@ switch (config.storage.strategy) {
 
   case 's3':
     config.storage.s3 = {
-      endpoint: process.env.S3_ENDPOINT,
+      region: process.env.S3_REGION,
       key: process.env.S3_KEY,
       secret: process.env.S3_SECRET,
       bucket: process.env.S3_BUCKET,
