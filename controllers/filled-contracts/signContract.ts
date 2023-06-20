@@ -235,9 +235,7 @@ export const savePDF = async (
   const document = Buffer.from(contractFile.data as ArrayBuffer);
 
   // Delete the temporary document from Google Drive
-  await driveService.files.delete({
-    fileId: temporaryFile.data.id,
-  });
+  await driveService.files.delete({ fileId: documentId });
 
   const attachments: IPDFAttachment[] = await createAttachments(
     filledContract.attachments,
