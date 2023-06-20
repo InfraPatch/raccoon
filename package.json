@@ -18,9 +18,9 @@
     "migrate": "npm run migration:run"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.354.0",
     "@google-cloud/storage": "^6.11.0",
     "@sindresorhus/slugify": "^2.2.1",
-    "aws-sdk": "^2.1395.0",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "camelcase": "^6.2.0",
