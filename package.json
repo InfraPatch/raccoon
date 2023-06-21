@@ -39,6 +39,7 @@
     "howler": "^2.2.3",
     "i18next": "^23.2.1",
     "iron-session": "^6.3.1",
+    "is-mobile": "^4.0.0",
     "is-url": "^1.2.4",
     "isomorphic-dompurify": "^1.6.0",
     "lodash.omit": "^4.5.0",

@@ -5,10 +5,14 @@ import { IFilledContract } from '@/db/models/contracts/FilledContract';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import apiService from '@/services/apis';
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, MessageCircle, Send } from 'react-feather';
+import { ChevronDown, MessageCircle, Send, X } from 'react-feather';
 
 import io, { Socket } from 'socket.io-client';
 import { Howl } from 'howler';
+import isMobile from 'is-mobile';
+
+import { useBodyScrollbar } from '@/hooks/useBodyScrollbar';
+import { useTranslation } from 'react-i18next';
 
 export interface FilledContractChatProps {
   ironSessionValue: string;
@@ -28,6 +32,8 @@ const FilledContractChat = ({
   ironSessionValue,
   filledContract,
 }: FilledContractChatProps) => {
+  const { t } = useTranslation('dashboard');
+
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState<IChatMessage[]>([]);
 
@@ -46,6 +52,8 @@ const FilledContractChat = ({
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
   const toggleChat = () => setDisplayChat((current) => !current);
+
+  const { lockBody, unlockBody } = useBodyScrollbar();
 
   async function refreshChatMessages() {
     setRequestInProgress(true);
@@ -147,6 +155,16 @@ const FilledContractChat = ({
     if (displayChat) {
       chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
+
+    if (isMobile()) {
+      if (displayChat) {
+        lockBody();
+        console.log('locked');
+      } else {
+        unlockBody();
+        console.log('unlocked');
+      }
+    }
   }, [displayChat]);
 
   if (!socketReady || requestInProgress || requestErrored) {
@@ -155,7 +173,7 @@ const FilledContractChat = ({
 
   if (!displayChat) {
     return (
-      <div className="fixed bottom-8 right-10">
+      <div className="fixed bottom-8 left-10 md:left-auto md:right-10">
         <button
           className="rounded-full bg-accent text-white w-12 h-12 flex justify-center items-center shadow-md"
           onClick={toggleChat}
@@ -166,25 +184,48 @@ const FilledContractChat = ({
     );
   }
 
+  const messageSenderSameAsPrevious = (idx: number) => {
+    if (idx === 0) {
+      return false;
+    }
+
+    return messages[idx].user?.id === messages[idx - 1].user?.id;
+  };
+
+  const messageSenderSameAsNext = (idx: number) => {
+    if (idx === messages.length - 1) {
+      return false;
+    }
+
+    return messages[idx].user?.id === messages[idx + 1].user?.id;
+  };
+
   return (
-    <div className="chatbox fixed h-[480px] w-80 bg-secondary bottom-0 right-8 rounded-t-lg shadow-md overflow-hidden flex flex-col">
+    <div className="chatbox z-50 fixed md:h-[480px] md:w-80 bg-secondary bottom-0 right-0 top-0 left-0 md:right-8 md:left-auto md:top-auto md:rounded-t-lg shadow-md overflow-hidden flex flex-col">
       <div
-        className="bg-accent text-white px-4 py-2 font-bold flex justify-between cursor-pointer"
+        className="bg-accent text-white px-6 md:px-4 py-4 md:py-2 font-bold flex justify-between cursor-pointer"
         onClick={toggleChat}
       >
-        <div>Chat</div>
-        <div>
+        <div>{t('contracts.data.chat')}</div>
+
+        <div className="hidden md:block">
           <ChevronDown />
+        </div>
+
+        <div className="block md:hidden">
+          <X />
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-4">
-        {messages.map((message) => (
+      <div className="flex-1 overflow-y-auto px-4 py-4 flex flex-col">
+        {messages.map((message, idx) => (
           <ChatBubble
             key={message.uuid}
             message={message.message}
             user={message.user}
             isSelf={message.user?.id === loggedInUser?.id}
+            showAvatar={!messageSenderSameAsNext(idx)}
+            showName={!messageSenderSameAsPrevious(idx)}
           />
         ))}
 

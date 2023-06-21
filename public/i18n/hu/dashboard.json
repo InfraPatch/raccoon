@@ -110,7 +110,8 @@
       "contract-details": "Szerződés részletei",
       "seller-details": "Eladó részletei",
       "buyer-details": "Vásárló részletei",
-      "item-details": "Tulajdon részletei"
+      "item-details": "Tulajdon részletei",
+      "chat": "Chat"
     },
     "actions": {
       "accept-success": "Kérelem sikeresen elfogadva!",
