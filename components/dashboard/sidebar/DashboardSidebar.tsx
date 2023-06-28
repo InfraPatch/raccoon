@@ -51,11 +51,7 @@ const DashboardSidebar = () => {
     (NavigationLinkProps | NavigationTitleProps | NavigationSeparator)[]
   >([]);
 
-  useEffect(() => {
-    if (user === null) {
-      return;
-    }
-
+  const hydrateNavigation = () => {
     let newNavigation: (
       | NavigationLinkProps
       | NavigationTitleProps
@@ -169,7 +165,15 @@ const DashboardSidebar = () => {
     }
 
     setNavigation(newNavigation);
-  }, [user]);
+  };
+
+  useEffect(() => {
+    if (user === null) {
+      return;
+    }
+
+    hydrateNavigation();
+  }, [user, t]);
 
   return (
     <aside className="overflow-y-auto flex flex-col md:w-64 bg-secondary shadow-lg py-6 px-5 h-full">
