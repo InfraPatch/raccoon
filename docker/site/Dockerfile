@@ -13,7 +13,7 @@ RUN \
   yarn cache clean && \
   rm -rf /tmp/*
 
-COPY ../.. /srv
+COPY . /srv
 
 RUN \
   yarn run build && \
@@ -27,6 +27,7 @@ WORKDIR /srv
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 
 COPY --from=build --chown=nextjs:nodejs /srv/assets ./assets
+COPY --from=build --chown=nextjs:nodejs /srv/content ./content
 COPY --from=build --chown=nextjs:nodejs /srv/public ./public
 COPY --from=build --chown=nextjs:nodejs /srv/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs /srv/.next/static ./.next/static

@@ -11,6 +11,8 @@ const dir = path.dirname(fileURLToPath(import.meta.url));
 const exported = {
   pageExtensions: ['js', 'ts', 'jsx', 'tsx', 'md', 'mdx'],
 
+  output: 'standalone',
+
   transpilePackages,
 
   sassOptions: {
