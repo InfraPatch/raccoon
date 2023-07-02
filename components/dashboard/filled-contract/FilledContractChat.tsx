@@ -1,5 +1,4 @@
 import ChatBubble from '@/components/common/chat-bubble/ChatBubble';
-import config from '@/config';
 import { IChatMessage } from '@/db/models/chat/ChatMessage';
 import { IFilledContract } from '@/db/models/contracts/FilledContract';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
@@ -16,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 
 export interface FilledContractChatProps {
   ironSessionValue: string;
+  websocketServerUrl: string;
   filledContract: IFilledContract;
 }
 
@@ -30,6 +30,7 @@ const notificationHowl = new Howl({
 
 const FilledContractChat = ({
   ironSessionValue,
+  websocketServerUrl,
   filledContract,
 }: FilledContractChatProps) => {
   const { t } = useTranslation('dashboard');
@@ -78,7 +79,7 @@ const FilledContractChat = ({
       return;
     }
 
-    const instance = io(config.websocket.serverUrl, {
+    const instance = io(websocketServerUrl, {
       extraHeaders: {
         'Iron-Session': ironSessionValue,
       },

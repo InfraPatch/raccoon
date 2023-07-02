@@ -30,15 +30,18 @@ import idFromQueryParam from '@/lib/idFromQueryParam';
 
 import cookie from 'cookie';
 import FilledContractChat from '@/components/dashboard/filled-contract/FilledContractChat';
+import config from '@/config';
 
 export interface DashboardContractsPageProps {
   id: number;
   ironSessionValue?: string;
+  websocketServerUrl?: string;
 }
 
 const DashboardContractsPage = ({
   id,
   ironSessionValue,
+  websocketServerUrl,
 }: DashboardContractsPageProps) => {
   const { t } = useTranslation(['dashboard', 'errors']);
 
@@ -206,6 +209,7 @@ const DashboardContractsPage = ({
           <FilledContractChat
             filledContract={contract}
             ironSessionValue={ironSessionValue}
+            websocketServerUrl={websocketServerUrl}
           />
         </>
       )}
@@ -227,6 +231,7 @@ export const getServerSideProps = async ({ req, query, locale }) => {
     props: {
       id,
       ironSessionValue,
+      websocketServerUrl: config.websocket.serverUrl,
       ...(await serverSideTranslations(locale, [
         'common',
         'dashboard',
